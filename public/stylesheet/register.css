@@ -1,0 +1,395 @@
+.landing-page-navbar { 
+    background-color: transparent;
+}
+
+.btn-71-hide {
+    display: none;
+}
+
+/* handling error message  */
+
+.error-message{
+    display: none;
+}
+
+.error-message-visible {
+    display: block;
+    text-transform: capitalize;
+    font-size: 1.1em;
+    font-weight: 500;
+    color: red;
+}
+
+
+/* style the body   */
+.header-register {
+    min-height: 100vh;
+    max-width: 100%;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url(../src/R.jpeg);      
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 0; 
+    padding: 30px 0px 0px 0px;
+}
+
+/* using the before psudeo class to blur set image  */
+
+.header-register::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: inherit; 
+    filter: blur(8px);
+    z-index: -1;
+}
+
+.header-register img:first-child {
+    height: 800px;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;    
+    object-fit: cover;
+    object-position: center;
+    filter: blur(8px);
+}
+
+/* form container styles  */
+
+.header-register h1 {
+    color: white;
+    /* font-size: 2rem; */
+}
+
+
+/* glass like container */
+
+.register-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    border: 1px solid rgba(255, 255, 255, 0.047);
+    border-radius: 25px;
+    height: max-content;
+    min-width: 900px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.22);
+    -webkit-backdrop-filter: blur(2.8px);
+    backdrop-filter: blur(2.8px);
+    /* animation: appear 0.7s linear;
+    animation: fade 0.5s linear; */
+}
+
+.register-container-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    padding: 0px 30px ;
+    width: 50%;
+    height: max-content;    
+}
+
+.register-container-text h1 {
+    font-size: 2.6em;
+    animation: fade 0.5s linear;
+    text-shadow: 6px 4px rgba(0, 0, 0, 0.089);
+}
+
+.register-container-text p{
+    color: #fff;
+    animation: fade 0.5s linear;
+    font-size: 1.5rem;
+}
+
+
+/* styling the form  */
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    animation: fade 0.5s linear;
+    padding: 5px;
+
+}
+
+/* .registration-forms-container{
+    min-height: 430px;
+} */
+
+.registration-form input {
+    display: block;
+    /* position: relative; */
+    min-height: 45px;
+    min-width: 300px;
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 6px 4px 40px rgba(0, 0, 0, 0.582);
+    border-style: none;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0rem;
+}
+
+
+
+.input-groups {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: baseline;
+    justify-content: center;
+    position: relative;
+    margin: 0px 0px 25px 0px;
+    /* padding: 5px; */
+}
+
+.input-groups input {
+    background: none;
+    font-family: 'arial' sans-serif;
+    color: rgb(255, 255, 255);
+    border: 1px solid #fff;
+    transition: border 0.2s ease, background 0.2s ease;
+}
+
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Chrome, Safari, Edge, Opera */
+    margin: 0;
+}
+
+input[type="number"] {
+    appearance: none; 
+}
+
+.input-groups label {
+    margin: 0px 0px 0px 12px;
+    /* top: 0px; */
+    bottom: 8px;
+     /* top: 10px;
+    left: 10px; */
+    color: rgb(255, 255, 255); 
+    position: absolute;
+    font-size: 1.1rem;
+    font-family: 'arial' sans-serif;
+    font-weight: 450;
+    pointer-events: none;
+    letter-spacing: 0rem;
+    transition: .1s linear;
+    border-radius: 5px;
+    background: transparent;
+}
+
+
+input:focus + label,
+input:not(:placeholder-shown) + label,
+select:focus + label,
+select:not(:placeholder-shown) + label{
+    top: -9px;
+    left: -4px;
+    padding: 0px 5px;
+    font-weight: 500;
+    height: 20px;
+    font-size: 0.8rem;
+    color: rgb(255, 255, 255);
+    background: #316FF6;
+
+}
+
+.input-groups input:focus, 
+.input-groups input:not(:placeholder-shown) {
+    border: 2px solid #316FF6;
+}
+
+.input-groups select:focus, 
+.input-groups select:not(:placeholder-shown) {
+    border: 2px solid #316FF6;
+}
+
+.registration__form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    padding: 5px;
+    text-align: left;
+    min-width: 300px;
+    color: rgb(209, 209, 209);
+}
+
+.registration__form p {
+    font-size: 1.15em;
+}
+
+.registration__form a{
+    color: #92BDF9;
+}
+
+.nextformbutton,
+.nextform2button,
+.submitformbutton,
+.gobacktosecondform,
+.gobacktofirstform {
+    width: 65px;
+    height: 25px;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    background: #316FF6;
+    color: rgb(255, 255, 255);
+    transition: 0.5s ease;
+    cursor: pointer;
+    box-shadow: 6px 4px 40px rgba(0, 0, 0, 0.582);
+}
+
+.nextformbutton:hover,
+.nextform2button:hover,
+.submitformbutton:hover,
+.gobacktosecondform:hover,
+.gobacktofirstform:hover {
+    background-color: #92BDF9;
+    color: #fff;
+}
+
+.next-register-hidden {
+    display: none;
+}
+
+.registration__form2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 5px;
+    text-align: left;
+    min-width: 300px;
+    color: rgb(209, 209, 209);
+}
+
+.visible {
+    display: block;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-around;
+    border: 1px solid rgba(255, 255, 255, 0.047);
+    border-radius: 25px;
+    min-width: 900px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.22);
+    -webkit-backdrop-filter: blur(2.8px);
+    backdrop-filter: blur(2.8px);
+    animation: slideInFromRight 0.2s backwards;
+}
+
+.input-groups select {
+    background: none;
+    font-family: 'arial' sans-serif;
+    color: rgb(255, 255, 255);
+    border: 1px solid #fff;
+    display: block;
+    min-height: 45px;
+    min-width: 300px;
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0rem;
+    text-transform: capitalize;
+}
+
+.input-groups select,
+.input-groups label{
+    animation: fade 0.5s ease-in;
+
+}
+
+.input-groups option {
+    text-transform: uppercase;
+    color: #316FF6;
+}
+
+.hidden{
+    animation: slideInFromLeft 0.2s backwards;
+    display: none;
+}
+ 
+.hiddeninputsvisible{
+    display: block;
+}
+
+#zones,
+#churches{
+    width: 300px;
+}
+
+#cell-name-label,
+#church-name-label{
+    left: 5.5px;
+}
+
+.password-form-hidden{
+    display: none;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+}
+
+
+.fa.fa-eye{
+    color: #ffff;
+    transition: 0.2s ease-in;
+}
+
+.fa-eye-slash {
+    color: #ffff;
+}
+
+.hidden-registration-prompt {
+    display: none;
+}
+
+.prompt-visible{
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    right: 525px;
+    bottom: 140px;
+    border: 2px solid #316FF6;
+    /* background: #fff; */
+    border-radius: 5px;
+    padding: 15px;
+    color: #316FF6;
+    width: 270px;
+    font-size: 1.2rem;
+    text-wrap: nowrap;
+    font-family: 'arial';
+    animation: 0.5s fade ease-in;
+}
+
+.fa-regular.fa-circle-check{
+    animation: 0.5s jump linear infinite;
+}

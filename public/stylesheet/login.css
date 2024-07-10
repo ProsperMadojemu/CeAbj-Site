@@ -1,0 +1,232 @@
+.login-form-body{
+    position: relative;
+    min-height: 100vh;
+    max-width: 100%;
+    background-image: url(../src/Pastor-Chris-Oyakhilome.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.login-form-sub-body{
+    min-height: 100vh;
+}
+
+.login-form-body::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: inherit; 
+    filter: blur(8px);
+    z-index: -1;
+}
+
+.login-form-body img{
+    height: 870px;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;    
+    border: 1px solid rgba(255, 255, 255, 0.047);
+
+    object-fit: cover;  
+    object-position: center;
+    filter: blur(8px);
+}
+
+.login-form-sub-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    /* flex-wrap: wrap; */
+    border: 1px solid rgba(255, 255, 255, 0.047);
+    border-radius: 25px;
+    min-height: 450px;
+    min-width: 450px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.22);
+    -webkit-backdrop-filter: blur(2.8px);
+    backdrop-filter: blur(2.8px);
+    color: #fff;
+}
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    animation: fade 0.5s linear;
+    padding: 5px;
+}
+
+.login-form-text-container {
+    text-align: center;
+}
+
+.login-form-text-container h1 {
+    font-size: 2.08rem;
+    animation: fade 0.5s linear;
+    text-shadow: 6px 4px rgba(0, 0, 0, 0.089);
+}
+
+.login-form-text-container p {
+    color: #fff;
+    animation: fade 0.5s linear;
+    font-size: 1.5rem;
+}
+
+.input-groups {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: baseline;
+    justify-content: center;
+    position: relative;
+    margin: 0px 0px 15px 0px;
+}
+
+.input-groups label {
+    margin: 0px 0px 0px 12px;
+    bottom: 8px;
+    position: absolute;
+    font-size: 1.1rem;
+    font-family: 'arial' sans-serif;
+    font-weight: 450;
+    pointer-events: none;
+    letter-spacing: 0rem;
+    transition: .1s linear;
+    border-radius: 5px;
+    text-transform: capitalize;
+    background: transparent;
+}
+
+.input-groups input{
+    display: block;
+    min-height: 45px;
+    min-width: 350px;
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 6px 4px 40px rgba(0, 0, 0, 0.582);
+    border-style: none;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0rem;
+    background: none;
+    font-family: 'arial' sans-serif;
+    color: rgb(255, 255, 255);
+    border: 1px solid #fff;
+    transition: border 0.2s ease, background 0.2s ease;
+}
+
+.input-groups input:focus, 
+.input-groups input:not(:placeholder-shown) {
+    border: 2px solid #316FF6;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label {
+    top: -9px;
+    left: -4px;
+    padding: 0px 5px;
+    font-weight: 500;
+    height: 20px;
+    font-size: 0.8rem;
+    color: rgb(255, 255, 255);
+    background: #316FF6;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+    text-align: center;
+    min-width: 360px;
+    color: rgb(209, 209, 209);
+}
+
+.login a {
+    color: #92BDF9;
+}
+
+.login__button{
+    width: 100%;
+    height: 45px;
+    font-size: 1.1rem;
+    font-weight: 550;
+    font-family: 'Arial', sans-serif;
+    border-radius: 5px;
+    border-style: none;
+    border: 2px solid #316FF6;
+    color: #ffffff;
+    background-color: #316FF6;
+    transition: background 0.5s ease-in-out, color 0.5s ease;
+}
+
+.login__button:hover{
+    background: transparent;
+    border: 2px solid #316FF6;
+    color: #316FF6;
+}
+
+.login__button:active{ 
+   animation: jump 0.3s ease-in-out;
+}
+
+.error-message{
+    display: none;
+}
+
+.error-message-visible {
+    display: block;
+    text-transform: capitalize;
+    font-size: 1.1em;
+    font-weight: 500;
+    color: red;
+}
+
+
+.hidden-registration-prompt {
+    display: none;
+}
+
+.prompt-visible{
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border: 2px solid #316FF6;
+    /* background: #fff; */
+    border-radius: 5px;
+    padding: 15px;
+    margin: 15px 0px 0px 15px;
+    color: #316FF6;
+    width: 270px;
+    font-size: 1.2rem;
+    text-wrap: nowrap;
+    font-family: 'arial';
+    animation: 0.5s fade ease-in;
+}
+
+.fa-regular.fa-circle-check{
+    animation: 0.5s jump linear infinite;
+}
+

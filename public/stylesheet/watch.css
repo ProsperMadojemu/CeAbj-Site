@@ -1,0 +1,338 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    max-width: 100vw;
+    min-height: 100vh;
+    color: #04125c;
+    line-height: 1.6;
+}
+
+.landing-page-navbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 10%;
+    padding: 3px;
+    background: #04125c;
+    box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.543);
+}
+
+#navbar-logo {
+    width: 45px;
+    align-items: center;
+    display: flex;
+}
+
+.navbar-logo-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    max-width: 150px;
+    text-align: center;
+}
+
+.navbar-logo-title p {
+    width: 150px;
+    color: #ffffff;
+    font-size: 1em;
+    font-weight: 700;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-family: 'Playfair Display', serif;
+}
+
+.navbar-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-height: 20px;
+    padding: 40px 45px;
+}
+
+.navbar-list {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    gap: 25px;
+    font-size: 1.2em;
+    font-family: 'Lato', sans-serif;
+    color: #ffffff;
+}
+
+.navbar-list li {
+    transition: 0.2s ease;
+    text-wrap: nowrap;
+}
+
+.navbar-list li:hover {
+    color: #ffcc00;
+    cursor: pointer;
+}
+
+
+.btn-71 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-style: none;
+    border-radius: 25px;
+    background-color: rgb(49, 111, 246);
+    width: 85px;
+    height: 30px;
+    cursor: pointer;
+    margin-right: 20px;
+    transition: background-color 0.5s ease;
+}
+
+.btn-71 p {
+    font-size: 1.2em;
+    font-family: 'raleway', sans-serif;
+    font-weight: 600;
+    color: rgb(250, 235, 215);
+    text-shadow: 1px 1px hsla(0, 0%, 0%, 0.3);
+}
+
+.btn-71:hover {
+    animation: jump 0.5s ease-in-out;
+}
+
+.hidden-class {
+    display: none;
+}
+
+.login-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.login_icon {
+    display: none;
+}
+
+.login_icon:hover {
+    animation: jello-horizontal 0.5s ease-in;
+    animation-iteration-count: 3;
+}
+
+.login_icon-visible{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px;
+    border-style: none;
+    border-radius: 50%;
+    background-color: rgb(49, 111, 246);
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.fa-solid.fa-user.fa-xl{
+    color: #fff;
+}
+
+.cancel-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.fa-solid.fa-x.fa-sm{
+    color: #04125c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    height: 20px;
+    width: 20px;
+    margin: 0px 5px 0px 0px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+}
+
+.fa-solid.fa-x.fa-sm:hover {
+    background: #d1d1d14f;
+}
+
+.login-content-before-click{
+    display: none;
+    transition: all 0.5s ease-in;
+}
+
+.login-content-after-click {
+    position: absolute;
+    right: 80px;
+    top: 40px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+    width: 300px;
+    height: 215px;
+    margin: 25px 5px;
+    padding: 5px 0px 5px 0px;
+    align-items: left;
+    background-color: rgb(249, 249, 249);
+    box-shadow: -2px -1px 10px rgba(0, 0, 0, 0.336);
+}
+
+.login-content-after-click a {
+    display: block;
+}
+
+.user-greeting{
+    border-bottom: 2px solid #04125c;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    height: 70px;
+    align-items: center;
+    padding: 5px 10px;
+
+}
+
+.greeting-user{
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #04125c;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e7e7e78e;
+}
+
+.greeting-contents {
+    display: flex;
+    align-items: center;
+}
+
+.greeting-contents h1 {
+    font-size: 1.2rem;
+    text-wrap: nowrap;
+}
+
+.first-a-child p {
+    float: right;
+}
+
+.first-a-child{
+    display: flex;
+    align-items: center;
+    text-align: left;
+    height: 40px;    
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+
+.second-child {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    height: 40px;    
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+.button-child button {
+    display: inline-flex;
+    background: transparent;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    flex-direction: row-reverse;
+}
+.button-child{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-end;
+    height: 40px;    
+    padding: 5px 10px;
+    cursor: pointer;
+    
+}
+.login-content-after-click p {
+    margin: 0px 0px 0px 15px;
+    color:#04125c;
+    font-size: 1.2rem;
+    font-family: 'arial' sans-serif;
+    font-weight: bold;
+}
+
+
+.first-a-child:hover,
+.second-child:hover,
+.button-child:hover {
+    background: #d1d1d14f;
+}
+
+.first-a-child p:hover ~ .fa-duotone.fa-chart-tree-map.fa-lg,
+.second-child p:hover ~ .fa-duotone.fa-file-chart-column.fa-lg,
+.button-child p:hover ~ .fa-duotone.fa-right-from-bracket.fa-lg{
+    animation: jello-horizontal 0.5s ease-in;
+}
+
+
+
+
+.watch-main {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.watch-iframe{
+    width: 600px;
+    height: 300px;
+    max-width: 50vw;
+    /* margin: 0px 5px 0px 0px; */
+    border: 2px solid blue;
+    flex-shrink: 0;
+
+}
+
+.watch-left-content{
+    width: 50vw;
+    border: 2px solid red;
+    flex-shrink: 0;
+
+}
+
+.watch-right-content{
+    width: 50vw;
+    min-width: 50vw;
+    border: 2px solid black;
+    flex-shrink: 0;
+}
+
+

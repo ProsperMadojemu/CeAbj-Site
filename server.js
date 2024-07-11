@@ -7,21 +7,10 @@ const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 require('dotenv').config();
-
-
 const app = express();
 
-const oauth2Client = new google.auth.OAuth2(
-    process.env.CLIENT_ID,
-    process.env.CLIENT_SECRET,
-    process.env.REDIRECT_URI
-);
-
 // Middleware
-app.use(cors({
-    origin: 'http://localhost:5000',
-    credentials: true
-}));
+app.use(cors());
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,28 +34,19 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
-// OAuth2 authorization route
-app.get('/auth', (req, res) => {
-    const authUrl = oauth2Client.generateAuthUrl({
-        access_type: 'offline',
-        scope: ['https://www.googleapis.com/auth/youtube.readonly']
-    });
-    res.redirect(authUrl);
+//STREAM APP INI
+app.post("/auth", function (req, res) {
+    const streamkey = req.body.key; // server is only available to nginx
+
+    if (streamkey === "prosper") {
+        res.status(200).send()
+        return;
+    }
+
+    res.status(403).send();
 });
 
-// OAuth2 callback route
-app.get('/auth/callback', async (req, res) => {
-    const { code } = req.query;
-    try {
-        const { tokens } = await oauth2Client.getToken(code);
-        oauth2Client.setCredentials(tokens);
-        req.session.tokens = tokens;
-        res.redirect('/');
-    } catch (error) {
-        console.error('Error getting OAuth tokens:', error);
-        res.status(500).send('Authentication error');
-    }
-});
+
 
 // Register route
 app.post('/register', async (req, res) => {
@@ -177,109 +157,6 @@ app.use((req, res, next) => {
     }
     next();
 });
-
-app.get('/stream-key', async (req, res) => {
-    console.log("Session tokens:", req.session.tokens);
-    try {
-        if (!req.session.tokens) {
-            return res.status(401).send('User not authenticated');
-        }
-
-        oauth2Client.setCredentials(req.session.tokens);
-
-        const youtube = google.youtube({
-            version: 'v3',
-            auth: oauth2Client
-        });
-
-        const response = await youtube.liveBroadcasts.list({
-            part: 'snippet,contentDetails,status',
-            mine: true
-        });
-
-        if (response.data.items.length > 0) {
-            res.json({ 
-                videoId: response.data.items[0].id, 
-                streamKey: response.data.items[0].contentDetails.boundStreamId 
-            });
-        } else {
-            res.status(404).send('No live broadcasts found');
-        }
-    } catch (error) {
-        console.error('Error retrieving live broadcasts:', error);
-        res.status(500).send('Error retrieving live broadcasts');
-    }
-});
-
-
-//BROADCAST ROUTE
-app.post('/create-live-broadcast', async (req, res) => {
-    try {
-        if (!req.session.tokens) {
-            return res.status(401).send('User not authenticated');
-        }
-
-        oauth2Client.setCredentials(req.session.tokens);
-
-        const youtube = google.youtube({
-            version: 'v3',
-            auth: oauth2Client
-        });
-
-        // Create a new live broadcast
-        const broadcastResponse = await youtube.liveBroadcasts.insert({
-            part: 'snippet,contentDetails,status',
-            requestBody: {
-                snippet: {
-                    title: req.body.title,
-                    description: req.body.description,
-                    scheduledStartTime: req.body.scheduledStartTime,
-                },
-                status: {
-                    privacyStatus: 'private', // Change to 'public' or 'unlisted' as needed
-                },
-                contentDetails: {
-                    enableAutoStart: true,
-                    enableAutoStop: true,
-                },
-            }
-        });
-
-        // Create a new live stream
-        const streamResponse = await youtube.liveStreams.insert({
-            part: 'snippet,cdn,contentDetails,status',
-            requestBody: {
-                snippet: {
-                    title: req.body.title,
-                    description: req.body.description,
-                },
-                cdn: {
-                    frameRate: '30fps',
-                    ingestionType: 'rtmp',
-                    resolution: '720p'
-                },
-                contentDetails: {
-                    isReusable: true
-                }
-            }
-        });
-
-        // Bind the broadcast to the stream
-        await youtube.liveBroadcasts.bind({
-            part: 'id,contentDetails',
-            id: broadcastResponse.data.id,
-            requestBody: {
-                streamId: streamResponse.data.id
-            }
-        });
-
-        res.json({ broadcastId: broadcastResponse.data.id, streamKey: streamResponse.data.cdn.ingestionInfo.streamName });
-    } catch (error) {
-        console.error('Error creating live broadcast or stream:', error);
-        res.status(500).send('Error creating live broadcast or stream');
-    }
-});
-
 
 // Server setup
 const PORT = process.env.PORT || 5000;

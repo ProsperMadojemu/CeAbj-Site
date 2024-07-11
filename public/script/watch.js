@@ -1,28 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('/stream-key')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.videoId) {
-            const iframe = document.createElement('iframe');
-            iframe.width = '640';
-            iframe.height = '390';
-            iframe.src = `https://www.youtube.com/embed/${data.videoId}?autoplay=1`;
-            iframe.frameBorder = '0';
-            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-            iframe.allowFullscreen = true;
-            document.getElementById('player').appendChild(iframe);
-        } else {
-            console.log('No live broadcasts available');
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching stream key:', error);
-    });
+    // fetch('/stream-key')
+    // .then(response => {
+    //     if (!response.ok) {
+    //         throw new Error('Network response was not ok');
+    //     }
+    //     return response.json();
+    // })
+    // .then(data => {
+    //     if (data.videoId) {
+    //         const iframe = document.createElement('iframe');
+    //         iframe.width = '640';
+    //         iframe.height = '390';
+    //         iframe.src = `https://www.youtube.com/embed/${data.videoId}?autoplay=1`;
+    //         iframe.frameBorder = '0';
+    //         iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    //         iframe.allowFullscreen = true;
+    //         document.getElementById('player').appendChild(iframe);
+    //     } else {
+    //         console.log('No live broadcasts available');
+    //     }
+    // })
+    // .catch(error => {
+    //     console.error('Error fetching stream key:', error);
+    // });
 
     const logOut = document.querySelector('.logout_button');
     fetch('/check-session')

@@ -305,34 +305,32 @@ body {
 
 .watch-main {
     display: flex;
-    flex-wrap: wrap;
     flex-direction: row;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: space-between  ;
     min-height: 100vh;
+    flex-shrink: 1;
 }
 
-.watch-iframe{
-    width: 600px;
-    height: 300px;
-    max-width: 50vw;
-    /* margin: 0px 5px 0px 0px; */
-    border: 2px solid blue;
-    flex-shrink: 0;
+
+.Iframe-holder{
 
 }
 
 .watch-left-content{
-    width: 50vw;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     flex-shrink: 0;
+    width: 50vw;
 
+    border: 1px solid red;
 }
 
 .watch-right-content{
-    width: 50vw;
-    min-width: 50vw;
-    border: 2px solid black;
+    /* border: 2px solid black; */
     flex-shrink: 0;
+    width: 50vw;
+    border: 1px solid red;
+
 }
 
 

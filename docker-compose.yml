@@ -1,0 +1,17 @@
+version: "3.3"
+services:
+  rtmp:
+    build:
+      context: ./rtmp
+    ports:
+      - "1935:1935"
+      - "5050:5050"
+    container_name: rtmp_localhost
+    volumes:
+      - ./data:/tmp/hls
+
+  auth:
+    build:
+      context: .
+    container_name: auth_localhost
+

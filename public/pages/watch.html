@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/sharp-solid.css">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/sharp-regular.css">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/sharp-light.css">
+    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
 </head>
 <body>
     <nav class="landing-page-navbar" aria-label="Main Navigation">
@@ -83,8 +84,12 @@
             <div class="watch-container">
                 <div class="stream-container" id="stream-container">
                     <h1>Watch Live Service</h1>
-                    <div class="Iframe-holder" id="player"></div>
+                    <!-- <video id="video" controls></video> -->
+                    <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" data-setup="{}">
+                        <source src="http://localhost:5050/hls/temp.m3u8" type="application/x-mpegURL">
+                    </video>
                 </div>
+                <!-- <a href="../../data/test.m3u8"></a> -->
             </div>
         </section>
         <section class="watch-right-content">
@@ -92,8 +97,8 @@
             <!-- Repeated content removed for brevity -->
         </section>
     </main>
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://vjs.zencdn.net/7.11.4/video.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="../script/watch.js"></script>
 </body>
 </html>

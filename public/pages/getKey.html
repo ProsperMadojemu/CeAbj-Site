@@ -9,7 +9,14 @@
     <h1>Live Stream</h1>
     <div id="streamKeyContainer"></div>
     <button id="fetchStreamKeyBtn">Get Stream Key</button>
-        <a href="/../ceabj/public/pages/"></a>
+        <a href="/../ceabj/public/">AAA</a>
+        <video autoplay muted loop controls>
+            <source src="/data/test.m3u8" type="video/m3u8">
+        </video>
+        <video autoplay muted loop id="landing-page-main-bgvideo">
+            <source src="../src/Home-Video.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
     <script>
         document.getElementById('fetchStreamKeyBtn').addEventListener('click', function() {
             fetch('/stream-key')

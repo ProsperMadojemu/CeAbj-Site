@@ -34,16 +34,15 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
-//STREAM APP INI
-app.post("/auth", function (req, res) {
-    const streamkey = req.body.key; // server is only available to nginx
-
-    if (streamkey === "prosper") {
-        res.status(200).send()
-        return;
+// STREAM APP INI
+// Authentication for RTMP streaming
+app.post('/auth', (req, res) => {
+    const streamkey = req.query.key || req.body.key;
+    if (streamkey === 'prosper') {
+        res.status(200).send('OK');
+    } else {
+        res.status(403).send('Forbidden');
     }
-
-    res.status(403).send();
 });
 
 

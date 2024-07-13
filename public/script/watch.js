@@ -1,30 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // fetch('/stream-key')
-    // .then(response => {
-    //     if (!response.ok) {
-    //         throw new Error('Network response was not ok');
-    //     }
-    //     return response.json();
-    // })
-    // .then(data => {
-    //     if (data.videoId) {
-    //         const iframe = document.createElement('iframe');
-    //         iframe.width = '640';
-    //         iframe.height = '390';
-    //         iframe.src = `https://www.youtube.com/embed/${data.videoId}?autoplay=1`;
-    //         iframe.frameBorder = '0';
-    //         iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-    //         iframe.allowFullscreen = true;
-    //         document.getElementById('player').appendChild(iframe);
-    //     } else {
-    //         console.log('No live broadcasts available');
-    //     }
-    // })
-    // .catch(error => {
-    //     console.error('Error fetching stream key:', error);
-    // });
-
-    const logOut = document.querySelector('.logout_button');
+    // const logOut = document.querySelector('.logout_button');
     fetch('/check-session')
     .then(response => response.json())
     .then(user => {
@@ -72,25 +47,3 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error checking session:', error);
     });
 });
-
-function onYouTubeIframeAPIReady() {
-    var player = new YT.Player('player', {
-        height: '390',
-        width: '640',
-        videoId: 'YOUR_LIVE_BROADCAST_ID',
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-        }
-    });
-}
-
-function onPlayerReady(event) {
-    event.target.playVideo();
-}
-
-function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING) {
-        // Do something when the video starts playing
-    }
-}

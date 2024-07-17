@@ -105,6 +105,12 @@ body {
     text-wrap: nowrap;
 }
 
+.lo {
+    color: #04125c;
+    background-color: #316FF6;
+    color: #92BDF9;
+}
+
 .navbar-list li:hover {
     color: #ffcc00;
     cursor: pointer;
@@ -213,16 +219,41 @@ body {
 }
 
 .landing-page-main-title {
-    display: flex;
-    flex-direction: column;
+    display: inline-block;
     padding: 5px;
     color: #ffffff;
-    font-size: 2.5em;
+    font-size: 2.5rem;
     font-family: 'Playfair Display', serif;
 }
 
+.landing-page-main-sub-title {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0 10px 0 0;
+    border-right: 3px solid #ffffff;
+    width: 50%;
+    animation: typing 2s steps(18), cursor .4s step-end infinite alternate;
+}
+
+@keyframes cursor {
+    50% { border-color: transparent; }
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 50%; }
+}
+
+@keyframes deleting {
+    from { width: 50%; }
+    to { width: 0; }
+}
+
+
+
 .landing-page-main-title h2{
-    animation: tracking-in-expand 0.9s linear;
+    animation: tracking-in-expand 2s linear;
 }
 
 .landing-page-main-title p {

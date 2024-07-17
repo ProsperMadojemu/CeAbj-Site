@@ -338,18 +338,17 @@
                 <p>Fill in your Church details.</p>
             </div>
             
-            <form action="
-            ." method="POST" class="registration-form" id="second-form">
+            <form action="http://localhost:5000/register" method="POST" class="registration-form" id="second-form">
                 <div class="registration-forms-container" >
                     <h1>Sign up!</h1>
                     <div class="input-groups">
                         <select name="churches" id="churches" required>
                             <option value="" hidden>Select your church</option>
-                            <option value="abaranjeGroup">CHRIST EMBASSY Abaranje Group</option>
+                            <option value="CeAbaranjeGroup">CHRIST EMBASSY Abaranje Group</option>
                             <option value="CeAtan"  >CHRIST EMBASSY Atan</option>
-                            <option value="Newigando"  >CHRIST EMBASSY NEW IGANDO</option>
-                            <option value="kingeternal"  >CHRIST EMBASSY KINGETERNAL</option>
-                            <option value="abaranje2"  >CHRIST EMBASSY ABARANJE2</option>
+                            <option value="CeNewigando"  >CHRIST EMBASSY NEW IGANDO</option>
+                            <option value="Cekingeternal"  >CHRIST EMBASSY KINGETERNAL</option>
+                            <option value="CeAbaranje2"  >CHRIST EMBASSY ABARANJE2</option>
                             <option value="xxxxxxx"  >xxxxxxxxxxxxxxxxxxxxxxxxx</option>
                             <option value="other">other</option>
                         </select>
@@ -370,12 +369,13 @@
                         <select name="roles" placeholder=" " id="roles" required>
                             <!-- all options are in the js file -->
                         </select>
-                        <label for="roles" id="roles-label">Position in church</label>
+                        <label for="roles" id="roles-label">Title</label>
                     </div>
 
                     <div class="input-groups" id="zones-group" style="display: none;">
                         <select name="zones" id="zones" required>
-                            <option value="">Please Select your Zone</option>
+                            <option value="" hidden>Please Select your Zone</option>
+                            <option value="ChristEmbassyLagosZone2" hidden></option>
                             <option value="zonalchurch">CHRIST EMBASSY ABUJA ZONE</option>
                             <option value="zonalchurch">Christ Embassy Jos, NORTH CENTRAL ZONE 1</option>
                             <option value="zonalchurch">CHRIST EMBASSY Aba Zone</option>
@@ -502,8 +502,9 @@
                             <option value="" hidden></option>
                             <option value="TECHNICAL">TECHNICAL</option>
                             <option value="CHOIR">CHOIR</option>
-                            <option value="FIRST TIMERS MIN">FIRST TIMERS MIN</option>
                             <option value="USHER">USHER</option>
+                            <option value="FIRST TIMERS MINISTRY">FIRST TIMERS MINISTRY</option>
+                            <option value="NOT IN A DEPARTMENT">NOT IN A DEPARTMENT</option>
                         </select>
                         <label for="departments">Select your department</label>
                     </div>
@@ -516,6 +517,10 @@
                     <div class="input-groups" id="cell-group" style="display: none;">
                         <input type="text" name="cellName" placeholder=" " id="cellName" required>
                         <label for="cellName" id="cell-name-label">Cell Name</label>
+                    </div>
+                    <div class="input-groups" style="display: none;">
+                        <input type="text" name="Position" placeholder=" " id="Position">
+                        <label for="Position">Cell Name</label>
                     </div>
                     <div class="error-message" id="error-message-second"></div>
                 </div>

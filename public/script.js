@@ -15,6 +15,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const text1 = document.getElementById('text1');
+    const text2 = document.getElementById('text2');
+    const subTitle = document.querySelector('.landing-page-main-sub-title');
+    
+    const typeText = (textElement, duration) => {
+        subTitle.style.width = '0';
+        textElement.style.display = 'inline';
+        subTitle.style.animation = `typing ${duration}s steps(${textElement.textContent.length}), cursor .4s step-end infinite alternate`;
+    };
+
+    const deleteText = (duration) => {
+        subTitle.style.animation = `deleting ${duration}s steps(${subTitle.textContent.length})`;
+    };
+
+    let isText1Visible = true;
+
+    const loopAnimation = () => {
+        if (isText1Visible) {
+            deleteText(2);
+            setTimeout(() => {
+                text1.style.display = 'none';
+                typeText(text2, 2);
+                isText1Visible = false;
+                setTimeout(loopAnimation, 2000);
+            }, 2000);
+        } else {
+            deleteText(2);
+            setTimeout(() => {
+                text2.style.display = 'none';
+                typeText(text1, 2);
+                isText1Visible = true;
+                setTimeout(loopAnimation, 2000);
+            }, 2000);
+        }
+    };
+
+    setTimeout(loopAnimation, 8000);
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();

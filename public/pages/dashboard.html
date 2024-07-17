@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DASHBOARD:CeAbaranje</title>
+    <title>CeAbaranje || Dashboard/EditProfile</title>
+    <link rel="icon" href="../src/favicon.ico">
     <link rel="stylesheet" href="../stylesheet/dashboard.css">
     <link rel="stylesheet" href="../annimations.css">
     <link rel="stylesheet" href="../media.css">
@@ -33,24 +34,132 @@
       >
 </head>
 <body>
-  <main>
-  <header class="horizontal-navbar">
-    <div></div>
-  </header>
-  <main class="dashboard-sub-body">
-    <nav class="vertical-navbar">
-      <div class="navbar-container">
-        <ul class="dashboard-links">
-        <li class="dashboard-items">Profile</li>
-        <li class="dashboard-items">Overview</li>
-        <li class="dashboard-items">Submit Report</li>
-        <li class="dashboard-items">Announcements</li>
-        <!-- <li class="dashboard-items"></li> -->
-      </div>
-    </nav>
-    <section>
-        
-    </section>
+  <main class="sub-body">
+    <header class="horizontal-navbar">
+    </header>
+    <main class="dashboard-sub-body">
+      <nav class="vertical-navbar">
+        <div class="profile-icon-list-items">
+          <div class="user-details">
+            <span class="greeting-user">
+              <i class="fa-duotone fa-user fa-2xl"></i>
+            </span>
+            <span><h1 class="userGreeting"></h1></span>
+            <span class="edit-profile">
+              <i class="fa-duotone fa-user-pen"></i>
+              <a href="./dashboard.html">Edit Profile</a>
+            </span>
+          </div>
+          <div class="navbar-list-items">
+            <ul class="dashboard-links">
+              <li class="dashboard-items"><a href="#"><i class="fa-duotone fa-diagram-lean-canvas"></i>Overview</a></li>
+              <li class="dashboard-items"><a href="./dashboardSubmit.html"><i class="fa-duotone fa-pen-to-square"></i>Submit Report</a></li>
+              <li class="dashboard-items"><a href=""><i class="fa-duotone fa-megaphone fa-rotate-by" style="--fa-rotate-angle: 325deg;""></i>Announcements</a></li>
+              <!-- <li class="dashboard-items"></li> -->
+            </ul>
+            <div class="logout-parent" id="Logout-Button">
+              <div class="logout-button">
+                <button class="button" id=""><i class="fa-duotone fa-right-from-bracket fa-lg"></i>Logout</button>
+              </div>  
+            </div>
+          </div>
+        </div>
+      </nav>
+      <section class="dashboard-content">
+        <div class="dashboard-content-box">
+          <div class="dashboard-content-title">
+            <a href="../index.html" class="go-back">
+              <!-- <i class="fa-solid fa-arrow-left"></i> -->
+              <i class="fa-duotone fa-solid fa-house"></i>
+              <p>Home</p>
+            </a>
+            <h1>Dashboard/Profile</h1>
+          </div>
+          <div class="overview">
+            <span class="overview-text">
+              <h2>User Details</h2>
+              <p>Verify and update your details </p>
+            </span>
+            <form action="http://localhost:5000/updateuser" method="post" class="form-container" id="updateform">
+              <div class="form-group-a">
+                <div class="form-group" >
+                  <input type="text" placeholder="" name="Title" id="Title" disabled></input>
+                  <label for="Title">Title</label>
+                </div>
+                <div class="form-group">
+                  <input type="text" placeholder="" name="FirstName" id="FirstName"></input>
+                  <label for="FirstName">First Name</label>
+                </div>
+                <div class="form-group">
+                  <input type="text" placeholder="" name="LastName" id="LastName"></input>
+                  <label for="LastName">Last Name</label>
+                </div>
+                <div class="form-group">
+                  <input type="email" placeholder="" name="Email" id="Email" disabled></input>
+                  <label for="Email">Email</label>
+                </div>
+                <div class="form-group">
+                  <input type="text" placeholder="" name="PhoneNumber" id="PhoneNumber"></input>
+                  <label for="PhoneNumber">Phone Number</label>
+                </div>
+                <div class="form-group">
+                  <input type="text" placeholder="" name="Country" id="Country" disabled></input>
+                  <label for="Country">Country</label>
+                </div>
+              </div>
+
+              <div class="form-container-b">
+                <div class="form-group">
+                  <select name="Church" id="Church" disabled>
+                    <option value="churchoption" hidden></option>
+                  </select>
+                  <label for="Church">Church</label>
+                </div>
+                <div class="form-group">
+                  <select name="zone" id="zone" disabled>
+                    <option value="zoneoption" hidden></option>
+                  </select>
+                  <label for="zone">Zone</label>
+                </div>
+                <div class="form-group">
+                  <select type="text" placeholder="" name="LeadershipPosition" id="LeadershipPosition">
+                    <option value="noselect" hidden></option>
+                    <option value="" hidden>Choose an option</option>
+                    <option value="PCF-leader">PCF Leader</option>
+                    <option value="Senior-Cell-leader">Senior Cell Leader</option>
+                    <option value="Cell-leader">Cell Leader</ option>
+                    <option value="Departmental-Head">Departmental Head</option>
+                    <option value="Haven-Govenor">Haven Governor</option>
+                    <option value="Member">Member</option>
+                  </select>
+                  <label for="LeadershipPosition">Leadership Positon</label>
+                </div>
+
+                <div class="form-group">
+                  <select type="text" placeholder="" name="cellname" id="cellname">
+                    <option value="" hidden>Choose an option</option>
+                  </select>
+                  <label for="cellname">Cell Name</label>
+                </div>
+                
+                <div class="form-group">
+                  <select name="Department" id="Department">
+                    <option value="" hidden>Choose an option</option>
+                    <option value="NONE">None</option>
+                    <option value="TECHNICAL">TECHNICAL</option>
+                    <option value="CHOIR">CHOIR</option>
+                    <option value="USHER">USHER</option>
+                    <option value="FIRST TIMERS MIN">FIRST TIMERS MIN</option>
+                  </select>
+                  <label for="Department">Department</label>
+                </div>
+                <button type="submit" id="updateuserbutton" class="updatebutton">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
   </main>
   <script defer src="../script/dashboard.js"></script>
 </body>

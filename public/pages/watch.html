@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>CeAbaranje | Watch</title>
     <link rel="icon" href="../src/favicon.ico">
     <link rel="stylesheet" href="../stylesheet/watch.css">
     <link rel="stylesheet" href="../annimations.css">
@@ -77,26 +77,37 @@
         </div>
     </nav>
     <section class="navgation-title">
-        <!-- div. -->
+        <ul class="nav-title-box">
+            <li class="title-list">Watch Live Service</li>
+            <li class="title-box"></li>
+        </ul>
     </section>
     <main class="watch-main">
         <section class="watch-left-content">
             <div class="watch-container">
-                <div class="stream-container" id="stream-container">
-                    <h1>Watch Live Service</h1>
-                    <!-- <video id="video" controls></video> -->
-                    <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" data-setup="{}">
-                        <source src="http://localhost:5050/hls/temp.m3u8" type="application/x-mpegURL">
-                    </video>
-                </div>
+                <!-- <video id="video" controls></video> -->
+                <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" data-setup="{}">
+                    <source src="http://localhost:5050/hls/temp.m3u8" type="application/x-mpegURL">
+                </video>
                 <!-- <a href="../../data/test.m3u8"></a> -->
             </div>
         </section>
         <section class="watch-right-content">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam iusto nostrum esse et pariatur neque libero obcaecati doloremque reprehenderit similique, magnam recusandae! Labore odit dolore nostrum quidem cupiditate assumenda id.</p>
-            <!-- Repeated content removed for brevity -->
+            <div class="comment-section">
+                <h2>Comments</h2>
+                <div class="comments" id="comments"></div>
+                <form id="commentForm">
+                    <textarea id="commentText" placeholder="Write a comment..." required></textarea>
+                    <button class="comment-button" type="submit">Submit</button>
+                </form>
+            </div>
         </section>
     </main>
+    <footer class="landing-page-footer">
+        <div class="landing-page-footer-container">
+            <p>Copyright © 2024 CE Abarnanje Group. All rights reserved.</p>
+        </div>
+    </footer>
     <script src="https://vjs.zencdn.net/7.11.4/video.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="../script/watch.js"></script>

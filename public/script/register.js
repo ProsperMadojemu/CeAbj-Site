@@ -131,10 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
         handlechurchselection(this.value);
     });
     
-    document.getElementById('roles').addEventListener('change', function(){
-        handlechurchrolesselection(this.value);
-    });
-
     document.getElementById('zones').addEventListener('change', function(){
         handlezonesselection(this.value);
     });
@@ -186,52 +182,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 churchinput.style.display = 'none';
                 zoneselector.style.display = 'none';
                 departmentselector.style.display = 'none';
-                cellname.style.display = 'none';    
+                cellname.style.display = 'none';
+                var zonesElement = document.getElementById('zones');
+                var option = document.querySelector('option[value="ChristEmbassyLagosZone2"]');
+                zonesElement.value = option.value;
                 document.getElementById('roles').innerHTML = `
-                <option value="" hidden>Pastorial Position</option>
+                <option value="" hidden>Kinship Title</option>
                 <option value="Pastor">Pastor</option>
-                <option value="PCF-leader">PCF Leader</option>
-                <option value="Senior-Cell-leader">Senior Cell Leader</option>
-                <option value="Cell-leader">Cell Leader</option>
-                <option value="departmental-head">Departmental Head (optional)</option>
-                <option value="member">Member</option>
-                <option value="Govenor">Haven Governor</option>
-                <option value="Deacon/Deavoness">Deacon/Deaconness</option>`;
+                <option value="Mr">Mr</option>
+                <option value="Mrs">Mrs</option>
+                <option value="Brother">Brother</option>
+                <option value="Sister">Sister</option>
+                <option value="Deacon">Deacon</option>
+                <option value="Deaconess">Deaconess</option>`;
             }
-        }
-    }
-
-    function handlechurchrolesselection(roles) {
-        const zoneselector = document.querySelector('#zones-group');
-        const departmentselector = document.querySelector('#dep-group');
-        const churchinput = document.querySelector('#church-group');
-        const cellname = document.querySelector('#cell-group');
-
-        resetFormFields(
-            document.getElementById('zones'),
-            document.getElementById('churchName'),
-            document.getElementById('departments'),
-            document.getElementById('cellName')
-        );
-
-        if (roles === 'departmental-head') {
-            hideSecondError();
-            departmentselector.style.display = 'block';
-            cellname.style.display = 'none';
-            zoneselector.style.display = 'none';
-            churchinput.style.display = 'none';
-        } else if (roles === 'leader' || roles === 'PCF-leader' || roles === 'Senior-Cell-leader' || roles === 'Cell-leader') {
-            hideSecondError();
-            cellname.style.display = 'block';
-            churchinput.style.display = 'none';
-            zoneselector.style.display = 'none';
-            departmentselector.style.display = 'none';
-        } else {
-            hideSecondError();
-            cellname.style.display = 'none';
-            zoneselector.style.display = 'none';
-            churchinput.style.display = 'none';
-            departmentselector.style.display = 'none';
         }
     }
 
@@ -240,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const churchinput = document.querySelector('#church-group');
         const departmentselector = document.querySelector('#dep-group');
         const cellname = document.querySelector('#cell-group');
-
         resetFormFields(
             document.getElementById('zones'),
             document.getElementById('churchName')
@@ -288,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (formchurches === 'other' && !formothers) {
             showSecondError("Please fill out all fields");
         } 
-        else if ((formchurches === 'abaranjeGroup' || formchurches === 'CeAtan' || formchurches === 'Newigando' || formchurches === 'kingeternal' || formchurches === 'abaranje2') && !formroles) {
+        else if ((formchurches === 'CeAbaranjeGroup' || formchurches === 'CeAtan' || formchurches === 'CeNewigando' || formchurches === 'Cekingeternal' || formchurches === 'CeAbaranje2') && !formroles) {
             showSecondError("Please fill out all fields");
         } 
         else if (formothers === 'from-another-church' && !formzones) {
@@ -299,10 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
         else if (formroles === 'departmental-head' && !formdepartments) {
             showSecondError("Please enter the name of your department");
-        } 
-        else if ((formroles === 'leader' || formroles === 'PCF-leader' || formroles === 'Senior-Cell-leader' || formroles === 'Cell-leader' )&& !formcellname) {
-            showSecondError("Please enter the cell name for leaders");
-        } 
+        }
         else {
             hideSecondError();
             document.getElementById('first-form').classList.add('hidden');

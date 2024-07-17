@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({
+app.use(session({ //Session condition
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
@@ -29,7 +29,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
     .then(() => console.log("Connected to database"))
     .catch(err => console.log("Error connecting to database", err));
 
-// Routes
+// page Routes
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
@@ -45,6 +45,78 @@ app.post('/auth', (req, res) => {
     }
 });
 
+//COMMENT SECTION ROUTE
+let comments = [];
+
+app.get('/comments', (req, res) => {
+    res.json(comments);
+});
+
+app.post('/comments', (req, res) => {
+    const comment = req.body;
+    comment.timestamp = new Date().toISOString();
+    comments.push(comment);
+    res.status(201).json(comment);
+});
+
+
+// Data transformation function
+const fieldMapping = {
+    mail: 'Email',
+    fname: 'FirstName',
+    lname: 'LastName',
+    phone: 'PhoneNumber',
+    country: 'Country',
+    churches: 'Church',
+    pass: 'Password',
+    churchName: 'NameOfChurch',
+    roles: 'Title',
+    zones: 'Zone',
+    departments: 'Department',
+    cellName: 'NameOfCell',
+    Position: 'LeadershipPosition'
+};
+
+function transformFormData(formData) {
+    const transformedData = {};
+    for (const oldField in fieldMapping) {
+        const newField = fieldMapping[oldField];
+        transformedData[newField] = formData[oldField];
+    }
+    return transformedData;
+}
+
+// Schemas
+const userSchema = new mongoose.Schema({
+    Email: String,
+    Title: String,
+    FirstName: String,
+    LastName: String,
+    PhoneNumber: String,
+    Country: String,
+    LeadershipPosition: String,
+    Church: String,
+    Password: String,
+    registrationDate: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+const userChurchSchema = new mongoose.Schema({
+    Email: String,
+    FirstName: String,
+    LastName: String,
+    Church: String,
+    LeadershipPosition: String,
+    NameOfCell: String,
+    Department: String,
+    Zone: String,
+});
+
+// Models
+const Users = mongoose.model("users", userSchema);
+const UsersChurch = mongoose.model("usersChurchDetails", userChurchSchema);
 
 
 // Register route
@@ -70,24 +142,26 @@ app.post('/register', async (req, res) => {
 
         const userFields = {
             Email: transformedData.Email,
+            Title: transformedData.Title,
             FirstName: transformedData.FirstName,
             LastName: transformedData.LastName,
             PhoneNumber: transformedData.PhoneNumber,
             Country: transformedData.Country,
             Church: transformedData.Church,
+            LeadershipPosition: transformFormData.LeadershipPosition,
             Password: transformedData.Password,
             registrationDate: transformedData.registrationDate
         };
 
         const churchFields = {
+            Email: transformedData.Email,
             FirstName: transformedData.FirstName,
             LastName: transformedData.LastName,
             Church: transformedData.Church,
-            Position: transformedData.Position,
+            LeadershipPosition: transformFormData.LeadershipPosition,
             NameOfCell: transformedData.NameOfCell,
             Department: transformedData.Department,
             Zone: transformedData.Zone,
-            NameOfChurch: transformedData.NameOfChurch,
         };
 
         const newUser = new Users(userFields);
@@ -150,6 +224,56 @@ app.post('/logout', (req, res) => {
     });
 });
 
+// Get data from all collections
+app.get('/getalldata', async (req, res) => {
+    try {
+        const usersData = await Users.find({});
+        const usersChurchData = await UsersChurch.find({});
+        res.json({ users: usersData, usersChurch: usersChurchData });
+    } catch (error) {
+        res.status(500).json({ error: "Error fetching data" });
+    }
+});
+
+app.post('/updateuser', async (req, res) => {
+    try {
+        if (!req.session.user || !req.session.user.email) {
+            return res.status(401).json({ error: 'User not logged in' });
+        }
+
+        const email = req.session.user.Email;
+        const updateFields = req.body;
+
+        // Update user in the Users collection
+        const updatedUser = await Users.findOneAndUpdate(
+            { email: email },
+            { $set: updateFields },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Update user church details using email as a reliable identifier
+        const userChurchDetails = await UsersChurch.findOneAndUpdate(
+            { email: email },
+            { $set: updateFields },
+            { new: true }
+        );
+
+        if (!userChurchDetails) {
+            return res.status(404).json({ error: 'User church details not found' });
+        }
+
+        res.status(200).json({ message: 'User updated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+
 app.use((req, res, next) => {
     if (req.session.user) {
         req.session.touch();
@@ -162,58 +286,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
-// Data transformation function
-const fieldMapping = {
-    mail: 'Email',
-    fname: 'FirstName',
-    lname: 'LastName',
-    phone: 'PhoneNumber',
-    country: 'Country',
-    churches: 'Church',
-    pass: 'Password',
-    churchName: 'NameOfChurch',
-    roles: 'Position',
-    zone: 'Zone',
-    departments: 'Department',
-    cellName: 'NameOfCell'
-};
-
-function transformFormData(formData) {
-    const transformedData = {};
-    for (const oldField in fieldMapping) {
-        const newField = fieldMapping[oldField];
-        transformedData[newField] = formData[oldField];
-    }
-    return transformedData;
-}
-
-// Schemas
-const userSchema = new mongoose.Schema({
-    Email: String,
-    FirstName: String,
-    LastName: String,
-    PhoneNumber: String,
-    Country: String,
-    Church: String,
-    Password: String,
-    registrationDate: {
-        type: Date,
-        default: Date.now
-    }
-});
-
-const userChurchSchema = new mongoose.Schema({
-    FirstName: String,
-    LastName: String,
-    Church: String,
-    Position: String,
-    NameOfCell: String,
-    Department: String,
-    Zone: String,
-    NameOfChurch: String
-});
-
-// Models
-const Users = mongoose.model("users", userSchema);
-const UsersChurch = mongoose.model("usersChurchDetails", userChurchSchema);

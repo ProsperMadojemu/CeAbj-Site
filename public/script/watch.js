@@ -42,8 +42,131 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             window.location.href = '../pages/login.html';
         }
+        fetchComments();
+    document.getElementById('commentForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const commentText = document.getElementById('commentText').value;
+        const userName = getUserName();
+        const timeNow = new Date();
+
+        if (commentText.trim() !== '') {
+            const comment = {
+                userName: userName,
+                text: commentText,
+                timestamp: timeNow.toISOString()
+            };
+
+            postComment(comment);
+            document.getElementById('commentText').value = '';
+        }
+    });
+
+    function getUserName() {
+        return `${user.firstName} ${user.lastName}`
+    }
+
+    // async function getUserName() {
+    //     try {
+    //         const response = await fetch('/check-session');
+    //         const user = await response.json();
+    //         return `${user.firstName}`;
+    //     } catch (error) {
+    //         return 'Guest'; // Fallback to 'Guest' in case of error
+    //     }
+    // }
+    
+    
+    function formatTime(date) {
+        const now = new Date();
+        const diffInSeconds = Math.floor((now - date) / 1000);
+
+        if (diffInSeconds < 60) {
+            return `${diffInSeconds}s ago`;
+        }
+
+        const diffInMinutes = Math.floor(diffInSeconds / 60);
+        if (diffInMinutes < 60) {
+            return `${diffInMinutes}m ago`;
+        }
+
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        return `sent at ${hours}:${minutes}`;
+    }
+
+    function updateTimes() {
+        const times = document.querySelectorAll('.comment-time');
+        times.forEach(time => {
+            const date = new Date(time.dataset.timestamp);
+            time.textContent = formatTime(date);
+        });
+    }
+
+    setInterval(updateTimes, 60000); // Update times every minute
+
+    function fetchComments() {
+        fetch('http://localhost:5000/comments')
+            .then(response => response.json())
+            .then(comments => {
+                const commentsContainer = document.getElementById('comments');
+                commentsContainer.innerHTML = '';
+                comments.forEach(comment => {
+                    const commentElement = createCommentElement(comment);
+                    commentsContainer.appendChild(commentElement);
+                });
+                updateTimes();
+            });
+    }
+
+    
+    setInterval(fetchComments, 1000);
+
+    function postComment(comment) {
+        fetch('http://localhost:5000/comments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(comment)
+        })
+        .then(response => response.json())
+        .then(newComment => {
+            const commentsContainer = document.getElementById('comments');
+            const commentElement = createCommentElement(newComment);
+            commentsContainer.appendChild(commentElement);
+            updateTimes();
+        });
+    }
+
+    function createCommentElement(comment) {
+        const commentElement = document.createElement('div');
+        commentElement.className = 'comment';
+
+        const header = document.createElement('div');
+        header.className = 'comment-header';
+        header.textContent = comment.userName;
+
+        const time = document.createElement('div');
+        time.className = 'comment-time';
+        time.dataset.timestamp = comment.timestamp;
+        time.textContent = formatTime(new Date(comment.timestamp));
+
+        const content = document.createElement('div');
+        content.textContent = comment.text;
+
+        commentElement.appendChild(header);
+        commentElement.appendChild(time);
+        commentElement.appendChild(content);
+        
+        return commentElement;
+    }
     })
     .catch(error => {
         console.error('Error checking session:', error);
     });
+
+    
+
+
 });

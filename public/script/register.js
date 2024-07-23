@@ -65,6 +65,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     }
 
+        const messageOverlay = document.getElementById('message-prompt');
+    const messageOverlayText = document.getElementById('message-text');
+    const messageOverlaySign = document.getElementById('message-sign');
+
+    function showPrompt(message) {
+        messageOverlay.classList.remove('hidden');
+        messageOverlayText.textContent = message;
+        if (messageOverlay.timeoutId) {
+            clearTimeout(messageOverlay.timeoutId);
+        }
+        // messageOverlay.timeoutId = setTimeout(() => {
+        //     hidePrompt();
+        // }, 5000);
+    }
+
+    function showErrorPrompt(message) {
+        messageOverlay.classList.remove('hidden');
+        messageOverlaySign.classList.remove('fa-spinner-third', 'fa-2xl');
+        messageOverlaySign.classList.add('fa-solid', 'fa-xmark', 'fa-2xl');
+        messageOverlayText.textContent = message;
+        if (messageOverlay.timeoutId) {
+            clearTimeout(messageOverlay.timeoutId);
+        }   
+        messageOverlay.timeoutId = setTimeout(() => {
+            hidePrompt();
+        }, 3000);
+    }
+
+    function hidePrompt() {
+        messageOverlay.classList.add('hidden');
+        messageOverlaySign.classList.remove('fa-solid', 'fa-xmark', 'fa-2xl');
+        messageOverlaySign.classList.add('fa-spinner-third', 'fa-2xl');
+    }
+
+
     function hideError() {
         errorMessage.classList.remove('error-message-visible');
         errorMessage.textContent = "";
@@ -327,30 +362,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = await response.json();
                 console.log('User registered successfully:', result);
                 disablePrompt();
-                showSuccessPromptAndNavigate('success-container', './login.html');
+                showPrompt("Registration Successful");
+                setTimeout(() => {
+                    window.location.href = './login.html';
+                }, 5000); 
             } catch (error) {
                 console.error(error);
                 showPasswordError('An error occurred');
             } finally {
                 submitButton.disabled = false; 
             }
+            
         }
     });
-
-    // creating a function to show the success prompt and move to next page
-    function showSuccessPromptAndNavigate (promptId, nextPage){
-        const successPrompt = document.getElementById('promptId');
-
-        if (successPrompt) {
-            successPrompt.classList.remove('hidden-registration-prompt');
-            successPrompt.classList.add('prompt-visible');
-
-            // moves to the next page after 5s
-            setTimeout(() => {
-                window.location.href = nextPage;
-            }, 5000)
-        }
-    }
 
     document.getElementById('passwordbutton1').addEventListener('click', function() {
         togglePasswordVisibility('pass', 'pass-eye1');

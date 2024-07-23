@@ -14,25 +14,36 @@ app.use(cors());
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({ //Session condition
+app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
-    cookie: { secure: process.env.NODE_ENV === 'production',  
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 24 * 60 * 60 * 1000
     }
 }));
+
+const adminCheck = (req, res, next) => {
+    if (req.session.user && req.session.user.userType === 'admin') {
+        next();
+    } else {
+        res.status(403).json({ error: 'Access denied. Admins Only' });
+    }
+};
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("Connected to database"))
     .catch(err => console.log("Error connecting to database", err));
 
-// page Routes
+// Page Routes
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
+
+
 
 // STREAM APP INI
 // Authentication for RTMP streaming
@@ -45,7 +56,7 @@ app.post('/auth', (req, res) => {
     }
 });
 
-//COMMENT SECTION ROUTE
+// COMMENT SECTION ROUTE
 let comments = [];
 
 app.get('/comments', (req, res) => {
@@ -58,7 +69,6 @@ app.post('/comments', (req, res) => {
     comments.push(comment);
     res.status(201).json(comment);
 });
-
 
 // Data transformation function
 const fieldMapping = {
@@ -100,6 +110,10 @@ const userSchema = new mongoose.Schema({
     registrationDate: {
         type: Date,
         default: Date.now
+    },
+    userType: {
+        type: String,
+        default: "Default"
     }
 });
 
@@ -114,17 +128,121 @@ const userChurchSchema = new mongoose.Schema({
     Zone: String,
 });
 
+const cellReportSchema = new mongoose.Schema({
+    FirstName: String,
+    LastName: String,
+    CellName: String,
+    ServiceAttendance: String,
+    SundayFirstTimers: String,
+    CellMeetingAttendance: String,
+    CellFirstTimers: String,
+    offering: String,
+    SubmissionDate: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+const newCellSchema = new mongoose.Schema({
+    NameOfLeader: String, 
+    LeaderPosition: String,
+    CellType: String,
+    NameOfPcf: String,
+    NameOfSeniorCell: String,
+    NameOfCell: String,
+    SubmissionDate: {
+        type: Date,
+        default: Date.now
+    }
+})
+
 // Models
 const Users = mongoose.model("users", userSchema);
 const UsersChurch = mongoose.model("usersChurchDetails", userChurchSchema);
+const usersCellReport = mongoose.model("cellreports", cellReportSchema);
+const newCell = mongoose.model("Cells and Leaders", newCellSchema)
+// Report Submission route
+app.post('/submitcellreport', async (req, res) => {
+    try {
+        const {
+            FirstName,
+            LastName,
+            CellName,
+            ServiceAttendance,
+            SundayFirstTimers,
+            CellMeetingAttendance,
+            CellFirstTimers,
+            offering,
+            SubmissionDate
+        } = req.body;
 
+        const reportField = {
+            FirstName,
+            LastName,
+            CellName,
+            ServiceAttendance,
+            SundayFirstTimers,
+            CellMeetingAttendance,
+            CellFirstTimers,
+            offering,
+            SubmissionDate
+        };
+
+        const newCellReport = new usersCellReport(reportField);
+        await newCellReport.save();
+        res.status(201).json({ message: 'Report submitted successfully' });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+app.post ('/submitnewcell', async (req, res) => {
+    try {
+        const {
+            NameOfLeader,
+            LeaderPosition,
+            CellType,
+            NameOfPcf,
+            NameOfSeniorCell,
+            NameOfCell,
+            SubmissionDate
+        } = req.body;
+
+        const newCellsField = {
+            NameOfLeader,
+            LeaderPosition,
+            CellType,
+            NameOfPcf,
+            NameOfSeniorCell,
+            NameOfCell,
+            SubmissionDate
+        }
+
+        const existingCell = await newCell.findOne({
+            $or: [
+                { NameOfLeader: NameOfLeader },
+                {NameOfCell: NameOfCell}
+            ]
+        });
+
+        if (existingCell) {
+            return res.status(400).json({ error: 'Cell Already Exists' });
+        }
+         
+        const submittedCells = new newCell(newCellsField);
+        await submittedCells.save();
+        res.status(201).json({ message: 'Cell Saved successfully' });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
 
 // Register route
 app.post('/register', async (req, res) => {
     try {
         const transformedData = transformFormData(req.body);
 
-        // Check if email or phone number already exists
+        // Checking if email or phone number already exists
         const existingUser = await Users.findOne({
             $or: [
                 { Email: transformedData.Email },
@@ -148,9 +266,10 @@ app.post('/register', async (req, res) => {
             PhoneNumber: transformedData.PhoneNumber,
             Country: transformedData.Country,
             Church: transformedData.Church,
-            LeadershipPosition: transformFormData.LeadershipPosition,
+            LeadershipPosition: transformedData.LeadershipPosition,
             Password: transformedData.Password,
-            registrationDate: transformedData.registrationDate
+            registrationDate: transformedData.registrationDate,
+            userType: transformedData.userType
         };
 
         const churchFields = {
@@ -158,7 +277,7 @@ app.post('/register', async (req, res) => {
             FirstName: transformedData.FirstName,
             LastName: transformedData.LastName,
             Church: transformedData.Church,
-            LeadershipPosition: transformFormData.LeadershipPosition,
+            LeadershipPosition: transformedData.LeadershipPosition,
             NameOfCell: transformedData.NameOfCell,
             Department: transformedData.Department,
             Zone: transformedData.Zone,
@@ -174,6 +293,7 @@ app.post('/register', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
+
 
 // Login route
 app.post('/login', async (req, res) => {
@@ -193,9 +313,14 @@ app.post('/login', async (req, res) => {
                 id: user._id,
                 firstName: user.FirstName,
                 lastName: user.LastName,
-                email: user.Email
+                email: user.Email,
+                userType: user.userType // Add userType to the session
             };
-            return res.status(200).json({ message: "Login successful" });
+            if (user.userType === 'admin') {
+                res.json({ redirectUrl: '../admin/overview.html' });
+            } else {
+                res.json({ redirectUrl: '../dashboard/edit-profile.html' });
+            }
         } else {
             return res.status(401).json({ error: "Invalid password" });
         }
@@ -235,18 +360,96 @@ app.get('/getalldata', async (req, res) => {
     }
 });
 
+app.get('/pcfleaders', async (req, res) => {
+    try {
+        const pcfLeadersData = await newCell.aggregate([
+            {
+                $group: {
+                    _id: "$NameOfPcf"
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    NameOfPcf: "$_id"
+                }
+            }
+        ]);
+        res.json({ cells: pcfLeadersData });
+    } catch (error) {
+        res.status(500).json({ error: "Error fetching data" });
+    }
+});
+
+app.get('/seniorcell-leaders', async (req, res) => {
+    try {
+
+        const seniorCellLeadersData = await newCell.aggregate([
+            {
+                $match: {
+                    NameOfSeniorCell: { $nin: ["", " "] }
+                }
+            },
+            {
+                $group: {
+                    _id: "$NameOfSeniorCell"
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    NameOfSeniorCell: "$_id"
+                }
+            }
+        ]);
+        res.json({ cells: seniorCellLeadersData });
+    } catch (error) {
+        res.status(500).json({ error: "Error fetching data" });
+    }
+});
+
+
+app.get('/cell-leaders', async (req, res) => {
+    try {
+
+        const CellLeadersData = await newCell.aggregate([
+            {
+                $match: {
+                    NameOfCell: { $nin: ["", " "] }
+                }
+            },
+            {
+                $group: {
+                    _id: "$NameOfCell"
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    NameOfSeniorCell: "$_id"
+                }
+            }
+        ]);
+        res.json({ cells: CellLeadersData });
+    } catch (error) {
+        res.status(500).json({ error: "Error fetching data" });
+    }
+});
+
+
+// Update user route
 app.post('/updateuser', async (req, res) => {
     try {
         if (!req.session.user || !req.session.user.email) {
             return res.status(401).json({ error: 'User not logged in' });
         }
 
-        const email = req.session.user.Email;
+        const email = req.session.user.email; //last email shoudl be spelt {email} not {Email}
         const updateFields = req.body;
 
-        // Update user in the Users collection
+
         const updatedUser = await Users.findOneAndUpdate(
-            { email: email },
+            { Email: email },
             { $set: updateFields },
             { new: true }
         );
@@ -255,9 +458,9 @@ app.post('/updateuser', async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // Update user church details using email as a reliable identifier
+
         const userChurchDetails = await UsersChurch.findOneAndUpdate(
-            { email: email },
+            { Email: email },
             { $set: updateFields },
             { new: true }
         );
@@ -272,14 +475,19 @@ app.post('/updateuser', async (req, res) => {
     }
 });
 
-
-
 app.use((req, res, next) => {
     if (req.session.user) {
         req.session.touch();
     }
     next();
 });
+
+
+// Admin User Route
+app.get('/admin', adminCheck, (req, res) => {
+    res.send('Welcome Admin');
+});
+
 
 // Server setup
 const PORT = process.env.PORT || 5000;

@@ -34,9 +34,11 @@
     <header class="header-register">
         <img src="../src/R.jpeg" alt="pastorchris.jpeg">
         <!-- <img src="../src/ABJ LOGO.png" alt="abj" class="logo"> -->
-        <div class="hidden-registration-prompt" id="promptId">
-            <p class="prompt_text">Registration Successfull</p>
-            <i class="fa-regular fa-circle-check"></i>
+        <div class="prompt-parent hidden" id="message-prompt">
+            <div class="success-prompt" >
+                <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
+                <h2 id="message-text"></h2>
+            </div>
         </div>
         <div class="register-container" id="first-form">
             <div class="register-container-text" id="register-text">

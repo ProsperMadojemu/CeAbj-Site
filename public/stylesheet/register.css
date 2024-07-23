@@ -393,3 +393,63 @@ select:not(:placeholder-shown) + label{
 .fa-regular.fa-circle-check{
     animation: 0.5s jump linear infinite;
 }
+
+
+.prompt-parent {
+    width: 100vw;  
+    height: 100vh;  
+    top: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 50%;    
+    z-index: 1;
+    background: #3d3d3da1;
+    position: absolute;
+    transform: translate(0%, -50%) ;
+
+}
+
+.success-prompt {
+    animation: fade .2s ease-in;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 250px;
+    width: 450px;
+
+    border-radius: 5px;
+    box-shadow: 3px 4px 40px hsla(0, 0%, 0%, 0.849);
+    color: #fff;
+    font-family: 'arial', sans-serif;
+    background: #316FF6;
+}
+
+.fa-solid.fa-xmark.fa-2xl {
+    color: red;
+    border-radius: 50%;
+    border: 2px solid;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	-webkit-animation: shake-horizontal 1.2s steps(5, start) infinite alternate-reverse both;
+	animation: shake-horizontal 1.2s steps(5, start) infinite alternate-reverse both;
+}
+
+
+.fa-solid.fa-spinner-third.fa-2xl {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-animation: rotate-center 0.6s linear  both infinite;
+    animation: rotate-center 0.6s linear both infinite;
+}
+
+.hidden {
+    display: none;
+}

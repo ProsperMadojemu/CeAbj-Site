@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CeAbaranje || Dashboard/EditProfile</title>
     <link rel="icon" href="../src/favicon.ico">
-    <link rel="stylesheet" href="../stylesheet/addacell.css">
+    <link rel="stylesheet" href="../stylesheet/send-announcements.css">
     <link rel="stylesheet" href="../annimations.css">
     <link rel="stylesheet" href="../media.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
@@ -34,12 +34,6 @@
 </head>
 <body>
   <main class="sub-body">
-    <div class="prompt-parent hidden" id="message-prompt">
-      <div class="success-prompt" >
-          <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
-          <h2 id="message-text"></h2>
-      </div>
-    </div>
     <main class="dashboard-sub-body">
       <nav class="vertical-navbar">
         <div class="vertical-navbar-box">
@@ -94,60 +88,21 @@
           <div class="empty-div"></div>
           <div class="overview">
             <span class="overview-text">
-              <h2>Add a Cell</h2>
-              <p>add a new cell</p>
+              <h2>User Details</h2>
+              <p>Verify and update your details </p>
             </span>
-            <!-- HERE -->
-            <form action="" method="post" id="addacellform" class="form-container">
-              <div class="left-group">
-                <div class="form-group">
-                  <input type="text" placeholder="" name="NameOfLeader" id="NameOfLeader" required></input>
-                  <label for="NameOfLeader">Name Of Leader</label>
-                </div>
-                <div class="form-group">
-                  <select type="text" placeholder="" name="LeaderPosition" id="LeaderPosition" required>
-                    <option value="NoSelect" hidden>Select an option</option>
-                    <option value="CO-ORDINATOR">CO-ORDINATOR</option>
-                    <option value="PCF">PCF LEADER</option>
-                    <option value="SENIOR-CELL">SENIOR-CELL LEADER</option>
-                    <option value="CELL">CELL LEADER</option>
-                  </select>
-                  <label for="LeaderPosition">Leader Position</label>
-                </div>
-                <div class="form-group">
-                  <select type="text" placeholder="" name="CellType" id="CellType" required>
-                    <option value="NoSelect" hidden>Select an option</option>
-                    <option value="PCF">PCF</option>
-                    <option value="SENIOR-CELL">SENIOR-CELL</option>
-                    <option value="CELL">CELL</option>
-                    <option value="Teens-Church">Teens Church</option>
-                    <option value="Youth-Church">Youth Church</option>
-                  </select>
-                  <label for="CellType">Cell Type</label>
-                </div>
+            <div class="prompt-parent hidden" id="message-prompt">
+              <div class="success-prompt" >
+                  <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
+                  <h2 id="message-text"></h2>
               </div>
-              <div class="right-content">
-                <div class="form-group hidden" id="pcf-name">
-                  <input type="text" placeholder="" name="NameOfPcf" id="NameOfPcf" required></input>
-                  <label for="NameOfPcf">Name of PCF</label>
-                </div>
-                <div class="form-group hidden" id="senior-cell-name">
-                  <input type="text" placeholder="" name="NameOfSeniorCell" id="NameOfSeniorCell" required></input>
-                  <label for="NameOfSeniorCell">Name Of Senior Cell</label>
-                </div>
-                <div class="form-group hidden" id="cell-name">
-                  <input type="text" placeholder="" name="NameOfCell" id="NameOfCell" required></input>
-                  <label for="NameOfCell">Name Of Cell</label>
-                </div>
-              </div>
-            </form>
-            <div class="parent-button">
-              <button type="submit" id="submitnewcellbutton" class="submitreportbutton">Submit</button>
             </div>
+            <!-- HERE -->
+            
         </div>
       </section>
     </main>
   </main>
-  <script defer src="../script/addacell.js"></script>
+  <script defer src="../script/send-announcements.js"></script>
 </body>
 </html>

@@ -502,3 +502,22 @@
             animation-timing-function: ease-out;
   }
 }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes opposite-spin {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes skeleton-loading {
+  0% {
+      background-position: -100% 0;
+  }
+  100% {
+      background-position: 100% 0;
+  }
+}

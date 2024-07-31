@@ -42,6 +42,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tableBody = document.querySelector('#usersTableData tbody');
     showSkeletonRows(tableBody);
 
+    const threeDots = document.getElementById('three-dots-download');
+
+    function threeDotsToggleHandler(e) {
+        e.preventDefaule();
+
+        threeDots.classList.toggle('hidden')
+        
+    }
 
     function showSkeletonRows(tableBody) {
         for (let i = 0; i < 4; i++) {
@@ -73,43 +81,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         return `${year}/${month}/${day}`; // Return formatted date
     }
-
-    // // Fetch all data and populate the table
-    // try {
-    //     const response = await fetch('/getalldata');
-    //     if (!response.ok) {
-    //         throw new Error('Network response was not ok');
-    //     }
-    //     const data = await response.json();
-    //     populateTable(data);
-    // } catch (error) {
-    //     console.error('Error fetching data:', error);
-    // }
-
-    // function populateTable(data) {
-    //     const tbody = document.querySelector('#usersTableData tbody');
-    //     tbody.innerHTML = ''; // Clear existing rows
-    //     const users = data.users;
-    //     const usersChurch = data.usersChurch;
-        
-    //     users.forEach((user, index) => {
-    //         const userChurch = usersChurch.find(uc => uc.Email === user.Email) || {};
-    //         const formattedDate = formatDateToYYMMDD(user.registrationDate); // Format registration date
-    //         const row = document.createElement('tr');    
-    
-    //         row.innerHTML = `
-    //             <td>${index + 1}</td>
-    //             <td>${user.FirstName} ${user.LastName}</td>
-    //             <td>${user.PhoneNumber || ''}</td>
-    //             <td>${user.Church || userChurch.Church || ''}</td>
-    //             <td>${user.LeadershipPosition || userChurch.LeadershipPosition || ''}</td>
-    //             <td>${userChurch.NameOfCell || ''}</td>
-    //             <td>${userChurch.Department || ''}</td>
-    //             <td>${formattedDate}</td> <!-- Display formatted date -->
-    //         `;
-    //         tbody.appendChild(row);
-    //     });
-    // }
 
     let currentPage = 1;
     const limit = 10; // Number of results per page

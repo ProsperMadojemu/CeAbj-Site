@@ -91,16 +91,17 @@
 
           <div class="empty-div"></div>
           <div class="overview">
-            <span class="overview-text">
-            <button id="clickmetodownload">Click Me</button>
-            </span>
             <!-- HERE -->
             <div class="table-padding">
               <div class="table-container">
-
                 <div class="search-box">
-                  <input id="searchInput" type="text" placeholder="Search here..." />
-                  <i id="searchButton" class="fa fa-search"></i>
+                  <div class="search-parent">
+                    <input id="searchInput" type="text" placeholder="Search here..." />
+                    <i id="searchButton" class="fa fa-search"></i>
+                  </div>
+                  <div class="ellipsis fa-solid fa-ellipsis-vertical hidden" id="three-dots-download">
+                    <button class="download-button" id="clickmetodownload">Download</button>
+                  </div>
                 </div>
                 <table class="users-table" id="usersTableData">
                   <thead>

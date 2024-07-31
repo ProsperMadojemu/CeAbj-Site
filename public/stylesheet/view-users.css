@@ -261,7 +261,7 @@ body {
 }
 
 .empty-div { /* invisible container pushing the elements under the dashboard-content title bar down */
-    height: 10%;
+    height: 15%;
 }
 
 .go-back { /* go back or home text styling */
@@ -524,11 +524,6 @@ input[type="number"] {
     background-color: #f9f9f9;
 }
 
-.users-table tr:hover {
-    background-color: var(--light-blue);
-    transition: background-color 0.3s ease-in-out;
-}
-
 .table-container::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -585,31 +580,67 @@ input[type="number"] {
     height: 50px;
     background: #f9f9f9;
     padding: 5px 20px;
-    position: relative;
     justify-content: flex-end;
 }
 
-.search-box > input {
+.search-parent  {
+    display: flex;
+    margin-right: 15px;
+    border-radius: 25px;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+
+}
+
+.search-box > .search-parent > input {
     width: 350px;
+    height: 100%;
     border-radius: 25px;
     border: none;
     outline: none;
     padding: 5px 0px 5px 10px;
-    transition: border .2s ease;
+    display: flex;
+    border: 1.5px solid var(--secondary-color);
 }
 
-.search-box > i {
-    position: absolute;
-    /* top: 0; */
-    bottom: 1rem;
-    right: 2rem;
+.search-box > .search-parent > i {
     border-radius: 50%;
+    position: absolute;
+    right: 10px;
     color: var(--secondary-color);
     cursor: pointer;
 }
 
 .search-box > input:focus {
     border: 1.5px solid var(--secondary-color);
+}
+
+.ellipsis {
+    font-size: 1.4rem;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 5px;
+    display: flex;
+    align-content: center;
+    text-align: center;
+    color: #4A90E2;
+    transition: all 0.5s ease-out;
+    position: relative;
+    cursor: pointer;
+}
+
+.ellipsis:hover {
+    text-shadow: 1px 2px rgba(0, 0, 0, 0.123);
+}
+
+.ellipsis:active {
+    transform: translateY(5px);
+}
+
+.download-button {
+    position: absolute;
+    bottom: 0px;
 }
 
 .pagination {
@@ -643,67 +674,6 @@ input[type="number"] {
     background: #3a86dd;
 }
 
-.notvisible {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.loader {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f9f9f9;
-    z-index: 11;
-    transition: opacity 0.75s, visibility 0.75s;
-}
-
-.loader::before {
-    content: "";
-    width: 90px;
-    height: 90px;
-    border: 5px solid var(--darker-blue);
-    border-top-color: #f9f9f9;
-    border-radius: 50%;
-    animation: spin 0.55s linear infinite;
-}
-
-.loader::after {
-    content: "";
-    position: absolute;
-    width: 65px;
-    height: 65px;
-    border: 5px solid var(--secondary-color);
-    border-bottom-color: #f9f9f9;
-    border-radius: 50%;
-    animation: opposite-spin 0.75s linear infinite;
-}
-
-.inner-loader {
-    content: "";
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    border: 5px solid var(--darker-blue);
-    border-radius: 50%;
-    background: var(--darker-blue);
-    -webkit-animation: heartbeat 1.5s ease-in-out infinite both;
-    animation: heartbeat 1.5s ease-in-out infinite both;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes opposite-spin {
-    0% { transform: rotate(360deg); }
-    100% { transform: rotate(0deg); }
-}
-
-
 .skeleton {
     background-color: #ffffff;
     display: flex;
@@ -728,24 +698,13 @@ input[type="number"] {
     background: linear-gradient(
         90deg,
         transparent 0%,
-        #f0f0f0 50%,
+        #e0e0e0 50%,
         transparent 100%
     );
     background-size: 200% 100%;
-    animation: skeleton-loading 0.4s linear infinite;
+    animation: skeleton-loading 1s linear infinite;
     border-radius: 4px;
 }
-
-@keyframes skeleton-loading {
-    0% {
-        background-position: -100% 0;
-    }
-    100% {
-        background-position: 100% 0;
-    }
-}
-
-
 
 .hidden {
     display: none;

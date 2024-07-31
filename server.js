@@ -41,28 +41,7 @@ const hashPassword = async (plainTextPassword) => {
 })();
 
 
-const checkAndCreateAdmin = async () => {
-    const adminEmail = process.env.ADMIN_EMAIL;
-    const adminPassword = process.env.ADMIN_PASSWORD;
-    const hashedPassword = await bcrypt.hash(adminPassword, 10);
-    
-    const admin = await Admin.findOne({ email: adminEmail });
-    
-    if (!admin) {
-        // If no admin exists, create one
-        const newAdmin = new Admin({
-            email: adminEmail,
-            password: hashedPassword,
-        });
-        
-        await newAdmin.save();
-        console.log('Admin user created.');
-    } else {
-        console.log('Admin user already exists.');
-    }
-};
 
-checkAndCreateAdmin();
 
 const adminCheck = (req, res, next) => {
     if (req.session.user && req.session.user.isAdmin) {
@@ -210,7 +189,28 @@ const usersCellReport = mongoose.model("cellreports", cellReportSchema);
 const newCell = mongoose.model("cellsAndLeaders", newCellSchema);
 const Admin = mongoose.model('Admin', adminSchema);
 
+const checkAndCreateAdmin = async () => {
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    const hashedPassword = await bcrypt.hash(adminPassword, 10);
+    
+    const admin = await Admin.findOne({ email: adminEmail });
 
+    if (!admin) {
+        // If no admin exists, create one
+        const newAdmin = new Admin({
+            email: adminEmail,
+            password: hashedPassword,
+        });
+        
+        await newAdmin.save();
+        console.log('Admin user created.');
+    } else {
+        console.log('Admin user already exists.');
+    }
+};
+
+checkAndCreateAdmin();
 
 // Update user route
 app.post('/updateuser', async (req, res) => {

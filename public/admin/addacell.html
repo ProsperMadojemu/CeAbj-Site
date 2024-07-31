@@ -33,6 +33,9 @@
       >
 </head>
 <body>
+  <div class="loader">
+    <div class="inner-loader"></div>
+  </div>
   <main class="sub-body">
     <div class="prompt-parent hidden" id="message-prompt">
       <div class="success-prompt" >
@@ -49,10 +52,7 @@
                 <span class="greeting-user">
                   <i class="fa-duotone fa-user fa-2xl"></i>
                 </span>
-                <div class="title-users-name">
-                  <span><p class="userGreeting first-text" id="usersTitle"></p></span>
-                  <span><p class="userGreeting" id="usersdetails"></p></span>
-                </div>
+                <span><p class="userGreeting" id="usersdetails">Admin</p></span>
               </div>
               <span class="edit-profile hidden">
                 <i class="fa-duotone fa-user-pen"></i>
@@ -103,6 +103,10 @@
                 <div class="form-group">
                   <input type="text" placeholder="" name="NameOfLeader" id="NameOfLeader" required></input>
                   <label for="NameOfLeader">Name Of Leader</label>
+                </div>
+                <div class="form-group">
+                  <input type="phone" placeholder="" name="PhoneNumber" id="PhoneNumber" required></input>
+                  <label for="PhoneNumber">Phone Number</label>
                 </div>
                 <div class="form-group">
                   <select type="text" placeholder="" name="LeaderPosition" id="LeaderPosition" required>

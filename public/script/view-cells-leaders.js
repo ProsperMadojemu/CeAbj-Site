@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', async() => {
+document.addEventListener('DOMContentLoaded', async () => {
+    
     // Fetch session data
     fetch('/check-session')
     .then(response => response.json())
@@ -39,31 +40,44 @@ document.addEventListener('DOMContentLoaded', async() => {
     });
 
 
-
-    document.getElementById('CellType').addEventListener('change', function() {
-        handleSelection(this.value);
-    });
-
-    function handleSelection (formCellType) { 
-        const formPcfGroup = document.querySelector('#pcf-name');
-        const formSeniorCellGroup = document.querySelector('#senior-cell-name');
-        const formCellGroup = document.querySelector('#cell-name');
-        
-        if (formCellType === 'SENIOR-CELL') {
-            formPcfGroup.classList.remove('hidden');
-            formSeniorCellGroup.classList.remove('hidden');
-            formCellGroup.classList.remove('hidden');
-        } else if (formCellType === 'CELL') {
-            formPcfGroup.classList.remove('hidden');
-            formSeniorCellGroup.classList.remove('hidden');
-            formCellGroup.classList.remove('hidden');
-        } 
-        else {
-            formPcfGroup.classList.remove('hidden');
-            formSeniorCellGroup.classList.add('hidden');
-            formCellGroup.classList.remove('hidden');
+    // Fetch all data and populate the table
+    try {
+        const response = await fetch('/getleadersdata');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+        const data = await response.json();
+        populateTable(data);
+        handleCellName(data);
+    } catch (error) {
+        console.error('Error fetching data:', error);
     }
+
+    function handleCellName(data) {
+        const cellsAndLeaders = data.cellsAndLeaders;
+        
+    }
+
+    function populateTable(data) {
+        const tbody = document.querySelector('#usersTableData tbody');
+        tbody.innerHTML = ''; // Clear existing rows
+        const cellsAndLeaders = data.cellsAndLeaders;
+        
+        cellsAndLeaders.forEach((cellsAndLeaders, index) => {
+            const row = document.createElement('tr');    
+    
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${cellsAndLeaders.NameOfLeader}</td>
+                <td>${cellsAndLeaders.PhoneNumber || 'Nill'}</td>
+                <td>${cellsAndLeaders.LeaderPosition || 'Nill'}</td>
+                <td>${cellsAndLeaders.NameOfCell || 'Nill'}</td>
+
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
     const messageOverlay = document.getElementById('message-prompt');
     const messageOverlayText = document.getElementById('message-text');
     const messageOverlaySign = document.getElementById('message-sign');
@@ -97,41 +111,19 @@ document.addEventListener('DOMContentLoaded', async() => {
         messageOverlaySign.classList.remove('fa-solid', 'fa-xmark', 'fa-2xl');
         messageOverlaySign.classList.add('fa-spinner-third', 'fa-2xl');
     }
-
-    document.getElementById('submitnewcellbutton').addEventListener('click', async function(event) {
-        event.preventDefault();
-        const formLeadersName = document.getElementById('NameOfLeader').value;
-        const formLeadersPosition = document.getElementById('LeaderPosition').value;
-        const formCellType = document.getElementById('CellType');
-        if (!formLeadersName || !formLeadersPosition || !formCellType) {
-            showErrorPrompt('Please fill out all necessary fields');
-        } else {
-            try {
-                const newCellForm = document.getElementById('addacellform');
-                const formData = new FormData(newCellForm);
-                const formJSON = Object.fromEntries(formData.entries());
-
-                const response = await fetch('http://localhost:5000/submitnewcell', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formJSON)
-                });
-
-                if (!response.ok) {
-                    const result = await response.json();
-                    throw new Error(result.error || 'Failed to Register Cell');
-                }
-
-                showPrompt("Cell Registration Successfull");
-                setTimeout(() => {
-                    window.location.reload();
-                }, 5000);
-                
-            } catch (error) {
-                showErrorPrompt('An error occurred: ' + error.message);
-            }
+    
+    document.getElementById('view-filters-button').addEventListener('click', function(event) {
+        event.stopPropagation();
+        const viewFiltersButton = document.getElementById('view-filters');
+        viewFiltersButton.classList.toggle('hidden');
+    });
+    
+    document.addEventListener('click', function(event) {
+        const viewFiltersButton = document.getElementById('view-filters');
+        if (!viewFiltersButton.contains(event.target)) {
+            viewFiltersButton.classList.add('hidden');
         }
     });
-})
+    
+    
+});

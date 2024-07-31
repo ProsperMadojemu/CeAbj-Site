@@ -34,6 +34,12 @@
 </head>
 <body>
   <main class="sub-body">
+    <div class="prompt-parent hidden" id="message-prompt">
+      <div class="success-prompt" >
+          <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
+          <h2 id="message-text"></h2>
+      </div>
+    </div>
     <main class="dashboard-sub-body">
       <nav class="vertical-navbar">
         <div class="vertical-navbar-box">
@@ -43,10 +49,7 @@
                 <span class="greeting-user">
                   <i class="fa-duotone fa-user fa-2xl"></i>
                 </span>
-                <div class="title-users-name">
-                  <span><p class="userGreeting first-text" id="usersTitle"></p></span>
-                  <span><p class="userGreeting" id="usersdetails"></p></span>
-                </div>
+                <span><p class="userGreeting" id="usersdetails">Admin</p></span>
               </div>
               <span class="edit-profile hidden">
                 <i class="fa-duotone fa-user-pen"></i>
@@ -85,24 +88,59 @@
             </a>
             <h1>Admin Dashboard</h1>
           </div>
+
           <div class="empty-div"></div>
           <div class="overview">
             <span class="overview-text">
-              <h2>User Details</h2>
-              <p>Verify and update your details </p>
+            <button id="clickmetodownload">Click Me</button>
             </span>
-            <div class="prompt-parent hidden" id="message-prompt">
-              <div class="success-prompt" >
-                  <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
-                  <h2 id="message-text"></h2>
+            <!-- HERE -->
+            <div class="table-padding">
+              <div class="table-container">
+
+                <div class="search-box">
+                  <input id="searchInput" type="text" placeholder="Search here..." />
+                  <i id="searchButton" class="fa fa-search"></i>
+                </div>
+                <table class="users-table" id="usersTableData">
+                  <thead>
+                    <tr>
+                      <th>SN</th>
+                      <th>Full Name</th>
+                      <th>Phone Number</th>
+                      <th>Church</th> 
+                      <th>Leaders Position</th>
+                      <th>Cell</th>
+                      <th>Department</th>
+                      <th>Date Registered</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
               </div>
             </div>
-            <!-- HERE -->
-            
         </div>
+        <footer class="dashboard-footer">
+          <div class="footer-container">
+            <a href="./view-cells-leaders.html">View Cells and Leaders</a>
+            <div id="paginationControls" class="pagination">
+              <button id="prevPage" disabled>&laquo; Previous</button>
+              <span id="pageInfo"></span>
+              <button id="nextPage">Next &raquo;</button>
+          </div>
+          </div>
+        </footer>
       </section>
     </main>
   </main>
   <script defer src="../script/view-users.js"></script>
+  <script src="../script/table2excel.js"></script>
+  <script>
+    document.getElementById('clickmetodownload').addEventListener('click', function () {
+      var table2excel = new Table2Excel();
+      table2excel.export(document.querySelectorAll("#usersTableData"));
+    })
+  </script>
 </body>
 </html>

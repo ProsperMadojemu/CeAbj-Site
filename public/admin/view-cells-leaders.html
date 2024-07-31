@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CeAbaranje || Dashboard/EditProfile</title>
     <link rel="icon" href="../src/favicon.ico">
-    <link rel="stylesheet" href="../stylesheet/schedule-service.css">
+    <link rel="stylesheet" href="../stylesheet/view-cells-leaders.css">
     <link rel="stylesheet" href="../annimations.css">
     <link rel="stylesheet" href="../media.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
@@ -33,10 +33,13 @@
       >
 </head>
 <body>
-  <div class="loader">
-    <div class="inner-loader"></div>
-  </div>
   <main class="sub-body">
+    <div class="prompt-parent hidden" id="message-prompt">
+      <div class="success-prompt" >
+          <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
+          <h2 id="message-text"></h2>
+      </div>
+    </div>
     <main class="dashboard-sub-body">
       <nav class="vertical-navbar">
         <div class="vertical-navbar-box">
@@ -48,6 +51,10 @@
                 </span>
                 <span><p class="userGreeting" id="usersdetails">Admin</p></span>
               </div>
+              <span class="edit-profile hidden">
+                <i class="fa-duotone fa-user-pen"></i>
+                <a href="./dashboard.html">Edit Profile</a>
+              </span>
             </div>
             <div class="navbar-list-items">
               <ul class="dashboard-links">
@@ -84,21 +91,45 @@
           <div class="empty-div"></div>
           <div class="overview">
             <span class="overview-text">
-              <h2>User Details</h2>
-              <p>Verify and update your details </p>
+              <h2>Christ Embassy Abaranje</h2>
+              <p>Leaders Database</p>
             </span>
-            <div class="prompt-parent hidden" id="message-prompt">
-              <div class="success-prompt" >
-                  <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
-                  <h2 id="message-text"></h2>
+            <!-- HERE -->
+            <div class="table-padding">
+              <div class="table-container">
+                <table class="users-table" id="usersTableData">
+                  <thead>
+                    <tr>
+                      <th>SN</th>
+                      <th>Full Name</th>
+                      <th>Phone Number</th>
+                      <th>Position</th>
+                      <th>CELL NAME</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
               </div>
             </div>
-            <!-- HERE -->
-            
         </div>
+        <footer class="dashboard-footer">
+            <div class="cell-view-filter hidden" id="view-filters">
+                <ul class="links-list">
+                    <li class="links"><a href="#"></a>ALL LEADERS</li>
+                    <li class="links"><a href="#"></a>PCF LEADERS</li>
+                    <li class="links"><a href="#"></a>CELL LEADERS</li>
+                    <li class="links"><a href="#"></a>SENIOR CELL LEADERS</li>
+                </ul>
+            </div>
+            <div class="footer-container">
+                <span id="view-filters-button">Filter<i class="fa-solid fa-filter"></i></span>
+            </div>
+            <!-- ADD PAGES TO FILTER THE LEADERS LIST -->
+          </footer>
       </section>
     </main>
   </main>
-  <script defer src="../script/schedule-service.js"></script>
+  <script defer src="../script/view-cells-leaders.js"></script>
 </body>
 </html>

@@ -1,69 +1,42 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    let name = '';
-    let lname = '';
-    let phone = '';
-    let country = '';
-    let church = '';
-    let cellname = '';
-    let department = '';
-    let position = '';
-    let email = '';
+// Fetch session data
+fetch('/check-session')
+.then(response => response.json())
+.then(sessionData => {
+    if (sessionData.email && sessionData.isAdmin) {
+        // Fetch admin data from getalldata route
+        fetch('/getalldata')
+            .then(response => response.json())
+            .then(data => {
+                // Check if the logged-in user is an admin
+                const admin = data.admin.find(a => a.email === sessionData.email);
+                if (!admin) {
+                    window.location.href = '../404.html';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                window.location.href = '../404.html';
+            });
+    } else {
+        window.location.href = '/pages/login.html';
+    }
 
-    // Fetch session data
-    fetch('/check-session')
-        .then(response => response.json())
-        .then(sessionData => {
-            if (sessionData.email) {
-                // Fetch user data from getalldata route
-                fetch('/getalldata')
-                    .then(response => response.json())
-                    .then(data => {
-                        const user = data.users.find(u => u.Email === sessionData.email);
-                        const userChurchDetails = data.usersChurch.find(uc => uc.FirstName === user.FirstName && uc.LastName === user.LastName);
-
-                        if (user.userType === 'admin') {
-                            name = user.FirstName;
-                            lname = user.LastName;
-                            phone = user.PhoneNumber;
-                            country = user.Country;
-                            church = user.Church;
-                            cellname = userChurchDetails.NameOfCell || 'Nill';
-                            department = userChurchDetails.Department || 'Nill';
-                            position = userChurchDetails.Position || 'Nill';
-                            email = user.Email;
-
-                            const welcomeGreeting = document.querySelector('#usersdetails');
-                            const userTitle = document.querySelector('#usersTitle');
-                            const logoutButton = document.getElementById('Logout-Button');
-                            welcomeGreeting.innerHTML = ` ${user.FirstName} ${user.LastName}`;
-                            userTitle.innerHTML= `${user.Title}, `
-                            logoutButton.addEventListener('click', () => {
-                                fetch('/logout', { method: 'POST' })
-                                    .then(() => {
-                                        window.location.reload();
-                                    })
-                                    .catch(error => {
-                                        console.error('Error during logout:', error);
-                                    });
-                            });
-                            
-                        } else if (user.userType !== 'admin' ) {
-                            window.location.href = './404.html';
-                        }
-                        else {
-                            window.location.href = '/pages/login.html';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching user data:', error);
-                    });
-            } else {
-                window.location.href = '/pages/login.html';
-            }
-        })
-        .catch(error => {
-            console.error('Error checking session:', error);
-        });
+    const logoutButton = document.getElementById('Logout-Button');
+    logoutButton.addEventListener('click', () => {
+        fetch('/logout', { method: 'POST' })
+            .then(() => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error during logout:', error);
+            });
+    });
+})
+.catch(error => {
+    console.error('Error checking session:', error);
+    window.location.href = '/pages/login.html';
+});
 
     // function handleDetailsShown() {
     //     document.getElementById('updatename').value = name;

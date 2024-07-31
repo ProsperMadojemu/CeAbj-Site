@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { google } = require('googleapis');
+const dbConnection = require('./dbConnection')
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -10,33 +10,74 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
+dbConnection();
 app.use(cors());
+
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
     cookie: {
         secure: process.env.NODE_ENV === 'production',
-        maxAge: 24 * 60 * 60 * 1000
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: 'strict',
+        httpOnly: true
     }
 }));
 
-const adminCheck = (req, res, next) => {
-    if (req.session.user && req.session.user.userType === 'admin') {
-        next();
+const hashPassword = async (plainTextPassword) => {
+    const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(plainTextPassword, salt);
+};
+
+(async () => {
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    const hashedPassword = await hashPassword(adminPassword);
+    // console.log('Hashed Admin Password:', hashedPassword);
+})();
+
+
+const checkAndCreateAdmin = async () => {
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    const hashedPassword = await bcrypt.hash(adminPassword, 10);
+    
+    const admin = await Admin.findOne({ email: adminEmail });
+    
+    if (!admin) {
+        // If no admin exists, create one
+        const newAdmin = new Admin({
+            email: adminEmail,
+            password: hashedPassword,
+        });
+        
+        await newAdmin.save();
+        console.log('Admin user created.');
     } else {
-        res.status(403).json({ error: 'Access denied. Admins Only' });
+        console.log('Admin user already exists.');
     }
 };
 
-// Database connection
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("Connected to database"))
-    .catch(err => console.log("Error connecting to database", err));
+checkAndCreateAdmin();
+
+const adminCheck = (req, res, next) => {
+    if (req.session.user && req.session.user.isAdmin) {
+        next();
+    } else {
+    res.status(403).json({ error: 'Access denied. Admins only' });
+  }
+};
+
+const unauthorizedAccess = (req, res, next) => {
+    if (!req.session.user || !req.session.user.isAdmin) {
+      return res.status(401).json({ error: 'Unauthorized access' });
+    }
+    next();
+};  
 
 // Page Routes
 app.get('/', (req, res) => {
@@ -49,7 +90,7 @@ app.get('/', (req, res) => {
 // Authentication for RTMP streaming
 app.post('/auth', (req, res) => {
     const streamkey = req.query.key || req.body.key;
-    if (streamkey === 'prosper') {
+    if (streamkey === process.env.STREAM_KEY ) {
         res.status(200).send('OK');
     } else {
         res.status(403).send('Forbidden');
@@ -117,6 +158,11 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+const adminSchema = new mongoose.Schema({
+    email: String,
+    password: String,
+});
+
 const userChurchSchema = new mongoose.Schema({
     Email: String,
     FirstName: String,
@@ -145,6 +191,7 @@ const cellReportSchema = new mongoose.Schema({
 
 const newCellSchema = new mongoose.Schema({
     NameOfLeader: String, 
+    PhoneNumber: String,
     LeaderPosition: String,
     CellType: String,
     NameOfPcf: String,
@@ -160,7 +207,49 @@ const newCellSchema = new mongoose.Schema({
 const Users = mongoose.model("users", userSchema);
 const UsersChurch = mongoose.model("usersChurchDetails", userChurchSchema);
 const usersCellReport = mongoose.model("cellreports", cellReportSchema);
-const newCell = mongoose.model("Cells and Leaders", newCellSchema)
+const newCell = mongoose.model("cellsAndLeaders", newCellSchema);
+const Admin = mongoose.model('Admin', adminSchema);
+
+
+
+// Update user route
+app.post('/updateuser', async (req, res) => {
+    try {
+        if (!req.session.user || !req.session.user.email) {
+            return res.status(401).json({ error: 'User not logged in' });
+        }
+
+        const email = req.session.user.email; //last email shoudl be spelt {email} not {Email}
+        const updateFields = req.body;
+
+
+        const updatedUser = await Users.findOneAndUpdate(
+            { Email: email },
+            { $set: updateFields },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+
+        const userChurchDetails = await UsersChurch.findOneAndUpdate(
+            { Email: email },
+            { $set: updateFields },
+            { new: true }
+        );
+
+        if (!userChurchDetails) {
+            return res.status(404).json({ error: 'User church details not found' });
+        }
+
+        res.status(200).json({ message: 'User updated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Report Submission route
 app.post('/submitcellreport', async (req, res) => {
     try {
@@ -200,6 +289,7 @@ app.post ('/submitnewcell', async (req, res) => {
     try {
         const {
             NameOfLeader,
+            PhoneNumber,
             LeaderPosition,
             CellType,
             NameOfPcf,
@@ -210,6 +300,7 @@ app.post ('/submitnewcell', async (req, res) => {
 
         const newCellsField = {
             NameOfLeader,
+            PhoneNumber,
             LeaderPosition,
             CellType,
             NameOfPcf,
@@ -221,7 +312,9 @@ app.post ('/submitnewcell', async (req, res) => {
         const existingCell = await newCell.findOne({
             $or: [
                 { NameOfLeader: NameOfLeader },
-                {NameOfCell: NameOfCell}
+                { NameOfCell: NameOfCell },
+                { PhoneNumber: PhoneNumber }
+
             ]
         });
 
@@ -300,13 +393,26 @@ app.post('/login', async (req, res) => {
     try {
         const { usersinput, userspassword } = req.body;
 
-        // Find user in database
-        const user = await Users.findOne({ Email: usersinput });
+        const admin = await Admin.findOne({ email: usersinput });
+        if (admin) {
+            const isPasswordValid = await bcrypt.compare(userspassword, admin.password);
+            if (isPasswordValid && admin.email === process.env.ADMIN_EMAIL) {
+                req.session.user = {
+                    email: admin.email,
+                    isAdmin: true,
+                    userType: 'admin'
+                };
+                return res.json({ redirectUrl: '../admin/overview.html' });
+            } else {
+                return res.status(401).json({ error: 'Invalid email or password' });
+            }
+        }
+            const user = await Users.findOne({ Email: usersinput });
         if (!user) {
-            return res.status(404).json({ error: "Information does not match" });
+            console.log(`Failed login attempt with email: ${usersinput}`);
+            return res.status(404).json({ error: 'Information does not match' });
         }
 
-        // Validate password using bcryptjs
         const isPasswordValid = await bcrypt.compare(userspassword, user.Password);
         if (isPasswordValid) {
             req.session.user = {
@@ -314,30 +420,19 @@ app.post('/login', async (req, res) => {
                 firstName: user.FirstName,
                 lastName: user.LastName,
                 email: user.Email,
-                userType: user.userType // Add userType to the session
+                userType: user.userType
             };
-            if (user.userType === 'admin') {
-                res.json({ redirectUrl: '../admin/overview.html' });
-            } else {
-                res.json({ redirectUrl: '../dashboard/edit-profile.html' });
-            }
+            return res.json({ redirectUrl: '../dashboard/edit-profile.html' });
         } else {
-            return res.status(401).json({ error: "Invalid password" });
+            return res.status(401).json({ error: 'Invalid password' });
         }
 
     } catch (error) {
-        return res.status(500).json({ error: "Login error" });
+        console.error(error); // Log the error for debugging
+        return res.status(500).json({ error: 'Login error' });
     }
 });
 
-// Checking session route
-app.get('/check-session', (req, res) => {
-    if (req.session.user) {
-        res.json(req.session.user);
-    } else {
-        res.status(401).json({ message: 'User not logged in' });
-    }
-});
 
 // Logout
 app.post('/logout', (req, res) => {
@@ -349,12 +444,71 @@ app.post('/logout', (req, res) => {
     });
 });
 
-// Get data from all collections
+app.get('/admin/', unauthorizedAccess, adminCheck, (req, res) => {
+    res.send('Welcome to the Admin Dashboard');
+});  
+
+// Checking session route
+app.get('/check-session', (req, res) => {
+    if (req.session.user) {
+        res.json(req.session.user);
+    } else {
+        res.status(401).json({ message: 'User not logged in' });
+    }
+});
+
+
+// Getting data from all collections
 app.get('/getalldata', async (req, res) => {
     try {
-        const usersData = await Users.find({});
-        const usersChurchData = await UsersChurch.find({});
-        res.json({ users: usersData, usersChurch: usersChurchData });
+        const usersData = await Users.find(
+            {},
+            {
+              Church: 1,
+              Country: 1,
+              Email: 1,
+              FirstName: 1,
+              LastName: 1,
+              LeadershipPosition: 1,
+              PhoneNumber: 1,
+              registrationDate: 1,
+              Title: 1,
+              userType: 1,
+              _id: 0
+            }
+          );
+        const usersChurchData = await UsersChurch.find(
+            {},
+            {
+              Church: 1,
+              Department: 1,
+              Email: 1,
+              FirstName: 1,
+              LastName: 1,
+              LeadershipPosition: 1,
+              NameOfCell: 1,
+              Zone: 1,
+              _id: 0
+            }
+        );
+
+        const adminData = await Admin.find(
+            {},
+            { email: 1, _id: 0 }
+        );
+        // const usersCellData = await newCell.find({});
+
+        res.json({ users: usersData, usersChurch: usersChurchData, admin: adminData});
+    } catch (error) {
+        res.status(500).json({ error: "Error fetching data" });
+    }
+});
+
+app.get('/getleadersdata', async (req, res) => {
+    try {
+        const usersCellData = await newCell.find({});
+
+        res.json({ cellsAndLeaders: usersCellData });
     } catch (error) {
         res.status(500).json({ error: "Error fetching data" });
     }
@@ -436,44 +590,77 @@ app.get('/cell-leaders', async (req, res) => {
     }
 });
 
-
-// Update user route
-app.post('/updateuser', async (req, res) => {
+app.get('/search', async (req, res) => {
     try {
-        if (!req.session.user || !req.session.user.email) {
-            return res.status(401).json({ error: 'User not logged in' });
-        }
+        const searchTerm = req.query.q || "";
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
 
-        const email = req.session.user.email; //last email shoudl be spelt {email} not {Email}
-        const updateFields = req.body;
+        const regex = new RegExp(searchTerm, 'i');
 
+        const searchCriteria = searchTerm ? {
+            $or: [
+                { FirstName: regex },
+                { LastName: regex },
+                { Email: regex },
+                { Church: regex },
+                { NameOfCell: regex },
+                { PhoneNumber: regex },
+                { LeadershipPosition: regex },
+                { Department: regex }
+            ]
+        } : {};
 
-        const updatedUser = await Users.findOneAndUpdate(
-            { Email: email },
-            { $set: updateFields },
-            { new: true }
-        );
+        // Fetch users from the database with pagination
+        const users = await Users.find(searchCriteria, {
+            _id: 0, 
+            Email: 1, 
+            FirstName: 1, 
+            LastName: 1, 
+            PhoneNumber: 1, 
+            Church: 1, 
+            LeadershipPosition: 1,
+            Department: 1, 
+            registrationDate: 1
+        })
+        .skip((page - 1) * limit)
+        .limit(limit);
 
-        if (!updatedUser) {
-            return res.status(404).json({ error: 'User not found' });
-        }
+        // Count total matching documents for pagination
+        const totalUsers = await Users.countDocuments(searchCriteria);
 
+        // Fetch usersChurch data and create a map
+        const usersChurchData = await UsersChurch.find({}, {
+            Email: 1,
+            NameOfCell: 1,
+            Department: 1
+        });
 
-        const userChurchDetails = await UsersChurch.findOneAndUpdate(
-            { Email: email },
-            { $set: updateFields },
-            { new: true }
-        );
+        const usersChurchMap = new Map(usersChurchData.map((uc) => [uc.Email, uc]));
 
-        if (!userChurchDetails) {
-            return res.status(404).json({ error: 'User church details not found' });
-        }
+        // Merge users with usersChurch data
+        const mergedUsers = users.map((user) => {
+            const userChurchInfo = usersChurchMap.get(user.Email) || {};
+            return {
+                ...user,
+                NameOfCell: userChurchInfo.NameOfCell || 'N/A',
+                Department: userChurchInfo.Department || 'N/A',
+            };
+        });
+        // console.log('Merged Users:', mergedUsers);
+        res.json({
+            users: mergedUsers,
+            totalUsers,
+            currentPage: page,
+            totalPages: Math.ceil(totalUsers / limit) // Calculate total pages
+        });
 
-        res.status(200).json({ message: 'User updated successfully' });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error("Error searching data:", error);
+        res.status(500).json({ error: "Error searching data" });
     }
 });
+
 
 app.use((req, res, next) => {
     if (req.session.user) {
@@ -481,13 +668,6 @@ app.use((req, res, next) => {
     }
     next();
 });
-
-
-// Admin User Route
-app.get('/admin', adminCheck, (req, res) => {
-    res.send('Welcome Admin');
-});
-
 
 // Server setup
 const PORT = process.env.PORT || 5000;

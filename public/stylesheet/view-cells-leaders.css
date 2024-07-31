@@ -56,7 +56,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 2px 0px 20px rgba(0, 0, 0, 0.164);
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 1;
 
@@ -307,12 +307,12 @@ body {
     justify-content: center;
     line-height: 30px;
     padding: 10px;
-    margin: 25px 0px 0px 50px;
+    margin: 25px 0px 20px 50px;
 }
 
 .overview-text h2 {
-    font-size: 2.5rem;
-    letter-spacing: .2rem;
+    font-size: 2.3rem;
+    letter-spacing: .1rem;
 }
 
 .overview-text p {
@@ -425,6 +425,191 @@ input[type="number"] {
     -webkit-animation: rotate-center 0.6s linear both infinite;
     animation: rotate-center 0.6s linear both infinite;
 }
+
+.table-padding {
+    padding: 0px 20px 0px 30px;
+}
+
+.table-container {
+    display: block;
+    align-items: center;
+    height: fit-content;
+    border: 1.5px solid var(--primary-color);
+    background-color: #ffffff;
+    border-radius: 2px;
+    overflow-x: auto;
+    max-width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.users-table {
+    border-collapse: collapse;
+    text-align: center;
+    table-layout: fixed;
+    width: 100%;
+    min-width: 800px;
+}
+
+.users-table th,
+.users-table td {
+    border-right: 1.5px solid var(--primary-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 12px;
+}
+
+
+.users-table th:nth-child(1),
+.users-table td:nth-child(1) {
+    width: 50px;
+    max-width: 80px;
+}
+
+.users-table th:nth-child(2),
+.users-table td:nth-child(2) {
+    width: 250px;
+    max-width: 500px;
+}
+
+.users-table th:nth-child(3),
+.users-table td:nth-child(3) {
+    width: 200px;
+    max-width: 300px;
+}
+
+.users-table th:nth-child(4),
+.users-table td:nth-child(4) {
+    width: 200px;
+    max-width: 400px;
+}
+
+.users-table th:nth-child(5),
+.users-table td:nth-child(5) {
+    width: 300px;
+    max-width: 400px;
+}
+
+.users-table th:last-child,
+.users-table td:last-child {
+    border-right: none;
+}
+
+.users-table td {
+    text-align: left;
+}
+
+.users-table tr:last-child {
+    border: none;
+}
+
+.users-table th,
+.users-table tr {
+    border-bottom: 1px solid var(--primary-color);
+    font-weight: bold; 
+}
+
+.users-table th,
+.users-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.users-table tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.users-table tr:hover {
+    background-color: var(--light-blue);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.table-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    padding: 5px;
+}
+
+.table-container::-webkit-scrollbar-button {
+    display: none;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+    width: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background-color: #f0f0f0; /* Background color for the scrollbar track */
+    border-radius: 10px; /* Rounded corners for the scrollbar track */
+}
+
+
+.dashboard-footer {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    display: block;
+    align-content: center;
+    background: #fff;
+}
+
+.footer-container {
+    display: flex;
+    color: var(--secondary-color);
+    padding: 0px 0px 10px 30px;
+    width: max-content;
+    transition: color .1s ease-in, transform 0.1s ease, box-shadow 0.1s ease;
+    cursor: pointer;
+}
+
+
+.footer-container span {
+    padding: 5px;
+    box-shadow: 1px 2px 2px;
+    border-radius: 2px;
+    align-content: center;
+}
+ 
+.footer-container i {
+    margin-left : 5px;
+}
+
+.footer-container:hover {
+    color: var(--primary-text-color);
+}
+
+.cell-view-filter{
+    text-align: left;
+    border-radius: 5px;
+    width: max-content;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.281);
+    position: absolute;
+    z-index: 2;
+    background: #ffffff;
+    left: 20px;
+    bottom: 50px;
+    animation: appear .1s linear;
+}
+
+.links {
+    list-style: none;
+    padding: 5px;
+    transition: background .2s ease-in;
+}
+
+.links:hover {
+    background: var(--secondary-color);
+}
+
+.form-container:active {
+    transform: translateY(2px);
+}
+
 
 .notvisible {
     opacity: 0;

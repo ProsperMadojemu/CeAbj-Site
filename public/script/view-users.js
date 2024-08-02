@@ -42,15 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tableBody = document.querySelector('#usersTableData tbody');
     showSkeletonRows(tableBody);
 
-    const threeDots = document.getElementById('three-dots-download');
-
-    function threeDotsToggleHandler(e) {
-        e.preventDefaule();
-
-        threeDots.classList.toggle('hidden')
-        
-    }
-
+    
     function showSkeletonRows(tableBody) {
         for (let i = 0; i < 4; i++) {
             const row = document.createElement('tr');

@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CeAbaranje || Dashboard/EditProfile</title>
     <link rel="icon" href="../src/favicon.ico">
-    <link rel="stylesheet" href="../stylesheet/view-users.css">
+    <link rel="stylesheet" href="../stylesheet/defaultdashboard.css">
+    <link rel="stylesheet" href="../stylesheet/view-users.css"> 
     <link rel="stylesheet" href="../annimations.css">
     <link rel="stylesheet" href="../media.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
@@ -99,8 +100,10 @@
                     <input id="searchInput" type="text" placeholder="Search here..." />
                     <i id="searchButton" class="fa fa-search"></i>
                   </div>
-                  <div class="ellipsis fa-solid fa-ellipsis-vertical hidden" id="three-dots-download">
-                    <button class="download-button" id="clickmetodownload">Download</button>
+                  <div class="ellipsis fa-solid fa-ellipsis-vertical" id="three-dots-download" onclick="threeDotsToggleHandler();">
+                    <div class="drop-down hidden" id="togglehiddendropdown">
+                      <button class="download-button" id="clickmetodownload">Download</button>
+                    </div>
                   </div>
                 </div>
                 <table class="users-table" id="usersTableData">
@@ -142,6 +145,10 @@
       var table2excel = new Table2Excel();
       table2excel.export(document.querySelectorAll("#usersTableData"));
     })
+    function threeDotsToggleHandler() {
+      const threeDots = document.getElementById('togglehiddendropdown');
+      threeDots.classList.toggle('hidden');
+    };
   </script>
 </body>
 </html>

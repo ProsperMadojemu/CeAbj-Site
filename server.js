@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const dbConnection = require('./dbConnection')
+const dbConnection = require('./dbConnection');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -190,27 +190,38 @@ const newCell = mongoose.model("cellsAndLeaders", newCellSchema);
 const Admin = mongoose.model('Admin', adminSchema);
 
 const checkAndCreateAdmin = async () => {
-    const adminEmail = process.env.ADMIN_EMAIL;
-    const adminPassword = process.env.ADMIN_PASSWORD;
-    const hashedPassword = await bcrypt.hash(adminPassword, 10);
-    
-    const admin = await Admin.findOne({ email: adminEmail });
+    try {
+        const adminEmail = process.env.ADMIN_EMAIL;
+        const adminPassword = process.env.ADMIN_PASSWORD;
 
-    if (!admin) {
-        // If no admin exists, create one
-        const newAdmin = new Admin({
-            email: adminEmail,
-            password: hashedPassword,
-        });
+        if (!adminEmail || !adminPassword) {
+            throw new Error("ADMIN_EMAIL or ADMIN_PASSWORD is not set in environment variables.");
+        }
+
+        const hashedPassword = await bcrypt.hash(adminPassword, 10);
         
-        await newAdmin.save();
-        console.log('Admin user created.');
-    } else {
-        console.log('Admin user already exists.');
+        const admin = await Admin.findOne({ email: adminEmail });
+
+        if (!admin) {
+            // If no admin exists, create one
+            const newAdmin = new Admin({
+                email: adminEmail,
+                password: hashedPassword,
+            });
+            
+            await newAdmin.save();
+            console.log('Admin user created.');
+        } else {
+            console.log('Admin user already exists.');
+        }
+    } catch (error) {
+        console.error('An error occurred while checking or creating the admin:', error);
     }
 };
 
+// Invoke the function
 checkAndCreateAdmin();
+
 
 // Update user route
 app.post('/updateuser', async (req, res) => {
@@ -496,7 +507,6 @@ app.get('/getalldata', async (req, res) => {
             {},
             { email: 1, _id: 0 }
         );
-        // const usersCellData = await newCell.find({});
 
         res.json({ users: usersData, usersChurch: usersChurchData, admin: adminData});
     } catch (error) {
@@ -589,6 +599,97 @@ app.get('/cell-leaders', async (req, res) => {
         res.status(500).json({ error: "Error fetching data" });
     }
 });
+
+app.put ('/leadersSearch/:id', async (req, res) => {
+    try {
+
+        const leaderId = req.params.id;
+        const updateFields = req.body;
+
+        const updatedUser = await newCell.findByIdAndUpdate(
+            leaderId,
+            { $set: updateFields },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'User updated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: "Error fetching data" });
+    }
+});
+
+app.get('/leadersSearch', async (req, res) => {
+    try {
+        const searchTerm = req.query.q || "";
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+
+        const regex = new RegExp(searchTerm, 'i');
+
+        const searchCriteria = searchTerm ? {
+            $or: [
+                { NameOfLeader: regex },
+                { PhoneNumber: regex },
+                { LeaderPosition: regex },
+                { CellType: regex },
+                { NameOfCell: regex },
+                { NameOfPcf: regex },
+                { NameOfSeniorCell: regex },
+            ]
+        } : {};
+
+        // Fetch leaders from the database with pagination
+        const cellsAndLeaders = await newCell.find(searchCriteria, {
+            NameOfLeader: 1,
+            PhoneNumber: 1,
+            LeaderPosition: 1,
+            CellType: 1,
+            NameOfCell: 1,
+            NameOfPcf: 1,
+            NameOfSeniorCell: 1,
+            _id: 1
+        })
+        .skip((page - 1) * limit)
+        .limit(limit);
+        
+        // Count total matching documents for pagination
+        const totalUsers = await newCell.countDocuments(searchCriteria);
+        
+        res.json({
+            cells: cellsAndLeaders,
+            totalUsers,
+            currentPage: page,
+            totalPages: Math.ceil(totalUsers / limit) // Calculate total pages
+        });
+
+    } catch (error) {
+        console.error("Error searching data:", error);
+        res.status(500).json({ error: "Error searching data" });
+    }
+});
+
+app.delete('/leadersSearch/:id', async (req, res) => {
+    try {
+        const leaderId = req.params.id;
+
+        const result = await newCell.findByIdAndDelete(leaderId);
+
+        if (!result) {
+            return res.status(404).json({ error: "Leader not found" });
+        }
+
+        res.json({ message: "Leader deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting leader:", error);
+        res.status(500).json({ error: "Error deleting leader" });
+    }
+});
+
+
 
 app.get('/search', async (req, res) => {
     try {

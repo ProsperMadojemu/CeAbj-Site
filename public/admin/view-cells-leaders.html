@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CeAbaranje || Dashboard/EditProfile</title>
     <link rel="icon" href="../src/favicon.ico">
+    <link rel="stylesheet" href="../stylesheet/defaultdashboard.css">
     <link rel="stylesheet" href="../stylesheet/view-cells-leaders.css">
     <link rel="stylesheet" href="../annimations.css">
     <link rel="stylesheet" href="../media.css">
@@ -38,6 +39,62 @@
       <div class="success-prompt" >
           <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
           <h2 id="message-text"></h2>
+      </div>
+    </div>
+    <div class="prompt-popup hidden" id="updatePromptParent">
+      <div class="Update-Popup">
+        <div class="Update-Popup-text-container">
+          <p id="Update-Popup-name">Update Leaders Details</p>
+          <div class="cancel-popup" id="close-update-popup" onclick="closePopup();"></div>
+        </div>
+        <form id="updateLeaderForm" class="form-container">
+          <div class="form-holder">
+            <div class="form-group">
+              <input type="text" placeholder="" name="NameOfLeader" id="NameOfLeader" disabled></input>
+              <label for="NameOfLeader">Name Of Leader</label>
+            </div>
+            <div class="form-group">
+              <input type="phone" placeholder="" name="PhoneNumber" id="PhoneNumber" required></input>
+              <label for="PhoneNumber">Phone Number</label>
+            </div>
+            <div class="form-group">
+              <select type="text" placeholder="" name="LeaderPosition" id="LeaderPosition" required>
+                <option value="N/A" hidden>Select an option</option>
+                <option value="CO-ORDINATOR">CO-ORDINATOR</option>
+                <option value="PCF">PCF LEADER</option>
+                <option value="SENIOR-CELL">SENIOR-CELL LEADER</option>
+                <option value="CELL">CELL LEADER</option>
+              </select>
+              <label for="LeaderPosition">Leader Position</label>
+            </div>
+            <div class="form-group">
+              <select type="text" placeholder="" name="CellType" id="CellType" required>
+                <option value="N/A" hidden>Select an option</option>
+                <option value="PCF">PCF</option>
+                <option value="SENIOR-CELL">SENIOR-CELL</option>
+                <option value="CELL">CELL</option>
+                <option value="Teens-Church">Teens Church</option>
+                <option value="Youth-Church">Youth Church</option>
+              </select>
+              <label for="CellType">Cell Type</label>
+            </div>
+            <div class="form-group" id="pcf-name">
+              <input type="text" placeholder="" name="NameOfPcf" id="NameOfPcf" required></input>
+              <label for="NameOfPcf">Name of PCF</label>
+            </div>
+            <div class="form-group " id="senior-cell-name">
+              <input type="text" placeholder="" name="NameOfSeniorCell" id="NameOfSeniorCell" required></input>
+              <label for="NameOfSeniorCell">Name Of Senior Cell</label>
+            </div>
+            <div class="form-group" id="cell-name">
+              <input type="text" placeholder="" name="NameOfCell" id="NameOfCell" required></input>
+              <label for="NameOfCell">Name Of Cell</label>
+            </div>
+          </div>
+        </form>
+        <div class="parent-button">
+          <button type="submit" id="updateLeaderButton" class="submitreportbutton">Submit</button>
+        </div>
       </div>
     </div>
     <main class="dashboard-sub-body">
@@ -88,23 +145,32 @@
             </a>
             <h1>Admin Dashboard</h1>
           </div>
+
           <div class="empty-div"></div>
           <div class="overview">
-            <span class="overview-text">
-              <h2>Christ Embassy Abaranje</h2>
-              <p>Leaders Database</p>
-            </span>
             <!-- HERE -->
             <div class="table-padding">
               <div class="table-container">
+                <div class="search-box">
+                  <div class="search-parent">
+                    <input id="searchInput" type="text" placeholder="Search here..." />
+                    <i id="searchButton" class="fa fa-search"></i>
+                  </div>
+                  <div class="ellipsis fa-solid fa-ellipsis-vertical" id="three-dots-download" onclick="threeDotsToggleHandler();">
+                    <div class="drop-down hidden" id="togglehiddendropdown">
+                      <button class="download-button" id="clickmetodownload">Download</button>
+                    </div>
+                  </div>
+                </div>
                 <table class="users-table" id="usersTableData">
                   <thead>
                     <tr>
                       <th>SN</th>
-                      <th>Full Name</th>
+                      <th>Name Of Leader</th>
                       <th>Phone Number</th>
                       <th>Position</th>
-                      <th>CELL NAME</th>
+                      <th>Cell</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -114,22 +180,38 @@
             </div>
         </div>
         <footer class="dashboard-footer">
-            <div class="cell-view-filter hidden" id="view-filters">
-                <ul class="links-list">
-                    <li class="links"><a href="#"></a>ALL LEADERS</li>
-                    <li class="links"><a href="#"></a>PCF LEADERS</li>
-                    <li class="links"><a href="#"></a>CELL LEADERS</li>
-                    <li class="links"><a href="#"></a>SENIOR CELL LEADERS</li>
-                </ul>
-            </div>
-            <div class="footer-container">
-                <span id="view-filters-button">Filter<i class="fa-solid fa-filter"></i></span>
-            </div>
-            <!-- ADD PAGES TO FILTER THE LEADERS LIST -->
-          </footer>
+          <div class="footer-container">
+            <a href="./view-cells-leaders.html">View Cells and Leaders</a>
+            <div id="paginationControls" class="pagination">
+              <button id="prevPage" disabled>&laquo; Previous</button>
+              <span id="pageInfo"></span>
+              <button id="nextPage">Next &raquo;</button>
+          </div>
+          </div>
+        </footer>
       </section>
     </main>
   </main>
   <script defer src="../script/view-cells-leaders.js"></script>
+  <script src="../script/table2excel.js"></script>
+  <script>
+    document.getElementById('clickmetodownload').addEventListener('click', function () {
+      const table = document.querySelector("#usersTableData");
+      table.classList.add('hide-action-column');
+      var table2excel = new Table2Excel();
+      table2excel.export(table);
+      table.classList.remove('hide-action-column');
+    });
+
+    function threeDotsToggleHandler() {
+      const threeDots = document.getElementById('togglehiddendropdown');
+      threeDots.classList.toggle('hidden');
+    };
+
+    function closePopup() {
+      const popUp = document.getElementById('updatePromptParent');
+      popUp.classList.add('hidden');
+    }
+  </script>
 </body>
 </html>

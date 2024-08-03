@@ -90,3 +90,315 @@ input[type="number"] {
     display: none;
 }
 
+.table-padding {
+    padding: 0px 20px 0px 30px;
+}
+
+.table-container {
+    display: block;
+    align-items: center;
+    min-height: 200px;
+    height: fit-content;
+    max-height: 380px;
+    /* border: 1.5px solid var(--primary-color); */
+    background-color: #ffffff;
+    border-radius: 5px;
+    overflow-x: auto;
+    overflow-y: scroll;
+    max-width: 100%;
+    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.13);
+}
+
+.users-table {
+    border-collapse: collapse;
+    text-align: center;
+    table-layout: fixed;
+    width: 100%;
+    min-width: 800px;
+}
+
+.Pcf-Rows {
+    font-weight: bold;
+    text-align: center;
+}
+
+.users-table th,
+.users-table td {
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+    white-space: nowrap; 
+    text-transform: capitalize;
+    padding: 12px;
+}
+
+.users-table th:nth-child(1),
+.users-table td:nth-child(1) {
+    width: 48px;
+    max-width: 80px;
+}
+
+.users-table th:nth-child(2),
+.users-table td:nth-child(2) {
+    width: 180px;
+    max-width: 200px;
+}
+
+.users-table th:nth-child(3),
+.users-table td:nth-child(3) {
+    width: 135px;
+    max-width: 170px;
+}
+
+.users-table th:nth-child(5),
+.users-table td:nth-child(5) {
+    width: 120px;
+    max-width: 150px;
+}
+
+.users-table th:nth-child(7),
+.users-table td:nth-child(7) {
+    width: 120px;
+    max-width: 150px;
+}
+
+.users-table th:last-child,
+.users-table td:last-child {
+    border-right: none;
+    width: 120px;
+    max-width: 150px;
+}
+
+.users-table td {
+    /* text-align: left; */
+    /* border: 1px solid; */
+}
+
+.users-table tr:last-child {
+    border: none;
+}
+
+.users-table th {
+    font-weight: bold;
+    position: sticky; 
+    top: 0;
+    border-bottom: 1px solid var(--secondary-color);
+    text-wrap: wrap;
+    z-index: 10;
+}
+
+.users-table th,
+.users-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    padding: 5px;
+}
+
+/* .table-container::-webkit-scrollbar-button {
+} */
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+    margin: 5px;
+    width: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background-color: #f0f0f0; /* Background color for the scrollbar track */
+    border-radius: 10px; /* Rounded corners for the scrollbar track */
+}
+
+.dashboard-footer {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    display: block;
+    align-content: center;
+    background: #fff;
+}
+
+.footer-container {
+    display: flex;
+    color: var(--secondary-color);
+    padding: 0px 0px 10px 30px;
+    transition: color .2s ease-out;
+}
+
+.footer-container a {
+    text-decoration: underline;
+    margin-right: 90px;
+}
+
+.footer-container a:hover {
+    color: var(--primary-text-color);
+}
+
+.search-box {
+    display: flex;
+    height: 50px;
+    background: #f9f9f9;
+    padding: 5px 20px;
+    justify-content: flex-end;
+}
+
+.search-parent  {
+    display: flex;
+    margin-right: 15px;
+    border-radius: 25px;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+
+}
+
+.search-box > .search-parent > input {
+    width: 350px;
+    height: 100%;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    padding: 5px 0px 5px 10px;
+    display: flex;
+    border: 1.5px solid var(--secondary-color);
+}
+
+.search-box > .search-parent > i {
+    border-radius: 50%;
+    position: absolute;
+    right: 10px;
+    color: var(--secondary-color);
+    cursor: pointer;
+}
+
+.search-box > input:focus {
+    border: 1.5px solid var(--secondary-color);
+}
+
+.ellipsis {
+    font-size: 1.4rem;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 5px;
+    display: flex;
+    align-content: center;
+    text-align: center;
+    color: #4A90E2;
+    transition: all 0.5s ease-out;
+    z-index: 14;
+    position: relative;
+    cursor: pointer;
+}
+
+.ellipsis:hover {
+    text-shadow: 1px 2px rgba(0, 0, 0, 0.123);
+}
+
+.ellipsis:active {
+    transform: translateY(5px);
+}
+
+.drop-down {
+    position: absolute;
+    top: 25px;
+    display: flex;
+    flex-direction: column;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 15;
+    min-width: 150px;
+}
+
+.download-button {
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.download-button:hover {
+    background: #d1d1d1;
+}
+
+.pagination {
+    width: 400px;
+    display: flex;
+    justify-content: space-evenly;
+    outline: none;
+    text-decoration: none;
+}
+
+.pagination button {
+    border: none;
+    border-radius: 5px;
+    color: #f9f9f9;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    box-shadow: 5px 3px 10px rgba(0, 0, 0, 0.12);
+    background-color: var(--secondary-color);
+    transition: all .2s ease-out;
+}
+
+.pagination button:hover {
+    background: #73a6e0;
+}
+
+.pagination button:active {
+    transform: translateY(5px);
+    background: #3a86dd;
+}
+
+.skeleton {
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    width: 1062px;
+    justify-content: center;
+    position: relative;
+    padding: 0px 5px;
+    height: 50px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.skeleton::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 20px;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        #e0e0e0 50%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1s linear infinite;
+    border-radius: 4px;
+}
+
+.hidden {
+    display: none;
+}

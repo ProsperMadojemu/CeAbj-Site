@@ -13,65 +13,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch session data
     fetch('/check-session')
-        .then(response => response.json())
-        .then(sessionData => {
-            if (sessionData.email) {
-                // Fetch user data from getalldata route
-                fetch('/getalldata')
-                    .then(response => response.json())  
-                    .then(data => {
-                        const user = data.users.find(u => u.Email === sessionData.email);
+    .then(response => response.json())
+    .then(sessionData => {
+        if (sessionData.email) {
+            // Fetch user data from getalldata route
+            fetch('/getalldata')
+                .then(response => response.json())  
+                .then(data => {
+                    const user = data.users.find(u => u.Email === sessionData.email);
 
-                        if (user.userType === 'admin') {
-                            window.location.href = '../admin/overview.html'
-                        }
+                    if (user.userType === 'admin') {
+                        window.location.href = '../admin/overview.html'
+                    }
 
-                        else if (user) {
-                            const userChurchDetails = data.usersChurch.find(uc => uc.FirstName === user.FirstName && uc.LastName === user.LastName);
-                            title = user.Title;
-                            name = user.FirstName;
-                            lname = user.LastName;
-                            phone = user.PhoneNumber;
-                            country = user.Country;
-                            church = user.Church;
-                            zone = userChurchDetails.Zone;
-                            cellname = userChurchDetails.NameOfCell || 'Nill';
-                            department = userChurchDetails.Department || 'Nill';
-                            position = userChurchDetails.LeadershipPosition || 'Nill';
-                            email = user.Email;
+                    else if (user) {
+                        const userChurchDetails = data.usersChurch.find(uc => uc.FirstName === user.FirstName && uc.LastName === user.LastName);
+                        title = user.Title;
+                        name = user.FirstName;
+                        lname = user.LastName;
+                        phone = user.PhoneNumber;
+                        country = user.Country;
+                        church = user.Church;
+                        zone = userChurchDetails.Zone;
+                        cellname = userChurchDetails.NameOfCell || 'Nill';
+                        department = userChurchDetails.Department || 'Nill';
+                        position = userChurchDetails.LeadershipPosition || 'Nill';
+                        email = user.Email;
 
-                            const welcomeGreeting = document.querySelector('#usersdetails');
-                            const userTitle = document.querySelector('#usersTitle');
-                            const logoutButton = document.getElementById('Logout-Button');
-                            welcomeGreeting.innerHTML = ` ${user.FirstName} ${user.LastName}`;
-                            userTitle.innerHTML= `${user.Title}, `
-                            logoutButton.addEventListener('click', () => {
-                                fetch('/logout', { method: 'POST' })
-                                    .then(() => {
-                                        window.location.reload();
-                                    })
-                                    .catch(error => {
-                                        console.error('Error during logout:', error);
-                                    });
-                            });
+                        const welcomeGreeting = document.querySelector('#usersdetails');
+                        const userTitle = document.querySelector('#usersTitle');
+                        const logoutButton = document.getElementById('Logout-Button');
+                        welcomeGreeting.innerHTML = ` ${user.FirstName} ${user.LastName}`;
+                        userTitle.innerHTML= `${user.Title}, `
+                        logoutButton.addEventListener('click', () => {
+                            fetch('/logout', { method: 'POST' })
+                                .then(() => {
+                                    window.location.reload();
+                                })
+                                .catch(error => {
+                                    console.error('Error during logout:', error);
+                                });
+                        });
 
-                            handleDetailsShown();
-                        }
-                        else {
-                            window.location.href = '/pages/login.html';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching user data:', error);
-                    });
-            } else {
-                window.location.href = '/pages/login.html';
-            }
-        })
-        .catch(error => {
-            console.error('Error checking session:', error);
-        });
-
+                        handleDetailsShown();
+                    }
+                    else {
+                        window.location.href = '/pages/login.html';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                });
+        } else {
+            window.location.href = '/pages/login.html';
+        }
+    })
+    .catch(error => {
+        console.error('Error checking session:', error);
+    });
+    
     function handleDetailsShown() {
         document.getElementById('Title').value = title;
         document.getElementById('FirstName').value = name;
@@ -80,14 +80,25 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('Email').value = email;
         document.getElementById('Country').value = country;
         document.querySelector('#Church option[value="churchoption"]').textContent = church;
-        document.querySelector('#LeadershipPosition option[value="noselect"]').textContent = position;
+        document.getElementById('LeadershipPosition').innerHTML = `                    
+            <option value="${position}" hidden>${position}</option>
+            <option value="" hidden>Choose an option</option>
+            <option value="PCF-leader">PCF Leader</option>
+            <option value="Senior-Cell-leader">Senior Cell Leader</option>
+            <option value="Cell-leader">Cell Leader</ option>
+            <option value="Departmental-Head">Departmental Head</option>
+            <option value="Haven-Govenor">Haven Governor</option>
+            <option value="Member">Member</option>
+        `;
         document.querySelector('#zone option[value="zoneoption"]').textContent = zone;
-        document.querySelector('#Department option[value=""]').textContent = department;
-        // if (NameOfCell) {
-        //     const cellGroup = document.querySelector('#cellnamegroup'); 
-        //     console.log ("{'VALUE FOUND'}");
-        //     cellGroup.style.display = 'block';
-        // }
+        document.getElementById('Department').innerHTML = `
+            <option value="${department}" hidden>${department}</option>
+            <option value="TECHNICAL">TECHNICAL</option>
+            <option value="CHOIR">CHOIR</option>
+            <option value="USHER">USHER</option>
+            <option value="FIRST TIMERS MIN">FIRST TIMERS MIN</option>
+        `;
+
     }
 
     function resetFormFields(...fields) {
@@ -150,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 const select = document.getElementById('NameOfCell');
-
+// FIX AND REMOVE CELLNAME AS THE DEFAULT DISPLAY
                 // Clear previous options
                 select.innerHTML = `<option value=${cellname} hidden>${cellname}</option>`;
 
@@ -191,11 +202,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('/cell-leaders');
                 const data = await response.json();
 
-                const select = document.getElementById('cellname');
+                const select = document.getElementById('NameOfCell');
 
                 // Clear previous options
                 select.innerHTML = `<option value= ${cellname} hidden>${cellname}</option>`;
-
                 data.cells.forEach(cell => {
                     const option = document.createElement('option');
                     option.value = cell.NameOfCell

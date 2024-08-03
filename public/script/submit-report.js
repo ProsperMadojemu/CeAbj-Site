@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                             document.getElementById('FirstName').value = `${user.FirstName}`;
                             document.getElementById('LastName').value = `${user.LastName}`;
-                            document.getElementById('CellName').value = `${userChurchDetails.cellname || 'NULL'}`;
+                            document.getElementById('CellName').value = `${cellname}`;
                             const welcomeGreeting = document.querySelector('#usersdetails');
                             const userTitle = document.querySelector('#usersTitle');
                             const logoutButton = document.getElementById('Logout-Button');
@@ -67,56 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Error checking session:', error);
         });
 
-    // function handleDetailsShown() {
-    //     document.getElementById('updatename').value = name;
-    //     document.getElementById('updatelname').value = lname;
-    //     document.getElementById('updatephone').value = phone;
-    //     document.getElementById('updateemail').value = email;
-    //     document.getElementById('updatecountry').value = country;
-    //     document.querySelector('#churches option[value="churchoption"]').textContent = church;
-    //     document.querySelector('#position option[value="noselect"]').textContent = position;
-    //     document.querySelector('#departments option[value="depart"]').textContent = department;
-    // }
 
-    // try {
-    //     const response = await fetch('/fetch-data');
-    //     if (!response.ok) {
-    //         throw new Error('Network response was not ok');
-    //     }
-    //     const data = await response.json();
-    //     populateTable(data);
-    // } catch (error) {
-    //     console.error('Error fetching data:', error);
-    // }
-
-    
-    // function populateTable(data) {
-    //     const tbody = document.querySelector('#dataTable tbody');
-    //     tbody.innerHTML = ''; // Clear existing rows
-    
-    //     const users = data.users;
-    //     const usersChurch = data.usersChurch;
-    
-    //     users.forEach(user => {
-    //         const userChurch = usersChurch.find(uc => uc.Email === user.Email) || {};
-    //         const row = document.createElement('tr');
-    
-    //         row.innerHTML = `
-    //             <td>${user.Email}</td>
-    //             <td>${user.FirstName}</td>
-    //             <td>${user.LastName}</td>
-    //             <td>${user.PhoneNumber || ''}</td>
-    //             <td>${user.Country || ''}</td>
-    //             <td>${user.Church || userChurch.Church || ''}</td>
-    //             <td>${user.LeadershipPosition || userChurch.LeadershipPosition || ''}</td>
-    //             <td>${userChurch.NameOfCell || ''}</td>
-    //             <td>${userChurch.Department || ''}</td>
-    //             <td>${userChurch.Zone || ''}</td>
-    //         `;
-    
-    //         tbody.appendChild(row);
-    //     });
-    // }
     const messageOverlay = document.getElementById('message-prompt');
     const messageOverlayText = document.getElementById('message-text');
     const messageOverlaySign = document.getElementById('message-sign');

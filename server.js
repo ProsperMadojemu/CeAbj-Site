@@ -161,6 +161,7 @@ const cellReportSchema = new mongoose.Schema({
     SundayFirstTimers: String,
     CellMeetingAttendance: String,
     CellFirstTimers: String,
+    PhoneNumber: String,
     offering: String,
     SubmissionDate: {
         type: Date,
@@ -276,6 +277,8 @@ app.post('/submitcellreport', async (req, res) => {
             SubmissionDate
         } = req.body;
 
+        const PhoneNumber = req.session.user.phone;
+
         const reportField = {
             FirstName,
             LastName,
@@ -284,6 +287,7 @@ app.post('/submitcellreport', async (req, res) => {
             SundayFirstTimers,
             CellMeetingAttendance,
             CellFirstTimers,
+            PhoneNumber,
             offering,
             SubmissionDate
         };
@@ -308,6 +312,7 @@ app.post ('/submitnewcell', async (req, res) => {
             NameOfCell,
             SubmissionDate
         } = req.body;
+
 
         const newCellsField = {
             NameOfLeader,
@@ -418,7 +423,14 @@ app.post('/login', async (req, res) => {
                 return res.status(401).json({ error: 'Invalid email or password' });
             }
         }
-            const user = await Users.findOne({ Email: usersinput });
+
+        const user = await Users.findOne({
+            $or: [
+              { Email: usersinput },
+              { PhoneNumber: usersinput }
+            ]
+        });
+        
         if (!user) {
             console.log(`Failed login attempt with email: ${usersinput}`);
             return res.status(404).json({ error: 'Information does not match' });
@@ -431,6 +443,7 @@ app.post('/login', async (req, res) => {
                 firstName: user.FirstName,
                 lastName: user.LastName,
                 email: user.Email,
+                phone: user.PhoneNumber,
                 userType: user.userType
             };
             return res.json({ redirectUrl: '../dashboard/edit-profile.html' });
@@ -605,7 +618,6 @@ app.put ('/leadersSearch/:id', async (req, res) => {
 
         const leaderId = req.params.id;
         const updateFields = req.body;
-
         const updatedUser = await newCell.findByIdAndUpdate(
             leaderId,
             { $set: updateFields },
@@ -671,6 +683,97 @@ app.get('/leadersSearch', async (req, res) => {
         res.status(500).json({ error: "Error searching data" });
     }
 });
+
+app.get('/cellReportSearch', async (req, res) => {
+    try {
+        const searchTerm = req.query.q || "";
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const dateRange = req.query.dateRange || ""; // e.g., 'lastSunday', 'pastMonth'
+
+        // Construct regular expression for case-insensitive search
+        const regex = new RegExp(searchTerm, 'i');
+
+        // Construct search criteria
+        const searchCriteria = {
+            $or: [
+                { FirstName: regex },
+                { LastName: regex },
+                { CellName: regex },
+                { PhoneNumber: regex },
+                { ServiceAttendance: regex },
+                { SundayFirstTimers: regex },
+                { CellMeetingAttendance: regex },
+                { CellFirstTimers: regex },
+                { offering: regex }
+            ],
+            ...(dateRange && { SubmissionDate: getDateRange(dateRange) }) // Filter by date range if provided
+        };
+
+        // Fetch reports from the database with pagination
+        const cellReports = await usersCellReport.find(searchCriteria, {
+            FirstName: 1,
+            LastName: 1,
+            CellName: 1,
+            ServiceAttendance: 1,
+            SundayFirstTimers: 1,
+            CellMeetingAttendance: 1,
+            CellFirstTimers: 1,
+            PhoneNumber: 1,
+            offering: 1,
+            SubmissionDate: 1,
+            _id: 1
+        })
+        .sort({ SubmissionDate: -1 }) // Sort by most recent date
+        .skip((page - 1) * limit)
+        .limit(limit);
+
+        // Count total matching documents for pagination
+        const totalReports = await usersCellReport.countDocuments(searchCriteria);
+
+        // Calculate total pages
+        const totalPages = Math.ceil(totalReports / limit);
+
+        // Respond with JSON data
+        res.json({
+            cellReports,
+            totalReports,
+            currentPage: page,
+            totalPages,
+        });
+
+    } catch (error) {
+        console.error("Error searching data:", error);
+        res.status(500).json({ error: "Error searching data" });
+    }
+});
+
+// Helper function to get date range for filtering
+function getDateRange(option) {
+    const today = new Date();
+    let startDate;
+    let endDate = new Date(today);
+
+    switch (option) {
+        case 'lastSunday':
+            // Calculate the date for the last Sunday
+            const dayOfWeek = today.getDay();
+            const daysSinceSunday = (dayOfWeek + 7 - 0) % 7; // 0 is Sunday
+            endDate.setDate(today.getDate() - daysSinceSunday);
+            startDate = new Date(endDate);
+            startDate.setDate(endDate.getDate() - 6);
+            break;
+        case 'pastMonth':
+            startDate = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+            break;
+        default:
+            startDate = new Date(0); // Default to all time
+    }
+
+    return { $gte: startDate, $lt: endDate };
+}
+
+
 
 app.delete('/leadersSearch/:id', async (req, res) => {
     try {

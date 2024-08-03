@@ -221,8 +221,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function handleLeadersUpdates(userData) {
         document.getElementById('NameOfLeader').value = userData.NameOfLeader;
         document.getElementById('PhoneNumber').value = userData.PhoneNumber;
-        document.querySelector('#LeaderPosition option[value="N/A"]').textContent = userData.LeaderPosition;
-        document.querySelector('#CellType option[value="N/A"]').textContent = userData.CellType;
+        document.getElementById('LeaderPosition').innerHTML = `
+            <option value="${userData.LeaderPosition}" hidden>${userData.LeaderPosition}</option>
+            <option value="CO-ORDINATOR">CO-ORDINATOR</option>
+            <option value="PCF">PCF LEADER</option>
+            <option value="SENIOR-CELL">SENIOR-CELL LEADER</option>
+            <option value="CELL">CELL LEADER</option>
+        `;
+        document.getElementById('CellType').innerHTML = `
+            <option value="${userData.CellType}" hidden>${userData.CellType}</option>
+            <option value="PCF">PCF</option>
+            <option value="SENIOR-CELL">SENIOR-CELL</option>
+            <option value="CELL">CELL</option>
+        `;
         document.getElementById('NameOfPcf').value = userData.NameOfPcf;
         document.getElementById('NameOfSeniorCell').value = userData.NameOfSeniorCell;
         document.getElementById('NameOfCell').value = userData.NameOfCell;
@@ -234,7 +245,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         else {
             seniorCellInput.classList.remove('hidden');
         }
+
+        document.getElementById('CellType').addEventListener('change', async function () {
+            const cellTypeInput = document.getElementById('CellType').value
+
+            const seniorCellInput = document.getElementById('senior-cell-name');
+
+            if (cellTypeInput === 'PCF') {
+                seniorCellInput.classList.add('hidden');
+            }
+            else {
+                seniorCellInput.classList.remove('hidden');
+            }
+
+        });
     }
+    
     
     // Update leader function
     async function updateLeader(leaderId) {

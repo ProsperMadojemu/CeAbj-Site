@@ -9,31 +9,6 @@
     --darker-blue: #04125c; 
 }
 
-.fa-duotone.fa-diagram-lean-canvas,
-.fa-duotone.fa-pen-to-square,
-.fa-duotone.fa-megaphone.fa-rotate-by,
-.fa-duotone.fa-right-from-bracket.fa-lg,
-.fa-solid.fa-arrow-left{  /* styling for font awesome icons*/
-    margin-right: 10px;
-    color: #030c3ddc;
-}
-
-.fa-duotone.fa-solid.fa-tachograph-digital,
-.fa-solid.fa-circle-plus,
-.fa-duotone.fa-solid.fa-users,
-.fa-duotone.fa-solid.fa-chart-bar,
-.fa-duotone.fa-solid.fa-trophy,
-.fa-duotone.fa-solid.fa-calendar-days,
-.fa-solid.fa-paper-plane-top {
-    margin-right: 10px;
-    color: #030c3ddc;
-}
-
-.fa-duotone.fa-right-from-bracket.fa-lg,
-.fa-duotone.fa-solid.fa-house { /* styling for font awesome icons*/
-    color: white;
-}
-
 
 .form-container {
     display: flex;

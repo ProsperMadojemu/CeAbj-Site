@@ -34,25 +34,6 @@
     animation: slide-in-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
-.fa-duotone.fa-solid.fa-tachograph-digital,
-.fa-solid.fa-circle-plus,
-.fa-duotone.fa-solid.fa-users,
-.fa-duotone.fa-solid.fa-chart-bar,
-.fa-duotone.fa-solid.fa-trophy,
-.fa-duotone.fa-solid.fa-calendar-days,
-.fa-solid.fa-paper-plane-top {
-    margin-right: 10px;
-    color: #030c3ddc;
-}
-
-
-.dashboard-items:hover i {
-    -webkit-animation: jello-horizontal 0.9s ease-in both;
-    animation: jello-horizontal 0.9s ease-in both;
-}
-
-
-
 .last-group {
     margin: 0;
 }

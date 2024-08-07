@@ -152,7 +152,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function handleLeadersFetching(LeaderPosition) {     
+    async function handleLeadersFetching(LeaderPosition) {  
+        // console.log('pcf data:', pcfLeadersData);
         if (LeaderPosition === 'PCF-leader') {
             document.getElementById('cellname-label').innerHTML = `Name of Pcf`;
 
@@ -161,9 +162,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 const select = document.getElementById('NameOfCell');
-// FIX AND REMOVE CELLNAME AS THE DEFAULT DISPLAY
+                const pcfInput = document.getElementById('NameOfPcf');
+
+                // FIX AND REMOVE CELLNAME AS THE DEFAULT DISPLAY
                 // Clear previous options
-                select.innerHTML = `<option value=${cellname} hidden>${cellname}</option>`;
+                select.innerHTML = `<option value= ${cellname} hidden>Select an option</option>`;
 
                 data.cells.forEach(cell => {
                     const option = document.createElement('option');
@@ -171,9 +174,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     option.textContent = cell.NameOfPcf;
                     select.appendChild(option);
                 });
+                select.addEventListener('change', () => {
+                    const selectedCellName = select.value;
+                    const selectedCell = data.cells.find(cell => cell.NameOfPcf === selectedCellName);
+                    
+                    if (selectedCell) {
+                        pcfInput.value = selectedCell.NameOfPcf; // Update the PCF name
+                    } else {
+                        pcfInput.value = ''; // Clear if no matching cell is found
+                    }
+                });
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
+
         } 
         else if ( LeaderPosition === 'Senior-Cell-leader') { 
             document.getElementById('cellname-label').innerHTML = `Name of Senior Cell`;
@@ -183,15 +197,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 const select = document.getElementById('NameOfCell');
+                const pcfInput = document.getElementById('NameOfPcf');
 
                 // Clear previous options
-                select.innerHTML = `<option value= ${cellname} hidden>${cellname}</option>`;
+                select.innerHTML = `<option value= ${cellname} hidden>Select an option</option>`;
 
                 data.cells.forEach(cell => {
                     const option = document.createElement('option');
                     option.value = cell.NameOfSeniorCell
                     option.textContent = cell.NameOfSeniorCell;
                     select.appendChild(option);
+                });
+                select.addEventListener('change', () => {
+                    const selectedCellName = select.value;
+                    const selectedCell = data.cells.find(cell => cell.NameOfSeniorCell === selectedCellName);
+                    
+                    if (selectedCell) {
+                        pcfInput.value = selectedCell.NameOfPcf; // Update the PCF name
+                    } else {
+                        pcfInput.value = ''; // Clear if no matching cell is found
+                    }
                 });
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -201,21 +226,37 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch('/cell-leaders');
                 const data = await response.json();
-
+        
                 const select = document.getElementById('NameOfCell');
-
+                const pcfInput = document.getElementById('NameOfPcf');
+        
                 // Clear previous options
-                select.innerHTML = `<option value= ${cellname} hidden>${cellname}</option>`;
+                select.innerHTML = `<option value=${cellname} hidden>${cellname}</option>`;
+        
                 data.cells.forEach(cell => {
                     const option = document.createElement('option');
-                    option.value = cell.NameOfCell
+                    option.value = cell.NameOfCell;
                     option.textContent = cell.NameOfCell;
                     select.appendChild(option);
                 });
+        
+                // Add event listener to update the PCF name based on selected cell
+                select.addEventListener('change', () => {
+                    const selectedCellName = select.value;
+                    const selectedCell = data.cells.find(cell => cell.NameOfCell === selectedCellName);
+                    
+                    if (selectedCell) {
+                        pcfInput.value = selectedCell.NameOfPcf; // Update the PCF name
+                    } else {
+                        pcfInput.value = ''; // Clear if no matching cell is found
+                    }
+                });
+        
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         }
+        
     }
 
     document.getElementById('updateuserbutton').addEventListener('click', async function (event) {
@@ -231,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             console.log('JSON data to be sent:', JSON.stringify(formJSON));
             const response = await fetch('http://localhost:5000/updateuser', {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },

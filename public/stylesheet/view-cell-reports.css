@@ -9,6 +9,10 @@
     --darker-blue: #04125c; 
 }
 
+title{
+    text-transform: uppercase;
+}
+
 .form-container {
     display: flex;
     padding: 20px 60px;

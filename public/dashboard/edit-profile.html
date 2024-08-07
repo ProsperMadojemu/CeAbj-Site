@@ -92,7 +92,7 @@
               <p>Verify and update your details </p>
             </span>
            
-            <form action="http://localhost:5000/updateuser" method="post" class="form-container" id="updateform">
+            <form class="form-container" id="updateform">
               <div class="form-group-a">
                 <div class="form-group notclickable" >
                   <input type="text" placeholder="" name="Title" id="Title" disabled></input>
@@ -146,14 +146,16 @@
                   </select>
                   <label for="LeadershipPosition">Leadership Positon</label>
                 </div>
-<!-- change the select to a div -->
+                <!-- change the select to a div -->
+                <div class="form-group hidden" id="pcfnamegroup">
+                  <input type="text" id="NameOfPcf" name="NameOfPcf" readonly/>
+                  <label for="NameOfPcf"">Name of PCF</label>
+                </div>
                 <div class="form-group" id="cellnamegroup" style="display: none;">
                   <label for="NameOfCell" id="cellname-label">.</label>
                   <select type="text" placeholder=" " name="NameOfCell" id="NameOfCell">
-                    
                   </select>
                 </div>
-                
                 <div class="form-group">
                   <select name="Department" id="Department">
                     

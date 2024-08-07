@@ -94,7 +94,7 @@
           </div>
             <form class="form-container" action="http://localhost:5000/submitcellreport" method="post" id="cellReportForm">
               <div class="form-group">
-                <input type="text" placeholder="" name="FirstName" id="FirstName" require+d></input>
+                <input type="text" placeholder="" name="FirstName" id="FirstName" required></input>
                 <label for="FirstName">First Name</label>
               </div>
               <div class="form-group">
@@ -105,6 +105,10 @@
                 <input type="text" placehold er="" name="CellName" id="CellName" required></input>
                 <label for="CellName">Name Of Cell</label>
               </div>            
+              <div class="form-group hidden" id="pcfnamegroup">
+                <input type="text" id="NameOfPcf" name="NameOfPcf" readonly/>
+                <label for="NameOfPcf"">Name of PCF</label>
+              </div>
               <div class="form-group">
                 <input type="text" placeholder="" name="ServiceAttendance" id="ServiceAttendance" required></input>
                 <label for="ServiceAttendance">Service Attendance</label>

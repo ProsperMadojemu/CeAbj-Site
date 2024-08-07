@@ -7,6 +7,8 @@
     --secondary-text-color: #333333; 
     --light-text-color: #5A5A5A;  
     --darker-blue: #04125c; 
+
+    --default-padding: 0px 10px;
 }
 
 * {
@@ -48,7 +50,6 @@ body {
     width: 300px;
     height: 100%;
     background-color: #f9f9f9;
-    border-right: 1.5px solid var(--primary-color);
 }
 
 .vertical-navbar-box {
@@ -69,7 +70,6 @@ body {
     align-items: flex-start;
     justify-content: center;
     height: 150px;
-    border-bottom: 1px solid var(--primary-color);
 }
 
 .admin-profile-icon { /* Holds only the profile icon and welcome greeting */
@@ -118,30 +118,28 @@ body {
 }
 
 .edit-profile {  /* button not in use for this page */
-    display: flex;
-    background: var(--primary-color);
-    color: #f9f9f9;
+    position: relative;
     width: 100%;
-    height: 40px;
-    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.082);
+    height: 1px;
+    margin-bottom: 10px;
+    display: flex;
     align-items: center;
-    transition: background 0.1s ease-in-out;
-    font-weight: bold;
-    font-size: 1.05rem;
-    cursor: pointer;
-    text-wrap: nowrap;
-    padding: 0px 80px;
-    border-radius: 15px;
+    padding: 0px 10px;
+    justify-content: center;
 }
 
-.edit-profile a {
-    margin-left: 5px;
+
+.edit-profile::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: var(--primary-color);
+
 }
 
-.edit-profile:hover,
 .logout-button:hover { /* self-explanatory */
     background: var(--secondary-color);
-    color: var(--darker-blue);
+    color: #ffff;
 }
 
 .navbar-list-items { /* parent class to the ul tag (.dashboard-links)  */
@@ -152,6 +150,7 @@ body {
     font-size: 1.15rem;
     color: var(--primary-text-color);
     text-shadow: 2px 1px 5px rgba(0, 0, 0, 0.089);
+    padding: 0px 10px;
 }
 
 .dashboard-links { /* ul tag holding all the list items (.navbar-list-items) */
@@ -169,7 +168,8 @@ body {
     text-align: left;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 0px 0px 20px;
+    border-radius: 10px;
+    padding: 5px 0px 0px 10px;
 }
 
 .dashboard-items > p {
@@ -207,7 +207,6 @@ body {
     animation: jello-horizontal 0.9s ease-in both;
 }
 
-.fa-duotone.fa-right-from-bracket.fa-lg,
 .fa-duotone.fa-solid.fa-house { /* styling for font awesome icons*/
     color: white;
 }
@@ -219,10 +218,9 @@ body {
 }
 
 .logout-button { /* div element holding the button */
-    display: block;
-    background: var(--primary-color);
+    display: flex;
+    padding: 0px 0px 0px 20px;
     height: 40px;
-    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.082);
     align-content: center;
     transition: background 0.1s ease-in-out;
     cursor: pointer;
@@ -234,8 +232,8 @@ body {
 .button { /* button tag */
     background: none;
     border: none;
-    color: #f9f9f9;
     font-weight: bold;
+    color: var(--primary-color);
     font-size: 1.05rem;
 }
 
@@ -338,6 +336,7 @@ body {
     z-index: 17;
     background: #3d3d3da1;
     position: absolute;
+    pointer-events: none;
     transform: translate(0%, -50%) ;
 }
 
@@ -351,6 +350,7 @@ body {
     width: 450px;
     border-radius: 5px;
     box-shadow: 3px 4px 40px hsla(0, 0%, 0%, 0.849);
+    pointer-events: none;
     color: #fff;
     font-family: 'arial', sans-serif;
     background: var(--secondary-color);

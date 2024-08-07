@@ -90,7 +90,7 @@ app.post('/comments', (req, res) => {
     res.status(201).json(comment);
 });
 
-// Data transformation function
+// Data transformation functionb
 const fieldMapping = {
     mail: 'Email',
     fname: 'FirstName',
@@ -147,6 +147,7 @@ const userChurchSchema = new mongoose.Schema({
     FirstName: String,
     LastName: String,
     Church: String,
+    NameOfPcf: String,
     LeadershipPosition: String,
     NameOfCell: String,
     Department: String,
@@ -157,6 +158,7 @@ const cellReportSchema = new mongoose.Schema({
     FirstName: String,
     LastName: String,
     CellName: String,
+    NameOfPcf: String,
     ServiceAttendance: String,
     SundayFirstTimers: String,
     CellMeetingAttendance: String,
@@ -225,7 +227,7 @@ checkAndCreateAdmin();
 
 
 // Update user route
-app.post('/updateuser', async (req, res) => {
+app.put('/updateuser', async (req, res) => {
     try {
         if (!req.session.user || !req.session.user.email) {
             return res.status(401).json({ error: 'User not logged in' });
@@ -269,6 +271,7 @@ app.post('/submitcellreport', async (req, res) => {
             FirstName,
             LastName,
             CellName,
+            NameOfPcf,
             ServiceAttendance,
             SundayFirstTimers,
             CellMeetingAttendance,
@@ -277,12 +280,16 @@ app.post('/submitcellreport', async (req, res) => {
             SubmissionDate
         } = req.body;
 
-        const PhoneNumber = req.session.user.phone;
+        const sessionEmail = req.session.user.email;
+        const user = await Users.findOne({ Email: sessionEmail }, { PhoneNumber: 1, _id: 0 });
+
+        const {PhoneNumber} = user;
 
         const reportField = {
             FirstName,
             LastName,
             CellName,
+            NameOfPcf,
             ServiceAttendance,
             SundayFirstTimers,
             CellMeetingAttendance,
@@ -388,6 +395,7 @@ app.post('/register', async (req, res) => {
             Church: transformedData.Church,
             LeadershipPosition: transformedData.LeadershipPosition,
             NameOfCell: transformedData.NameOfCell,
+            NameOfPcf: transformedData.NameOfPcf,
             Department: transformedData.Department,
             Zone: transformedData.Zone,
         };
@@ -512,6 +520,7 @@ app.get('/getalldata', async (req, res) => {
               LeadershipPosition: 1,
               NameOfCell: 1,
               Zone: 1,
+              NameOfPcf: 1,
               _id: 0
             }
         );
@@ -569,13 +578,15 @@ app.get('/seniorcell-leaders', async (req, res) => {
             },
             {
                 $group: {
-                    _id: "$NameOfSeniorCell"
+                    _id: "$NameOfSeniorCell",
+                    NameOfPcf: { $first: "$NameOfPcf" }
                 }
             },
             {
                 $project: {
                     _id: 0,
-                    NameOfSeniorCell: "$_id"
+                    NameOfSeniorCell: "$_id",
+                    NameOfPcf: 1
                 }
             }
         ]);
@@ -597,16 +608,19 @@ app.get('/cell-leaders', async (req, res) => {
             },
             {
                 $group: {
-                    _id: "$NameOfCell"
+                    _id: "$NameOfCell",
+                    NameOfPcf: { $first: "$NameOfPcf" }
                 }
             },
             {
                 $project: {
                     _id: 0,
-                    NameOfSeniorCell: "$_id"
+                    NameOfCell: "$_id",
+                    NameOfPcf: 1
                 }
             }
         ]);
+        
         res.json({ cells: CellLeadersData });
     } catch (error) {
         res.status(500).json({ error: "Error fetching data" });
@@ -686,6 +700,23 @@ app.get('/leadersSearch', async (req, res) => {
 
 app.get('/cellReportSearch', async (req, res) => {
     try {
+        const reportData = req.params.id;
+        const findReport = await newCell.findOne(
+            reportData,
+        );
+
+        if (!findReport) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'Report Found' });
+    } catch (error) {
+        res.status(500).json({ error: "Error fetching data" });
+    }
+});
+
+app.get('/cellReportSearch', async (req, res) => {
+    try {
         const searchTerm = req.query.q || "";
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
@@ -704,6 +735,7 @@ app.get('/cellReportSearch', async (req, res) => {
                 { ServiceAttendance: regex },
                 { SundayFirstTimers: regex },
                 { CellMeetingAttendance: regex },
+                { NameOfPcf: regex },
                 { CellFirstTimers: regex },
                 { offering: regex }
             ],
@@ -721,6 +753,7 @@ app.get('/cellReportSearch', async (req, res) => {
             CellFirstTimers: 1,
             PhoneNumber: 1,
             offering: 1,
+            NameOfPcf: 1,
             SubmissionDate: 1,
             _id: 1
         })

@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             document.getElementById('FirstName').value = `${user.FirstName}`;
                             document.getElementById('LastName').value = `${user.LastName}`;
                             document.getElementById('CellName').value = `${cellname}`;
+                            document.getElementById('NameOfPcf').value = `${userChurchDetails.NameOfPcf}`;
                             const welcomeGreeting = document.querySelector('#usersdetails');
                             const userTitle = document.querySelector('#usersTitle');
                             const logoutButton = document.getElementById('Logout-Button');
@@ -134,6 +135,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const formData = new FormData(reportForm);
                 const formJSON = Object.fromEntries(formData.entries());
     
+                console.log('JSON data to be sent:', JSON.stringify(formJSON));
                 const response = await fetch('http://localhost:5000/submitcellreport', {
                     method: 'POST',
                     headers: {

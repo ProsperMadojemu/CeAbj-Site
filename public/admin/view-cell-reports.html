@@ -37,10 +37,36 @@
   <main class="sub-body">
     <div class="prompt-parent hidden" id="message-prompt">
       <div class="success-prompt" >
-          <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
-          <h2 id="message-text"></h2>
+        <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
+        <h2 id="message-text"></h2>
       </div>
     </div>
+    <div class="hidden reports-parent">
+      <div class="reports-wrapper">
+        <div class="report-id" >
+          <span id="report-id" class="default-text skeleton-text"></span>
+          <div class="cancel-popup" id="cancel-popup"></div>
+        </div>
+        <div class="reports-container">
+          <div class="reports-table-parent">
+            <table id="reports-table">
+              <thead>
+                <tr>
+                  <th>SN</th>
+                  <th>Name</th>
+                  <th>Cell</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- populated from Js Script -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <main class="dashboard-sub-body">
       <nav class="vertical-navbar">
         <div class="vertical-navbar-box">
@@ -108,14 +134,8 @@
                     <tr>
                       <th>SN</th>
                       <th>Full Name</th>
-                      <th>Phone Number</th>
-                      <th>Cell</th>
-                      <th>Service Attendance</th>
-                      <th>Sunday First Timers</th>
-                      <th>Cell Meeting Attendance</th>
-                      <th>First Timers</th>                      
-                      <th>Offering</th>
-                      <th>submission Date</th>
+                      <th>Pcf Name</th>
+                      <th></th>
                     </tr>      
                   </thead>
                   <tbody>
@@ -124,6 +144,13 @@
                 </table>
               </div>
             </div>
+              <!-- <th>Phone Number</th> -->
+              <!-- <th>Service Attendance</th> -->
+              <!-- <[th>Sunday First Timers</> -->
+              <!-- <th>Cell Meeting Attendance</th> -->
+              <!-- <th>First Timers</th>                       -->
+              <!-- <th>Offering</th> -->
+              <!-- <]th>submission Date</> -->
         </div>
         <footer class="dashboard-footer">
           <div class="footer-container">

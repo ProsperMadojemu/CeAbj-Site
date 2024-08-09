@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
-                    window.location.href = '../404.html';
                 });
         } else {
             window.location.href = '/pages/login.html';
@@ -56,13 +55,58 @@ document.addEventListener('DOMContentLoaded', async () => {
             tableBody.appendChild(row);
         }
     }
+    const reportTable = document.querySelector('#reports-table tbody');
+    const reportTableHeader = document.getElementById('report-id');
+
+    showReportSkeletonRows(reportTable);
+    async function showReportSkeletonRows(reportTable) {
+        reportTableHeader.classList.add('skeleton-text');
+        for (let i = 0; i < 8; i++) {
+            const row = document.createElement('tr');
+            row.classList.add('reports-skeleton');
+            reportTable.appendChild(row);
+        }
+
+    }    
+    
+    function hideReportSkeletonRows(reportTable) {
+        const skeleton = reportTable.querySelectorAll('.reports-skeleton');
+        reportTableHeader.classList.remove('skeleton-text');
+        skeleton.forEach(row => row.remove());
+    }
     
     // Hide skeleton rows after fetching data
     function hideSkeletonRows(tableBody) {
         const skeleton = tableBody.querySelectorAll('.skeleton');
         skeleton.forEach(row => row.remove());
     }
-    
+
+    // Helper function to get date range for filtering
+    function getDateRange(option) {
+        const today = new Date();
+        let startDate;
+        let endDate = new Date(today);
+
+        switch (option) {
+            case 'lastSunday':
+                // Calculate the date for the last Sunday
+                const dayOfWeek = today.getDay();
+                const daysSinceSunday = (dayOfWeek + 7 - 0) % 7; // 0 is Sunday
+                endDate.setDate(today.getDate() - daysSinceSunday);
+                startDate = new Date(endDate);
+                startDate.setDate(endDate.getDate() - 6);
+                break;
+            case 'pastMonth':
+                startDate = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+                break;
+            default:
+                startDate = new Date(0); // Default to all time
+        }
+
+        return { $gte: startDate, $lt: endDate };
+    }
+
+
     // Function to format a date in the format YY/MM/DD
     function formatDateToYYMMDD(dateString) {
         if (!dateString || dateString === 'Nill') {
@@ -101,98 +145,187 @@ document.addEventListener('DOMContentLoaded', async () => {
             const leadersData = await leadersResponse.json();
     
             hideSkeletonRows(tableBody);
-            displayCombinedData(cellReportsData.cellReports, leadersData.cells); // Combine and display data
-            updatePaginationControls(cellReportsData.currentPage, cellReportsData.totalPages);
+            displayPcfLeaders(leadersData.cells, cellReportsData.cellReports)
+            // displayCombinedData(cellReportsData.cellReports, leadersData.cells); // Combine and display data
+            updatePaginationControls(leadersData.currentPage, leadersData.totalPages);
         } catch (error) {
             console.error('Error during search:', error);
         }
     }
     
+    const cancelPopup = document.getElementById('cancel-popup');
+
+    cancelPopup.addEventListener('click', function() {
+        closePopup();
+    })
+    
     // Function to close popup (if any)
     function closePopup() {
-        const popUp = document.getElementById('updatePromptParent');
-        popUp.classList.add('hidden');
+        const reportPopup = document.querySelector('.reports-parent');
+        reportPopup.classList.add('hidden');
     }
-    
-    // Function to display combined data in the table
-    function displayCombinedData(cellReports, leaders) {
-        tableBody.innerHTML = ''; // Clear previous data
 
-        if (cellReports.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="10">No reports found.</td></tr>';
+    
+    function displayPcfLeaders(leaders, reports) {
+        let count = 1;
+        tableBody.innerHTML = '';
+        const pcfLeaders = leaders.filter(leader => leader.CellType === 'PCF');
+        console.log(pcfLeaders);
+
+        if (pcfLeaders.length === 0) {
+            tableBody.innerHTML = `<tr><td colspan= "3">No PCF Leader found<td/><tr/>`;
             return;
         }
 
-        // Organize leaders by PCF
-        const pcfLeaders = leaders.filter(leader => leader.CellType === 'PCF');
-        console.log('PCF Leaders:', pcfLeaders);
-
-        // Organize reports by NameOfCell and PhoneNumber
-        const reportsByCell = {};
-        cellReports.forEach(report => {
-            const cellKey = `${report.CellName}_${report.PhoneNumber}`;
-            if (!reportsByCell[cellKey]) {
-                reportsByCell[cellKey] = [];
-            }
-            reportsByCell[cellKey].push(report);
-        });
-
-        console.log('Reports by Cell:', reportsByCell);
-
-
-        // Display each PCF leader and their corresponding reports
         pcfLeaders.forEach(pcfLeader => {
-            const leaderName = pcfLeader.NameOfLeader || 'N/A';
-            const leaderPhone = pcfLeader.PhoneNumber || 'N/A';
-            const pcfName = pcfLeader.NameOfPcf || 'N/A';
-        
-            // Create a row for the PCF leader
-            const leaderRow = document.createElement('tr');
-            leaderRow.innerHTML = `
-            <td colspan="10" class="Pcf-Rows">
-                ${pcfName} PCF ${leaderName} (${leaderPhone})
+            const leadersRow = document.createElement('tr');
+
+            leadersRow.innerHTML = `
+            <td>${count++}</td>
+            <td>${pcfLeader.NameOfLeader}</td>
+            <td>${pcfLeader.NameOfPcf}</td>
+            <td>
+                <div class= "report-button">
+                    <button id = "view-report-on-table">View Report</button>
+                </div>
             </td>
             `;
-            let count = 1;
-            tableBody.appendChild(leaderRow);
-        
-            // Find reports under this PCF
-            const leaderReports = cellReports.filter(report => report.NameOfPcf === pcfName);
-        
-            if (leaderReports.length === 0) {
-                // Show a message if no reports match the current PCF leader
-                const noReportsRow = document.createElement('tr');
-                noReportsRow.innerHTML = `
-                    <td colspan="10" class="no-reports">
-                    No Reports Found for this PCF Leader
-                    </td>
-                `;
-                tableBody.appendChild(noReportsRow);
-        
-            } else {
-            // Display each report under the current leader
-            leaderReports.forEach(report => {
-                const submissionDate = report.SubmissionDate ? formatDateToYYMMDD(report.SubmissionDate) : 'N/A';
-
-                const reportRow = document.createElement('tr');
-                reportRow.innerHTML = `
-                    <td>${count++}</td>
-                    <td>${report.FirstName} ${report.LastName || 'N/A'}</td>
-                    <td>${report.PhoneNumber || 'N/A'}</td>
-                    <td>${report.CellName || 'N/A'}</td>
-                    <td>${report.ServiceAttendance || 'N/A'}</td>
-                    <td>${report.SundayFirstTimers || 'N/A'}</td>
-                    <td>${report.CellMeetingAttendance || 'N/A'}</td>
-                    <td>${report.CellFirstTimers || 'N/A'}</td>
-                    <td>${report.offering || 'N/A'}</td>
-                    <td>${submissionDate}</td>
-                `;
-                tableBody.appendChild(reportRow);
+            tableBody.appendChild(leadersRow)
+        })
+        displayLeadersReport(leaders);
+    }
+    
+    function displayLeadersReport(leaders) {
+        const viewReportButton = document.querySelectorAll('.report-button');
+        viewReportButton.forEach((button, index) => {
+            const leadersCellName = leaders[index];
+            button.addEventListener('click', async () => {
+                const reportPopup = document.querySelector('.reports-parent');
+                reportPopup.classList.toggle('hidden');
+                try {
+                    if (!leadersCellName) {
+                        throw new Error("No user data available for update.");
+                    }
+                    await getLeadersReport(leadersCellName._id);
+                    reportTableHeader.innerHTML= `${leadersCellName.NameOfPcf}`
+                } catch (error) {
+                    console.error('Error updating leader:', error);
+                }
+                // document.body.removeChild(loader);
+                console.log('click', leadersCellName , index);
             });
+        });
+    }
+
+
+    async function getLeadersReport(leadersCellName) {
+        console.log(leadersCellName);
+        try {
+            const response = await fetch(`/cellReportSearch/${leadersCellName}`);
+            const data = await response.json()
+            displayReports(data);
+            hideReportSkeletonRows(reportTable);
+        } catch (error) {
+            console.error('Error fetching leader report:', error);
         }
-    });}
+    }
 
+    function displayReports(data) {
+        let count = 1;
+        let leadersData = data.leadersUnderPcf;
+        let cellReportsData = data.cellReports;
+        let combinedCellName = [];
+      
+        combinedCellName = leadersData.filter(leader => {
+          return cellReportsData.some(cellReport => {
+            return cellReport.CellName === leader.NameOfCell || cellReport.PhoneNumber === leader.PhoneNumber;
+          });
+        }).map(leader => {
+          const matchingReport = cellReportsData.find(cellReport => {
+            return cellReport.CellName === leader.NameOfCell || cellReport.PhoneNumber === leader.PhoneNumber;
+          });
+          if (matchingReport) {
+            return { ...leader, ...matchingReport };
+          }
+          return leader;
+        });
+      
+        const currentDateRange = getDateRange('lastSunday');
+        const startDate = currentDateRange.$gte;
+        const endDate = currentDateRange.$lt;
+      
+        const reportTable = document.querySelector('#reports-table tbody');
+        reportTable.innerHTML = ''
+        combinedCellName.forEach(report => {
+            const reportRow = document.createElement('tr');
+            const reportDetails = document.createElement('tr');
+            let status = 'Not Submitted';
+            if (report.SubmissionDate) {
+              const submissionDate = new Date(report.SubmissionDate);
+              if (submissionDate >= startDate && submissionDate < endDate) {
+                status = 'Submitted';
+              }
+            }
+          
+            reportRow.innerHTML = `
+              <td title= "view Reports">${count++}</td>
+              <td title= "view Reports">${report.NameOfLeader}</td>
+              <td title= "view Reports">${report.NameOfCell}</td>
+              <td title= "view Reports" class="statusColumn">${status} <i class="fa-solid fa-caret-down" id="arrow-down"></i></td>
+            `;
+            reportDetails.classList.add('hidden');          
+            reportRow.addEventListener('click', () => {
+                reportDetails.classList.toggle('hidden');
+            });
 
+            if (status === 'Not Submitted') {
+                reportDetails.innerHTML = ` <tr class="report-table-subtable-row hidden">
+                    <td colspan="4">
+                        Report Has Not Been Submitted
+                    </td>
+                </tr> `
+            }
+
+            reportDetails.innerHTML = `
+                <tr class="report-table-subtable-row hidden">
+                    <td colspan="4">
+                        <div class="report-table-subtable-wrapper">
+                            <table class="report-table-subtable">
+                                <thead>
+                                    <tr class="grid-layout">
+                                    <th>Name:</th>
+                                    <th>Cell:</th>
+                                    <th>PhoneNumber:</th>
+                                    <th>Service Attendance:</th>
+                                    <th>Sunday First Timers:</th>
+                                    <th>Cell Meeting Attendance:</th>
+                                    <th>Cell First Timers:</th>
+                                    <th>offering: </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="grid-layout" >
+                                    <td>${report.NameOfLeader}</td>
+                                    <td>${report.NameOfCell}</td>
+                                    <td>${report.PhoneNumber}</td>
+                                    <td>${report.ServiceAttendance}</td>
+                                    <td>${report.SundayFirstTimers}</td>
+                                    <td>${report.CellMeetingAttendance}</td>
+                                    <td>${report.CellFirstTimers}</td>
+                                    <td>${report.offering}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            `;
+
+            reportTable.appendChild(reportRow);
+            reportTable.appendChild(reportDetails);
+        });
+    }
+    
         
     // Update pagination controls
     function updatePaginationControls(currentPage, totalPages) {

@@ -698,20 +698,65 @@ app.get('/leadersSearch', async (req, res) => {
     }
 });
 
-app.get('/cellReportSearch', async (req, res) => {
+app.get('/cellReportSearch/:id', async (req, res) => {
     try {
-        const reportData = req.params.id;
-        const findReport = await newCell.findOne(
-            reportData,
-        );
-
-        if (!findReport) {
-            return res.status(404).json({ error: 'User not found' });
+        const pcfLeader = req.params.id;
+        const findPcfLeader = await newCell.findById(pcfLeader);
+        const currentDate = new Date();
+        const tomorrowDate = new Date(currentDate);
+        tomorrowDate.setDate(currentDate.getDate() + 1);
+        const yesterdayDate = new Date(currentDate);
+        yesterdayDate.setDate(currentDate.getDate() - 1);
+        // console.log('today:', tomorrowDate);
+        
+        if (!findPcfLeader) {
+            return res.status(404).json({ error: 'Leader not found' });
         }
 
-        res.status(200).json({ message: 'Report Found' });
+        const pcfName = findPcfLeader.NameOfPcf;
+        const cellReports = await usersCellReport.find(
+            {
+                SubmissionDate: {
+                  $gte: yesterdayDate,
+                  $lt: tomorrowDate
+                },
+                NameOfPcf: pcfName
+              },
+            {
+                FirstName: 1,
+                LastName: 1,
+                CellName: 1,
+                ServiceAttendance: 1,
+                SundayFirstTimers: 1,
+                CellMeetingAttendance: 1,
+                CellFirstTimers: 1,
+                PhoneNumber: 1,
+                offering: 1,
+                NameOfPcf: 1,
+                SubmissionDate: 1,
+                _id: 1
+            }
+        );
+        
+        // console.log(cellReports);
+
+        
+        const leadersUnderPcf = await newCell.find({NameOfPcf: pcfName},{
+            NameOfCell: 1,
+            NameOfLeader: 1,
+            PhoneNumber: 1,
+            _id: 0
+        })
+        
+
+        if (!cellReports) {
+            return res.status(404).json({ error: 'Report not found' });
+        }
+        
+        res.json({cellReports, leadersUnderPcf});
     } catch (error) {
         res.status(500).json({ error: "Error fetching data" });
+        console.error("Error fetching data", error);
     }
 });
 

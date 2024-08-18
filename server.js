@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 const dbConnection = require('./dbConnection');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
@@ -426,6 +427,7 @@ app.post('/login', async (req, res) => {
                     isAdmin: true,
                     userType: 'admin'
                 };
+                req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
                 return res.json({ redirectUrl: '../admin/overview.html' });
             } else {
                 return res.status(401).json({ error: 'Invalid email or password' });
@@ -477,8 +479,9 @@ app.post('/logout', (req, res) => {
 });
 
 app.get('/admin/', unauthorizedAccess, adminCheck, (req, res) => {
-    res.send('Welcome to the Admin Dashboard');
-});  
+    return res.sendFile(path.join(__dirname, './public/admin/overview.html'));
+});
+
 
 // Checking session route
 app.get('/check-session', (req, res) => {
@@ -596,6 +599,66 @@ app.get('/seniorcell-leaders', async (req, res) => {
     }
 });
 
+const confirmTest = async(req, res) => {
+    try {
+        const leadersTable = await usersCellReport.aggregate([
+            {
+              '$sort': {
+                'SubmissionDate': -1
+              }
+            }, {
+              '$limit': 10
+            }
+        ])
+
+        console.log(leadersTable);
+    } catch (error) {
+        console.error('error:', error)
+    }
+}
+
+// confirmTest();
+
+app.get('/charts-data', async (req, res) => {
+    try {
+        const numberOfUsers = await Users.countDocuments();
+        const numberOfLeaders = await newCell.countDocuments();
+        const numberOfPcfLeaders = await newCell.countDocuments({LeaderPosition: 'PCF'});
+        const numberOfSeniorLeaders = await newCell.countDocuments({LeaderPosition: 'SENIOR-CELL'});
+        const numberOfCellLeaders = await newCell.countDocuments({LeaderPosition: 'CELL'});
+        const cellReportData = await usersCellReport.aggregate([
+            {
+              '$sort': {
+                    'SubmissionDate': -1
+                }
+            }, {
+              '$limit': 5
+            }
+        ]);
+        
+        const leadersRecentsData = await newCell.aggregate([
+            {
+                '$sort': {
+                    'SubmissionDate': -1
+                }
+            }, {
+               '$limit': 10
+            }
+        ]);
+        res.json({
+            usersNumber: numberOfUsers,
+            leadersReport: cellReportData,
+            totalNumberOfLeaders: numberOfLeaders,
+            pcfLeaders: numberOfPcfLeaders,
+            seniorCellLeaders: numberOfSeniorLeaders,
+            cellLeaders: numberOfCellLeaders,
+            leadersData: leadersRecentsData
+        });
+        // console.log(numberOfUsers);
+    } catch (error) {
+        console.error('error:', error)
+    }
+});
 
 app.get('/cell-leaders', async (req, res) => {
     try {
@@ -869,8 +932,6 @@ app.delete('/leadersSearch/:id', async (req, res) => {
         res.status(500).json({ error: "Error deleting leader" });
     }
 });
-
-
 
 app.get('/search', async (req, res) => {
     try {

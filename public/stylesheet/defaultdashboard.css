@@ -22,8 +22,6 @@ a {
     text-decoration: none;
 }
 
-
-
 body {
     font-family: 'Lato', sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -36,23 +34,23 @@ body {
     line-height: 1.6;
 }
 
-.sub-body {
+body .sub-body {
     height: 100vh;
 }
 
-.dashboard-sub-body {  /* FOR THE CONTAINER HOLDING VERTICAL NAVBAR & DASHBOARD CONTENT */
+.sub-body > .dashboard-sub-body {  /* FOR THE CONTAINER HOLDING VERTICAL NAVBAR & DASHBOARD CONTENT */
     display: flex;
     height: 100%;
 }
 
 /* Vertical Navbar styles */
-.vertical-navbar {
+.dashboard-sub-body > .vertical-navbar {
     width: 300px;
     height: 100%;
     background-color: #f9f9f9;
 }
 
-.vertical-navbar-box {
+.vertical-navbar > .vertical-navbar-box {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -64,7 +62,7 @@ body {
 }
 
 
-.user-details { /* holds all the content in the first half of the vertical navbar */
+.nocssneeded > .user-details { /* holds all the content in the first half of the vertical navbar */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -72,7 +70,7 @@ body {
     height: 150px;
 }
 
-.admin-profile-icon { /* Holds only the profile icon and welcome greeting */
+.user-details > .admin-profile-icon { /* Holds only the profile icon and welcome greeting */
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -94,7 +92,7 @@ body {
     margin-right: 5px;
 }
 
-.userGreeting { /* welcome greeting */
+.admin-profile-icon .userGreeting { /* welcome greeting */
     text-wrap: nowrap;
     text-transform: capitalize;
     font-size: 1.4rem;
@@ -104,7 +102,7 @@ body {
     margin: 5px 0px 0px 0px;
 }
 
-.greeting-user {  /* profile-icon */
+.admin-profile-icon .greeting-user {  /* profile-icon */
     margin-right: 20px;
     display: flex;
     align-items: center;
@@ -267,7 +265,7 @@ body {
 }
 
 .empty-div { /* invisible container pushing the elements under the dashboard-content title bar down */
-    height: 15%;
+    height: 25%;
 }
 
 .go-back { /* go back or home text styling */

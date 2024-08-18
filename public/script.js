@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loggedInButton = document.querySelector('.login_icon')
 
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 40) {
+        if (window.scrollY > 10) {
             navbar.classList.add('navbar-bg-change');
             loginButton.classList.add('btn-71-bg-change');
             loggedInButton.classList.add('login_icon-change');

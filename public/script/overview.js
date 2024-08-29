@@ -21,19 +21,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     .then(sessionData => {
         if (sessionData.email && sessionData.isAdmin) {
             // Fetch admin data from getalldata route
+            // console.log(sessionData.isAdmin);
+            
             fetch('/getalldata')
-                .then(response => response.json())
-                .then(data => {
-                    // Check if the logged-in user is an admin
-                    const admin = data.admin.find(a => a.email === sessionData.email);
-                    if (!admin) {
-                        window.location.href = '../404.html';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
+            .then(response => response.json())
+            .then(data => {
+                // Check if the logged-in user is an admin
+                const admin = data.admin.find(a => a.email === sessionData.email);
+                if (!admin) {
                     window.location.href = '../404.html';
-                });
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                window.location.href = '../404.html';
+            });
         } else {
             window.location.href = '/pages/login.html';
         }

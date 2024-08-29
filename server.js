@@ -22,7 +22,7 @@ app.use(
         saveUninitialized: false,
         store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
         cookie: {
-            secure: process.env.NODE_ENV === "production",
+            secure: true,
             maxAge: 24 * 60 * 60 * 1000,
             sameSite: "strict",
             httpOnly: true,
@@ -490,39 +490,9 @@ app.get("/check-session", (req, res) => {
 // Getting data from all collections
 app.get("/getalldata", async (req, res) => {
     try {
-        const usersData = await Users.find(
-            {},
-            {
-                Church: 1,
-                Country: 1,
-                Email: 1,
-                FirstName: 1,
-                LastName: 1,
-                LeadershipPosition: 1,
-                PhoneNumber: 1,
-                registrationDate: 1,
-                Title: 1,
-                userType: 1,
-                _id: 0,
-            }
-        );
-        const usersChurchData = await UsersChurch.find(
-            {},
-            {
-                Church: 1,
-                Department: 1,
-                Email: 1,
-                FirstName: 1,
-                LastName: 1,
-                LeadershipPosition: 1,
-                NameOfCell: 1,
-                Zone: 1,
-                NameOfPcf: 1,
-                _id: 0,
-            }
-        );
-
-        const adminData = await Admin.find({}, { email: 1, _id: 0 });
+        const usersData = await Users.find();
+        const usersChurchData = await UsersChurch.find();
+        const adminData = await Admin.find();
 
         res.json({
             users: usersData,

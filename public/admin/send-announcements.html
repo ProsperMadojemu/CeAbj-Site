@@ -10,28 +10,11 @@
     <link rel="stylesheet" href="../annimations.css">
     <link rel="stylesheet" href="../media.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <link
-        rel="stylesheet"
-        href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css">
-      <link
-        rel="stylesheet"
-        href="https://site-assets.fontawesome.com/releases/v6.5.2/css/sharp-thin.css"
-      >
-
-      <link
-        rel="stylesheet"
-        href="https://site-assets.fontawesome.com/releases/v6.5.2/css/sharp-solid.css"
-      >
-
-      <link
-        rel="stylesheet"
-        href="https://site-assets.fontawesome.com/releases/v6.5.2/css/sharp-regular.css"
-      >
-
-      <link
-        rel="stylesheet"
-        href="https://site-assets.fontawesome.com/releases/v6.5.2/css/sharp-light.css"
-      >
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/sharp-thin.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/sharp-solid.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/sharp-regular.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/sharp-light.css">
 </head>
 <body>
   <main class="sub-body">
@@ -40,6 +23,7 @@
         <div class="vertical-navbar-box">
           <div class="nocssneeded">
             <div class="user-details">
+              <i id="CloseDrawer" class="fa-solid fa-xmark closeIcon"></i>
               <div class="admin-profile-icon">
                 <span class="greeting-user">
                   <i class="fa-duotone fa-user fa-2xl"></i>
@@ -77,6 +61,7 @@
       <section class="dashboard-content">
         <div class="dashboard-content-box">
           <div class="dashboard-content-title">
+            <button class="drawerIcon" id="DrawerIcon">≡</button>
             <a href="../index.html" class="go-back">
               <!-- <i class="fa-solid fa-arrow-left"></i> -->
               <i class="fa-duotone fa-solid fa-house"></i>
@@ -86,16 +71,6 @@
           </div>
           <div class="empty-div"></div>
           <div class="overview">
-            <span class="overview-text">
-              <h2>User Details</h2>
-              <p>Verify and update your details </p>
-            </span>
-            <div class="prompt-parent hidden" id="message-prompt">
-              <div class="success-prompt" >
-                  <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
-                  <h2 id="message-text"></h2>
-              </div>
-            </div>
             <!-- HERE -->
             
         </div>

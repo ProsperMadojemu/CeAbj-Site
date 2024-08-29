@@ -294,6 +294,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             dotsLabel();
         }
     });
+
+    document.getElementById('DrawerIcon').addEventListener('click', function() {
+        const navbar = document.querySelector('.vertical-navbar');
+        if (!navbar.classList.contains('active')) {
+            navbar.classList.add('active');
+        }else {
+            navbar.classList.remove('active');
+        }
+    });
     
+    document.getElementById('CloseDrawer').addEventListener('click', function() {
+        const navbar = document.querySelector('.vertical-navbar');
+        if (navbar.classList.contains('active')) {
+            navbar.classList.remove('active');
+        }
+    });
     
 });

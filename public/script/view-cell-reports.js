@@ -119,6 +119,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     
         return `${year}/${month}/${day}`; // Return formatted date
     }
+
+    
+    document.getElementById('DrawerIcon').addEventListener('click', function() {
+        const navbar = document.querySelector('.vertical-navbar');
+        if (!navbar.classList.contains('active')) {
+            navbar.classList.add('active');
+        }else {
+            navbar.classList.remove('active');
+        }
+    });
+    
+    document.getElementById('CloseDrawer').addEventListener('click', function() {
+        const navbar = document.querySelector('.vertical-navbar');
+        if (navbar.classList.contains('active')) {
+            navbar.classList.remove('active');
+        }
+    });
+        
     
     let currentPage = 1;
     const limit = 10; // Number of results per page

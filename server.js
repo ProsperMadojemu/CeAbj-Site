@@ -1,34 +1,36 @@
-const mongoose = require('mongoose');
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const path = require('path');
-const dbConnection = require('./dbConnection');
-const bcrypt = require('bcryptjs');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
-require('dotenv').config();
+const mongoose = require("mongoose");
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const path = require("path");
+const dbConnection = require("./dbConnection");
+const bcrypt = require("bcryptjs");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+require("dotenv").config();
 const app = express();
 
 // Middleware
-dbConnection();
 app.use(cors());
-
-app.use(express.static('public'));
+app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
-    cookie: {
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 24 * 60 * 60 * 1000,
-        sameSite: 'strict',
-        httpOnly: true
-    }
-}));
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+        store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
+        cookie: {
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 24 * 60 * 60 * 1000,
+            sameSite: "strict",
+            httpOnly: true,
+        },
+    })
+);
+
+dbConnection();
 
 const hashPassword = async (plainTextPassword) => {
     const salt = await bcrypt.genSalt(10);
@@ -41,71 +43,66 @@ const hashPassword = async (plainTextPassword) => {
     // console.log('Hashed Admin Password:', hashedPassword);
 })();
 
-
-
-
 const adminCheck = (req, res, next) => {
     if (req.session.user && req.session.user.isAdmin) {
         next();
     } else {
-    res.status(403).json({ error: 'Access denied. Admins only' });
-  }
+        res.status(403).json({ error: "Access denied. Admins only" });
+    }
 };
 
 const unauthorizedAccess = (req, res, next) => {
     if (!req.session.user || !req.session.user.isAdmin) {
-      return res.status(401).json({ error: 'Unauthorized access' });
+        return res.status(401).json({ error: "Unauthorized access" });
     }
     next();
-};  
+};
 
-// Page Routes
-app.get('/', (req, res) => {
-    res.send('Hello World');
-});
-
-
+// // Page Routes
+// app.get("/", (req, res) => {
+//     res.send("Hello World");
+// });
 
 // STREAM APP INI
 // Authentication for RTMP streaming
-app.post('/auth', (req, res) => {
+app.post("/auth", (req, res) => {
     const streamkey = req.query.key || req.body.key;
-    if (streamkey === process.env.STREAM_KEY ) {
-        res.status(200).send('OK');
+    if (streamkey === process.env.STREAM_KEY) {
+        res.status(200).send("OK");
     } else {
-        res.status(403).send('Forbidden');
+        res.status(403).send("Forbidden");
     }
 });
 
 // COMMENT SECTION ROUTE
 let comments = [];
 
-app.get('/comments', (req, res) => {
+app.get("/comments", (req, res) => {
     res.json(comments);
 });
 
-app.post('/comments', (req, res) => {
+app.post("/comments", (req, res) => {
     const comment = req.body;
     comment.timestamp = new Date().toISOString();
     comments.push(comment);
     res.status(201).json(comment);
 });
 
-// Data transformation functionb
+// Data transformation function
 const fieldMapping = {
-    mail: 'Email',
-    fname: 'FirstName',
-    lname: 'LastName',
-    phone: 'PhoneNumber',
-    country: 'Country',
-    churches: 'Church',
-    pass: 'Password',
-    churchName: 'NameOfChurch',
-    roles: 'Title',
-    zones: 'Zone',
-    departments: 'Department',
-    cellName: 'NameOfCell',
-    Position: 'LeadershipPosition'
+    mail: "Email",
+    fname: "FirstName",
+    lname: "LastName",
+    phone: "PhoneNumber",
+    country: "Country",
+    churches: "Church",
+    pass: "Password",
+    churchName: "NameOfChurch",
+    roles: "Title",
+    zones: "Zone",
+    departments: "Department",
+    cellName: "NameOfCell",
+    Position: "LeadershipPosition",
 };
 
 function transformFormData(formData) {
@@ -130,12 +127,12 @@ const userSchema = new mongoose.Schema({
     Password: String,
     registrationDate: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     userType: {
         type: String,
-        default: "Default"
-    }
+        default: "Default",
+    },
 });
 
 const adminSchema = new mongoose.Schema({
@@ -168,12 +165,12 @@ const cellReportSchema = new mongoose.Schema({
     offering: String,
     SubmissionDate: {
         type: Date,
-        default: Date.now
-    }
+        default: Date.now,
+    },
 });
 
 const newCellSchema = new mongoose.Schema({
-    NameOfLeader: String, 
+    NameOfLeader: String,
     PhoneNumber: String,
     LeaderPosition: String,
     CellType: String,
@@ -182,16 +179,16 @@ const newCellSchema = new mongoose.Schema({
     NameOfCell: String,
     SubmissionDate: {
         type: Date,
-        default: Date.now
-    }
-})
+        default: Date.now,
+    },
+});
 
 // Models
 const Users = mongoose.model("users", userSchema);
 const UsersChurch = mongoose.model("usersChurchDetails", userChurchSchema);
 const usersCellReport = mongoose.model("cellreports", cellReportSchema);
 const newCell = mongoose.model("cellsAndLeaders", newCellSchema);
-const Admin = mongoose.model('Admin', adminSchema);
+const Admin = mongoose.model("Admin", adminSchema);
 
 const checkAndCreateAdmin = async () => {
     try {
@@ -199,11 +196,13 @@ const checkAndCreateAdmin = async () => {
         const adminPassword = process.env.ADMIN_PASSWORD;
 
         if (!adminEmail || !adminPassword) {
-            throw new Error("ADMIN_EMAIL or ADMIN_PASSWORD is not set in environment variables.");
+            throw new Error(
+                "ADMIN_EMAIL or ADMIN_PASSWORD is not set in environment variables."
+            );
         }
 
         const hashedPassword = await bcrypt.hash(adminPassword, 10);
-        
+
         const admin = await Admin.findOne({ email: adminEmail });
 
         if (!admin) {
@@ -212,31 +211,29 @@ const checkAndCreateAdmin = async () => {
                 email: adminEmail,
                 password: hashedPassword,
             });
-            
+
             await newAdmin.save();
-            console.log('Admin user created.');
+            console.log("Admin user created.");
         } else {
-            console.log('Admin user already exists.');
+            console.log("Admin user already exists.");
         }
     } catch (error) {
-        console.error('An error occurred while checking or creating the admin:', error);
+        console.error(
+            "An error occurred while checking or creating the admin:",
+            error
+        );
     }
 };
 
-// Invoke the function
-checkAndCreateAdmin();
-
-
 // Update user route
-app.put('/updateuser', async (req, res) => {
+app.put("/updateuser", async (req, res) => {
     try {
         if (!req.session.user || !req.session.user.email) {
-            return res.status(401).json({ error: 'User not logged in' });
+            return res.status(401).json({ error: "User not logged in" });
         }
 
         const email = req.session.user.email; //last email shoudl be spelt {email} not {Email}
         const updateFields = req.body;
-
 
         const updatedUser = await Users.findOneAndUpdate(
             { Email: email },
@@ -245,9 +242,8 @@ app.put('/updateuser', async (req, res) => {
         );
 
         if (!updatedUser) {
-            return res.status(404).json({ error: 'User not found' });
+            return res.status(404).json({ error: "User not found" });
         }
-
 
         const userChurchDetails = await UsersChurch.findOneAndUpdate(
             { Email: email },
@@ -256,17 +252,17 @@ app.put('/updateuser', async (req, res) => {
         );
 
         if (!userChurchDetails) {
-            return res.status(404).json({ error: 'User church details not found' });
+            return res.status(404).json({ error: "User church details not found" });
         }
 
-        res.status(200).json({ message: 'User updated successfully' });
+        res.status(200).json({ message: "User updated successfully" });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
 // Report Submission route
-app.post('/submitcellreport', async (req, res) => {
+app.post("/submitcellreport", async (req, res) => {
     try {
         const {
             FirstName,
@@ -278,13 +274,16 @@ app.post('/submitcellreport', async (req, res) => {
             CellMeetingAttendance,
             CellFirstTimers,
             offering,
-            SubmissionDate
+            SubmissionDate,
         } = req.body;
 
         const sessionEmail = req.session.user.email;
-        const user = await Users.findOne({ Email: sessionEmail }, { PhoneNumber: 1, _id: 0 });
+        const user = await Users.findOne(
+            { Email: sessionEmail },
+            { PhoneNumber: 1, _id: 0 }
+        );
 
-        const {PhoneNumber} = user;
+        const { PhoneNumber } = user;
 
         const reportField = {
             FirstName,
@@ -297,18 +296,18 @@ app.post('/submitcellreport', async (req, res) => {
             CellFirstTimers,
             PhoneNumber,
             offering,
-            SubmissionDate
+            SubmissionDate,
         };
 
         const newCellReport = new usersCellReport(reportField);
         await newCellReport.save();
-        res.status(201).json({ message: 'Report submitted successfully' });
+        res.status(201).json({ message: "Report submitted successfully" });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
 
-app.post ('/submitnewcell', async (req, res) => {
+app.post("/submitnewcell", async (req, res) => {
     try {
         const {
             NameOfLeader,
@@ -318,9 +317,8 @@ app.post ('/submitnewcell', async (req, res) => {
             NameOfPcf,
             NameOfSeniorCell,
             NameOfCell,
-            SubmissionDate
+            SubmissionDate,
         } = req.body;
-
 
         const newCellsField = {
             NameOfLeader,
@@ -330,32 +328,31 @@ app.post ('/submitnewcell', async (req, res) => {
             NameOfPcf,
             NameOfSeniorCell,
             NameOfCell,
-            SubmissionDate
-        }
+            SubmissionDate,
+        };
 
         const existingCell = await newCell.findOne({
             $or: [
                 { NameOfLeader: NameOfLeader },
                 { NameOfCell: NameOfCell },
-                { PhoneNumber: PhoneNumber }
-
-            ]
+                { PhoneNumber: PhoneNumber },
+            ],
         });
 
         if (existingCell) {
-            return res.status(400).json({ error: 'Cell Already Exists' });
+            return res.status(400).json({ error: "Cell Already Exists" });
         }
-         
+
         const submittedCells = new newCell(newCellsField);
         await submittedCells.save();
-        res.status(201).json({ message: 'Cell Saved successfully' });
+        res.status(201).json({ message: "Cell Saved successfully" });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
 
 // Register route
-app.post('/register', async (req, res) => {
+app.post("/register", async (req, res) => {
     try {
         const transformedData = transformFormData(req.body);
 
@@ -363,12 +360,14 @@ app.post('/register', async (req, res) => {
         const existingUser = await Users.findOne({
             $or: [
                 { Email: transformedData.Email },
-                { PhoneNumber: transformedData.PhoneNumber }
-            ]
+                { PhoneNumber: transformedData.PhoneNumber },
+            ],
         });
 
         if (existingUser) {
-            return res.status(400).json({ error: 'Email or phone number already in use' });
+            return res
+                .status(400)
+                .json({ error: "Email or phone number already in use" });
         }
 
         // Hash the password
@@ -386,7 +385,7 @@ app.post('/register', async (req, res) => {
             LeadershipPosition: transformedData.LeadershipPosition,
             Password: transformedData.Password,
             registrationDate: transformedData.registrationDate,
-            userType: transformedData.userType
+            userType: transformedData.userType,
         };
 
         const churchFields = {
@@ -406,44 +405,43 @@ app.post('/register', async (req, res) => {
 
         await newUser.save();
         await newChurchDetails.save();
-        res.status(201).json({ message: 'User registered successfully' });
+        res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
 
-
 // Login route
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
     try {
         const { usersinput, userspassword } = req.body;
 
         const admin = await Admin.findOne({ email: usersinput });
         if (admin) {
-            const isPasswordValid = await bcrypt.compare(userspassword, admin.password);
+            const isPasswordValid = await bcrypt.compare(
+                userspassword,
+                admin.password
+            );
             if (isPasswordValid && admin.email === process.env.ADMIN_EMAIL) {
                 req.session.user = {
                     email: admin.email,
                     isAdmin: true,
-                    userType: 'admin'
+                    userType: "admin",
                 };
                 req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
-                return res.json({ redirectUrl: '../admin/overview.html' });
+                return res.json({ redirectUrl: "../admin/overview.html" });
             } else {
-                return res.status(401).json({ error: 'Invalid email or password' });
+                return res.status(401).json({ error: "Invalid email or password" });
             }
         }
 
         const user = await Users.findOne({
-            $or: [
-              { Email: usersinput },
-              { PhoneNumber: usersinput }
-            ]
+            $or: [{ Email: usersinput }, { PhoneNumber: usersinput }],
         });
-        
+
         if (!user) {
             console.log(`Failed login attempt with email: ${usersinput}`);
-            return res.status(404).json({ error: 'Information does not match' });
+            return res.status(404).json({ error: "Information does not match" });
         }
 
         const isPasswordValid = await bcrypt.compare(userspassword, user.Password);
@@ -454,92 +452,89 @@ app.post('/login', async (req, res) => {
                 lastName: user.LastName,
                 email: user.Email,
                 phone: user.PhoneNumber,
-                userType: user.userType
+                userType: user.userType,
             };
-            return res.json({ redirectUrl: '../dashboard/edit-profile.html' });
+            return res.json({ redirectUrl: "../dashboard/edit-profile.html" });
         } else {
-            return res.status(401).json({ error: 'Invalid password' });
+            return res.status(401).json({ error: "Invalid password" });
         }
-
     } catch (error) {
         console.error(error); // Log the error for debugging
-        return res.status(500).json({ error: 'Login error' });
+        return res.status(500).json({ error: "Login error" });
     }
 });
 
-
 // Logout
-app.post('/logout', (req, res) => {
-    req.session.destroy(err => {
+app.post("/logout", (req, res) => {
+    req.session.destroy((err) => {
         if (err) {
-            return res.status(500).json({ error: 'Could not log out' });
+            return res.status(500).json({ error: "Could not log out" });
         }
-        res.status(200).json({ message: 'Logout successful' });
+        res.status(200).json({ message: "Logout successful" });
     });
 });
 
-app.get('/admin/', unauthorizedAccess, adminCheck, (req, res) => {
-    return res.sendFile(path.join(__dirname, './public/admin/overview.html'));
+app.get("/admin/", unauthorizedAccess, adminCheck, (req, res) => {
+    return res.sendFile(path.join(__dirname, "./public/admin/overview.html"));
 });
 
-
 // Checking session route
-app.get('/check-session', (req, res) => {
+app.get("/check-session", (req, res) => {
     if (req.session.user) {
         res.json(req.session.user);
     } else {
-        res.status(401).json({ message: 'User not logged in' });
+        res.status(401).json({ message: "User not logged in" });
     }
 });
 
-
 // Getting data from all collections
-app.get('/getalldata', async (req, res) => {
+app.get("/getalldata", async (req, res) => {
     try {
         const usersData = await Users.find(
             {},
             {
-              Church: 1,
-              Country: 1,
-              Email: 1,
-              FirstName: 1,
-              LastName: 1,
-              LeadershipPosition: 1,
-              PhoneNumber: 1,
-              registrationDate: 1,
-              Title: 1,
-              userType: 1,
-              _id: 0
+                Church: 1,
+                Country: 1,
+                Email: 1,
+                FirstName: 1,
+                LastName: 1,
+                LeadershipPosition: 1,
+                PhoneNumber: 1,
+                registrationDate: 1,
+                Title: 1,
+                userType: 1,
+                _id: 0,
             }
-          );
+        );
         const usersChurchData = await UsersChurch.find(
             {},
             {
-              Church: 1,
-              Department: 1,
-              Email: 1,
-              FirstName: 1,
-              LastName: 1,
-              LeadershipPosition: 1,
-              NameOfCell: 1,
-              Zone: 1,
-              NameOfPcf: 1,
-              _id: 0
+                Church: 1,
+                Department: 1,
+                Email: 1,
+                FirstName: 1,
+                LastName: 1,
+                LeadershipPosition: 1,
+                NameOfCell: 1,
+                Zone: 1,
+                NameOfPcf: 1,
+                _id: 0,
             }
         );
 
-        const adminData = await Admin.find(
-            {},
-            { email: 1, _id: 0 }
-        );
+        const adminData = await Admin.find({}, { email: 1, _id: 0 });
 
-        res.json({ users: usersData, usersChurch: usersChurchData, admin: adminData});
+        res.json({
+            users: usersData,
+            usersChurch: usersChurchData,
+            admin: adminData,
+        });
     } catch (error) {
         res.status(500).json({ error: "Error fetching data" });
     }
 });
 
-app.get('/getleadersdata', async (req, res) => {
+app.get("/getleadersdata", async (req, res) => {
     try {
         const usersCellData = await newCell.find({});
 
@@ -549,20 +544,20 @@ app.get('/getleadersdata', async (req, res) => {
     }
 });
 
-app.get('/pcfleaders', async (req, res) => {
+app.get("/pcfleaders", async (req, res) => {
     try {
         const pcfLeadersData = await newCell.aggregate([
             {
                 $group: {
-                    _id: "$NameOfPcf"
-                }
+                    _id: "$NameOfPcf",
+                },
             },
             {
                 $project: {
                     _id: 0,
-                    NameOfPcf: "$_id"
-                }
-            }
+                    NameOfPcf: "$_id",
+                },
+            },
         ]);
         res.json({ cells: pcfLeadersData });
     } catch (error) {
@@ -570,28 +565,27 @@ app.get('/pcfleaders', async (req, res) => {
     }
 });
 
-app.get('/seniorcell-leaders', async (req, res) => {
+app.get("/seniorcell-leaders", async (req, res) => {
     try {
-
         const seniorCellLeadersData = await newCell.aggregate([
             {
                 $match: {
-                    NameOfSeniorCell: { $nin: ["", " "] }
-                }
+                    NameOfSeniorCell: { $nin: ["", " "] },
+                },
             },
             {
                 $group: {
                     _id: "$NameOfSeniorCell",
-                    NameOfPcf: { $first: "$NameOfPcf" }
-                }
+                    NameOfPcf: { $first: "$NameOfPcf" },
+                },
             },
             {
                 $project: {
                     _id: 0,
                     NameOfSeniorCell: "$_id",
-                    NameOfPcf: 1
-                }
-            }
+                    NameOfPcf: 1,
+                },
+            },
         ]);
         res.json({ cells: seniorCellLeadersData });
     } catch (error) {
@@ -599,51 +593,60 @@ app.get('/seniorcell-leaders', async (req, res) => {
     }
 });
 
-const confirmTest = async(req, res) => {
+const confirmTest = async (req, res) => {
     try {
         const leadersTable = await usersCellReport.aggregate([
             {
-              '$sort': {
-                'SubmissionDate': -1
-              }
-            }, {
-              '$limit': 10
-            }
-        ])
+                $sort: {
+                    SubmissionDate: -1,
+                },
+            },
+            {
+                $limit: 10,
+            },
+        ]);
 
         console.log(leadersTable);
     } catch (error) {
-        console.error('error:', error)
+        console.error("error:", error);
     }
-}
+};
 
 // confirmTest();
 
-app.get('/charts-data', async (req, res) => {
+app.get("/charts-data", async (req, res) => {
     try {
         const numberOfUsers = await Users.countDocuments();
         const numberOfLeaders = await newCell.countDocuments();
-        const numberOfPcfLeaders = await newCell.countDocuments({LeaderPosition: 'PCF'});
-        const numberOfSeniorLeaders = await newCell.countDocuments({LeaderPosition: 'SENIOR-CELL'});
-        const numberOfCellLeaders = await newCell.countDocuments({LeaderPosition: 'CELL'});
+        const numberOfPcfLeaders = await newCell.countDocuments({
+            LeaderPosition: "PCF",
+        });
+        const numberOfSeniorLeaders = await newCell.countDocuments({
+            LeaderPosition: "SENIOR-CELL",
+        });
+        const numberOfCellLeaders = await newCell.countDocuments({
+            LeaderPosition: "CELL",
+        });
         const cellReportData = await usersCellReport.aggregate([
             {
-              '$sort': {
-                    'SubmissionDate': -1
-                }
-            }, {
-              '$limit': 5
-            }
+                $sort: {
+                    SubmissionDate: -1,
+                },
+            },
+            {
+                $limit: 5,
+            },
         ]);
-        
+
         const leadersRecentsData = await newCell.aggregate([
             {
-                '$sort': {
-                    'SubmissionDate': -1
-                }
-            }, {
-               '$limit': 10
-            }
+                $sort: {
+                    SubmissionDate: -1,
+                },
+            },
+            {
+                $limit: 10,
+            },
         ]);
         res.json({
             usersNumber: numberOfUsers,
@@ -652,47 +655,45 @@ app.get('/charts-data', async (req, res) => {
             pcfLeaders: numberOfPcfLeaders,
             seniorCellLeaders: numberOfSeniorLeaders,
             cellLeaders: numberOfCellLeaders,
-            leadersData: leadersRecentsData
+            leadersData: leadersRecentsData,
         });
         // console.log(numberOfUsers);
     } catch (error) {
-        console.error('error:', error)
+        console.error("error:", error);
     }
 });
 
-app.get('/cell-leaders', async (req, res) => {
+app.get("/cell-leaders", async (req, res) => {
     try {
-
         const CellLeadersData = await newCell.aggregate([
             {
                 $match: {
-                    NameOfCell: { $nin: ["", " "] }
-                }
+                    NameOfCell: { $nin: ["", " "] },
+                },
             },
             {
                 $group: {
                     _id: "$NameOfCell",
-                    NameOfPcf: { $first: "$NameOfPcf" }
-                }
+                    NameOfPcf: { $first: "$NameOfPcf" },
+                },
             },
             {
                 $project: {
                     _id: 0,
                     NameOfCell: "$_id",
-                    NameOfPcf: 1
-                }
-            }
+                    NameOfPcf: 1,
+                },
+            },
         ]);
-        
+
         res.json({ cells: CellLeadersData });
     } catch (error) {
         res.status(500).json({ error: "Error fetching data" });
     }
 });
 
-app.put ('/leadersSearch/:id', async (req, res) => {
+app.put("/leadersSearch/:id", async (req, res) => {
     try {
-
         const leaderId = req.params.id;
         const updateFields = req.body;
         const updatedUser = await newCell.findByIdAndUpdate(
@@ -702,66 +703,68 @@ app.put ('/leadersSearch/:id', async (req, res) => {
         );
 
         if (!updatedUser) {
-            return res.status(404).json({ error: 'User not found' });
+            return res.status(404).json({ error: "User not found" });
         }
 
-        res.status(200).json({ message: 'User updated successfully' });
+        res.status(200).json({ message: "User updated successfully" });
     } catch (error) {
         res.status(500).json({ error: "Error fetching data" });
     }
 });
 
-app.get('/leadersSearch', async (req, res) => {
+app.get("/leadersSearch", async (req, res) => {
     try {
         const searchTerm = req.query.q || "";
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
 
-        const regex = new RegExp(searchTerm, 'i');
+        const regex = new RegExp(searchTerm, "i");
 
-        const searchCriteria = searchTerm ? {
-            $or: [
-                { NameOfLeader: regex },
-                { PhoneNumber: regex },
-                { LeaderPosition: regex },
-                { CellType: regex },
-                { NameOfCell: regex },
-                { NameOfPcf: regex },
-                { NameOfSeniorCell: regex },
-            ]
-        } : {};
+        const searchCriteria = searchTerm
+            ? {
+                $or: [
+                    { NameOfLeader: regex },
+                    { PhoneNumber: regex },
+                    { LeaderPosition: regex },
+                    { CellType: regex },
+                    { NameOfCell: regex },
+                    { NameOfPcf: regex },
+                    { NameOfSeniorCell: regex },
+                ],
+            }
+            : {};
 
         // Fetch leaders from the database with pagination
-        const cellsAndLeaders = await newCell.find(searchCriteria, {
-            NameOfLeader: 1,
-            PhoneNumber: 1,
-            LeaderPosition: 1,
-            CellType: 1,
-            NameOfCell: 1,
-            NameOfPcf: 1,
-            NameOfSeniorCell: 1,
-            _id: 1
-        })
-        .skip((page - 1) * limit)
-        .limit(limit);
-        
+        const cellsAndLeaders = await newCell
+            .find(searchCriteria, {
+                NameOfLeader: 1,
+                PhoneNumber: 1,
+                LeaderPosition: 1,
+                CellType: 1,
+                NameOfCell: 1,
+                NameOfPcf: 1,
+                NameOfSeniorCell: 1,
+                _id: 1,
+            })
+            .skip((page - 1) * limit)
+            .limit(limit);
+
         // Count total matching documents for pagination
         const totalUsers = await newCell.countDocuments(searchCriteria);
-        
+
         res.json({
             cells: cellsAndLeaders,
             totalUsers,
             currentPage: page,
-            totalPages: Math.ceil(totalUsers / limit) // Calculate total pages
+            totalPages: Math.ceil(totalUsers / limit), // Calculate total pages
         });
-
     } catch (error) {
         console.error("Error searching data:", error);
         res.status(500).json({ error: "Error searching data" });
     }
 });
 
-app.get('/cellReportSearch/:id', async (req, res) => {
+app.get("/cellReportSearch/:id", async (req, res) => {
     try {
         const pcfLeader = req.params.id;
         const findPcfLeader = await newCell.findById(pcfLeader);
@@ -771,20 +774,20 @@ app.get('/cellReportSearch/:id', async (req, res) => {
         const yesterdayDate = new Date(currentDate);
         yesterdayDate.setDate(currentDate.getDate() - 1);
         // console.log('today:', tomorrowDate);
-        
+
         if (!findPcfLeader) {
-            return res.status(404).json({ error: 'Leader not found' });
+            return res.status(404).json({ error: "Leader not found" });
         }
 
         const pcfName = findPcfLeader.NameOfPcf;
         const cellReports = await usersCellReport.find(
             {
                 SubmissionDate: {
-                  $gte: yesterdayDate,
-                  $lt: tomorrowDate
+                    $gte: yesterdayDate,
+                    $lt: tomorrowDate,
                 },
-                NameOfPcf: pcfName
-              },
+                NameOfPcf: pcfName,
+            },
             {
                 FirstName: 1,
                 LastName: 1,
@@ -797,33 +800,34 @@ app.get('/cellReportSearch/:id', async (req, res) => {
                 offering: 1,
                 NameOfPcf: 1,
                 SubmissionDate: 1,
-                _id: 1
+                _id: 1,
             }
         );
-        
+
         // console.log(cellReports);
 
-        
-        const leadersUnderPcf = await newCell.find({NameOfPcf: pcfName},{
-            NameOfCell: 1,
-            NameOfLeader: 1,
-            PhoneNumber: 1,
-            _id: 0
-        })
-        
+        const leadersUnderPcf = await newCell.find(
+            { NameOfPcf: pcfName },
+            {
+                NameOfCell: 1,
+                NameOfLeader: 1,
+                PhoneNumber: 1,
+                _id: 0,
+            }
+        );
 
         if (!cellReports) {
-            return res.status(404).json({ error: 'Report not found' });
+            return res.status(404).json({ error: "Report not found" });
         }
-        
-        res.json({cellReports, leadersUnderPcf});
+
+        res.json({ cellReports, leadersUnderPcf });
     } catch (error) {
         res.status(500).json({ error: "Error fetching data" });
         console.error("Error fetching data", error);
     }
 });
 
-app.get('/cellReportSearch', async (req, res) => {
+app.get("/cellReportSearch", async (req, res) => {
     try {
         const searchTerm = req.query.q || "";
         const page = parseInt(req.query.page) || 1;
@@ -831,7 +835,7 @@ app.get('/cellReportSearch', async (req, res) => {
         const dateRange = req.query.dateRange || ""; // e.g., 'lastSunday', 'pastMonth'
 
         // Construct regular expression for case-insensitive search
-        const regex = new RegExp(searchTerm, 'i');
+        const regex = new RegExp(searchTerm, "i");
 
         // Construct search criteria
         const searchCriteria = {
@@ -845,29 +849,30 @@ app.get('/cellReportSearch', async (req, res) => {
                 { CellMeetingAttendance: regex },
                 { NameOfPcf: regex },
                 { CellFirstTimers: regex },
-                { offering: regex }
+                { offering: regex },
             ],
-            ...(dateRange && { SubmissionDate: getDateRange(dateRange) }) // Filter by date range if provided
+            ...(dateRange && { SubmissionDate: getDateRange(dateRange) }), // Filter by date range if provided
         };
 
         // Fetch reports from the database with pagination
-        const cellReports = await usersCellReport.find(searchCriteria, {
-            FirstName: 1,
-            LastName: 1,
-            CellName: 1,
-            ServiceAttendance: 1,
-            SundayFirstTimers: 1,
-            CellMeetingAttendance: 1,
-            CellFirstTimers: 1,
-            PhoneNumber: 1,
-            offering: 1,
-            NameOfPcf: 1,
-            SubmissionDate: 1,
-            _id: 1
-        })
-        .sort({ SubmissionDate: -1 }) // Sort by most recent date
-        .skip((page - 1) * limit)
-        .limit(limit);
+        const cellReports = await usersCellReport
+            .find(searchCriteria, {
+                FirstName: 1,
+                LastName: 1,
+                CellName: 1,
+                ServiceAttendance: 1,
+                SundayFirstTimers: 1,
+                CellMeetingAttendance: 1,
+                CellFirstTimers: 1,
+                PhoneNumber: 1,
+                offering: 1,
+                NameOfPcf: 1,
+                SubmissionDate: 1,
+                _id: 1,
+            })
+            .sort({ SubmissionDate: -1 }) // Sort by most recent date
+            .skip((page - 1) * limit)
+            .limit(limit);
 
         // Count total matching documents for pagination
         const totalReports = await usersCellReport.countDocuments(searchCriteria);
@@ -882,7 +887,6 @@ app.get('/cellReportSearch', async (req, res) => {
             currentPage: page,
             totalPages,
         });
-
     } catch (error) {
         console.error("Error searching data:", error);
         res.status(500).json({ error: "Error searching data" });
@@ -896,7 +900,7 @@ function getDateRange(option) {
     let endDate = new Date(today);
 
     switch (option) {
-        case 'lastSunday':
+        case "lastSunday":
             // Calculate the date for the last Sunday
             const dayOfWeek = today.getDay();
             const daysSinceSunday = (dayOfWeek + 7 - 0) % 7; // 0 is Sunday
@@ -904,8 +908,12 @@ function getDateRange(option) {
             startDate = new Date(endDate);
             startDate.setDate(endDate.getDate() - 6);
             break;
-        case 'pastMonth':
-            startDate = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+        case "pastMonth":
+            startDate = new Date(
+                today.getFullYear(),
+                today.getMonth() - 1,
+                today.getDate()
+            );
             break;
         default:
             startDate = new Date(0); // Default to all time
@@ -914,9 +922,7 @@ function getDateRange(option) {
     return { $gte: startDate, $lt: endDate };
 }
 
-
-
-app.delete('/leadersSearch/:id', async (req, res) => {
+app.delete("/leadersSearch/:id", async (req, res) => {
     try {
         const leaderId = req.params.id;
 
@@ -933,51 +939,56 @@ app.delete('/leadersSearch/:id', async (req, res) => {
     }
 });
 
-app.get('/search', async (req, res) => {
+app.get("/search", async (req, res) => {
     try {
         const searchTerm = req.query.q || "";
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
 
-        const regex = new RegExp(searchTerm, 'i');
+        const regex = new RegExp(searchTerm, "i");
 
-        const searchCriteria = searchTerm ? {
-            $or: [
-                { FirstName: regex },
-                { LastName: regex },
-                { Email: regex },
-                { Church: regex },
-                { NameOfCell: regex },
-                { PhoneNumber: regex },
-                { LeadershipPosition: regex },
-                { Department: regex }
-            ]
-        } : {};
+        const searchCriteria = searchTerm
+            ? {
+                $or: [
+                    { FirstName: regex },
+                    { LastName: regex },
+                    { Email: regex },
+                    { Church: regex },
+                    { NameOfCell: regex },
+                    { PhoneNumber: regex },
+                    { LeadershipPosition: regex },
+                    { Department: regex },
+                ],
+            }
+            : {};
 
         // Fetch users from the database with pagination
         const users = await Users.find(searchCriteria, {
-            _id: 0, 
-            Email: 1, 
-            FirstName: 1, 
-            LastName: 1, 
-            PhoneNumber: 1, 
-            Church: 1, 
+            _id: 0,
+            Email: 1,
+            FirstName: 1,
+            LastName: 1,
+            PhoneNumber: 1,
+            Church: 1,
             LeadershipPosition: 1,
-            Department: 1, 
-            registrationDate: 1
+            Department: 1,
+            registrationDate: 1,
         })
-        .skip((page - 1) * limit)
-        .limit(limit);
+            .skip((page - 1) * limit)
+            .limit(limit);
 
         // Count total matching documents for pagination
         const totalUsers = await Users.countDocuments(searchCriteria);
 
         // Fetch usersChurch data and create a map
-        const usersChurchData = await UsersChurch.find({}, {
-            Email: 1,
-            NameOfCell: 1,
-            Department: 1
-        });
+        const usersChurchData = await UsersChurch.find(
+            {},
+            {
+                Email: 1,
+                NameOfCell: 1,
+                Department: 1,
+            }
+        );
 
         const usersChurchMap = new Map(usersChurchData.map((uc) => [uc.Email, uc]));
 
@@ -986,8 +997,8 @@ app.get('/search', async (req, res) => {
             const userChurchInfo = usersChurchMap.get(user.Email) || {};
             return {
                 ...user,
-                NameOfCell: userChurchInfo.NameOfCell || 'N/A',
-                Department: userChurchInfo.Department || 'N/A',
+                NameOfCell: userChurchInfo.NameOfCell || "N/A",
+                Department: userChurchInfo.Department || "N/A",
             };
         });
         // console.log('Merged Users:', mergedUsers);
@@ -995,15 +1006,13 @@ app.get('/search', async (req, res) => {
             users: mergedUsers,
             totalUsers,
             currentPage: page,
-            totalPages: Math.ceil(totalUsers / limit) // Calculate total pages
+            totalPages: Math.ceil(totalUsers / limit), // Calculate total pages
         });
-
     } catch (error) {
         console.error("Error searching data:", error);
         res.status(500).json({ error: "Error searching data" });
     }
 });
-
 
 app.use((req, res, next) => {
     if (req.session.user) {

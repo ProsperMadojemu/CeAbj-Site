@@ -1,12 +1,12 @@
 :root {
-    --primary-color: #2C3E50;     
-    --secondary-color: #4A90E2;   
-    --light-blue: #A3C9F9;          
-    --accent-color: #FFC107;       
-    --primary-text-color: #2C3E50;   
-    --secondary-text-color: #333333; 
-    --light-text-color: #5A5A5A;  
-    --darker-blue: #04125c; 
+    --primary-color: #2c3e50;
+    --secondary-color: #4a90e2;
+    --light-blue: #a3c9f9;
+    --accent-color: #ffc107;
+    --primary-text-color: #2c3e50;
+    --secondary-text-color: #333333;
+    --light-text-color: #5a5a5a;
+    --darker-blue: #04125c;
 }
 
 .form-container {
@@ -24,14 +24,14 @@
     justify-content: center;
     flex: 1;
     margin: 0px 0px 20px 0px;
-    font-family: 'arial' sans-serif;
+    font-family: "arial" sans-serif;
 }
 
 #pcf-name,
 #senior-cell-name,
 #cell-name {
-    -webkit-animation: slide-in-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-    animation: slide-in-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    -webkit-animation: slide-in-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: slide-in-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 .last-group {
@@ -56,7 +56,7 @@
     font-weight: 400;
     box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.002);
     letter-spacing: 0rem;
-    transition: all .3s ease-out, border 0.3s ease-out;
+    transition: all 0.3s ease-out, border 0.3s ease-out;
 }
 
 .form-group input:not(:focus),
@@ -70,7 +70,7 @@
     letter-spacing: 0rem;
 }
 
-.form-group input:focus, 
+.form-group input:focus,
 .form-group select:focus {
     border: 1px solid var(--secondary-color);
 }
@@ -82,14 +82,14 @@
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none; /* Chrome, Safari, Edge, Opera */
+    -webkit-appearance: none;
+    /* Chrome, Safari, Edge, Opera */
     margin: 0;
 }
 
 input[type="number"] {
-    appearance: none; 
+    appearance: none;
 }
-
 
 .form-group select {
     display: block;
@@ -103,7 +103,7 @@ input[type="number"] {
     font-weight: 400;
     box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.002);
     letter-spacing: 0rem;
-    transition: all .3s ease-out;
+    transition: all 0.3s ease-out;
 }
 
 .fa-solid.fa-xmark.fa-2xl {
@@ -115,10 +115,9 @@ input[type="number"] {
     display: flex;
     align-items: center;
     justify-content: center;
-	-webkit-animation: shake-horizontal 1.2s steps(5, start) infinite alternate-reverse both;
-	animation: shake-horizontal 1.2s steps(5, start) infinite alternate-reverse both;
+    -webkit-animation: shake-horizontal 1.2s steps(5, start) infinite alternate-reverse both;
+    animation: shake-horizontal 1.2s steps(5, start) infinite alternate-reverse both;
 }
-
 
 .fa-solid.fa-spinner-third.fa-2xl {
     width: 60px;
@@ -126,7 +125,7 @@ input[type="number"] {
     display: flex;
     align-items: center;
     justify-content: center;
-    -webkit-animation: rotate-center 0.6s linear  both infinite;
+    -webkit-animation: rotate-center 0.6s linear both infinite;
     animation: rotate-center 0.6s linear both infinite;
 }
 
@@ -134,9 +133,8 @@ input[type="number"] {
     display: none;
 }
 
-
 .parent-button {
-    display:flex;
+    display: flex;
     justify-content: flex-end;
     padding: 0px 150px 0px 0px;
 }
@@ -147,7 +145,7 @@ input[type="number"] {
     padding: 5px;
     border-radius: 5px;
     border: none;
-    background: #316FF6;
+    background: #316ff6;
     color: rgb(255, 255, 255);
     transition: 0.5s ease;
     cursor: pointer;

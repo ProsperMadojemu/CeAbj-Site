@@ -5,24 +5,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     .then(response => response.json())
     .then(sessionData => {
         if (sessionData.email && sessionData.isAdmin) {
-        // Fetch admin data from getalldata route
-        fetch('/getalldata')
-        .then(response => response.json())
-        .then(data => {
-            // Check if the logged-in user is an admin
-            const admin = data.admin.find(a => a.email === sessionData.email);
-            if (!admin) {
-                window.location.href = '../404.html';
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-            window.location.href = '../404.html';
-        });
+            // Fetch admin data from getalldata route
+            fetch('/getalldata')
+                .then(response => response.json())
+                .then(data => {
+                    // Check if the logged-in user is an admin
+                    const admin = data.admin.find(a => a.email === sessionData.email);
+                    if (!admin) {
+                        window.location.href = '../404.html';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    window.location.href = '../404.html';
+                });
         } else {
-        window.location.href = '/pages/login.html';
+            window.location.href = '/pages/login.html';
         }
-    
+
         const logoutButton = document.getElementById('Logout-Button');
         logoutButton.addEventListener('click', () => {
             fetch('/logout', { method: 'POST' })
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tableBody = document.querySelector('#usersTableData tbody');
     showSkeletonRows(tableBody);
 
-    
+
     function showSkeletonRows(tableBody) {
         for (let i = 0; i < 4; i++) {
             const row = document.createElement('tr');
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const skeleton = tableBody.querySelectorAll('.skeleton')
         skeleton.forEach(row => row.remove());
     }
-        
+
     // Function to format a date in the format YY/MM/DD
     function formatDateToYYMMDD(dateString) {
         if (!dateString || dateString === 'Nill') {
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         try {
             // Construct the URL with searchTerm if present
-            const url = searchTerm 
+            const url = searchTerm
                 ? `/search?q=${encodeURIComponent(searchTerm)}&page=${page}&limit=${limit}`
                 : `/search?page=${page}&limit=${limit}`;
 
@@ -100,21 +100,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     function displayUsers(users) {
         const tableBody = document.querySelector('#usersTableData tbody');
         tableBody.innerHTML = ''; // Clear previous data
-    
+
         if (users.length === 0) {
             tableBody.innerHTML = '<tr><td colspan="8">No users found.</td></tr>';
             return;
         }
-    
+
         let count = (currentPage - 1) * limit + 1; // Adjust count based on the current page
-    
+
         users.forEach(user => {
             // Handle the case where user._doc is present
             const userData = user._doc || user;
-    
+
             const row = document.createElement('tr');
             const registrationDate = userData.registrationDate ? formatDateToYYMMDD(userData.registrationDate) : 'N/A';
-    
+
             row.innerHTML = `
                 <td>${count++}</td>
                 <td>${userData.FirstName || 'N/A'} ${userData.LastName || 'N/A'}</td>
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             tableBody.appendChild(row);
         });
     }
-    
+
 
     function updatePaginationControls(currentPage, totalPages) {
         document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         messageOverlayText.textContent = message;
         if (messageOverlay.timeoutId) {
             clearTimeout(messageOverlay.timeoutId);
-        }   
+        }
         messageOverlay.timeoutId = setTimeout(() => {
             hidePrompt();
         }, 3000);
@@ -201,4 +201,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         messageOverlaySign.classList.remove('fa-solid', 'fa-xmark', 'fa-2xl');
         messageOverlaySign.classList.add('fa-spinner-third', 'fa-2xl');
     }
+
+
+    document.getElementById('DrawerIcon').addEventListener('click', function () {
+        const navbar = document.querySelector('.vertical-navbar');
+        if (!navbar.classList.contains('active')) {
+            navbar.classList.add('active');
+        } else {
+            navbar.classList.remove('active');
+        }
+    });
+
+    document.getElementById('CloseDrawer').addEventListener('click', function () {
+        const navbar = document.querySelector('.vertical-navbar');
+        if (navbar.classList.contains('active')) {
+            navbar.classList.remove('active');
+        }
+    });
+
 });

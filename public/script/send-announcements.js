@@ -39,56 +39,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = '/pages/login.html';
     });
 
-    // function handleDetailsShown() {
-    //     document.getElementById('updatename').value = name;
-    //     document.getElementById('updatelname').value = lname;
-    //     document.getElementById('updatephone').value = phone;
-    //     document.getElementById('updateemail').value = email;
-    //     document.getElementById('updatecountry').value = country;
-    //     document.querySelector('#churches option[value="churchoption"]').textContent = church;
-    //     document.querySelector('#position option[value="noselect"]').textContent = position;
-    //     document.querySelector('#departments option[value="depart"]').textContent = department;
-    // }
+    document.getElementById('DrawerIcon').addEventListener('click', function() {
+        const navbar = document.querySelector('.vertical-navbar');
+        if (!navbar.classList.contains('active')) {
+            navbar.classList.add('active');
+        }else {
+            navbar.classList.remove('active');
+        }
+    });
+    
+    document.getElementById('CloseDrawer').addEventListener('click', function() {
+        const navbar = document.querySelector('.vertical-navbar');
+        if (navbar.classList.contains('active')) {
+            navbar.classList.remove('active');
+        }
+    });
 
-    // try {
-    //     const response = await fetch('/fetch-data');
-    //     if (!response.ok) {
-    //         throw new Error('Network response was not ok');
-    //     }
-    //     const data = await response.json();
-    //     populateTable(data);
-    // } catch (error) {
-    //     console.error('Error fetching data:', error);
-    // }
-
-    
-    // function populateTable(data) {
-    //     const tbody = document.querySelector('#dataTable tbody');
-    //     tbody.innerHTML = ''; // Clear existing rows
-    
-    //     const users = data.users;
-    //     const usersChurch = data.usersChurch;
-    
-    //     users.forEach(user => {
-    //         const userChurch = usersChurch.find(uc => uc.Email === user.Email) || {};
-    //         const row = document.createElement('tr');
-    
-    //         row.innerHTML = `
-    //             <td>${user.Email}</td>
-    //             <td>${user.FirstName}</td>
-    //             <td>${user.LastName}</td>
-    //             <td>${user.PhoneNumber || ''}</td>
-    //             <td>${user.Country || ''}</td>
-    //             <td>${user.Church || userChurch.Church || ''}</td>
-    //             <td>${user.LeadershipPosition || userChurch.LeadershipPosition || ''}</td>
-    //             <td>${userChurch.NameOfCell || ''}</td>
-    //             <td>${userChurch.Department || ''}</td>
-    //             <td>${userChurch.Zone || ''}</td>
-    //         `;
-    
-    //         tbody.appendChild(row);
-    //     });
-    // }
     const messageOverlay = document.getElementById('message-prompt');
     const messageOverlayText = document.getElementById('message-text');
     const messageOverlaySign = document.getElementById('message-sign');
@@ -99,9 +65,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (messageOverlay.timeoutId) {
             clearTimeout(messageOverlay.timeoutId);
         }
-        // messageOverlay.timeoutId = setTimeout(() => {
-        //     hidePrompt();
-        // }, 5000);
     }
 
     function showErrorPrompt(message) {

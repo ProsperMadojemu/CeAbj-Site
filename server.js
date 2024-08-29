@@ -479,11 +479,12 @@ app.get("/admin/", unauthorizedAccess, adminCheck, (req, res) => {
 });
 
 // Checking session route
-app.get("/check-session", (req, res) => {
+app.get('/check-session', (req, res) => {
     if (req.session.user) {
+        req.session.touch();
         res.json(req.session.user);
     } else {
-        res.status(401).json({ message: "User not logged in" });
+        res.status(401).json({ message: 'User not logged in' });
     }
 });
 

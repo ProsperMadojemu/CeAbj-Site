@@ -481,6 +481,8 @@ app.get("/admin/", unauthorizedAccess, adminCheck, (req, res) => {
 // Checking session route
 app.get('/check-session', (req, res) => {
     if (req.session.user) {
+        console.log(req.session.user);
+        
         req.session.touch();
         res.json(req.session.user);
     } else {

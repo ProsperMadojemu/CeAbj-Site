@@ -1,4 +1,48 @@
 document.addEventListener('DOMContentLoaded', () => {
+    fetch('/check-session')
+    .then(response => response.json())
+    .then(sessionData => {
+        if (sessionData.email && !sessionData.isAdmin) {
+            const welcomeGreeting = document.querySelector('.userGreeting');
+            const cancelDropdown = document.getElementById('cancel-click');
+            const userIcon = document.querySelector('#loginIcon');
+            const userDropMenu = document.querySelector('#user-dropdown');
+        
+            userIcon.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent the click event from bubbling up to the document
+                console.log('click seen');
+                userDropMenu.classList.remove('login-content-before-click');
+                userDropMenu.classList.add('login-content-after-click');
+            });
+            
+            document.addEventListener('click', function(event) {
+                if (!userDropMenu.contains(event.target) && !userIcon.contains(event.target)) {
+                    userDropMenu.classList.remove('login-content-after-click');
+                    userDropMenu.classList.add('login-content-before-click');
+                }
+            });
+            
+            cancelDropdown.addEventListener('click',function() {
+                userDropMenu.classList.remove('login-content-after-click');
+                userDropMenu.classList.add('login-content-before-click');
+            })
+            // Optionally add a logout button
+            welcomeGreeting.innerHTML = `Hi, ${sessionData.firstName} ${sessionData.lastName}`;
+            const logoutButton = document.getElementById('Logout-Button');
+            const loginIcon = document.getElementById('loginIcon');
+            loginButton.classList.remove('btn-71');
+            loginButton.classList.add('hidden-class');
+            loginIcon.classList.remove('login_icon');
+            loginIcon.classList.add('login_icon-visible');
+            logoutButton.addEventListener('click', () => {
+                fetch('/logout', { method: 'POST' })
+                .then(() => {
+                    window.location.reload();
+                });
+            });
+        }
+    });
+    
     const navbar = document.querySelector('.landing-page-navbar');
     const loginButton = document.querySelector('.btn-71');
     const loggedInButton = document.querySelector('.login_icon')
@@ -188,51 +232,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //<i class="fa-solid fa-x"></i>
     // Check if user is logged in
-    fetch('/check-session')
-    .then(response => response.json())
-    .then(user => {
-        if (user.email) {
-            const welcomeGreeting = document.querySelector('.userGreeting');
-            const cancelDropdown = document.getElementById('cancel-click');
-            const userIcon = document.querySelector('#loginIcon');
-            const userDropMenu = document.querySelector('#user-dropdown');
+//     fetch('/check-session')
+//     .then(response => response.json())
+//     .then(user => {
+//         if (user.email) {
+//             const welcomeGreeting = document.querySelector('.userGreeting');
+//             const cancelDropdown = document.getElementById('cancel-click');
+//             const userIcon = document.querySelector('#loginIcon');
+//             const userDropMenu = document.querySelector('#user-dropdown');
         
-            userIcon.addEventListener('click', function(event) {
-                event.stopPropagation(); // Prevent the click event from bubbling up to the document
-                console.log('click seen');
-                userDropMenu.classList.remove('login-content-before-click');
-                userDropMenu.classList.add('login-content-after-click');
-            });
+//             userIcon.addEventListener('click', function(event) {
+//                 event.stopPropagation(); // Prevent the click event from bubbling up to the document
+//                 console.log('click seen');
+//                 userDropMenu.classList.remove('login-content-before-click');
+//                 userDropMenu.classList.add('login-content-after-click');
+//             });
             
-            document.addEventListener('click', function(event) {
-                if (!userDropMenu.contains(event.target) && !userIcon.contains(event.target)) {
-                    userDropMenu.classList.remove('login-content-after-click');
-                    userDropMenu.classList.add('login-content-before-click');
-                }
-            });
+//             document.addEventListener('click', function(event) {
+//                 if (!userDropMenu.contains(event.target) && !userIcon.contains(event.target)) {
+//                     userDropMenu.classList.remove('login-content-after-click');
+//                     userDropMenu.classList.add('login-content-before-click');
+//                 }
+//             });
             
-            cancelDropdown.addEventListener('click',function() {
-                userDropMenu.classList.remove('login-content-after-click');
-                userDropMenu.classList.add('login-content-before-click');
-            })
-            // Optionally add a logout button
-            welcomeGreeting.innerHTML = `Hi, ${user.firstName} ${user.lastName}`;
-            const logoutButton = document.getElementById('Logout-Button');
-            const loginIcon = document.getElementById('loginIcon');
-            loginButton.classList.remove('btn-71');
-            loginButton.classList.add('hidden-class');
-            loginIcon.classList.remove('login_icon');
-            loginIcon.classList.add('login_icon-visible');
-            logoutButton.addEventListener('click', () => {
-                fetch('/logout', { method: 'POST' })
-                    .then(() => {
-                        window.location.reload();
-                    });
-            });
-        }
-    })
-    .catch(err => {
-        console.error('User not logged in');
-    });
-});
+//             cancelDropdown.addEventListener('click',function() {
+//                 userDropMenu.classList.remove('login-content-after-click');
+//                 userDropMenu.classList.add('login-content-before-click');
+//             })
+//             // Optionally add a logout button
+//             welcomeGreeting.innerHTML = `Hi, ${user.firstName} ${user.lastName}`;
+//             const logoutButton = document.getElementById('Logout-Button');
+//             const loginIcon = document.getElementById('loginIcon');
+//             loginButton.classList.remove('btn-71');
+//             loginButton.classList.add('hidden-class');
+//             loginIcon.classList.remove('login_icon');
+//             loginIcon.classList.add('login_icon-visible');
+//             logoutButton.addEventListener('click', () => {
+//                 fetch('/logout', { method: 'POST' })
+//                     .then(() => {
+//                         window.location.reload();
+//                     });
+//             });
+//         }
+//     })
+//     .catch(err => {
+//         console.error('User not logged in');
+//     });
+// });
     
+ 
+});

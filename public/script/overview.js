@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     
 
-    // Fetch session data
     fetch('/check-session')
     .then(response => response.json())
     .then(sessionData => {

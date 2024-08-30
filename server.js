@@ -23,15 +23,32 @@
     })
     app.use(
         session({
-            secret: process.env.SESSION_SECRET,
+            secret: "process.env.SESSION_SECRET",
             resave: false,
             saveUninitialized: true,
-            store: store
+            store: store,
+            cookie: {
+                secure: true,
+                sameSite: 'lax',
+                expires: new Date(Date.now() + 3600000)
+            }
         })
     );
 
 
-    
+    app.use((req, res, next) => {
+        store.get(req.sessionID, (err, session) => {
+          if (err) {
+            console.error('Error getting session:', err);
+          } else {
+            console.log('Session:', session);
+          }
+        });
+        next();
+      });
+    // const isAuth = async (req, res, next) => {
+        
+    // }
     
     const hashPassword = async (plainTextPassword) => {
         const salt = await bcrypt.genSalt(10);
@@ -424,12 +441,11 @@
                     admin.password
                 );
                 if (isPasswordValid && admin.email === process.env.ADMIN_EMAIL) {
-                    req.session.admin = {
+                    req.session.user = {
                         email: admin.email,
                         isAdmin: true,
                         userType: "admin",
                     };
-                    req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
                     return res.json({ redirectUrl: "../admin/overview.html" });
                 } else {
                     return res.status(401).json({ error: "Invalid email or password" });

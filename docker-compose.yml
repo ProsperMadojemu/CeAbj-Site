@@ -9,11 +9,11 @@ services:
     command: npm start
     ports:
       - "5000:5000"
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:5000 || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+    # healthcheck:
+    #   test: ["CMD-SHELL", "curl -f http://localhost:5000 || exit 1"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 5
 
 
   nginx:

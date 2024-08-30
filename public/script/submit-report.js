@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const formJSON = Object.fromEntries(formData.entries());
     
                 console.log('JSON data to be sent:', JSON.stringify(formJSON));
-                const response = await fetch('http://localhost:5000/submitcellreport', {
+                const response = await fetch('/submitcellreport', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

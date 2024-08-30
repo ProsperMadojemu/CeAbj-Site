@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', async() => {
                 const formData = new FormData(newCellForm);
                 const formJSON = Object.fromEntries(formData.entries());
 
-                const response = await fetch('http://localhost:5000/submitnewcell', {
+                const response = await fetch('/submitnewcell', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

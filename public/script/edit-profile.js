@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             console.log('JSON data to be sent:', JSON.stringify(formJSON));
-            const response = await fetch('http://localhost:5000/updateuser', {
+            const response = await fetch('/updateuser', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

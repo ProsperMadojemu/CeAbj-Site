@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 formData3.forEach((value, key) => { formJSON[key] = value });
     
                 // Send the form data to the server using fetch
-                const response = await fetch('http://localhost:5000/register', {
+                const response = await fetch('/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

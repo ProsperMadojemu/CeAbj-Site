@@ -345,6 +345,10 @@ input[type="number"] {
     height: 300px;
 }
 
+.lgt-bk {
+    background: #ffff;
+}
+
 .grid-row-4-column-2-span-2,
 .grid-row-4-column-span-2 {
     grid-column: span 1;

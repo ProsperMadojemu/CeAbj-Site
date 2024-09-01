@@ -29,6 +29,7 @@ body {
     display: flex;
     flex-direction: column;
     text-align: center;
+    background-color: #f9f9f9;
     max-width: 100vw;
     min-height: 100vh;
     line-height: 1.6;
@@ -41,6 +42,7 @@ body .sub-body {
 .sub-body > .dashboard-sub-body {  /* FOR THE CONTAINER HOLDING VERTICAL NAVBAR & DASHBOARD CONTENT */
     display: flex;
     position: relative;
+    /* background-color: #f9f9f9; */
     height: 100%;
 }
 
@@ -53,7 +55,7 @@ body .sub-body {
     left: 0;
     transition: left 0.5s ease;
     height: 100%;
-    background-color: #f9f9f9;
+    /* background-color: #f9f9f9; */
 }
 
 .dashboard-content-title button {
@@ -318,7 +320,6 @@ body .sub-body {
     transition: margin 0.5s ease;
     margin-left: 260px;
     height: 100%;
-    background: #ffff;
     border-radius: 10px 0px 0px;
     overflow-y: auto;
 }

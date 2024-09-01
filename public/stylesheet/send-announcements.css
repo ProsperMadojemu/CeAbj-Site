@@ -62,6 +62,10 @@
     box-shadow: 1px 1px 20px var(--secondary-color);
 }
 
+.form-container textarea{
+    flex: 1;
+}
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none; /* Chrome, Safari, Edge, Opera */
@@ -88,4 +92,8 @@ input[type="number"] {
 
 .hidden {
     display: none;
+}
+
+* {
+    outline: 1px solid red;
 }

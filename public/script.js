@@ -107,12 +107,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const imageBlocks = document.querySelectorAll('.image-block');
+    let currentIndex = 0; // To keep track of the current image block index
+    
+    // Add click event listeners to image blocks
     imageBlocks.forEach(imageBlock => {
-        imageBlock.addEventListener('click', () => {
-            imageBlocks.forEach(block => block.classList.remove('expanded', 'no-hover'));
-            imageBlock.classList.add('expanded', 'no-hover');
-        });
+        imageBlock.addEventListener('click', expandImage);
     });
+    
+    function expandImage(event) {
+        imageBlocks.forEach(block => block.classList.remove('expanded', 'no-hover'));
+    
+        if (event) {
+            event.currentTarget.classList.add('expanded', 'no-hover');
+        } else {
+            imageBlocks[currentIndex].classList.add('expanded', 'no-hover');
+        }
+    }
+    
+    function cycleImages() {
+        expandImage();
+        currentIndex = (currentIndex + 1) % imageBlocks.length; 
+    }
+    
+    setInterval(cycleImages, 5000);
+    
+    
 
     const carousel = document.querySelector('.promo-carousel');
     const firstImg = carousel.querySelectorAll('img')[0];

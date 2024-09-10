@@ -7,7 +7,7 @@ const pushComments = async (req, res) => {
     res.status(201).json(comment);
 }
 
-const pullComments = async (req) => {
+const pullComments = async (req, res) => {
     res.json(comments);
 }
 

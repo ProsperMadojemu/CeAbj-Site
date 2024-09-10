@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
 :root {
     --primary-color: #2C3E50;     
     --secondary-color: #4A90E2;   
@@ -7,7 +10,6 @@
     --secondary-text-color: #333333; 
     --light-text-color: #5A5A5A;  
     --darker-blue: #04125c; 
-
     --default-padding: 0px 10px;
 }
 
@@ -15,6 +17,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* background: #0080004f; */
 }
 
 a {
@@ -23,7 +26,8 @@ a {
 }
 
 body {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     display: flex;
@@ -91,7 +95,9 @@ body .sub-body {
 }
 
 @media (max-width: 768px) {
+    /* Vertical Navbar styles */
     .dashboard-sub-body > .vertical-navbar {
+        background-color: #f9f9f9;
         left: -280px;
     }
     .vertical-navbar ~ .dashboard-content {
@@ -316,6 +322,7 @@ body .sub-body {
 }
 
 .dashboard-content { /* parent section element holding all the dashboard contents */
+    background: none;
     width: 100%;
     transition: margin 0.5s ease;
     margin-left: 260px;
@@ -383,7 +390,6 @@ body .sub-body {
     display: flex;
     flex-direction: column;
     text-align: left;
-    background: #ffffff;
     /* font-size: 1.5rem; */
 }
 

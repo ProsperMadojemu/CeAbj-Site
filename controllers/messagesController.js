@@ -51,7 +51,14 @@ const sendMessage = async (req, res) => {
 
 const viewMessage = async (req,res) => {
     try {
-        const message = await messagesModel.find({});
+        const message = await messagesModel.find({},
+            {
+              Content: 1,
+              Image: 1,
+              Recipients: 1,
+              Subject: 1,
+              _id: 0
+            });
         res.json({message: message})
     } catch (error) {
         console.error("error getting message:", error);

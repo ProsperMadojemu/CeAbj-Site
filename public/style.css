@@ -388,7 +388,7 @@ body {
     align-items: center;
     justify-content: center;
     font-family: 'Lato', sans-serif;
-    padding: 0px 20px;
+    padding: 0px 10px;
 }
 
 .about-section-container{
@@ -401,8 +401,9 @@ body {
 
 .about-section__text{
     margin-bottom: 10px;
-    padding: 5px;
     width: 92%;
+    text-align: left;
+    width: 90%;
     font-size: 1.2em;
     font-weight: 600;
     /* color: #1941BA; */
@@ -417,6 +418,8 @@ body {
     font-size: 2em;
     text-decoration:underline ;
 }
+
+
 
 .image-accordion {
     display: flex;
@@ -434,7 +437,7 @@ body {
     flex: 1;
     filter: grayscale(90%);
     transition: flex 500ms, filter 500ms;
-    transition: 0.5s ease;
+    transition: 1s ease;
 }
 
 .image-block img {

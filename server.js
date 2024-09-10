@@ -41,7 +41,6 @@ app.use(
             // secure: true, // or true if you're using HTTPS
             sameSite: 'strict', // or 'strict' depending on your requirements
             httpOnly: false,
-            expires: new Date(Date.now() + 3600000)
         }
     })
 );

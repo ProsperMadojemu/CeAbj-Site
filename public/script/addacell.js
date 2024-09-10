@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async() => {
                     // Check if the logged-in user is an admin
                     const admin = data.admin.find(a => a.email === sessionData.email);
                     if (!admin) {
-                        window.location.href = '../404.html';
+                            window.location.href = '../404.html';
                     }
                 })
                 .catch(error => {

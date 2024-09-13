@@ -1,6 +1,10 @@
 import Admin from "../models/adminModel.js";
 import path from "path"
 import bcrypt from "bcryptjs"
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const hashPassword = async (plainTextPassword) => {
     const salt = await bcrypt.genSalt(10);
@@ -62,7 +66,7 @@ const checkAndCreateAdmin = async () => {
 };
 
 const redirect = async (req,res) => {
-    return res.sendFile(path.join(__dirname, "./public/admin/overview.html"));
+    return res.sendFile(path.join(__dirname, "../public/admin/overview/overview.html"));
 }
 
 export {unauthorizedAccess, adminCheck, redirect}

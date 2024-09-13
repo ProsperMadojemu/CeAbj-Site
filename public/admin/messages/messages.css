@@ -1,0 +1,665 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+    --primary-color: #2C3E50;     
+    --secondary-color: #4A90E2;   
+    --light-blue: #A3C9F9;          
+    --accent-color: #FFC107;       
+    --primary-text-color: #2C3E50;   
+    --secondary-text-color: #333333; 
+    --light-text-color: #5A5A5A;  
+    --darker-blue: #04125c; 
+}
+
+.empty-div{
+    height: 10%;
+}
+
+.form-container {
+    display: flex;
+    background-color: #f9f9f9;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+    color: #e7e7e7;
+    justify-content: center;
+    font-family: 'arial' sans-serif;
+}
+
+.last-group {
+    margin: 0;
+}
+
+.form-group input {
+    display: block;
+    width: 100%;   
+    height: 45px;
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--primary-color);
+    font-size: 1rem;
+    font-weight: 400;
+    /* box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.002); */
+    letter-spacing: 0rem;
+    transition: all .3s ease-out;
+}
+
+.form-group input:not(:focus),
+.form-group select:not(:focus) {
+    color: #808080;
+}
+
+.form-group label {
+    font-size: 1.1rem;
+    font-weight: 450;
+    letter-spacing: 0rem;
+}
+
+.form-group input:focus, 
+.form-group select:focus {
+    box-shadow: 1px 1px 20px var(--secondary-color);
+}
+
+.form-group textarea{
+    border-radius: 5px;
+    letter-spacing: 0rem;
+    width: 100%;   
+    resize: none;
+    outline: none;
+    border-color: var(--secondary-color);
+    padding: 10px;
+    height: 100%;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Chrome, Safari, Edge, Opera */
+    margin: 0;
+}
+
+input[type="number"] {
+    appearance: none; 
+}
+/* 
+.form-group select {
+    display: block;
+    height: 45px;
+    width: 450px;
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--primary-color);
+    font-size: 1rem;
+    font-weight: 400;
+    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.002);
+    letter-spacing: 0rem;
+} */
+
+.hidden {
+    display: none;
+}
+
+.messages {
+    /* margin: 0px 0px 0px 40px */
+    padding: 0px 60px;
+}
+
+.messages h3 {
+    font-size: 1.3rem;
+    text-wrap: nowrap;
+}
+
+.messages .scroll {
+    width: 100%;
+    max-height: 100%;
+}
+
+.grid-messages {
+    display: grid;
+    text-align: left;
+    gap: 20px;
+    position: relative;
+    grid-template-rows: auto 1fr;
+    min-height: 75%;
+}
+
+.grid-messages .container {
+    height: 100%;
+    align-self: end;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 20px 60px;
+}
+
+.row-1 {
+    grid-row: 1;
+}
+
+.col-span-2 {
+    grid-column: span 2;
+}
+
+.row-2 {
+    grid-row: 2;
+}
+
+.col-2 {
+    grid-column: 2;
+}
+
+.col-1 {
+    grid-column: 1;
+}
+
+.right-bar{
+    display: flex;
+    flex-direction: column;
+    padding: 80px 10px;
+    /* margin: 40px 0px 0px 0px; */
+    justify-content: baseline;
+    position: absolute;
+    align-items: center;
+    gap: 20px;
+    justify-self: flex-end;
+}
+
+
+.right-bar button {
+    position: relative;
+    border: none;
+    background: none;
+    border-radius: 50%;
+    padding: 8px;
+    transition: 200ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.right-bar button::after{
+    content: '';
+    position: absolute;
+    background: #c4c4c46c;
+    top: 50px;
+    width: 30%;
+    height: 1%;
+}
+
+.right-bar button.active::before {
+    content: '';
+    background: var(--secondary-color);
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.right-bar button:last-child::after{
+    background: none;
+}
+
+.right-bar button:hover {
+    background: #c4c4c46c;
+}
+
+button[title='compose'] {
+    /* position: absolute; */
+    /* right: 0; */
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(2, auto);
+    gap: 10px;
+    background: none;
+    /* fill: #f9f9f9; */
+    color: #202124;
+    /* color: #f9f9f9; */
+    font-size: 14px;
+    font-family: "Roboto";
+    background: var(--secondary-color);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 24px 10px 10px;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+button[title='compose']:hover {
+    box-shadow: 1px 2px 9px rgba(0, 0, 0, 0.788);
+}
+
+.messageBody {
+    display: flex;
+    flex-direction: column;
+    /* gap: 10px; */
+}
+
+.message-prev {
+    display: flex;
+    background: #f2f5fc;
+    flex-direction: row;
+    position: relative;
+    gap: 20px;
+    color: #202124;
+    padding: 10px 5px;
+    max-height: 120px;
+    cursor: pointer;
+    /* margin-bottom: 10px; */
+    border-bottom: 0.2px solid #20212417;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    animation: fade 300ms ease-in;
+}
+
+.message-prev .left {
+    text-wrap: nowrap;
+}
+
+.message-prev .right {
+    /* position: relative; */
+    flex: 1;
+}
+
+.message-prev .right .wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.message-prev .right .subject {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
+.message-prev .right .content {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    color: #5F6368;
+    flex: 1;
+}
+
+.message-prev .actions {
+    position: absolute;
+    display: none;
+    right: 0;
+    top: 0;
+    background: #f9f9f9;
+    box-shadow: -2px 3px 7px #0000004b;
+    /* width: 15%; */
+    border-radius: 0px 0px 0px 10px;
+    padding: 3px 10px 5px 8px;
+    /* display: flex; */
+    align-items: center;
+    /* margin: 8px 8px 0px 0px; */
+}
+
+.message-prev:hover{
+    /* box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.3); */
+    box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+    z-index: 1;
+}
+
+.message-prev:hover .actions {
+    display: flex;
+}
+
+.message-prev .right .time {
+    font-size: 12px;
+    text-wrap: nowrap;
+}
+
+.message-prev .label {
+    display: flex;
+    padding: 0px 4px;
+    border-radius: 4px;
+    color: #666;
+    font-size: 12px;
+    height: min-content;
+    background: #dddddd;
+}
+
+
+.modal {
+    position: absolute;
+    z-index: 20;
+    top: 0;
+    left: 0;
+    /* transform: translate(-50%); */
+    display: flex;
+    padding: 60px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    height: 100%;
+    animation: fade 300ms ease-in;
+}
+
+.modal > .container {
+	max-width: 991px;
+	width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+	background: #fff;
+    flex: 1;
+	border-radius: 8px 8px 0px 0px;
+    animation: appear 200ms ease-in;
+	overflow: hidden;
+}
+.modal > .container .toolbar {
+	/* background: #eee; */
+	padding: 0px 16px;
+    flex: 1;
+    position: relative;
+    gap: 20px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.modal > .container > .head {
+    display: flex;
+    padding: 0px 16px;
+    flex-direction: column;
+}
+
+.modal > .container > .head input{
+    outline: none;
+    border: none;
+    line-height: 20px;
+    font-size: 14px;
+    border-bottom: 0.5px solid #4547462c;
+    padding: 10px 0px;
+
+}
+
+.modal > .container .foot .buttons {
+    display: flex;
+    gap: 5px;
+} 
+
+.modal > .container .foot .buttons button{
+    display: flex;
+    color: #454746;
+    cursor: pointer;
+    padding: 6px 16px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.modal > .container .actions {
+    display: flex;
+	padding: 16px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    background: #f2f5fc;
+}
+
+
+.modal > .container .actions p {
+    font-size: 14px;
+    color: #041E49;
+}
+
+.modal > .container .actions button {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 2px;
+    background: none;
+}
+
+.modal > .container .actions button:hover {
+    background: #1d1d1d13;
+}
+
+.modal > .container .foot {
+	display: flex;
+	grid-gap: 10px;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 16px;
+}
+
+.modal > .container .foot .left {
+	flex-wrap: wrap;
+    display: flex;
+    gap: 10px;
+    padding: 8px 0px;
+}
+
+.modal > .container .foot .left > input {
+	max-width: 100px;
+	padding: 6px 10px;
+	border-radius: 6px;
+	border: 2px solid #ddd;
+	outline: none;
+}
+.modal > .container .foot .left select {
+	background: #fff;
+	border: 2px solid #ddd;
+	border-radius: 6px;
+	outline: none;
+	cursor: pointer;
+}
+.modal > .container .foot .left .color {
+	background: #fff;
+	border: 2px solid #ddd;
+	border-radius: 6px;
+	outline: none;
+	cursor: pointer;
+	display: flex;
+    
+	align-items: center;
+	grid-gap: 6px;
+	padding: 0 10px;
+}
+.modal > .container .foot .left .color span {
+	font-size: 14px;
+}
+.modal > .container .foot .left .color input {
+	border: none;
+	padding: 0;
+	width: 26px;
+	height: 26px;
+	background: #fff;
+	cursor: pointer;
+}
+.modal > .container .foot .left .color input::-moz-color-swatch {
+	width: 20px;
+	height: 20px;
+	border: none;
+	border-radius: 50%;
+}
+
+.modal > .container .foot .right button {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    justify-content: center;
+    padding: 6px 16px;
+    border: none;
+    border-radius: 20px;
+    background: #0B57D0;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.modal > .container .btn-toolbar {
+	display: grid;
+    grid-template-columns: auto auto;
+	gap: 5px;
+}
+.modal > .container .btn-toolbar button {
+	border: 2px solid #ddd;
+	border-radius: 6px;
+	cursor: pointer;
+    position: relative;
+    background: none;
+    padding: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+}
+
+.modal > .container .foot .right button:hover {
+    z-index: 1;
+    box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, 0.4);
+}
+.modal > .container .btn-toolbar button:hover {
+	background: #f3f3f3;
+}
+#content {
+	padding: 8px 0px;
+	outline: none;
+    text-align: left;
+	max-height: 50vh;
+	overflow: auto;
+    text-align: left;
+    text-decoration: none;
+    font-weight: 100;
+    flex: 1;
+    max-height: 280px;
+    /* background: #fff; */
+}
+
+#content::-webkit-scrollbar{
+    width: 10px;
+
+}
+
+#content::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+    cursor: pointer;
+}
+#content::-webkit-scrollbar-track {
+    background-color: #DFE9EB;
+}
+
+#content::-webkit-scrollbar-track:hover {
+    background-color: #B8C0C2;
+}
+
+#content::-webkit-scrollbar-track:active {
+    background-color: #B8C0C2;
+}
+
+#content::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #4a91e29f;
+}
+
+#content::-webkit-scrollbar-thumb:hover {
+    background-color: #62A34B;
+}
+
+.upload {
+    position: absolute;
+    background: #f7f7f7;
+    padding: 8px 12px;
+    display: flex;
+    gap: 5px;
+    border-radius: 20px;
+    bottom: 0;
+    margin-right: 100px;
+    right: 0;
+    justify-content: space-between;
+    align-items: center;
+    width: 280px;
+}
+
+.upload p {
+    text-wrap: nowrap;
+    white-space: nowrap;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.upload img {
+    object-fit: cover;
+    border-radius: 50%;
+    display: flex;
+    width: 40px;
+    height: 40px;
+}
+
+button[title="removeImage"] {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 2px;
+    background: none;
+}
+
+button[title="removeImage"]:hover {
+    background: #1d1d1d13;
+}
+
+#show-code[data-active="true"] {
+	background: #eee;
+}
+
+.loader {
+    height: 50vh;
+    display: flex;
+    position: relative;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.loader::before{
+    content: '';
+    width: 70px;
+    border: 7px solid var(--secondary-color);
+    height: 70px;
+    border-radius: 50%;
+    border-top: 7px solid #fff;
+    animation: spin 0.75s forwards infinite;
+}
+
+button.delete {
+    background: none;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+button.delete:hover {
+    background: #1d1d1d13;
+}

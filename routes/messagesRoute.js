@@ -1,5 +1,5 @@
 import express from "express"
-import { sendMessage, viewMessage } from "../controllers/messagesController.js";
+import { sendMessage, viewMessage, deleteMessage, sendMembership, listMemberships, viewAll } from "../controllers/messagesController.js";
 import multer from "multer";
 const messagesRouter = express.Router();
 
@@ -13,6 +13,10 @@ const storage = multer.diskStorage( {
 const upload = multer({storage:storage});
 
 messagesRouter.post("/api/messages/send",upload.single("image"), sendMessage);
-messagesRouter.get("/api/messages/view", viewMessage);
+messagesRouter.post("/api/messages/memberships/send",multer().none(), sendMembership);
+messagesRouter.post("/api/messages/delete", deleteMessage);
+messagesRouter.post("/api/messages/view", viewMessage);
+messagesRouter.get("/api/messages/list", viewAll);
+messagesRouter.get("/api/messages/memberships/view", listMemberships);
 
 export default messagesRouter;

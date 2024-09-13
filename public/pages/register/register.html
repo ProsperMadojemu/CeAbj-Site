@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create Account">
+    <link rel="icon" href="../src/favicon.ico">
+    <link rel="stylesheet" href="/annimations.css">
+    <link rel="stylesheet" href="/pages/home/style.css">
+    <link rel="stylesheet" href="/pages/register/register.css">
+    <script src="https://kit.fontawesome.com/ecf5b4f981.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <title>CE ABARANJE || REGISTER</title>
+</head>
+<body>
+    <header class="header-register">
+        <img src="/src/R.jpeg" alt="pastorchris.jpeg">
+        <!-- <img src="../src/ABJ LOGO.png" alt="abj" class="logo"> -->
+        <div class="prompt-parent hidden" id="message-prompt">
+            <div class="success-prompt" >
+                <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
+                <h2 id="message-text"></h2>
+            </div>
+        </div>
+        <div class="register-container" id="first-form">
+            <div class="register-container-text" id="register-text">
+                <h1>Create an account</h1>
+                <p>Fill in your contact details.</p>
+            </div>
+            
+            <form method="POST" class="registration-form" id="first-initial-form">
+                <div class="registration-forms-container">
+                    <h1>Sign up!</h1>
+                    <div class="input-groups">
+                        <input type="email" name="mail" placeholder=" " id="mail" inputmode="email" required>
+                        <label for="mail">Email</label>
+                    </div>
+
+                    <div class="input-groups">
+                        <input type="text" name="fname" placeholder=" " id="fname" required>
+                        <label for="fname">First name</label>
+                    </div>
+
+                    <div class="input-groups">
+                        <input type="text" name="lname" placeholder=" " id="lname" required="Please fill in your last name">
+                        <label for="lname">Last name</label>
+                    </div>
+                    
+                    <div class="input-groups">
+                        <input type="number" name="phone"  placeholder=" " id="phone" required inputmode="tel">
+                        <label for="phone">Phone number</label>
+                    </div>
+
+                    <div class="input-groups">
+                        <select id="country" name="country" class="form-control col-lg-12 col-md-12 col-12" required="">
+                            <option value="">Select your country</option>
+                            <option value="Afganistan">Afghanistan</option>
+                            <option value="Albania">Albania</option>
+                            <option value="Algeria">Algeria</option>
+                            <option value="American Samoa">American Samoa</option>
+                            <option value="Andorra">Andorra</option>
+                            <option value="Angola">Angola</option>
+                            <option value="Anguilla">Anguilla</option>
+                            <option value="Antigua &amp; Barbuda">Antigua &amp; Barbuda</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Armenia">Armenia</option>
+                            <option value="Aruba">Aruba</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Austria">Austria</option>
+                            <option value="Azerbaijan">Azerbaijan</option>
+                            <option value="Bahamas">Bahamas</option>
+                            <option value="Bahrain">Bahrain</option>
+                            <option value="Bangladesh">Bangladesh</option>
+                            <option value="Barbados">Barbados</option>
+                            <option value="Belarus">Belarus</option>
+                            <option value="Belgium">Belgium</option>
+                            <option value="Belize">Belize</option>
+                            <option value="Benin">Benin</option>
+                            <option value="Bermuda">Bermuda</option>
+                            <option value="Bhutan">Bhutan</option>
+                            <option value="Bolivia">Bolivia</option>
+                            <option value="Bonaire">Bonaire</option>
+                            <option value="Bosnia &amp; Herzegovina">Bosnia &amp; Herzegovina</option>
+                            <option value="Botswana">Botswana</option>
+                            <option value="Brazil">Brazil</option>
+                            <option value="British Indian Ocean Ter">British Indian Ocean Ter</option>
+                            <option value="Brunei">Brunei</option>
+                            <option value="Bulgaria">Bulgaria</option>
+                            <option value="Burkina Faso">Burkina Faso</option>
+                            <option value="Burundi">Burundi</option>
+                            <option value="Cambodia">Cambodia</option>
+                            <option value="Cameroon">Cameroon</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Canary Islands">Canary Islands</option>
+                            <option value="Cape Verde">Cape Verde</option>
+                            <option value="Cayman Islands">Cayman Islands</option>
+                            <option value="Central African Republic">Central African Republic</option>
+                            <option value="Chad">Chad</option>
+                            <option value="Channel Islands">Channel Islands</option>
+                            <option value="Chile">Chile</option>
+                            <option value="China">China</option>
+                            <option value="Christmas Island">Christmas Island</option>
+                            <option value="Cocos Island">Cocos Island</option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="Comoros">Comoros</option>
+                            <option value="Congo">Congo</option>
+                            <option value="Cook Islands">Cook Islands</option>
+                            <option value="Costa Rica">Costa Rica</option>
+                            <option value="Cote DIvoire">Cote DIvoire</option>
+                            <option value="Croatia">Croatia</option>
+                            <option value="Cuba">Cuba</option>
+                            <option value="Curaco">Curacao</option>
+                            <option value="Cyprus">Cyprus</option>
+                            <option value="Czech Republic">Czech Republic</option>
+                            <option value="Denmark">Denmark</option>
+                            <option value="Djibouti">Djibouti</option>
+                            <option value="Dominica">Dominica</option>
+                            <option value="Dominican Republic">Dominican Republic</option>
+                            <option value="East Timor">East Timor</option>
+                            <option value="Ecuador">Ecuador</option>
+                            <option value="Egypt">Egypt</option>
+                            <option value="El Salvador">El Salvador</option>
+                            <option value="Equatorial Guinea">Equatorial Guinea</option>
+                            <option value="Eritrea">Eritrea</option>
+                            <option value="Estonia">Estonia</option>
+                            <option value="Ethiopia">Ethiopia</option>
+                            <option value="Falkland Islands">Falkland Islands</option>
+                            <option value="Faroe Islands">Faroe Islands</option>
+                            <option value="Fiji">Fiji</option>
+                            <option value="Finland">Finland</option>
+                            <option value="France">France</option>
+                            <option value="French Guiana">French Guiana</option>
+                            <option value="French Polynesia">French Polynesia</option>
+                            <option value="French Southern Ter">French Southern Ter</option>
+                            <option value="Gabon">Gabon</option>
+                            <option value="Gambia">Gambia</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Germany">Germany</option>
+                            <option value="Ghana">Ghana</option>
+                            <option value="Gibraltar">Gibraltar</option>
+                            <option value="Great Britain">Great Britain</option>
+                            <option value="Greece">Greece</option>
+                            <option value="Greenland">Greenland</option>
+                            <option value="Grenada">Grenada</option>
+                            <option value="Guadeloupe">Guadeloupe</option>
+                            <option value="Guam">Guam</option>
+                            <option value="Guatemala">Guatemala</option>
+                            <option value="Guinea">Guinea</option>
+                            <option value="Guyana">Guyana</option>
+                            <option value="Haiti">Haiti</option>
+                            <option value="Hawaii">Hawaii</option>
+                            <option value="Honduras">Honduras</option>
+                            <option value="Hong Kong">Hong Kong</option>
+                            <option value="Hungary">Hungary</option>
+                            <option value="Iceland">Iceland</option>
+                            <option value="Indonesia">Indonesia</option>
+                            <option value="India">India</option>
+                            <option value="Iran">Iran</option>
+                            <option value="Iraq">Iraq</option>
+                            <option value="Ireland">Ireland</option>
+                            <option value="Isle of Man">Isle of Man</option>
+                            <option value="Israel">Israel</option>
+                            <option value="Italy">Italy</option>
+                            <option value="Jamaica">Jamaica</option>
+                            <option value="Japan">Japan</option>
+                            <option value="Jordan">Jordan</option>
+                            <option value="Kazakhstan">Kazakhstan</option>
+                            <option value="Kenya">Kenya</option>
+                            <option value="Kiribati">Kiribati</option>
+                            <option value="Korea North">Korea North</option>
+                            <option value="Korea Sout">Korea South</option>
+                            <option value="Kuwait">Kuwait</option>
+                            <option value="Kyrgyzstan">Kyrgyzstan</option>
+                            <option value="Laos">Laos</option>
+                            <option value="Latvia">Latvia</option>
+                            <option value="Lebanon">Lebanon</option>
+                            <option value="Lesotho">Lesotho</option>
+                            <option value="Liberia">Liberia</option>
+                            <option value="Libya">Libya</option>
+                            <option value="Liechtenstein">Liechtenstein</option>
+                            <option value="Lithuania">Lithuania</option>
+                            <option value="Luxembourg">Luxembourg</option>
+                            <option value="Macau">Macau</option>
+                            <option value="Macedonia">Macedonia</option>
+                            <option value="Madagascar">Madagascar</option>
+                            <option value="Malaysia">Malaysia</option>
+                            <option value="Malawi">Malawi</option>
+                            <option value="Maldives">Maldives</option>
+                            <option value="Mali">Mali</option>
+                            <option value="Malta">Malta</option>
+                            <option value="Marshall Islands">Marshall Islands</option>
+                            <option value="Martinique">Martinique</option>
+                            <option value="Mauritania">Mauritania</option>
+                            <option value="Mauritius">Mauritius</option>
+                            <option value="Mayotte">Mayotte</option>
+                            <option value="Mexico">Mexico</option>
+                            <option value="Midway Islands">Midway Islands</option>
+                            <option value="Moldova">Moldova</option>
+                            <option value="Monaco">Monaco</option>
+                            <option value="Mongolia">Mongolia</option>
+                            <option value="Montserrat">Montserrat</option>
+                            <option value="Morocco">Morocco</option>
+                            <option value="Mozambique">Mozambique</option>
+                            <option value="Myanmar">Myanmar</option>
+                            <option value="Nambia">Nambia</option>
+                            <option value="Nauru">Nauru</option>
+                            <option value="Nepal">Nepal</option>
+                            <option value="Netherland Antilles">Netherland Antilles</option>
+                            <option value="Netherlands">Netherlands (Holland, Europe)</option>
+                            <option value="Nevis">Nevis</option>
+                            <option value="New Caledonia">New Caledonia</option>
+                            <option value="New Zealand">New Zealand</option>
+                            <option value="Nicaragua">Nicaragua</option>
+                            <option value="Niger">Niger</option>
+                            <option value="Nigeria">Nigeria</option>
+                            <option value="Niue">Niue</option>
+                            <option value="Norfolk Island">Norfolk Island</option>
+                            <option value="Norway">Norway</option>
+                            <option value="Oman">Oman</option>
+                            <option value="Pakistan">Pakistan</option>
+                            <option value="Palau Island">Palau Island</option>
+                            <option value="Palestine">Palestine</option>
+                            <option value="Panama">Panama</option>
+                            <option value="Papua New Guinea">Papua New Guinea</option>
+                            <option value="Paraguay">Paraguay</option>
+                            <option value="Peru">Peru</option>
+                            <option value="Phillipines">Philippines</option>
+                            <option value="Pitcairn Island">Pitcairn Island</option>
+                            <option value="Poland">Poland</option>
+                            <option value="Portugal">Portugal</option>
+                            <option value="Puerto Rico">Puerto Rico</option>
+                            <option value="Qatar">Qatar</option>
+                            <option value="Republic of Montenegro">Republic of Montenegro</option>
+                            <option value="Republic of Serbia">Republic of Serbia</option>
+                            <option value="Reunion">Reunion</option>
+                            <option value="Romania">Romania</option>
+                            <option value="Russia">Russia</option>
+                            <option value="Rwanda">Rwanda</option>
+                            <option value="St Barthelemy">St Barthelemy</option>
+                            <option value="St Eustatius">St Eustatius</option>
+                            <option value="St Helena">St Helena</option>
+                            <option value="St Kitts-Nevis">St Kitts-Nevis</option>
+                            <option value="St Lucia">St Lucia</option>
+                            <option value="St Maarten">St Maarten</option>
+                            <option value="St Pierre &amp; Miquelon">St Pierre &amp; Miquelon</option>
+                            <option value="St Vincent &amp; Grenadines">St Vincent &amp; Grenadines</option>
+                            <option value="Saipan">Saipan</option>
+                            <option value="Samoa">Samoa</option>
+                            <option value="Samoa American">Samoa American</option>
+                            <option value="San Marino">San Marino</option>
+                            <option value="Sao Tome &amp; Principe">Sao Tome &amp; Principe</option>
+                            <option value="Saudi Arabia">Saudi Arabia</option>
+                            <option value="Senegal">Senegal</option>
+                            <option value="Seychelles">Seychelles</option>
+                            <option value="Sierra Leone">Sierra Leone</option>
+                            <option value="Singapore">Singapore</option>
+                            <option value="Slovakia">Slovakia</option>
+                            <option value="Slovenia">Slovenia</option>
+                            <option value="Solomon Islands">Solomon Islands</option>
+                            <option value="Somalia">Somalia</option>
+                            <option value="South Africa">South Africa</option>
+                            <option value="Spain">Spain</option>
+                            <option value="Sri Lanka">Sri Lanka</option>
+                            <option value="Sudan">Sudan</option>
+                            <option value="Suriname">Suriname</option>
+                            <option value="Swaziland">Swaziland</option>
+                            <option value="Sweden">Sweden</option>
+                            <option value="Switzerland">Switzerland</option>
+                            <option value="Syria">Syria</option>
+                            <option value="Tahiti">Tahiti</option>
+                            <option value="Taiwan">Taiwan</option>
+                            <option value="Tajikistan">Tajikistan</option>
+                            <option value="Tanzania">Tanzania</option>
+                            <option value="Thailand">Thailand</option>
+                            <option value="Togo">Togo</option>
+                            <option value="Tokelau">Tokelau</option>
+                            <option value="Tonga">Tonga</option>
+                            <option value="Trinidad &amp; Tobago">Trinidad &amp; Tobago</option>
+                            <option value="Tunisia">Tunisia</option>
+                            <option value="Turkey">Turkey</option>
+                            <option value="Turkmenistan">Turkmenistan</option>
+                            <option value="Turks &amp; Caicos Is">Turks &amp; Caicos Is</option>
+                            <option value="Tuvalu">Tuvalu</option>
+                            <option value="Uganda">Uganda</option>
+                            <option value="United Kingdom">United Kingdom</option>
+                            <option value="Ukraine">Ukraine</option>
+                            <option value="United Arab Erimates">United Arab Emirates</option>
+                            <option value="United States of America">United States of America</option>
+                            <option value="Uraguay">Uruguay</option>
+                            <option value="Uzbekistan">Uzbekistan</option>
+                            <option value="Vanuatu">Vanuatu</option>
+                            <option value="Vatican City State">Vatican City State</option>
+                            <option value="Venezuela">Venezuela</option>
+                            <option value="Vietnam">Vietnam</option>
+                            <option value="Virgin Islands (Brit)">Virgin Islands (Brit)</option>
+                            <option value="Virgin Islands (USA)">Virgin Islands (USA)</option>
+                            <option value="Wake Island">Wake Island</option>
+                            <option value="Wallis &amp; Futana Is">Wallis &amp; Futana Is</option>
+                            <option value="Yemen">Yemen</option>
+                            <option value="Zaire">Zaire</option>
+                            <option value="Zambia">Zambia</option>
+                            <option value="Zimbabwe">Zimbabwe</option>
+                        </select>
+                        <label for="country">Select your Country</label>
+                    </div>
+
+                    <div class="error-message" id="error-message-first"></div>
+                </div>
+                <div class="registration__form">
+                    <p>already have an account ? - <a href="/login">Sign in</a></p>
+                    <button type="button" class="nextformbutton" id="nextform-button">Next</button>
+                </div>
+            </form>
+        </div>
+
+
+        <!-- second form -->
+
+        <div class="next-register-hidden" id="nextform">
+            <div class="register-container-text">
+                <h1>Church Details</h1>
+                <p>Fill in your Church details.</p>
+            </div>
+            
+            <form method="POST" class="registration-form" id="second-form">
+                <div class="registration-forms-container" >
+                    <h1>Sign up!</h1>
+                    <div class="input-groups">
+                        <select name="churches" id="churches" required>
+                            <option value="" hidden>Select your church</option>
+                            <option value="CeAbaranjeGroup">CHRIST EMBASSY Abaranje Group</option>
+                            <option value="CeAtan"  >CHRIST EMBASSY Atan</option>
+                            <option value="CeNewigando"  >CHRIST EMBASSY NEW IGANDO</option>
+                            <option value="Cekingeternal"  >CHRIST EMBASSY KINGETERNAL</option>
+                            <option value="CeAbaranje2"  >CHRIST EMBASSY ABARANJE2</option>
+                            <option value="xxxxxxx"  >xxxxxxxxxxxxxxxxxxxxxxxxx</option>
+                            <option value="other">other</option>
+                        </select>
+                        <label for="churches">Select your Church</label>
+                    </div>
+
+                    <div class="input-groups" id="other-group" style="display: none;">
+                        <select name="others" placeholder=" " id="others" required>
+                            <!-- all options are in the js file -->
+                            <option value="" hidden>Where are you visiting from</option>
+                            <option value="guest">Guest</option>
+                            <option value="from-another-church">From another church</option>
+                        </select>
+                        <label for="others" id="others-label"></label>
+                    </div>
+                    
+                    <div class="input-groups" id="roles-group" style="display: none;">
+                        <select name="roles" placeholder=" " id="roles" required>
+                            <!-- all options are in the js file -->
+                        </select>
+                        <label for="roles" id="roles-label">Title</label>
+                    </div>
+
+                    <div class="input-groups" id="zones-group" style="display: none;">
+                        <select name="zones" id="zones" required>
+                            <option value="" hidden>Please Select your Zone</option>
+                            <option value="ChristEmbassyLagosZone2" hidden></option>
+                            <option value="zonalchurch">CHRIST EMBASSY ABUJA ZONE</option>
+                            <option value="zonalchurch">Christ Embassy Jos, NORTH CENTRAL ZONE 1</option>
+                            <option value="zonalchurch">CHRIST EMBASSY Aba Zone</option>
+                            <option value="zonalchurch">Christ Embassy Abeokuta Ministry Center</option>
+                            <option value="zonalchurch">Christ Embassy Accra Zone</option>
+                            <option value="zonalchurch">CHRIST EMBASSY AUSTRALIA REGION</option>
+                            <option value="zonalchurch">Christ Embassy Brampton West Canada</option>
+                            <option value="zonalchurch">Christ Embassy Canada</option>
+                            <option value="zonalchurch">CE CALABAR MINISTRY CENTRE</option>
+                            <option value="zonalchurch">CEcanada</option>
+                            <option value="zonalchurch">CGI Zone</option>
+                            <option value="zonalchurch">Chris Embassy Gwarinpa Group</option>
+                            <option value="zonalchurch">Global Youth Leaders' Forum</option>
+                            <option value="zonalchurch">Christ Embassy Lagos Zone 3</option>
+                            <option value="zonalchurch">Christ Embassy Lagos Zone 4</option>
+                            <option value="zonalchurch">CHRIST EMBASSY LAGOS ZONE 5</option>
+                            <option value="zonalchurch">CHRIST EMBASSY LOVEWORLD USA</option>
+                            <option value="zonalchurch">Christ Embassy Benin Zone 2</option>
+                            <option value="zonalchurch">BLW CAMEROON ZONE</option>
+                            <option value="zonalchurch">BLW SA Zone C</option>
+                            <option value="zonalchurch">BLW ZONE B</option>
+                            <option value="zonalchurch">BLW ZONE B</option>
+                            <option value="zonalchurch">BLW ZONE B</option>
+                            <option value="zonalchurch">CE Australia Zone ( CE Perth Group)</option>
+                            <option value="zonalchurch">CE LAGOS ZONE 6</option>
+                            <option value="zonalchurch">CE OTTAWA ZONE</option>
+                            <option value="zonalchurch">CE Quebec Virtual Church</option>
+                            <option value="zonalchurch">Christ Embassy EWCA Zone 2 (FRANCOPHONE WEST AFRICA)</option>
+                            <option value="zonalchurch">Christ Embassy Eastern Europe Region</option>
+                            <option value="zonalchurch">EWCAZ3</option>
+                            <option value="zonalchurch">CHRIST EMBASSY SOUTHERN AFRICA ZONE 1</option>
+                            <option value="zonalchurch">Christ Embassy Southern Africa Zone 2</option>
+                            <option value="zonalchurch">Christ Embassy Southern Africa Zone 3</option>
+                            <option value="zonalchurch">Christ Embassy Southern Africa Zone 4</option>
+                            <option value="zonalchurch">Christ Embassy Southern Africa Zone 5</option>
+                            <option value="zonalchurch">Christ Embassy Germany Western Europe Zone 4</option>
+                            <option value="zonalchurch">Christ Embassy Erediauwa Benin Zone 1</option>
+                            <option value="zonalchurch">Christ Embassy Port Harcourt Ministry Center</option>
+                            <option value="zonalchurch">Christ Embassy Port Harcourt Zone 1</option>
+                            <option value="zonalchurch">Christ Embassy Port Harcourt Zone 2</option>
+                            <option value="zonalchurch">Christ Embassy Port Harcourt Zone 3</option>
+                            <option value="zonalchurch">Christ Embassy Mid-West Zone</option>
+                            <option value="zonalchurch">Christ Embassy Middle East & South East Asia Zone</option>
+                            <option value="zonalchurch">Christ Embassy Nasarawa</option>
+                            <option value="zonalchurch">Christ Embassy Netherland Europe Virtual Zone 1</option>
+                            <option value="zonalchurch">CHRIST EMBASSY NIGERIA SOUTH EAST ZONE 3</option>
+                            <option value="zonalchurch">CHRIST EMBASSY NIGERIAN SOUTH SOUTH ZONE 1</option>
+                            <option value="zonalchurch">Christ Embassy North East Zone 1</option>
+                            <option value="zonalchurch">Christ Embassy North West Virtual Zone 2</option>
+                            <option value="zonalchurch">Christ Embassy South-west Zone 2</option>
+                            <option value="zonalchurch">Christ Embassy South West Virtual Zone 2</option>
+                            <option value="zonalchurch">Christ Embassy South West Zone 3</option>
+                            <option value="zonalchurch">Christ Embassy St Catharines Canada</option>
+                            <option value="zonalchurch">Christ Embassy Switzerland Europe Virtual Zone 3</option>
+                            <option value="zonalchurch">Christ Embassy UK Virtual Zone 2</option>
+                            <option value="zonalchurch">Christ Embassy UK Virtual Zone 3</option>
+                            <option value="zonalchurch">Christ Embassy UK Zone 1</option>
+                            <option value="zonalchurch">CHRIST EMBASSY UNITED KINGDOM VIRTUAL ZONE 3</option>
+                            <option value="zonalchurch">Christ Embassy United Kingdom Zone 3</option>
+                            <option value="zonalchurch">Christ Embassy USA Region 2</option>
+                            <option value="zonalchurch">CHRIST EMBASSY USA REGIONAL CHURCH</option>
+                            <option value="zonalchurch">Christ Embassy USA Zone 1</option>
+                            <option value="zonalchurch">CHRIST EMBASSY USA ZONE2</option>
+                            <option value="zonalchurch">Christ Embassy Waukesha Online Church</option>
+                            <option value="zonalchurch">Christ Embassy Western Europe Virtual Zone 1</option>
+                            <option value="zonalchurch">Christ Embassy Western Europe Zone 2</option>
+                            <option value="zonalchurch">CHRIST EMBASSY LAGOS SUB ZONE A.</option>
+                            <option value="zonalchurch">DemoZone</option>
+                            <option value="zonalchurch">EAST WEST CENTRAL AFRICA ZONE 3</option>
+                            <option value="zonalchurch">Eastern Europe Regional Church</option>
+                            <option value="zonalchurch">The Haven Nation</option>
+                            <option value="zonalchurch">ISM</option>
+                            <option value="zonalchurch">Lagos Sub Zone B</option>
+                            <option value="zonalchurch">Lagos Sub Zone C</option>
+                            <option value="zonalchurch">LCA Teens Church</option>
+                            <option value="zonalchurch">libralla law</option>
+                            <option value="zonalchurch">Light-Up Papua New Guinea Outreach</option>
+                            <option value="zonalchurch">LOVEWORLD CAMPUS MINISTRY ZONE H</option>
+                            <option value="zonalchurch">Loveworld Campus Ministry Zone K</option>
+                            <option value="zonalchurch">LOVEWORLD CHILDREN'S MINISTRY</option>
+                            <option value="zonalchurch">LoveWorld Global Missions</option>
+                            <option value="zonalchurch">LOVEWORLD SPACE</option>
+                            <option value="zonalchurch">LoveWorld Teens Ministry</option>
+                            <option value="zonalchurch">LOVEWORLD UK ZONE 1</option>
+                            <option value="zonalchurch">LOVEWORLD UK ZONE 2</option>
+                            <option value="zonalchurch">LoveWorld UK Zone 4 DSP Region</option>
+                            <option value="zonalchurch">new zone</option>
+                            <option value="zonalchurch">Nigeria South South Zone 2</option>
+                            <option value="zonalchurch">NIGERIA SOUTH WEST ZONE 5</option>
+                            <option value="zonalchurch">Regional Office South East Virtual Zone 1</option>
+                            <option value="zonalchurch">Regional Office United Kingdom</option>
+                            <option value="zonalchurch">SAMPLE ZONE</option>
+                            <option value="zonalchurch">South East Zone 2 Virtual Church</option>
+                            <option value="zonalchurch">South West Zone 4</option>
+                            <option value="zonalchurch">STAFF PASTOR ZONE</option>
+                            <option value="zonalchurch">Test Zone</option>
+                            <option value="zonalchurch">test1 zonw123</option>
+                            <option value="zonalchurch">test1 zonw123dsd</option>
+                            <option value="zonalchurch">Texas Zone 1, USA</option>
+                            <option value="zonalchurch">TNI Online Church</option>
+                            <option value="zonalchurch">UK Virtual Zone 4</option>
+                            <option value="zonalchurch">USA Zone 1, Region 1</option>
+                            <option value="zonalchurch">Western Europe zone 3</option>
+                            <option value="zonalchurch">Western Europe/ UK Region 2 Regions</option>
+                            <option value="zonalchurch">Believer's LoveWorld Campus Ministry Ghana Zone</option>
+                            <option value="zonalchurch">Believer's LoveWorld Campus Ministry Kenya Zone</option>
+                            <option value="zonalchurch">Believer's LoveWorld Campus Ministry Zone C</option>
+                            <option value="zonalchurch">Believer's LoveWorld Campus Ministry Zone D</option>
+                            <option value="zonalchurch">Believer's Loveworld Campus Ministry Zone E</option>
+                            <option value="zonalchurch">Believer's LoveWorld Campus Ministry Zone E</option>
+                            <option value="zonalchurch">Believer's LoveWorld Campus Ministry Zone F</option>
+                            <option value="zonalchurch">Believer's LoveWorld Campus Ministry Zone I</option>
+                            <option value="zonalchurch">Believer's LoveWorld Campus Ministry Zone J</option>
+                            <option value="zonalchurch">Believer's Loveworld Campus Ministry Zone J</option>
+                            <option value="zonalchurch">Believer's LoveworldWorld Campus Ministry Zone A</option>
+
+                            
+                        </select>
+                        <label for="zones">Please select your zone</label>
+                    </div>
+                
+                    <div class="input-groups" id="dep-group" style="display: none;">
+                        <select name="departments" id="departments" required>
+                            <option value="" hidden></option>
+                            <option value="TECHNICAL">TECHNICAL</option>
+                            <option value="CHOIR">CHOIR</option>
+                            <option value="USHER">USHER</option>
+                            <option value="FIRST TIMERS MINISTRY">FIRST TIMERS MINISTRY</option>
+                            <option value="NOT IN A DEPARTMENT">NOT IN A DEPARTMENT</option>
+                        </select>
+                        <label for="departments">Select your department</label>
+                    </div>
+
+                    <div class="input-groups" id="church-group" style="display: none;">
+                        <input type="text" name="churchName" placeholder=" " id="churchName" required>
+                        <label for="churchName" id="church-name-label">Church Name</label>
+                    </div>
+                    
+                    <div class="input-groups" id="cell-group" style="display: none;">
+                        <input type="text" name="cellName" placeholder=" " id="cellName" required>
+                        <label for="cellName" id="cell-name-label">Cell Name</label>
+                    </div>
+                    <div class="input-groups" style="display: none;">
+                        <input type="text" name="Position" placeholder=" " id="Position">
+                        <label for="Position">Cell Name</label>
+                    </div>
+                    <div class="error-message" id="error-message-second"></div>
+                </div>
+                <div class="registration__form2">
+                    <button type="button" class="gobacktofirstform" id="back_button">Go Back</button>
+                    <button type="button" class="nextform2button" id="next_button">Next</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="password-form-hidden" id="passwordform">
+            <div class="register-container-text">
+                <h1>Create a password</h1>
+                <p>use a strong password.</p>
+            </div>
+            
+            <form method="POST" class="registration-form" id="third-form">
+                <div class="registration-forms-container" >
+                    <h1>Sign up!</h1>
+                    <div class="input-groups">
+                        <input type="password" name="pass" id="pass" placeholder=" " required>
+                        <label for="pass">Enter password</label>
+                        <span class="toggle-password" id="passwordbutton1">
+                            <i id="pass-eye1" class="fa fa-eye"></i>
+                        </span>
+                    </div>
+                                        
+                    <div class="input-groups">
+                        <input type="password" name="pass2" id="pass2" placeholder=" " required>
+                        <label for="pass2">Enter password again</label>
+                        <span class="toggle-password" id="passwordbutton2">
+                            <i id="pass-eye2" class="fa fa-eye"></i>
+                        </span>
+                    </div>
+                    
+                    <div class="error-message" id="error-message-pass"></div>
+                </div>
+                <div class="registration__form2">
+                    <button type="button" class="gobacktosecondform" id="back2_button">Go Back</button>
+                    <button type="submit" class="submitformbutton" id="submit_button">Submit!</button>
+                </div>
+            </form>
+        </div>
+    </header>
+
+    <!-- <footer class="landing-page-footer">
+        <div class="landing-page-footer-container">
+            <p>Copyright © 2024 CE Abarnanje Group. All rights reserved.</p>
+        </div>
+    </footer> -->
+
+    <script defer src="/pages/register/register.js"></script>
+</body>
+</html>

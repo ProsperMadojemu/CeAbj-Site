@@ -2,11 +2,16 @@ import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema({
     Subject: {type: String, required: true},
-    Image: {type: String, required: true},
+    Image: {type: String, required: false},
     Content: {type: String, required: true},
-    Recipients: {type: String, required: true}
+    Recipients: {type: Array, required: true},
+    type: {type: String, default: 'sent'},
+    time: {        
+        type: Date,
+        default: Date.now
+    }
 });
 
-const messagesModel = new mongoose.model("messages", messageSchema);
+const messagesModel = mongoose.model("messages", messageSchema, "messages");
 
 export default messagesModel;

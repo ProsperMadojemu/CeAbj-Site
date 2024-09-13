@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
-import bodyParser from "body-parser";
+import { fileURLToPath } from 'url';
+import path from 'path';
 import cors from "cors";
 import dbConnection from "./dbConnection.js";
 import session from "express-session";
@@ -14,6 +15,10 @@ import adminRouter from "./routes/adminRoute.js";
 import streamRouter from "./routes/streamRoute.js";
 import messagesRouter from "./routes/messagesRoute.js";
 
+// Define __dirname manually
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const MongoDBStore = MongoDBSession(session); 
 
 const app = express();
@@ -22,9 +27,11 @@ dbConnection();
 
 // Middleware setup
 app.use(cors());
-app.use(express.static("public"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(express.static("public"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 const store = new MongoDBStore({
 uri: process.env.MONGODB_URI,
@@ -33,7 +40,7 @@ collection: "sessions",
 
 app.use(
     session({
-        secret: "process.env.SESSION_SECRET",
+        secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: true,
         store: store,
@@ -41,6 +48,7 @@ app.use(
             // secure: true, // or true if you're using HTTPS
             sameSite: 'strict', // or 'strict' depending on your requirements
             httpOnly: false,
+            maxAge: 7 * 24 * 60 * 60 * 1000 
         }
     })
 );
@@ -51,6 +59,49 @@ app.use((req, res, next) => {
     next();
 });
 
+// Routes
+app.get('/', (req,res)=> {
+    res.sendFile(path.join(__dirname,'public', 'pages', 'home', 'index.html'));
+})
+app.get('/watch', (req, res)=> {
+    res.sendFile(path.join(__dirname,'public', 'pages', 'watch', 'watch.html'));
+})
+app.get('/login', (req,res)=> {
+    res.sendFile(path.join(__dirname,'public', 'pages', 'login', 'login.html'));
+})
+app.get('/register', (req,res)=> {
+    res.sendFile(path.join(__dirname,'public', 'pages', 'register', 'register.html'));
+})
+app.get('/dashboard/edit-profile', (req,res)=> {
+    res.sendFile(path.join(__dirname,'public', 'dashboard', 'edit-profile', 'edit-profile.html'));
+})
+app.get('/dashboard/submit-report', (req,res)=> {
+    res.sendFile(path.join(__dirname,'public', 'dashboard', 'submit-report', 'submit-report.html'));
+})
+app.get('/admin/overview', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'overview', 'overview.html'));
+});
+app.get('/admin/schedule-service', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'schedule-service', 'schedule-service.html'));
+});
+app.get('/admin/messages', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'messages', 'messages.html'));
+});
+app.get('/admin/souls-won', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'souls-won', 'souls-won.html'));
+});
+app.get('/admin/view-users', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'view-users', 'view-users.html'));
+});
+app.get('/admin/view-cells-leaders', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'view-cell-leaders', 'view-cells-leaders.html'));
+});
+app.get('/admin/view-cell-reports', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'view-cell-reports', 'view-cell-reports.html'));
+});
+app.get('/admin/addacell', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'addacell', 'addacell.html'));
+});
 app.use(userRouter);
 app.use(chartRouter);
 app.use(commentsRouter);

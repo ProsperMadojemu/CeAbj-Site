@@ -76,12 +76,15 @@ const loginUser = async (req, res) => {
                 admin.password
             );
             if (isPasswordValid && admin.email === process.env.ADMIN_EMAIL) {
+                req.session.cookie = {
+                    maxAge: 30 * 24 * 60 * 60 * 1000
+                };
                 req.session.user = {
                     email: admin.email,
                     isAdmin: true,
                     userType: "admin",
                 };
-                return res.json({ redirectUrl: "../admin/overview.html" });
+                return res.json({ redirectUrl: "/admin/" });
             } else {
                 return res.status(401).json({ error: "Invalid email or password" });
             }
@@ -107,7 +110,7 @@ const loginUser = async (req, res) => {
                 phone: user.PhoneNumber,
                 userType: user.userType,
             };
-            return res.json({ redirectUrl: "../dashboard/edit-profile.html" });
+            return res.json({ redirectUrl: "/dashboard/edit-profile" });
         } else {
             return res.status(401).json({ error: "Invalid password" });
         }

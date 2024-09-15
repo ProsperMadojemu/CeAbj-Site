@@ -11,8 +11,11 @@
 
 .form-container {
     display: flex;
-    padding: 20px 60px;
+    width: 100%;
+    padding: 0px 60px;
     flex-wrap: wrap;
+    height: auto;
+    transition: 200ms;
     align-items: flex-start;
     justify-content: flex-start;
 }
@@ -20,13 +23,14 @@
 .form-group {
     display: flex;
     flex-direction: column-reverse;
-    align-items: baseline;
+    /* align-items: baseline; */
+    max-width: 50%;
     justify-content: center;
-    flex: 1;
-    margin: 0px 0px 20px 0px;
+    flex-basis: 450px;
+    flex: 0;
+    height: min-content;
     font-family: "arial" sans-serif;
-}
-
+}   
 #pcf-name,
 #senior-cell-name,
 #cell-name {
@@ -38,6 +42,14 @@
     margin: 0;
 }
 
+.form-container .left-group{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+
 .left-group:nth-child(1),
 .left-group:nth-child(2),
 .left-group:nth-child(3) {
@@ -46,8 +58,7 @@
 
 .form-group input {
     display: block;
-    height: 45px;
-    width: 450px;
+    width: 100%;
     outline: none;
     padding: 10px;
     border-radius: 5px;
@@ -93,8 +104,8 @@ input[type="number"] {
 
 .form-group select {
     display: block;
-    height: 45px;
-    width: 450px;
+    width: 100%;
+    height: 100%;
     outline: none;
     padding: 10px;
     border-radius: 5px;
@@ -135,14 +146,20 @@ input[type="number"] {
 
 .parent-button {
     display: flex;
-    justify-content: flex-end;
-    padding: 0px 150px 0px 0px;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 12px 60px;
+    &{
+        @media (width<=980px) {
+            padding: 12px 30px;
+        }
+    }
 }
 
 .submitreportbutton {
-    width: 85px;
-    height: 35px;
-    padding: 5px;
+    width: min-content;
+    padding: 8px 24px;
+    font-size: 16px;
     border-radius: 5px;
     border: none;
     background: #316ff6;
@@ -150,4 +167,18 @@ input[type="number"] {
     transition: 0.5s ease;
     cursor: pointer;
     box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+    transition: 200ms;
+    &:hover{
+        background: #316ff6bd;
+    }
+}
+
+@media (width <= 985px) {
+    .form-group {
+        max-width: 100%;
+    }
+    .form-container {
+        padding: 0px 0px 0px 30px;
+    }
+    
 }

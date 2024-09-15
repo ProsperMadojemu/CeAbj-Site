@@ -109,7 +109,7 @@ input[type="number"] {
 
 .messages {
     /* margin: 0px 0px 0px 40px */
-    padding: 0px 60px;
+    padding: 0px 60px 0px 40px;
 }
 
 .messages h3 {
@@ -123,11 +123,12 @@ input[type="number"] {
 }
 
 .grid-messages {
-    display: grid;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
     text-align: left;
     gap: 20px;
     position: relative;
-    grid-template-rows: auto 1fr;
     min-height: 75%;
 }
 
@@ -139,6 +140,7 @@ input[type="number"] {
     justify-content: flex-end;
     padding: 20px 60px;
 }
+
 
 .row-1 {
     grid-row: 1;
@@ -163,6 +165,7 @@ input[type="number"] {
 .right-bar{
     display: flex;
     flex-direction: column;
+    align-self: flex-end;
     padding: 80px 10px;
     /* margin: 40px 0px 0px 0px; */
     justify-content: baseline;
@@ -250,7 +253,7 @@ button[title='compose']:hover {
     background: #f2f5fc;
     flex-direction: row;
     position: relative;
-    gap: 20px;
+    gap: 8px;
     color: #202124;
     padding: 10px 5px;
     max-height: 120px;
@@ -264,35 +267,51 @@ button[title='compose']:hover {
 
 .message-prev .left {
     text-wrap: nowrap;
+    flex-basis: 168px;
+    max-width: 168px;
+    display: flex;
 }
 
 .message-prev .right {
     /* position: relative; */
     flex: 1;
+    display: flex;
+    white-space: nowrap;
+    overflow: hidden;    
+    text-overflow: ellipsis;
+    justify-content: space-between;
 }
 
 .message-prev .right .wrapper {
     display: flex;
     align-items: baseline;
-    gap: 8px;
+    justify-content: flex-start;
+    white-space: nowrap;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex: 1;
 }
 
 .message-prev .right .subject {
+    display: flex;
+    flex-direction: column;
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow-x: hidden;
+    overflow: hidden;
+
 }
 
 .message-prev .right .content {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
+    display: flex;
+    text-decoration: none;
+    text-align: left;
+    max-width: 620px;
     color: #5F6368;
     flex: 1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .message-prev .actions {
@@ -320,14 +339,19 @@ button[title='compose']:hover {
     display: flex;
 }
 
-.message-prev .right .time {
+.time {
     font-size: 12px;
+    display: flex;
+    padding: 0px 0px 0px 10px;
+    align-items: flex-start;
+    justify-content: flex-end;
     text-wrap: nowrap;
 }
 
 .message-prev .label {
     display: flex;
     padding: 0px 4px;
+    margin: 0px 8px;
     border-radius: 4px;
     color: #666;
     font-size: 12px;
@@ -662,4 +686,25 @@ button.delete {
 
 button.delete:hover {
     background: #1d1d1d13;
+}
+
+@media (width<=985px) {
+    .message-prev{ 
+        flex-direction: column;
+    }
+    .message-prev .left {
+        flex: 0 0;
+    }
+    .message-prev .right > .wrapper {
+        flex-direction: column;
+    }
+    .time {
+        align-items: flex-end;
+    }
+    .message-prev .right .content{
+        max-width: none;
+    }
+    .messages {
+        padding: 0px 60px 0px 25px;
+    }
 }

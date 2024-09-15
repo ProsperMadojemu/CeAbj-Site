@@ -107,6 +107,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const url = hash.split('/')[0];
         if (!url) {
             console.log("No URL hash detected.");
+            // await displayContent('inbox');
+            window.location.hash=`inbox/`
             return;
         }
         await displayContent(url);
@@ -195,32 +197,36 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function populateData(data, htmlTemplate) {
         const messages = Array.isArray(data.message) ? data.message : [];
-        
+    
         if (messages.length === 0) {
             messageBody.innerHTML = `
             <div>Oops, No Messages have been found, please try again later</div>
             `;
             return;
         }
-
+    
+        let htmlContent = ``;
+    
         messages.forEach((info) => {
             let htmlData = htmlTemplate
                 .replace('{{type}}', info.type)
                 .replace('{{Subject}}', info.Subject)
                 .replace('{{Recipients}}', info.Recipients)
                 .replace('{{Content}}', info.Content)
-                .replace('{{date}}', formatDateToDayMonthYear(info.time));  
-
-            messageBody.innerHTML = htmlData;
-            messageBody.appendChild(messageBody);
-            const deleteButton = messageBody.querySelector('.delete-btn');
-
-            if (deleteButton) {
-                deleteButton.addEventListener("click", async () => {
-                    selectedMessage = info;
-                    await deleteMessage(selectedMessage);
-                });
-            }
+                .replace('{{date}}', formatDateToDayMonthYear(info.time));
+    
+            htmlContent += htmlData;
+        });
+    
+        messageBody.innerHTML = htmlContent;
+    
+        const deleteButtons = messageBody.querySelectorAll('.delete-btn');
+    
+        deleteButtons.forEach((deleteButton, index) => {
+            deleteButton.addEventListener("click", async () => {
+                selectedMessage = messages[index];
+                await deleteMessage(selectedMessage);
+            });
         });
     }
 
@@ -230,8 +236,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function deleteMessage(selectedMessage) {
         try {
             const messageId = selectedMessage._id;
-            console.log(messageId);
-        
             const response = await fetch('/api/messages/delete', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

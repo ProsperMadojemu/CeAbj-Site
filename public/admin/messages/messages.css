@@ -9,6 +9,17 @@
     --secondary-text-color: #333333; 
     --light-text-color: #5A5A5A;  
     --darker-blue: #04125c; 
+    --dark-text: #f8fbff;
+    --light-body: #f3f8fe;
+    --light-main: #fdfdfd;
+    --light-second: #c3c2c8;
+    --light-hover: #f0f0f0;
+    --light-text: #151426;
+    --light-btn: #9796f0;
+    --blue: #0000ff;
+    --white: #fff;
+    --shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    --font-family: consolas;
 }
 
 .empty-div{
@@ -360,7 +371,8 @@ button[title='compose']:hover {
 }
 
 
-.modal {
+.modal,
+.calendar-modal {
     position: absolute;
     z-index: 20;
     top: 0;
@@ -402,7 +414,57 @@ button[title='compose']:hover {
 .modal > .container > .head {
     display: flex;
     padding: 0px 16px;
+    position: relative;
     flex-direction: column;
+}
+
+.head .suggestions {
+    flex-direction: column;
+    gap: 2px;
+    list-style: none;
+    box-shadow: 0px 1px 5px 2px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 85px;
+    padding: 0px 10px;
+    border-radius: 5px;
+    right: 90px;
+    overflow: auto;
+    min-width: 150px;
+    max-height: 150px;
+    animation: fade 100ms ease-in;
+}
+
+.suggestions li:nth-child(0){
+    border: none;
+}
+
+.suggestions li {
+    border-bottom: 1px solid #4547462c;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    z-index: 1;
+    text-align: left;
+    color: #454746a6;
+    padding: 5px 0px;
+    font-size: 12px;
+}
+
+.suggestions .details {
+    display: flex;
+    pointer-events: none;
+    flex-direction: column;
+    background: none;
+    background: none;
+    line-height: 14px;
+}
+
+.suggestions .name {
+    font-size: 16px;
+    background: none;
+    font-weight: bold;
+    line-height: 20px;
+    color: #121212;
 }
 
 .modal > .container > .head input{
@@ -414,6 +476,10 @@ button[title='compose']:hover {
     padding: 10px 0px;
 
 }
+
+/* .modal > .container > .head input:not(:focus) .suggestions{
+    display: none;
+} */
 
 .modal > .container .foot .buttons {
     display: flex;
@@ -520,6 +586,11 @@ button[title='compose']:hover {
 	border-radius: 50%;
 }
 
+.modal > .container .foot .right {
+    display: flex;
+}
+
+
 .modal > .container .foot .right button {
     display: flex;
     align-items: center;
@@ -527,11 +598,18 @@ button[title='compose']:hover {
     justify-content: center;
     padding: 6px 16px;
     border: none;
-    border-radius: 20px;
+    border-radius: 20px 0px 0px 20px;
     background: #0B57D0;
     font-size: 14px;
     cursor: pointer;
+    border-right: 1px solid #fff;
     font-weight: bold;
+}
+
+.modal > .container .foot .right button:last-child {
+    border-radius: 0px 20px 20px 0px;
+    padding: 6px 10px;
+    border: none;
 }
 
 .modal > .container .btn-toolbar {
@@ -566,11 +644,8 @@ button[title='compose']:hover {
 	max-height: 50vh;
 	overflow: auto;
     text-align: left;
-    text-decoration: none;
-    font-weight: 100;
     flex: 1;
     max-height: 280px;
-    /* background: #fff; */
 }
 
 #content::-webkit-scrollbar{
@@ -686,6 +761,87 @@ button.delete {
 
 button.delete:hover {
     background: #1d1d1d13;
+}
+
+.calendar-modal > .container {
+    width: 35vw;
+    border-radius: 8px;
+    background: #fff;
+    height: 50%;
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    animation: 150ms appear ease-in;
+}
+
+.calendar-modal > .container span.text {
+    font-size: 24px;
+    align-self: flex-start;
+    padding: 20px 0px 0px 0px;
+    color: #141414;
+}
+
+.calendar-modal > .container .inputs {
+    display: flex;
+    align-self: flex-end;
+    width: min-content;
+    min-width: 45%;
+    gap: 10px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-modal > .container .buttons {
+    display: flex;
+    align-self: flex-start;
+    gap: 10px;
+}
+
+.calendar-modal > .container .buttons button {
+    padding: 8px 12px;
+    border-radius: 15px;
+    border: none;
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    letter-spacing: .2px;
+    color: #fff;
+    background: #0B57D0;
+    cursor: pointer;
+    &:hover {
+        box-shadow: 0px 1px 5px 2px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.calendar-modal > .container .buttons button:first-child {
+    color: #0B57D0;
+    background: none;
+    box-shadow: none;
+    &:hover {
+        background: #0b57d01a;
+    }
+}
+
+.calendar-modal > .container input {
+    width: 100%;
+    padding: 10px;
+    background: none;
+    cursor: pointer;
+    border: 1px solid;
+    border-radius: 5px;
+    height: 100%;
+    outline: none;
+    transition: 100ms;
+    &:focus {
+        border-color: #0B57D0;
+    }
+}
+
+.calendar-modal > .container .buttons {
+    display: flex;
 }
 
 @media (width<=985px) {

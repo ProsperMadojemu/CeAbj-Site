@@ -212,6 +212,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 .replace('{{type}}', info.type)
                 .replace('{{Subject}}', info.Subject)
                 .replace('{{Recipients}}', info.Recipients)
+                .replace('{{name}}', info.name)
                 .replace('{{Content}}', info.Content)
                 .replace('{{date}}', formatDateToDayMonthYear(info.time));
     
@@ -285,13 +286,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     const fileInput = document.getElementById('Image');
     const contentInput = document.getElementById('content');
 
+    let dteComb
+    let isScheduled = false;
+    const scheduleBtn = document.querySelector('[title="scheduleMessage"]');
+    scheduleBtn.addEventListener('click', function(){
+        isScheduled = true
+        const dateInput = document.getElementById('date').value
+        const timeInput = document.getElementById('time').value
+        dteComb = `${dateInput}T${timeInput}`
+    });
+    
     sendButton.addEventListener('click', async function (e) {
         e.preventDefault();
+        const timeMethod = new Date(dteComb);
         const messagesForm = document.getElementById('messagesForm');
+        console.log(timeMethod);
         try {
             const formData = new FormData(messagesForm);
             formData.append('image', fileInput.files[0]);
             formData.append('Content', contentInput.textContent);
+            if (isScheduled === true) {
+                formData.append('time', timeMethod);
+            }
 
             const response = await fetch('/api/messages/send', {
                 method: 'POST',
@@ -337,15 +353,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (params.get('send') === 'true') {
           toggleModalAction(); 
         } 
-      }
-      
-      function toggleModalAction() {
-        const modal = document.getElementById("modal");
-        if (modal) {
-          modal.classList.toggle('modal');
-        }
     }
 
+    
+    function toggleModalAction() {
+        const modal = document.getElementById("modal");
+        if (modal) {
+            modal.classList.toggle('modal');
+        }
+    }
 
     
     window.addEventListener('hashchange', checkQueryParams);
@@ -360,4 +376,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     toScheduledBtn.addEventListener('click', function(){window.location.hash=`scheduled/`})
     window.onpopstate = checkURL;
     checkURL();
+
+    //add conditional statements to form submsission
 });

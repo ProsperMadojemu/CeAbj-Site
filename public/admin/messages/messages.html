@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,12 +7,12 @@
   <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="../defaultdashboard.css" />
   <link rel="stylesheet" href="/admin/messages/messages.css" />
   <link rel="stylesheet" href="../../annimations.css" />
   <link rel="stylesheet" href="../../root.css" />
 </head>
-
 <body>
   <main class="sub-body">
     <main class="dashboard-sub-body">
@@ -30,8 +29,11 @@
             </button>
           </div>
           <div class="head">
-            <input type="text" name="Recipients" placeholder="Recipient">
-            <input type="text" name="Subject" placeholder="Subject">
+            <input type="text" name="Recipients" placeholder="Recipient" oninput="getSuggestions(this.value)" >
+            <ul class="suggestions" style="display: none;">
+              <li>Loading...</li>
+            </ul>
+            <input type="text" name="Subject" placeholder="Subject" onfocus="hideSuggestions()">
           </div>
           <div class="toolbar">
             <div class="btn-toolbar">
@@ -106,7 +108,7 @@
                 </svg>
               </button>
             </div>
-            <div id="content" contenteditable="true" spellcheck="false">
+            <div id="content" contenteditable="true" spellcheck="false" onfocus="hideSuggestions()">
             </div>
             <div class="hidden" id="upload">
               <label for="image">
@@ -194,9 +196,23 @@
             </div>
             <div class="right">
               <button type="submit" id="send-button">Send</button>
+              <button type="button" title="schedule" onclick="toggleScheduler()"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FFFFFF"><path d="M516-510v-174q0-15.3-10.29-25.65Q495.42-720 480.21-720t-25.71 10.35Q444-699.3 444-684v189q0 8 3 14.5t8 11.5l133.85 133.85Q600-324 614.5-324.5 629-325 640-336t11-25.5q0-14.5-11.34-25.75L516-510ZM480-96q-79.38 0-149.19-30T208.5-208.5Q156-261 126-330.96t-30-149.5Q96-560 126-630q30-70 82.5-122t122.46-82q69.96-30 149.5-30t149.55 30.24q70 30.24 121.79 82.08 51.78 51.84 81.99 121.92Q864-559.68 864-480q0 79.38-30 149.19T752-208.5Q700-156 629.87-126T480-96Zm0-384Zm.48 312q129.47 0 220.5-91.5Q792-351 792-480.48q0-129.47-91.02-220.5Q609.95-792 480.48-792 351-792 259.5-700.98 168-609.95 168-480.48 168-351 259.5-259.5T480.48-168Z"/></svg></button>
             </div>
           </div>
         </form>
+        <div class="hidden" role="dialog">
+          <div class="container">
+            <span class="text">Pick date & time</span>
+              <div class="inputs">
+                <input type="date" title="date" id="date">
+                <input type="time" title="time" id="time">
+              </div>
+            <span class="buttons">
+              <button type="button" onclick="toggleScheduler()">Cancel</button>
+              <button type="button" title="scheduleMessage" onclick="toggleScheduler()">Schedule Send</button>
+            </span>
+          </div>
+        </div>
       </div>
       <nav class="vertical-navbar">
         <div class="vertical-navbar-box">
@@ -335,9 +351,63 @@
   </main>
   <script defer src="./messages.js"></script>
   <script>
+    function hideSuggestions() {
+      const suggestionList = document.querySelector('.suggestions');
+      suggestionList.style.display = 'none'
+    }
+    async function getSuggestions(query) {
+      if (query.length >= 3){
+        const suggestionList = document.querySelector('.suggestions');
+        try {
+          suggestionList.style.display = 'flex'
+          const response = await fetch(`/api/messages/autocomplete?query=${encodeURIComponent(query)}`, {method: 'POST'});
+          if (!response) {
+            throw new Error(`Response status: ${response.status}`);
+            return
+          }
+          const data = await response.json();
+          const dataArr = data.suggestions;
+          suggestionList.innerHTML='';
+          if (dataArr.length === 0) {
+            const noResults = document.createElement('li');
+            noResults.textContent = 'No suggestions available';
+            suggestionList.appendChild(noResults);
+          } else {
+            dataArr.forEach(item => {
+              const name = (item.FirstName || item.LastName) 
+              ? `${item.FirstName || ''} ${item.LastName || ''}`
+              : (typeof item === 'object' ? JSON.stringify(item) : item);
+              const listItem = document.createElement('li');
+              listItem.onclick = () => selectSuggestion(item);
+              // console.log(name);
+              
+              listItem.innerHTML = `
+                <span class="name">${name || ''}</span>
+                <div class="details"><span class="phone">${item.PhoneNumber ? ` ${item.PhoneNumber}` : ''} </span><span class="email">${item.Email ? ` ${item.Email}` : ''} </span></div>
+              `;
+              suggestionList.appendChild(listItem);
+            });
+          }
+        } catch (error) {
+          console.error('Error Fetching Suggestions', error);
+        }
+      }
+    }
+    function selectSuggestion(item) {
+      const recipientField = document.querySelector('[name="Recipients"]');
+      const name = (item.FirstName || item.LastName) 
+      ? `${item.FirstName || ''} ${item.LastName || ''}`
+      : (typeof item === 'object' ? JSON.stringify(item) : item);
+      if(!recipientField){
+        return 'cannot find element'
+      }
+      recipientField.value = name
+
+      hideSuggestions();
+    }
     function closeModal() {
       const url = new URL(window.location.href);
-      let hash = url.hash.slice(1); // Removes the leading "#"
+      let hash = url.hash.slice(1);
       const [mainSection, currentQuery] = hash.split('?');
       const params = new URLSearchParams(currentQuery);
       params.delete('send');
@@ -345,11 +415,15 @@
       window.location.hash = newHash;
       const modal = document.getElementById("modal");
       if (modal) {
-        modal.classList.remove('modal'); // Remove the modal class to hide the modal
+        modal.classList.remove('modal');
       }
     }
-
-
+    function toggleScheduler() {
+      const dialog = document.querySelector('[role= "dialog"]');
+      if (dialog) {
+        dialog.classList.toggle('calendar-modal')
+      }
+    }
     function toggleModal() {
       const url = new URL(window.location.href);
       let hash = url.hash.slice(1); // Removes the leading "#"
@@ -359,9 +433,6 @@
       const newHash = `${mainSection}?${params.toString()}`;
       window.location.hash = newHash;
     }
-
-
-
     function formatDoc(cmd, value = null) {
       if (value) {
         document.execCommand(cmd, false, value);
@@ -369,17 +440,11 @@
         document.execCommand(cmd);
       }
     }
-
     function addLink() {
       const url = prompt('Insert url');
       formatDoc('createLink', url);
     }
-
-
-
-
     const content = document.getElementById('content');
-
     content.addEventListener('mouseenter', function () {
       const a = content.querySelectorAll('a');
       a.forEach(item => {
@@ -392,11 +457,8 @@
         })
       })
     })
-
-
     const showCode = document.getElementById('show-code');
     let active = false;
-
     showCode.addEventListener('click', function () {
       showCode.dataset.active = !active;
       active = !active
@@ -407,8 +469,8 @@
         content.innerHTML = content.textContent;
         content.setAttribute('contenteditable', true);
       }
-    })
+    });
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </body>
-
 </html>

@@ -14,23 +14,17 @@ import reportsRouter from "./routes/cellReportsRoute.js";
 import adminRouter from "./routes/adminRoute.js";
 import streamRouter from "./routes/streamRoute.js";
 import messagesRouter from "./routes/messagesRoute.js";
-
-// Define __dirname manually
+import { scheduleWebMessages, weeklyEmails } from "./controllers/scheduleController.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const MongoDBStore = MongoDBSession(session); 
-
 const app = express();
-
 dbConnection();
 
 // Middleware setup
 app.use(cors());
-// app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 const store = new MongoDBStore({
@@ -59,7 +53,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// Routes
+// Page Routes
 app.get('/', (req,res)=> {
     res.sendFile(path.join(__dirname,'public', 'pages', 'home', 'index.html'));
 })
@@ -102,6 +96,12 @@ app.get('/admin/view-cell-reports', (req, res) => {
 app.get('/admin/addacell', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin', 'addacell', 'addacell.html'));
 });
+
+// main();
+// Timed Functionx
+scheduleWebMessages();
+weeklyEmails();
+// API ENDPOINTS
 app.use(userRouter);
 app.use(chartRouter);
 app.use(commentsRouter);
@@ -120,7 +120,6 @@ app.get('/check-session', (req, res) => {
     }
 });
 
-// Server setup
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

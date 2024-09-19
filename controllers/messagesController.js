@@ -18,6 +18,7 @@ const sendMessage = async (req, res) => {
             time = Date.now();
             isSent = true;
         } else {
+            type = 'scheduled'
             isSent = false;
         }
         for (let recipient of Recipients) {
@@ -56,7 +57,6 @@ const sendMessage = async (req, res) => {
             time: time,
             isSent: isSent
         });
-        console.log(message);
         await message.save();
         res.status(201).json({ message: "Message Sent Successfully" });
         

@@ -1,6 +1,7 @@
 import usersCellReport from "../models/cellReportsModel.js"
 import Users from "../models/usersModel.js";
 import getDateRange from "../utils/getRangeFunction.js";
+import newCell from "../models/cellsModels.js";
 
 const submitReport = async (req,res) => {
     try {

@@ -3,35 +3,34 @@ import messagesModel from "../models/messagesModel.js"
 import weeklyUnreadCheck from "./nodeMailer.js";
 
 async function scheduleWebMessages() {
-    const now = new Date();
-    const fortyFiveSecondsLater = new Date(now.getTime() + 45 * 1000);
-
-
-    cron.schedule('* * * * *', async()=> {
+    cron.schedule('* * * * *', async () => {
         try {
-            const message = await messagesModel.find({
+            const now = new Date();
+            const nowUTC = new Date(now.toISOString());  
+            const messages = await messagesModel.find({
                 isSent: false,
                 time: {
-                    $gte: now,
-                    $lte: fortyFiveSecondsLater
+                    $lte: nowUTC
                 }
             });
-        
-            message.forEach(async (message) => {
+            if (messages.length === 0) {
+                return
+            }
+            for (const message of messages) {
                 if (!message.name) {
                     console.log('Skipping message due to missing name:', message);
-                    return;  
+                    return;
                 }
-                
-                console.log('Sending Message', message );
                 message.isSent = true;
+                message.type = 'sent';
                 await message.save();
-            });
+            }
         } catch (error) {
             console.error('ERROR IN CRON JOB:', error);
         }
     });
 }
+
 
 // Sends messages every saturday by 2pm to users that have not checked their emails
 async function weeklyEmails(req, res) {

@@ -9,9 +9,7 @@
     --darker-blue: #04125c; 
 }
 
-title{
-    text-transform: uppercase;
-}
+  
 
 .form-container {
     display: flex;
@@ -253,12 +251,11 @@ input[type="number"] {
     border-radius: 10px;
 }
 
+
 .dashboard-footer {
-    bottom: 0;
-    position: fixed;
     width: 100%;
-    display: block;
-    align-content: center;
+    display: flex;
+    align-items: center;
     background: #fff;
 }
 
@@ -392,12 +389,10 @@ input[type="number"] {
     box-shadow: 5px 3px 10px rgba(0, 0, 0, 0.12);
     background-color: var(--secondary-color);
     transition: all .2s ease-out;
+    &:hover{
+        background: #73a6e0;
+    }
 }
-
-.pagination button:hover {
-    background: #73a6e0;
-}
-
 .report-button:active,
 .pagination button:active {
     transform: translateY(2px);
@@ -436,13 +431,6 @@ input[type="number"] {
     animation: skeleton-loading 1s linear reverse infinite;
     border-radius: 4px;
 }
-
-.hidden {
-    display: none;
-    opacity: 0;
-    transform: translateY(-10px);
-}
-
 .cancel-popup {
     display: flex;
     height: 20px;
@@ -474,10 +462,11 @@ input[type="number"] {
 }
 
 .reports-parent {
-    width: 100%;  
+    width: 100%; 
     height: 100%;  
-    align-content: center;
+    align-items: center;
     justify-content: center;
+    display: flex;
     top: 50%;
     bottom: 50%;    
     z-index: 20;
@@ -496,11 +485,7 @@ input[type="number"] {
     background-color:  #f9f9f9;
     border-radius: 10px;
     display: block;    
-    position: absolute;    
     pointer-events: auto;
-    top: 50%;
-    bottom: 50%; 
-    transform: translate(50%, -50%);
 }
 
 .skeleton-text {
@@ -663,8 +648,6 @@ input[type="number"] {
 .report-table-subtable > thead {
     box-shadow: none;
 }
-
-
 .grid-layout {
     display: grid;
     padding: 0px 40px;
@@ -700,5 +683,6 @@ input[type="number"] {
 .report-table-subtable-row:not(.hidden) .report-table-subtable-wrapper {
     transform: translateY(0);
 }
-
-/*  */
+.hidden {
+    display: none;
+} 

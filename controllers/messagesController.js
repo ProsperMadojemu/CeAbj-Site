@@ -91,6 +91,19 @@ const viewMessage = async (req,res) => {
         res.status(400).json({ error: error.message });
     }
 }
+const getFullMessage = async (req,res) => {
+    const {id} = req.body;
+    try {
+        const message = await messagesModel.findById(id);
+        if (!message) {
+            return res.status(404).json({ error: "Message not found" });
+        }
+        const recipients = message.Recipients;
+    res.json({message, recipients});
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
 const viewAll = async (req,res) => {
     try {
         const message = await messagesModel.find({});
@@ -126,4 +139,4 @@ const deleteMessage = async (req, res) => {
     }
 };
 
-export { sendMessage, viewMessage, deleteMessage, sendMembership, viewAll };
+export { sendMessage, viewMessage, deleteMessage, sendMembership, viewAll, getFullMessage };

@@ -93,13 +93,76 @@ document.addEventListener('DOMContentLoaded', async () => {
             return 'date formatting error';
         }
     }
+    function formatDate(dateString) {
+        try {
+            if (!dateString || dateString.toLowerCase() === 'nill') {
+                return 'date error';
+            }
     
+            const date = new Date(dateString);  
+    
+            if (isNaN(date)) {  
+                return 'date error';
+            }
+    
+            const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' }); 
+            const day = date.getDate();
+            const monthNames = [
+                "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"
+            ];
+            const month = monthNames[date.getMonth()];
+            const year = date.getFullYear(); 
+    
+            const ordinalSuffix = (day) => {
+                if (day > 3 && day < 21) return 'th';
+                switch (day % 10) {
+                    case 1:  return 'st';
+                    case 2:  return 'nd';
+                    case 3:  return 'rd';
+                    default: return 'th';
+                }
+            };
+    
+            return `${dayOfWeek}, ${month} ${day}${ordinalSuffix(day)} ${year}`;
+    
+        } catch (error) {
+            console.error(error);
+            return 'date formatting error';
+        }
+    }
+    
+    function formatTime(dateString) {
+        try {
+            if (!dateString || dateString.toLowerCase() === 'nill') {
+                return 'date error';
+            }
+            const date = new Date(dateString);
+            if (isNaN(date)) {
+                return 'date error';
+            }
+            let hours = date.getHours();
+            const minutes = date.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            hours = hours % 12;
+            hours = hours ? hours : 12;  
+            const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+            return `${hours}:${formattedMinutes} ${ampm}`;
+        } catch (error) {
+            console.error(error);
+            return 'date formatting error';
+        }
+    }
+
+    const body = document.getElementById('mail-body');
     const messageBody = document.querySelector("#messageBody");
     const toInboxBtn = document.querySelector('[title="Inbox"]');
     const toSentBtn = document.querySelector('[title="Sent-Messages"]');
     const toMembBtn = document.querySelector('[title="Membership-Forms"]');
     const toFeedBtn = document.querySelector('[title="Feed-back"]');
     const toScheduledBtn = document.querySelector('[title="Scheduled-messages"]');
+    const composeParent = document.getElementById('compose-container');
     const buttons = document.querySelectorAll('.nav__btn');
         
     async function checkURL() {
@@ -110,6 +173,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             // await displayContent('inbox');
             window.location.hash=`inbox/`
             return;
+        }
+        if (!window.location.hash.startsWith('#view/')) {
+            resetContent();
         }
         await displayContent(url);
     }
@@ -145,6 +211,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     await getMessages(url, htmlTemplate);
                     console.log('Processing "scheduled" case');
                     break;
+                case 'view': 
+                    buttons.forEach(button => button.classList.remove('active'));
+                break;
                 default:
                     buttons.forEach(button => button.classList.remove('active'));
                     toInboxBtn.classList.add('active');
@@ -154,6 +223,29 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         } catch (error) {
             console.error("Error displaying content:", error);
+        }
+    }
+
+    async function getFullMessage(id) {
+        let data = null;
+        try {
+            const response = await fetch('/api/messages/getall', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: id }),
+            });
+            if (!response.ok){
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            data = await response.json();
+        } catch (error) {
+            console.error("Error fetching messages:", error);
+            return;
+        }
+        if (data) {
+            await displayFullMail(data);
+        } else {
+            console.error("Invalid data format:", data);
         }
     }
 
@@ -195,6 +287,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    let messageData;
+    
     async function populateData(data, htmlTemplate) {
         const messages = Array.isArray(data.message) ? data.message : [];
     
@@ -222,6 +316,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         messageBody.innerHTML = htmlContent;
     
         const deleteButtons = messageBody.querySelectorAll('.delete-btn');
+        const messageClick = messageBody.querySelectorAll('.message-prev')
+        messageClick.forEach((item, index) => {
+            item.addEventListener("click", async () => {
+                messageData = messages[index];
+                window.location.hash = `#view/${messageData._id}`
+            })
+        })
     
         deleteButtons.forEach((deleteButton, index) => {
             deleteButton.addEventListener("click", async () => {
@@ -231,7 +332,67 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-
+    let isFullMessage = false;
+    
+    async function displayFullMail(data) {
+        const response = await fetch(`/admin/templates/view.html`);
+        const htmlTemplate = await response.text();
+        const recipients = await data.recipients;
+        let unreadCount = recipients.filter(recipient => !recipient.isRead).length;
+        let readCount = recipients.filter(recipient => recipient.isRead).length;
+        const info = await data.message;
+    
+        // Hide current message list and compose sections
+        if (!isFullMessage) {
+            messageBody.style.display = 'none';
+            composeParent.style.display = 'none';
+            isFullMessage = true;
+        }
+    
+        // Inject the HTML template with message data
+        let htmlContent = htmlTemplate
+            .replace('{{Subject}}', info.Subject || 'No Subject')
+            .replace('{{Recipients}}', info.Recipients || 'Unknown Recipients')
+            .replace('{{name}}', info.name || 'Unknown Sender')
+            .replace('{{Content}}', info.Content || 'No Content')
+            .replace('{{date}}', formatDate(info.time || new Date()))
+            .replace('{{time}}', formatTime(info.time || new Date()))
+            .replace('{{style}}', `${info.Image ? `style=display:block;` : `style=display:none;`}` || '')
+            .replace('{{image}}', `/images/${info.Image}` || '');
+    
+        body.innerHTML = htmlContent;
+    
+        // Handle the recipients list display
+        const recipientsBody = document.querySelector('#recipient-list');
+        if (recipientsBody) {
+            recipients.forEach(recipient => {
+                const list = document.createElement('li');
+                list.innerHTML = `${recipient.name} <span class="read-icon ${recipient.isRead ? 'read' : 'unread'}" title="status: ${recipient.isRead ? 'Seen' : 'NotSeen'}"></span>`;
+                recipientsBody.appendChild(list);
+            });
+        }
+    
+        // Handle "Show Details" button after injecting HTML
+        const recipientDetailsBody = document.querySelector('#recipient-container');
+        const showDetailsBtn = document.querySelector('#show-details'); // Make sure this is after HTML injection
+    
+        if (showDetailsBtn && recipientDetailsBody) {
+            showDetailsBtn.addEventListener('click', function () {
+                recipientDetailsBody.style.display = (recipientDetailsBody.style.display === 'none') ? 'flex' : 'none';
+            });
+            document.addEventListener('click', function (event) {
+                if (recipientDetailsBody && showDetailsBtn && recipientDetailsBody.style.display === 'flex') {
+                    if (!recipientDetailsBody.contains(event.target) && !showDetailsBtn.contains(event.target)) {
+                        recipientDetailsBody.style.display = (recipientDetailsBody.style.display === 'none') ? 'flex' : 'none';
+                    }
+                }
+            });
+            
+        } else {
+            console.log('Recipient details section or button not found.');
+        }
+    }
+    
 
     let selectedMessage;    
     async function deleteMessage(selectedMessage) {
@@ -304,7 +465,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const formData = new FormData(messagesForm);
             formData.append('image', fileInput.files[0]);
-            formData.append('Content', contentInput.textContent);
+            formData.append('Content', contentInput.innerHTML);
             if (isScheduled === true) {
                 formData.append('time', timeMethod);
             }
@@ -339,20 +500,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-
-
-    // checkURL();
-
-    function checkQueryParams() {
+    function resetContent() {
+        if (messageBody.style.display === 'none') {
+            messageBody.style.display = 'flex'; 
+        }
+        if (composeParent.style.display === 'none') {
+            composeParent.style.display = 'flex';
+        }
+        body.innerHTML = ``
+        isFullMessage = false;
+    }
+    
+    async function checkQueryParams() {
         const currentHash = window.location.hash.slice(1);
-      
+        const hash = window.location.hash;
         const [mainSection, queryString] = currentHash.split('?');
-      
         const params = new URLSearchParams(queryString);
-      
+    
         if (params.get('send') === 'true') {
-          toggleModalAction(); 
-        } 
+            toggleModalAction();
+        } else if (hash.startsWith('#view/')) {
+            const messageId = hash.split('/')[1];
+            await getFullMessage(messageId);
+        } else {
+            resetContent();
+        }
     }
 
     
@@ -369,13 +541,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     checkQueryParams();
 
     
-    toInboxBtn.addEventListener('click', function(){window.location.hash=`inbox/`})
-    toSentBtn.addEventListener('click', function(){window.location.hash=`sent/`})
-    toMembBtn.addEventListener('click', function(){window.location.hash=`membership/`})
-    toFeedBtn.addEventListener('click', function(){window.location.hash=`feedBacks/`})
-    toScheduledBtn.addEventListener('click', function(){window.location.hash=`scheduled/`})
+    toInboxBtn.addEventListener('click', function(){window.location.hash=`inbox/`,resetContent();})
+    toSentBtn.addEventListener('click', function(){window.location.hash=`sent/`,resetContent();})
+    toMembBtn.addEventListener('click', function(){window.location.hash=`membership/`,resetContent();})
+    toFeedBtn.addEventListener('click', function(){window.location.hash=`feedBacks/`,resetContent();})
+    toScheduledBtn.addEventListener('click', function(){window.location.hash=`scheduled/`,resetContent();})
+    
     window.onpopstate = checkURL;
     checkURL();
-
-    //add conditional statements to form submsission
 });

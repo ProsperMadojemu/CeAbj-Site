@@ -1,5 +1,5 @@
 import express from "express"
-import { sendMessage, viewMessage, deleteMessage, sendMembership, viewAll } from "../controllers/messagesController.js";
+import { sendMessage, viewMessage, deleteMessage, sendMembership, viewAll, getFullMessage } from "../controllers/messagesController.js";
 import multer from "multer";
 import autoComplete from "../controllers/autocomplete.js";
 const messagesRouter = express.Router();
@@ -18,6 +18,7 @@ messagesRouter.post("/api/messages/memberships/send",multer().none(), sendMember
 messagesRouter.post("/api/messages/autocomplete", autoComplete);
 messagesRouter.post("/api/messages/delete", deleteMessage);
 messagesRouter.post("/api/messages/view", viewMessage);
+messagesRouter.post("/api/messages/getall", getFullMessage);
 messagesRouter.get("/api/messages/list", viewAll);
 
 export default messagesRouter;

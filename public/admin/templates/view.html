@@ -1,0 +1,36 @@
+<div class="Subject">
+  <h2>{{Subject}}</h2>
+</div>
+<div class="recipient-details">
+  <div class="admin-icon">A</div>
+  <div class="recipient">
+    <div class="left-content">
+      <span class="sender__name">Christ Embassy Abaranje Admin</span>
+      <div class="lucent">
+        <span class="recipient__name">To: {{name}} </span>
+        <span class="more-details">View More 
+            <button type="button" id="show-details">▼</button>
+            <div class="more-details__container" id="recipient-container" style="display: none;">
+              <p>Recipients</p>
+              <div class="icon-exp">
+                <div class="">Seen <span class="read"></span></div>
+                <div class="">Unseen <span class="unread"></span></div>
+              </div>
+              <ul class="Recipient__list" id="recipient-list">
+                <!-- POPULATED FROM JS -->
+              </ul>
+            </div>
+        </span>
+      </div>
+    </div>
+    <div class="content-time">
+      <span class="date">{{date}} ,</span>
+      <span class="__time">{{time}}</span>
+    </div>
+  </div>
+</div>
+<div class="message-content">
+  <!-- Populated from server -->
+  {{Content}}
+  <img src="{{image}}" alt="img" {{style}}>
+</div>

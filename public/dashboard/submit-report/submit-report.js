@@ -38,10 +38,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                             document.getElementById('CellName').value = `${cellname}`;
                             document.getElementById('NameOfPcf').value = `${userChurchDetails.NameOfPcf}`;
                             const welcomeGreeting = document.querySelector('#usersdetails');
-                            const userTitle = document.querySelector('#usersTitle');
                             const logoutButton = document.getElementById('Logout-Button');
-                            welcomeGreeting.innerHTML = ` ${user.FirstName} ${user.LastName}`;
-                            userTitle.innerHTML= `${user.Title}, `
+                            welcomeGreeting.innerHTML = `${user.Title} ${user.FirstName} ${user.LastName}`;
                             logoutButton.addEventListener('click', () => {
                                 fetch('/logout', { method: 'POST' })
                                     .then(() => {
@@ -68,6 +66,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Error checking session:', error);
         });
 
+        document.getElementById('DrawerIcon').addEventListener('click', function() {
+            const navbar = document.querySelector('.vertical-navbar');
+            if (!navbar.classList.contains('active')) {
+                navbar.classList.add('active');
+            }else {
+                navbar.classList.remove('active');
+            }
+        });
+        
+        document.getElementById('CloseDrawer').addEventListener('click', function() {
+            const navbar = document.querySelector('.vertical-navbar');
+            if (navbar.classList.contains('active')) {
+                navbar.classList.remove('active');
+            }
+        });
 
     const messageOverlay = document.getElementById('message-prompt');
     const messageOverlayText = document.getElementById('message-text');

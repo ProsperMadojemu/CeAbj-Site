@@ -95,7 +95,6 @@ body .sub-body {
     display: flex;
     padding: 0px 0px 7% 0px ;
     flex-direction: column;
-    justify-content: center;
 }
 
 
@@ -162,9 +161,10 @@ body .sub-body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: flex-end;
+    padding: 0px 0px 20px 0px;
     /* height: 150px; */
-    flex: 1;
+    flex-basis: 150px;
 }
 
 .user-details > .admin-profile-icon { /* Holds only the profile icon and welcome greeting */
@@ -175,7 +175,6 @@ body .sub-body {
     flex-wrap: wrap;
     padding: 0px 5px 0px 10px;
     text-align: center;
-    font-family: system-ui;
 }
 
 .title-users-name {
@@ -193,8 +192,8 @@ body .sub-body {
 .admin-profile-icon .userGreeting { /* welcome greeting */
     text-wrap: nowrap;
     text-transform: capitalize;
-    font-size: 1.4rem;
-    letter-spacing: .0001px;
+    font-size: 1.1rem;
+    letter-spacing: normal;
     color: var(--darker-blue);
     font-weight: 500;
     margin: 5px 0px 0px 0px;
@@ -206,15 +205,15 @@ hr {
 }
 
 .admin-profile-icon .greeting-user {  /* profile-icon */
-    margin-right: 20px;
+    margin-right: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
     background-color: #f9f9f9;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
 }
 
@@ -469,7 +468,6 @@ hr {
     box-shadow: 3px 4px 40px hsla(0, 0%, 0%, 0.849);
     pointer-events: none;
     color: #fff;
-    font-family: 'arial', sans-serif;
     background: var(--secondary-color);
 }
 
@@ -482,50 +480,6 @@ hr {
     -webkit-animation: rotate-center 0.6s linear both infinite;
     animation: rotate-center 0.6s linear both infinite;
 }
-
-.prompt-popup {
-    width: 100%;  
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: 50%;
-    bottom: 50%;    
-    z-index: 20;
-    padding: 10px 20px;
-    transform: translate(0%, -50%) ;
-    background: #3d3d3da1;
-    position: absolute;
-    animation: fade .2s ease-in;
-}
-
-.Update-Popup {
-    height: 500px;
-    flex-basis: 750px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    border-radius: 5px;
-    position: relative;
-    box-shadow: 3px 4px 5px 3px hsla(0, 0%, 0%, 0.2);
-    color: #000000;
-    font-family: 'arial', sans-serif;
-    background: #fff;
-    padding: 20px 30px 0px 30px;
-}
-
-.Update-Popup-text-container {
-    display: flex;
-    height: 15%;
-    width: 100%;
-    padding: 0 30px;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1.3rem;
-}
-
 @media (width<= 985px) {
     .overview-text {
         margin-left: 20px;

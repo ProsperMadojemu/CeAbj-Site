@@ -22,14 +22,19 @@
     justify-content: flex-start;
 }
 
+.form-holder {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .form-group {
     display: flex;
     flex-direction: column-reverse;
     align-items: baseline;
     justify-content: center;
-    flex-shrink: 1;
+    flex: 1;
     margin: 0px 0px 20px 0px;
-    font-family: 'arial' sans-serif;
 }
 
 .last-group {
@@ -39,7 +44,7 @@
 .form-group input {
     display: block;
     height: 45px;
-    width: 450px;
+    width: 100%;
     outline: none;
     padding: 10px;
     border-radius: 5px;
@@ -86,7 +91,7 @@ input[type="number"] {
 .form-group select {
     display: block;
     height: 45px;
-    width: 450px;
+    width: 100%;
     outline: none;
     padding: 10px;
     border-radius: 5px;
@@ -137,7 +142,6 @@ input[type="number"] {
     height: fit-content;
     max-height: 380px;
     /* border: 1.5px solid var(--primary-color); */
-    background-color: #ffffff;
     border-radius: 5px;
     overflow-x: auto;
     overflow-y: scroll;
@@ -233,6 +237,9 @@ input[type="number"] {
 .users-table tr:nth-child(even) {
     background-color: #f9f9f9;
 }
+.users-table tr:nth-child(odd) {
+    background-color: #fff;
+}
 
 .form-container::-webkit-scrollbar,
 .table-container::-webkit-scrollbar {
@@ -265,20 +272,22 @@ input[type="number"] {
 }
 
 .dashboard-footer {
-    bottom: 0;
+    width: 75%;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
-    width: 100%;
-    display: block;
-    align-content: center;
-    background: #fff;
+    bottom: 0;
 }
 
 .footer-container {
     display: flex;
     color: var(--secondary-color);
-    padding: 0px 0px 10px 30px;
+    padding: 0px 0px 10px 20px;
     transition: color .2s ease-out;
 }
+
 
 .footer-container a {
     text-decoration: underline;
@@ -308,7 +317,7 @@ input[type="number"] {
 }
 
 .search-box > .search-parent > input {
-    width: 350px;
+    flex-basis: 350px;
     height: 100%;
     border-radius: 25px;
     border: none;
@@ -544,4 +553,36 @@ input[type="number"] {
     border: 1px solid #b4b4b4;
     border-radius: 10px;
     height: 10px;
+}
+
+
+@media (width <= 768px) {
+    .empty-div {
+        height: 0;
+    }
+    
+    .dashboard-footer {
+        left: 0;
+        justify-content: flex-start;
+    }
+
+    .users-table th:nth-child(3),
+    .users-table td:nth-child(3) {
+        /* width: 300px; */
+        width: min-content;
+    }
+    
+}
+
+@media (width <= 410px) {
+    .footer-container {
+        padding: 0px 0px 10px 10px;
+    }
+}
+
+@media (width <= 368px) {
+    .footer-container {
+        padding: 0px 0px 10px 0px;
+    }
+    
 }

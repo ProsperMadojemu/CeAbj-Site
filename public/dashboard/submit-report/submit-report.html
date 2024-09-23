@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CeAbaranje || Dashboard/SubmitReport</title>
+    <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="/dashboard/submit-report/submit-report.css">
     <link rel="stylesheet" href="/annimations.css">
     <link rel="stylesheet" href="/root.css">
@@ -25,94 +26,113 @@
         <div class="vertical-navbar-box">
           <div class="nocssneeded">
             <div class="user-details">
+              <i id="CloseDrawer" class="fa-regular fa-xmark closeIcon"></i>
               <div class="admin-profile-icon">
                 <span class="greeting-user">
-                  <i class="fa-duotone fa-user fa-2xl"></i>
+                  <i class="fa-solid fa-user fa-xl"></i>
                 </span>
-                <div class="title-users-name">
-                  <span><p class="userGreeting first-text" id="usersTitle"></p></span>
-                  <span><p class="userGreeting" id="usersdetails"></p></span>
-                </div>
+                <span>
+                  <!-- <p id="usersTitle"></p> -->
+                  <p class="userGreeting" id="usersdetails"></p>
+                </span>
               </div>
-              <span class="edit-profile">
-                <i class="fa-duotone fa-user-pen"></i>
-                <a href="/dashboard/edit-profile">Edit Profile</a>
-              </span>
             </div>
+            <hr />
             <div class="navbar-list-items">
               <ul class="dashboard-links">
-                  <li class="dashboard-items"><a href="/dashboard/overview"><i class="fa-duotone fa-diagram-lean-canvas"></i>Overview</a></li>
-                  <li class="dashboard-items"><a href="/dashboard/submit-report"><i class="fa-duotone fa-pen-to-square"></i>Submit Report</a></li>
-                  <li class="dashboard-items"><a href="/dashboard/messages"><i class="fa-duotone fa-megaphone fa-rotate-by" style="--fa-rotate-angle: 325deg;""></i>Announcements</a></li>
-                <!-- <li class="dashboard-items"></li> -->
+                <a href="/dashboard/edit-profile">
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-user-pen"></i>
+                    <p>Edit profile</p>
+                  </li>
+                </a>
+                <a href="/dashboard/overview">
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-diagram-lean-canvas"></i>
+                    <p>Overview</p>
+                  </li>
+                </a>
+                <a href="/dashboard/submit-report">
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    <p>Submit report</p>
+                  </li>
+                </a>
+                <a href="/dashboard/messages">
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-paper-plane-top"></i>
+                    <p>Messages</p>
+                  </li>
+                </a>
               </ul>
             </div>
           </div>
-          <div class="logout-parent" id="Logout-Button">
-            <div class="logout-button">
-              <button class="button" id=""><i class="fa-duotone fa-right-from-bracket fa-lg"></i>Logout</button>
-            </div>  
+          <div class="left-dash-footer">
+            <div class="logout-parent" id="Logout-Button">
+              <div class="logout-button">
+                <button class="button" id="" type="button">
+                  <i class="fa-solid fa-right-from-bracket fa-lg"></i>Logout
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </nav>
       <section class="dashboard-content">
         <div class="dashboard-content-box">
           <div class="dashboard-content-title">
+            <button class="drawerIcon" id="DrawerIcon">≡</button>
             <a href="javascript:history.back()" class="go-back">
               <i class="fa-solid fa-arrow-left"></i>
-              <p>Go Back</p>
             </a>
-            <h1>Dashboard/SubmitReport</h1>
+            <h1>Submit report</h1>
           </div>
           <div class="empty-div"></div>
           <div class="overview">
-            <span class="overview-text">
-              <h2>Cell Report ...</h2>
-              <p>Submit your cell report</p>
-            </span>
-            
-          </div>
+
             <form class="form-container" method="post" id="cellReportForm">
-              <div class="form-group">
-                <input type="text" placeholder="" name="FirstName" id="FirstName" required></input>
-                <label for="FirstName">First Name</label>
-              </div>
-              <div class="form-group">
-                <input type="text" placeholder="" name="LastName" id="LastName" required></input>
-                <label for="LastName">Last Name</label>
-              </div>            
-              <div class="form-group">
-                <input type="text" placehold er="" name="CellName" id="CellName" required></input>
-                <label for="CellName">Name Of Cell</label>
-              </div>            
-              <div class="form-group hidden" id="pcfnamegroup">
-                <input type="text" id="NameOfPcf" name="NameOfPcf" readonly/>
-                <label for="NameOfPcf"">Name of PCF</label>
-              </div>
-              <div class="form-group">
-                <input type="text" placeholder="" name="ServiceAttendance" id="ServiceAttendance" required></input>
-                <label for="ServiceAttendance">Service Attendance</label>
-              </div>            
-              <div class="form-group">
-                <input type="number" placeholder="" name="SundayFirstTimers" id="SundayFirstTimers" required></input>
-                <label for="SundayFirstTimers">Sunday First Timers</label>
-              </div>            
-              <div class="form-group">
-                <input type="number" placeholder="" name="CellMeetingAttendance" id="CellMeetingAttendance" required></input>
-                <label for="CellMeetingAttendance">Cell Meeting Attendance</label>
-              </div>
-              <div class="form-group last-group">
-                <input type="number" placeholder="" name="CellFirstTimers" id="CellFirstTimers" required></input>
-                <label for="CellFirstTimers">Cell First Timers</label>
-              </div>
-              <div class="form-group last-group">
-                <input type="number" placeholder="" name="offering" id="offering" required></input>
-                <label for="offering">Cell Offering</label>
-              </div>
+              <div class="form-group-a">
+                <div class="form-group">
+                  <input type="text" placeholder="" name="FirstName" id="FirstName" required></input>
+                  <label for="FirstName">First Name</label>
+                </div>
+                <div class="form-group">
+                  <input type="text" placeholder="" name="LastName" id="LastName" required></input>
+                  <label for="LastName">Last Name</label>
+                </div>            
+                <div class="form-group">
+                  <input type="text" placehold er="" name="CellName" id="CellName" required></input>
+                  <label for="CellName">Name Of Cell</label>
+                </div>            
+                <div class="form-group hidden" id="pcfnamegroup">
+                  <input type="text" id="NameOfPcf" name="NameOfPcf" readonly/>
+                  <label for="NameOfPcf"">Name of PCF</label>
+                </div>
+                <div class="form-group">
+                  <input type="text" placeholder="" name="ServiceAttendance" id="ServiceAttendance" required></input>
+                  <label for="ServiceAttendance">Service Attendance</label>
+                </div>
+              </div> 
+              <div class="form-container-b">
+                <div class="form-group">
+                  <input type="number" placeholder="" name="SundayFirstTimers" id="SundayFirstTimers" required></input>
+                  <label for="SundayFirstTimers">Sunday First Timers</label>
+                </div>            
+                <div class="form-group">
+                  <input type="number" placeholder="" name="CellMeetingAttendance" id="CellMeetingAttendance" required></input>
+                  <label for="CellMeetingAttendance">Cell Meeting Attendance</label>
+                </div>
+                <div class="form-group last-group">
+                  <input type="number" placeholder="" name="CellFirstTimers" id="CellFirstTimers" required></input>
+                  <label for="CellFirstTimers">Cell First Timers</label>
+                </div>
+                <div class="form-group last-group">
+                  <input type="number" placeholder="" name="offering" id="offering" required></input>
+                  <label for="offering">Cell Offering</label>
+                </div>
+                <button type="submit" id="submitcellreportbutton" class="submitreportbutton">Submit</button>
+              </div>           
             </form>
-            <div class="parent-button">
-              <button type="submit" id="submitcellreportbutton" class="submitreportbutton">Submit</button>
-            </div>
           </div>
         </div>
       </section>

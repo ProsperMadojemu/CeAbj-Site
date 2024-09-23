@@ -1,164 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CeAbaranje || Dashboard/EditProfile</title>
-    <link rel="icon" href="../src/favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css">
-    <link rel="stylesheet" href="../defaultdashboard.css">
-    <link rel="stylesheet" href="./view-users.css"> 
-    <link rel="stylesheet" href="../../annimations.css">
-    <link rel="stylesheet" href="../../root.css">
-</head>
-<body>
-  <main class="sub-body">
-    <div class="prompt-parent hidden" id="message-prompt">
-      <div class="success-prompt" >
+    <link rel="icon" href="../src/favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css"
+    />
+    <link rel="stylesheet" href="../defaultdashboard.css" />
+    <link rel="stylesheet" href="./view-users.css" />
+    <link rel="stylesheet" href="../../annimations.css" />
+    <link rel="stylesheet" href="../../root.css" />
+  </head>
+  <body>
+    <main class="sub-body">
+      <div class="prompt-parent hidden" id="message-prompt">
+        <div class="success-prompt">
           <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
           <h2 id="message-text"></h2>
-      </div>
-    </div>
-    <main class="dashboard-sub-body">
-      <nav class="vertical-navbar">
-        <div class="vertical-navbar-box">
-          <div class="nocssneeded">
-            <div class="user-details">
-              <i id="CloseDrawer" class="fa-solid fa-xmark closeIcon"></i>
-              <div class="admin-profile-icon">
-                <span class="greeting-user">
-                  <i class="fa-duotone fa-user fa-2xl"></i>
-                </span>
-                <span><p class="userGreeting" id="usersdetails">Admin</p></span>
-              </div>
-              <span class="edit-profile hidden">
-                <i class="fa-duotone fa-user-pen"></i>
-                <a href="/admin/">Edit Profile</a>
-              </span>
-            </div>
-            <div class="edit-profile"></div>
-            <div class="navbar-list-items">
-              <ul class="dashboard-links">
-                <a href="/admin/overview">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-tachograph-digital"></i>
-                    <p>Overview</p>
-                  </li>
-                </a>
-                <a href="/admin/addacell">
-                  <li class="dashboard-items"><i class="fa-solid fa-circle-plus"></i>
-                    <p>Add a cell</p>
-                  </li>
-                </a>
-                <a href="/admin/view-users">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-users"></i>
-                    <p>View Users</p>
-                  </li>
-                </a>
-                <a href="/admin/view-cell-reports">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-chart-bar"></i>
-                    <p>View Cell Reports</p>
-                  </li>
-                </a>
-                <a href="/admin/souls-won">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-trophy"></i>
-                    <p>Souls Won</p>
-                  </li>
-                </a>
-                <a href="/admin/schedule-service">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-calendar-days"></i>
-                    <p>Schedule Service</p>
-                  </li>
-                </a>
-                <a href="/admin/messages">
-                  <li class="dashboard-items"><i class="fa-solid fa-paper-plane-top"></i>
-                    <p>Message</p>
-                  </li>
-                </a>
-                <!-- <li class="dashboard-items></li> -->
-              </ul>
-            </div>
-          </div>
-          <div class="left-dashboard-bottom">
-            <div class="logout-parent" id="Logout-Button">
-              <div class="logout-button">
-                <button class="button" id=""><i class="fa-duotone fa-right-from-bracket fa-lg"></i>Logout</button>
-              </div>  
-            </div>
-          </div>
         </div>
-      </nav>
-      <section class="dashboard-content">
-        <div class="dashboard-content-box">
-          <div class="dashboard-content-title">
-            <button class="drawerIcon" id="DrawerIcon">≡</button>
-            <a href="javascript:history.back()" class="go-back">
-              <!-- <i class="fa-solid fa-arrow-left"></i> -->
-              <i class="fa-duotone fa-solid fa-house"></i>
-              <p>Home</p>
-            </a>
-            <h1>Admin Dashboard</h1>
+      </div>
+      <main class="dashboard-sub-body">
+        <nav class="vertical-navbar">
+          <div class="vertical-navbar-box">
+            <div class="nocssneeded">
+              <div class="user-details">
+                <i id="CloseDrawer" class="fa-regular fa-xmark closeIcon"></i>
+                <div class="admin-profile-icon">
+                  <span class="greeting-user">
+                    <i class="fa-duotone fa-user fa-2xl"></i>
+                  </span>
+                  <span>
+                    <p class="userGreeting" id="usersdetails">Admin</p>
+                  </span>
+                </div>
+              </div>
+              <hr />
+              <div class="navbar-list-items">
+                <ul class="dashboard-links">
+                  <a href="/admin/overview">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-tachograph-digital"></i>
+                      <p>Overview</p>
+                    </li>
+                  </a>
+                  <a href="/admin/view-users">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-user-group"></i>
+                      <p>Users</p>
+                    </li>
+                  </a>
+                  <a href="/admin/view-cells-leaders">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-users"></i>
+                      <p>Leaders</p>
+                    </li>
+                  </a>
+                  <a href="/admin/addacell">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-circle-plus"></i>
+                      <p>New Cell</p>
+                    </li>
+                  </a>
+                  <a href="/admin/view-cell-reports">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-chart-bar"></i>
+                      <p>Cell Reports</p>
+                    </li>
+                  </a>
+                  <a href="/admin/souls-won">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-trophy"></i>
+                      <p>Souls Won</p>
+                    </li>
+                  </a>
+                  <a href="/admin/schedule-service">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-calendar-days"></i>
+                      <p>Schedule Service</p>
+                    </li>
+                  </a>
+                  <a href="/admin/messages">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-paper-plane-top"></i>
+                      <p>Messages</p>
+                    </li>
+                  </a>
+                </ul>
+              </div>
+            </div>
+            <div class="left-dash-footer">
+              <div class="logout-parent" id="Logout-Button">
+                <div class="logout-button">
+                  <button class="button" id="" type="button">
+                    <i class="fa-solid fa-right-from-bracket fa-lg"></i>Logout
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
+        </nav>
+        <section class="dashboard-content">
+          <div class="dashboard-content-box">
+            <div class="dashboard-content-title">
+              <button class="drawerIcon" id="DrawerIcon">≡</button>
+              <a href="javascript:history.back()" class="go-back">
+                <i class="fa-duotone fa-solid fa-arrow-left"></i>
+              </a>
+              <h1>Users</h1>
+            </div>
 
-          <div class="empty-div"></div>
-          <div class="overview">
-            <!-- HERE -->
-            <div class="table-padding">
-              <div class="table-container">
-                <div class="search-box">
-                  <div class="search-parent">
-                    <input id="searchInput" type="text" placeholder="Search here..." />
-                    <i id="searchButton" class="fa fa-search"></i>
-                  </div>
-                  <div class="ellipsis fa-solid fa-ellipsis-vertical" id="three-dots-download" onclick="threeDotsToggleHandler();">
-                    <div class="drop-down hidden" id="togglehiddendropdown">
-                      <button class="download-button" id="clickmetodownload">Download</button>
+            <div class="empty-div"></div>
+            <div class="overview">
+              <!-- HERE -->
+              <div class="table-padding">
+                <div class="table-container">
+                  <div class="search-box">
+                    <div class="search-parent">
+                      <input
+                        id="searchInput"
+                        type="text"
+                        placeholder="Search here..."
+                      />
+                      <i id="searchButton" class="fa fa-search"></i>
+                    </div>
+                    <div
+                      class="ellipsis fa-solid fa-ellipsis-vertical"
+                      id="three-dots-download"
+                      onclick="threeDotsToggleHandler();"
+                    >
+                      <div class="drop-down hidden" id="togglehiddendropdown">
+                        <button class="download-button" id="clickmetodownload">
+                          Download
+                        </button>
+                      </div>
                     </div>
                   </div>
+                  <table class="users-table" id="usersTableData">
+                    <thead>
+                      <tr>
+                        <th>SN</th>
+                        <th>Full Name</th>
+                        <th>Phone Number</th>
+                        <th>Church</th>
+                        <th>Leaders Position</th>
+                        <th>Cell</th>
+                        <th>Department</th>
+                        <th>Date Registered</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
                 </div>
-                <table class="users-table" id="usersTableData">
-                  <thead>
-                    <tr>
-                      <th>SN</th>
-                      <th>Full Name</th>
-                      <th>Phone Number</th>
-                      <th>Church</th>
-                      <th>Leaders Position</th>
-                      <th>Cell</th>
-                      <th>Department</th>
-                      <th>Date Registered</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
               </div>
             </div>
-        </div>
-        <footer class="dashboard-footer">
-          <div class="footer-container">
-            <a href="/admin/view-cells-leaders">View Cells and Leaders</a>
+          </div>
+          <footer class="dashboard-footer">
             <div id="paginationControls" class="pagination">
-              <button id="prevPage" disabled>&laquo; Previous</button>
+              <button id="prevPage"  type="button" disabled>&laquo; Previous</button>
               <span id="pageInfo"></span>
-              <button id="nextPage">Next &raquo;</button>
-          </div>
-          </div>
-        </footer>
-      </section>
+              <button id="nextPage" type="button" >Next &raquo;</button>
+            </div>
+          </footer>
+        </section>
+      </main>
     </main>
-  </main>
-  <script defer src="./view-users.js"></script>
-  <script src="../../script/table2excel.js"></script>
-  <script>
-    document.getElementById('clickmetodownload').addEventListener('click', function () {
-      var table2excel = new Table2Excel();
-      table2excel.export(document.querySelectorAll("#usersTableData"));
-    })
-    function threeDotsToggleHandler() {
-      const threeDots = document.getElementById('togglehiddendropdown');
-      threeDots.classList.toggle('hidden');
-    };
-  </script>
-</body>
+    <script defer src="./view-users.js"></script>
+    <script src="../../script/table2excel.js"></script>
+    <script>
+      document
+        .getElementById("clickmetodownload")
+        .addEventListener("click", function () {
+          var table2excel = new Table2Excel();
+          table2excel.export(document.querySelectorAll("#usersTableData"));
+        });
+      function threeDotsToggleHandler() {
+        const threeDots = document.getElementById("togglehiddendropdown");
+        threeDots.classList.toggle("hidden");
+      }
+    </script>
+  </body>
 </html>

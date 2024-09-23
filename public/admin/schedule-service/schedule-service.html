@@ -1,112 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CeAbaranje || Dashboard/EditProfile</title>
-    <link rel="icon" href="../src/favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css">
-    <link rel="stylesheet" href="../defaultdashboard.css">
-    <link rel="stylesheet" href="./schedule-service.css">
-    <link rel="stylesheet" href="../../annimations.css">
-    <link rel="stylesheet" href="../../root.css">
-</head>
-<body>
-  <main class="sub-body">
-    <main class="dashboard-sub-body">
-      <nav class="vertical-navbar">
-        <div class="vertical-navbar-box">
-          <div class="nocssneeded">
-            <div class="user-details">
-              <i id="CloseDrawer" class="fa-solid fa-xmark closeIcon"></i>
-              <div class="admin-profile-icon">
-                <span class="greeting-user">
-                  <i class="fa-duotone fa-user fa-2xl"></i>
-                </span>
-                <span><p class="userGreeting" id="usersdetails">Admin</p></span>
+    <link rel="icon" href="../src/favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css"
+    />
+    <link rel="stylesheet" href="../defaultdashboard.css" />
+    <link rel="stylesheet" href="./schedule-service.css" />
+    <link rel="stylesheet" href="../../annimations.css" />
+    <link rel="stylesheet" href="../../root.css" />
+  </head>
+  <body>
+    <main class="sub-body">
+      <main class="dashboard-sub-body">
+        <nav class="vertical-navbar">
+          <div class="vertical-navbar-box">
+            <div class="nocssneeded">
+              <div class="user-details">
+                <i id="CloseDrawer" class="fa-regular fa-xmark closeIcon"></i>
+                <div class="admin-profile-icon">
+                  <span class="greeting-user">
+                    <i class="fa-duotone fa-user fa-2xl"></i>
+                  </span>
+                  <span>
+                    <p class="userGreeting" id="usersdetails">Admin</p>
+                  </span>
+                </div>
+              </div>
+              <hr />
+              <div class="navbar-list-items">
+                <ul class="dashboard-links">
+                  <a href="/admin/overview">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-tachograph-digital"></i>
+                      <p>Overview</p>
+                    </li>
+                  </a>
+                  <a href="/admin/view-users">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-user-group"></i>
+                      <p>Users</p>
+                    </li>
+                  </a>
+                  <a href="/admin/view-cells-leaders">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-users"></i>
+                      <p>Leaders</p>
+                    </li>
+                  </a>
+                  <a href="/admin/addacell">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-circle-plus"></i>
+                      <p>New Cell</p>
+                    </li>
+                  </a>
+                  <a href="/admin/view-cell-reports">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-chart-bar"></i>
+                      <p>Cell Reports</p>
+                    </li>
+                  </a>
+                  <a href="/admin/souls-won">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-trophy"></i>
+                      <p>Souls Won</p>
+                    </li>
+                  </a>
+                  <a href="/admin/schedule-service">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-calendar-days"></i>
+                      <p>Schedule Service</p>
+                    </li>
+                  </a>
+                  <a href="/admin/messages">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-paper-plane-top"></i>
+                      <p>Messages</p>
+                    </li>
+                  </a>
+                </ul>
               </div>
             </div>
-            <div class="edit-profile"></div>
-            <div class="navbar-list-items">
-              <ul class="dashboard-links">
-                <a href="/admin/overview">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-tachograph-digital"></i>
-                    <p>Overview</p>
-                  </li>
-                </a>
-                <a href="/admin/addacell">
-                  <li class="dashboard-items"><i class="fa-solid fa-circle-plus"></i>
-                    <p>Add a cell</p>
-                  </li>
-                </a>
-                <a href="/admin/view-users">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-users"></i>
-                    <p>View Users</p>
-                  </li>
-                </a>
-                <a href="/admin/view-cell-reports">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-chart-bar"></i>
-                    <p>View Cell Reports</p>
-                  </li>
-                </a>
-                <a href="/admin/souls-won">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-trophy"></i>
-                    <p>Souls Won</p>
-                  </li>
-                </a>
-                <a href="/admin/schedule-service">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-calendar-days"></i>
-                    <p>Schedule Service</p>
-                  </li>
-                </a>
-                <a href="/admin/messages">
-                  <li class="dashboard-items"><i class="fa-solid fa-paper-plane-top"></i>
-                    <p>Annoucements</p>
-                  </li>
-                </a>
-                <!-- <li class="dashboard-items></li> -->
-              </ul>
+            <div class="left-dash-footer">
+              <div class="logout-parent" id="Logout-Button">
+                <div class="logout-button">
+                  <button class="button" id="" type="button">
+                    <i class="fa-solid fa-right-from-bracket fa-lg"></i>Logout
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="left-dashboard-bottom">
-            <div class="logout-parent" id="Logout-Button">
-              <div class="logout-button">
-                <button class="button" id=""><i class="fa-duotone fa-right-from-bracket fa-lg"></i>Logout</button>
-              </div>  
+        </nav>
+        <section class="dashboard-content">
+          <div class="dashboard-content-box">
+            <div class="dashboard-content-title">
+              <button class="drawerIcon" id="DrawerIcon">≡</button>
+              <a href="javascript:history.back()" class="go-back">
+                <i class="fa-duotone fa-solid fa-arrow-left"></i>
+              </a>
+              <h1>Schedule</h1>
             </div>
-          </div>
-        </div>
-      </nav>
-      <section class="dashboard-content">
-        <div class="dashboard-content-box">
-          <div class="dashboard-content-title">
-            <button class="drawerIcon" id="DrawerIcon">≡</button>
-            <a href="javascript:history.back()" class="go-back">
-              <!-- <i class="fa-solid fa-arrow-left"></i> -->
-              <i class="fa-duotone fa-solid fa-house"></i>
-              <p>Home</p>
-            </a>
-            <h1>Admin Dashboard</h1>
-          </div>
-          <div class="empty-div"></div>
-          <div class="overview">
-            <span class="overview-text">
-              <h2>User Details</h2>
-              <p>Verify and update your details </p>
-            </span>
-            <div class="prompt-parent hidden" id="message-prompt">
-              <div class="success-prompt" >
-                  <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
+            <div class="empty-div"></div>
+            <div class="overview">
+              <span class="overview-text">
+                <h2>User Details</h2>
+                <p>Verify and update your details</p>
+              </span>
+              <div class="prompt-parent hidden" id="message-prompt">
+                <div class="success-prompt">
+                  <i
+                    class="fa-solid fa-spinner-third fa-2xl"
+                    id="message-sign"
+                  ></i>
                   <h2 id="message-text"></h2>
+                </div>
               </div>
+              <!-- HERE -->
             </div>
-            <!-- HERE -->
-            
-        </div>
-      </section>
+          </div>
+        </section>
+      </main>
     </main>
-  </main>
-  <script defer src="./schedule-service.js"></script>
-</body>
+    <script defer src="./schedule-service.js"></script>
+  </body>
 </html>

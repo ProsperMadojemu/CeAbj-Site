@@ -27,66 +27,79 @@
         <div class="vertical-navbar-box">
           <div class="nocssneeded">
             <div class="user-details">
-              <i id="CloseDrawer" class="fa-solid fa-xmark closeIcon"></i>
+              <i id="CloseDrawer" class="fa-regular fa-xmark closeIcon"></i>
               <div class="admin-profile-icon">
                 <span class="greeting-user">
                   <i class="fa-duotone fa-user fa-2xl"></i>
                 </span>
-                <span><p class="userGreeting" id="usersdetails">Admin</p></span>
+                <span>
+                  <p class="userGreeting" id="usersdetails">Admin</p>
+                </span>
               </div>
-              <span class="edit-profile hidden">
-                <i class="fa-duotone fa-user-pen"></i>
-                <a href="/admin/">Edit Profile</a>
-              </span>
             </div>
-            <div class="edit-profile"></div>
+            <hr>
             <div class="navbar-list-items">
               <ul class="dashboard-links">
                 <a href="/admin/overview">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-tachograph-digital"></i>
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-tachograph-digital"></i>
                     <p>Overview</p>
                   </li>
                 </a>
-                <a href="/admin/addacell">
-                  <li class="dashboard-items"><i class="fa-solid fa-circle-plus"></i>
-                    <p>Add a cell</p>
+                <a href="/admin/view-users">
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-user-group"></i>
+                    <p>Users</p>
                   </li>
                 </a>
-                <a href="/admin/view-users">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-users"></i>
-                    <p>View Users</p>
+                <a href="/admin/view-cells-leaders">
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-users"></i>
+                    <p>Leaders</p>
+                  </li>
+                </a>
+                <a href="/admin/addacell">
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-circle-plus"></i>
+                    <p>New Cell</p>
                   </li>
                 </a>
                 <a href="/admin/view-cell-reports">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-chart-bar"></i>
-                    <p>View Cell Reports</p>
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-chart-bar"></i>
+                    <p>Cell Reports</p>
                   </li>
                 </a>
                 <a href="/admin/souls-won">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-trophy"></i>
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-trophy"></i>
                     <p>Souls Won</p>
                   </li>
                 </a>
                 <a href="/admin/schedule-service">
-                  <li class="dashboard-items"><i class="fa-duotone fa-solid fa-calendar-days"></i>
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-calendar-days"></i>
                     <p>Schedule Service</p>
                   </li>
                 </a>
                 <a href="/admin/messages">
-                  <li class="dashboard-items"><i class="fa-solid fa-paper-plane-top"></i>
-                    <p>messages</p>
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-paper-plane-top"></i>
+                    <p>Messages</p>
                   </li>
                 </a>
-                <!-- <li class="dashboard-items></li> -->
               </ul>
             </div>
           </div>
-          <div class="left-dashboard-bottom">
+          <div class="left-dash-footer">
             <div class="logout-parent" id="Logout-Button">
               <div class="logout-button">
-                <button class="button" id=""><i class="fa-duotone fa-right-from-bracket fa-lg"></i>Logout</button>
-              </div>  
+                <button class="button" id="" type="button">
+                  <i class="fa-solid fa-right-from-bracket fa-lg"></i>Logout
+                </button>
+              </div>
             </div>
+          </div>
         </div>
       </nav>
       <section class="dashboard-content">
@@ -122,7 +135,7 @@
               </div>
             </div>
             
-            <div class="container default-chart-width">
+            <div class="container default-chart-width grid-col-3-span-2">
               <div class="absolute-tooltip">
                 <div class="charts-title">
                   Total Number of Users the have registered on the website

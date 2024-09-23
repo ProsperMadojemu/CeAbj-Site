@@ -107,23 +107,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         const popUp = document.getElementById("updatePromptParent");
         popUp.classList.add("hidden");
     }
-
-    // Display users with dropdown actions
     function displayUsers(users) {
-        tableBody.innerHTML = ""; // Clear previous data
-
-        // Correct array name for checking length
+        tableBody.innerHTML = "";
         if (users.length === 0) {
             tableBody.innerHTML = '<tr><td colspan="6">No leader found.</td></tr>';
             return;
         }
-
-        let count = (currentPage - 1) * limit + 1; // Adjust count based on the current page
-
+        let count = (currentPage - 1) * limit + 1;
         users.forEach((user) => {
-            // Handle the case where user._doc is present
             const userData = user._doc || user;
-
             const row = document.createElement("tr");
             const registrationDate = userData.registrationDate
                 ? formatDateToYYMMDD(userData.registrationDate)

@@ -1,11 +1,15 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    let registrationDt = ''; // Date string from the server
+    // Fetch session data
     fetch('/check-session')
     .then(response => response.json())
     .then(sessionData => {
         if (sessionData.email && sessionData.isAdmin) {
+            // Fetch admin data from getalldata route
             fetch('/getalldata')
                 .then(response => response.json())
                 .then(data => {
+                    // Check if the logged-in user is an admin
                     const admin = data.admin.find(a => a.email === sessionData.email);
                     if (!admin) {
                         window.location.href = '/404';
@@ -17,6 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             window.location.href = '/login';
         }
+
         const logoutButton = document.getElementById('Logout-Button');
         logoutButton.addEventListener('click', () => {
             fetch('/logout', { method: 'POST' })
@@ -35,15 +40,58 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
     const tableBody = document.querySelector('#usersTableData tbody');
+    showSkeletonRows(tableBody);
+    
+    // Show skeleton rows while fetching data
+    async function showSkeletonRows(tableBody) {
+        for (let i = 0; i < 3; i++) {
+            const row = document.createElement('tr');
+            row.classList.add('skeleton');
+            for (let j = 0; j < 5; j++) {
+                const cell = document.createElement('td');
+                cell.colSpan = 10; // Adjust colspan for skeleton rows
+                row.appendChild(cell);
+            }
+            tableBody.appendChild(row);
+        }
+    }
+    const reportTable = document.querySelector('#reports-table tbody');
     const reportTableHeader = document.getElementById('report-id');
+
+    showReportSkeletonRows(reportTable);
+    async function showReportSkeletonRows(reportTable) {
+        reportTableHeader.classList.add('skeleton-text');
+        for (let i = 0; i < 8; i++) {
+            const row = document.createElement('tr');
+            row.classList.add('reports-skeleton');
+            reportTable.appendChild(row);
+        }
+
+    }    
+    
+    function hideReportSkeletonRows(reportTable) {
+        const skeleton = reportTable.querySelectorAll('.reports-skeleton');
+        reportTableHeader.classList.remove('skeleton-text');
+        skeleton.forEach(row => row.remove());
+    }
+    
+    // Hide skeleton rows after fetching data
+    function hideSkeletonRows(tableBody) {
+        const skeleton = tableBody.querySelectorAll('.skeleton');
+        skeleton.forEach(row => row.remove());
+    }
+
+    // Helper function to get date range for filtering
     function getDateRange(option) {
         const today = new Date();
         let startDate;
         let endDate = new Date(today);
+
         switch (option) {
             case 'lastSunday':
+                // Calculate the date for the last Sunday
                 const dayOfWeek = today.getDay();
-                const daysSinceSunday = (dayOfWeek + 7 - 0) % 7; 
+                const daysSinceSunday = (dayOfWeek + 7 - 0) % 7; // 0 is Sunday
                 endDate.setDate(today.getDate() - daysSinceSunday);
                 startDate = new Date(endDate);
                 startDate.setDate(endDate.getDate() - 6);
@@ -52,11 +100,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                 startDate = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
                 break;
             default:
-                startDate = new Date(0);
+                startDate = new Date(0); // Default to all time
         }
 
         return { $gte: startDate, $lt: endDate };
     }
+
+
+    // Function to format a date in the format YY/MM/DD
+    function formatDateToYYMMDD(dateString) {
+        if (!dateString || dateString === 'Nill') {
+            return 'N/A'; // Return 'N/A' if the date is invalid or not available
+        }
+        const date = new Date(dateString); // Parse the date string to a Date object
+        const year = date.getFullYear().toString(); // Get the full year
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Add 1 to month (0-based index) and pad with zero
+        const day = String(date.getDate()).padStart(2, '0'); // Pad day with zero
+    
+        return `${year}/${month}/${day}`; // Return formatted date
+    }
+
     
     document.getElementById('DrawerIcon').addEventListener('click', function() {
         const navbar = document.querySelector('.vertical-navbar');
@@ -78,43 +141,60 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentPage = 1;
     const limit = 10; // Number of results per page
     
+    // Fetch data from both endpoints
     async function fetchData(page = 1) {
         const searchTerm = document.getElementById('searchInput').value.trim();
         try {
+            // Construct URLs for both cell reports and leaders
             const cellReportsUrl = searchTerm
                 ? `/cellReportSearch?q=${encodeURIComponent(searchTerm)}&page=${page}&limit=${limit}`
                 : `/cellReportSearch?page=${page}&limit=${limit}`;
             const leadersUrl = searchTerm
                 ? `/leadersSearch?q=${encodeURIComponent(searchTerm)}&page=${page}&limit=${limit}`
                 : `/leadersSearch?page=${page}&limit=${limit}`;
+    
+            // Fetch data concurrently
             const [cellReportsResponse, leadersResponse] = await Promise.all([
                 fetch(cellReportsUrl),
                 fetch(leadersUrl)
             ]);
+    
             const cellReportsData = await cellReportsResponse.json();
             const leadersData = await leadersResponse.json();
+    
+            hideSkeletonRows(tableBody);
             displayPcfLeaders(leadersData.cells, cellReportsData.cellReports)
+            // displayCombinedData(cellReportsData.cellReports, leadersData.cells); // Combine and display data
             updatePaginationControls(leadersData.currentPage, leadersData.totalPages);
         } catch (error) {
             console.error('Error during search:', error);
         }
     }
+    
     const cancelPopup = document.getElementById('cancel-popup');
+
     cancelPopup.addEventListener('click', function() {
         closePopup();
     })
+    
+    // Function to close popup (if any)
     function closePopup() {
         const reportPopup = document.querySelector('.reports-parent');
         reportPopup.classList.add('hidden');
     }
+
+    
     function displayPcfLeaders(leaders, reports) {
         let count = 1;
         tableBody.innerHTML = '';
         const pcfLeaders = leaders.filter(leader => leader.CellType === 'PCF');
+        console.log(pcfLeaders);
+
         if (pcfLeaders.length === 0) {
             tableBody.innerHTML = `<tr><td colspan= "3">No PCF Leader found<td/><tr/>`;
             return;
         }
+
         pcfLeaders.forEach(pcfLeader => {
             const leadersRow = document.createElement('tr');
 
@@ -149,18 +229,25 @@ document.addEventListener('DOMContentLoaded', async () => {
                 } catch (error) {
                     console.error('Error updating leader:', error);
                 }
+                // document.body.removeChild(loader);
+                console.log('click', leadersCellName , index);
             });
         });
     }
+
+
     async function getLeadersReport(leadersCellName) {
+        console.log(leadersCellName);
         try {
             const response = await fetch(`/cellReportSearch/${leadersCellName}`);
             const data = await response.json()
             displayReports(data);
+            hideReportSkeletonRows(reportTable);
         } catch (error) {
             console.error('Error fetching leader report:', error);
         }
     }
+
     function displayReports(data) {
         let count = 1;
         let leadersData = data.leadersUnderPcf;

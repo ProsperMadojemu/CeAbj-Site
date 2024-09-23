@@ -1,42 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // Fetch session data
-    fetch('/check-session')
-    .then(response => response.json())
-    .then(sessionData => {
-        if (sessionData.email && sessionData.isAdmin) {
-            // Fetch admin data from getalldata route
-            fetch('/getalldata')
-                .then(response => response.json())
-                .then(data => {
-                    // Check if the logged-in user is an admin
-                    const admin = data.admin.find(a => a.email === sessionData.email);
-                    if (!admin) {
-                        window.location.href = '/404';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                    window.location.href = '/404';
-                });
-        } else {
-            window.location.href = '/login';
-        }
 
-        const logoutButton = document.getElementById('Logout-Button');
-        logoutButton.addEventListener('click', () => {
-            fetch('/logout', { method: 'POST' })
-                .then(() => {
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.error('Error during logout:', error);
-                });
-        });
-    })
-    .catch(error => {
-        console.error('Error checking session:', error);
-        window.location.href = '/pages/login';
-    });
 
     document.getElementById('DrawerIcon').addEventListener('click', function() {
         const navbar = document.querySelector('.vertical-navbar');

@@ -94,12 +94,12 @@ input[type="number"] {
 
 .table-container {
     display: block;
-    align-items: center;
+    align-content: center;
     min-height: 200px;
     height: fit-content;
     max-height: 380px;
     /* border: 1.5px solid var(--primary-color); */
-    background-color: #ffffff;
+    background-color: #f9f9f9;
     border-radius: 5px;
     overflow-x: auto;
     overflow-y: scroll;
@@ -224,6 +224,9 @@ input[type="number"] {
 .users-table tr:nth-child(even) {
     background-color: #f9f9f9;
 }
+.users-table tr:nth-child(odd) {
+    background-color: #ffff;
+}
 
 .table-container::-webkit-scrollbar {
     width: 8px;
@@ -246,23 +249,26 @@ input[type="number"] {
     background-color: #555;
 }
 
-.table-container::-webkit-scrollbar-track {
+.table-container::-webkit-scrollbar-track { 
     background-color: #f0f0f0; 
     border-radius: 10px;
 }
 
 
 .dashboard-footer {
-    width: 100%;
+    width: 75%;
+    right: 0;
     display: flex;
     align-items: center;
-    background: #fff;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
 }
 
 .footer-container {
     display: flex;
     color: var(--secondary-color);
-    padding: 0px 0px 10px 30px;
+    padding: 0px 0px 10px 20px;
     transition: color .2s ease-out;
 }
 
@@ -294,7 +300,7 @@ input[type="number"] {
 }
 
 .search-box > .search-parent > input {
-    width: 350px;
+    flex-basis: 350px;
     height: 100%;
     border-radius: 25px;
     border: none;
@@ -318,11 +324,10 @@ input[type="number"] {
 
 .ellipsis {
     font-size: 1.4rem;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     padding: 5px;
     display: flex;
-    align-content: center;
     text-align: center;
     color: #4A90E2;
     transition: all 0.5s ease-out;
@@ -468,6 +473,7 @@ input[type="number"] {
     justify-content: center;
     display: flex;
     top: 50%;
+    padding: 12px 30px;
     bottom: 50%;    
     z-index: 20;
     background: #3d3d3da1;
@@ -579,8 +585,7 @@ input[type="number"] {
     width: 100%;
     /* min-height: 200px; */
     height: min-content;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow: auto;
     border: 1px solid var(--secondary-color);
     border-radius: 10px;    
     
@@ -593,8 +598,9 @@ input[type="number"] {
     
 .reports-table-parent::-webkit-scrollbar-thumb {
     background-color: #888;
-    border-radius: 10px;
+    /* border-radius: 10px 10px 0px 0px; */
     margin: 5px;
+    cursor: pointer;
     width: 2px;
     transition: background-color 0.3s ease;
 }
@@ -686,3 +692,28 @@ input[type="number"] {
 .hidden {
     display: none;
 } 
+
+@media (width <= 768px) {
+    .empty-div {
+        height: 0;
+    }
+    
+    .dashboard-footer {
+        left: 0;
+        justify-content: flex-start;
+    }
+    
+}
+
+@media (width <= 410px) {
+    .footer-container {
+        padding: 0px 0px 10px 10px;
+    }
+}
+
+@media (width <= 368px) {
+    .footer-container {
+        padding: 0px 0px 10px 0px;
+    }
+    
+}

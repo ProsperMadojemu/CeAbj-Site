@@ -374,11 +374,16 @@ input[type="number"] {
     
 }
 
-@media (width <= 950px) {
-    
+@media (width >= 1160px) {
+    .grid-span-col-2-3 {
+        grid-column: span 2;  
+    }
+    .grid-col-3-span-2 {
+        grid-column: span 2;
+    }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1240px) {
     .grid-chart {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Multi-column layout for larger screens */
     }
@@ -412,6 +417,10 @@ input[type="number"] {
         width: calc(145% / 2);
         background: #fefefe;
         grid-column: 2 / span 2;
+    }
+
+    .grid-col-3-span-2 {
+        grid-column: span 1;
     }
 
 

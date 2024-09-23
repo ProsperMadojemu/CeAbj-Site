@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CeAbaranje || Dashboard/EditProfile</title>
     <link rel="icon" href="../src/favicon.ico">
+    <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="/dashboard/edit-profile/edit-profile.css">
     <link rel="stylesheet" href="/annimations.css">
     <link rel="stylesheet" href="/root.css">
@@ -24,53 +25,70 @@
         <div class="vertical-navbar-box">
           <div class="nocssneeded">
             <div class="user-details">
+              <i id="CloseDrawer" class="fa-regular fa-xmark closeIcon"></i>
               <div class="admin-profile-icon">
                 <span class="greeting-user">
-                  <i class="fa-duotone fa-user fa-2xl"></i>
+                  <i class="fa-solid fa-user fa-xl"></i>
                 </span>
-                <div class="title-users-name">
-                  <span><p class="userGreeting first-text" id="usersTitle"></p></span>
-                  <span><p class="userGreeting" id="usersdetails"></p></span>
-                </div>
+                <span>
+                  <!-- <p id="usersTitle"></p> -->
+                  <p class="userGreeting" id="usersdetails"></p>
+                </span>
               </div>
-              <span class="edit-profile">
-                <i class="fa-duotone fa-user-pen"></i>
-                <a href="/dashboard/edit-profile">Edit Profile</a>
-              </span>
             </div>
+            <hr />
             <div class="navbar-list-items">
               <ul class="dashboard-links">
-                <li class="dashboard-items"><a href="/dashboard/overview"><i class="fa-duotone fa-diagram-lean-canvas"></i>Overview</a></li>
-                <li class="dashboard-items"><a href="/dashboard/submit-report"><i class="fa-duotone fa-pen-to-square"></i>Submit Report</a></li>
-                <li class="dashboard-items"><a href="/dashboard/messages"><i class="fa-duotone fa-megaphone fa-rotate-by" style="--fa-rotate-angle: 325deg;""></i>Messages</a></li>
-                <!-- <li class="dashboard-items"></li> -->
+                <a href="/dashboard/edit-profile">
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-user-pen"></i>
+                    <p>Edit profile</p>
+                  </li>
+                </a>
+                <a href="/dashboard/overview">
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-diagram-lean-canvas"></i>
+                    <p>Overview</p>
+                  </li>
+                </a>
+                <a href="/dashboard/submit-report">
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    <p>Submit report</p>
+                  </li>
+                </a>
+                <a href="/dashboard/messages">
+                  <li class="dashboard-items">
+                    <i class="fa-regular fa-paper-plane-top"></i>
+                    <p>Messages</p>
+                  </li>
+                </a>
               </ul>
             </div>
           </div>
-          <div class="logout-parent" id="Logout-Button">
-            <div class="logout-button">
-              <button class="button" id=""><i class="fa-duotone fa-right-from-bracket fa-lg"></i>Logout</button>
-            </div>  
+          <div class="left-dash-footer">
+            <div class="logout-parent" id="Logout-Button">
+              <div class="logout-button">
+                <button class="button" id="" type="button">
+                  <i class="fa-solid fa-right-from-bracket fa-lg"></i>Logout
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </nav>
       <section class="dashboard-content">
         <div class="dashboard-content-box">
           <div class="dashboard-content-title">
+            <button class="drawerIcon" id="DrawerIcon">≡</button>
             <a href="/" class="go-back">
               <!-- <i class="fa-solid fa-arrow-left"></i> -->
-              <i class="fa-duotone fa-solid fa-house"></i>
-              <p>Home</p>
+              <i class="fa-regular fa-solid fa-house"></i>
             </a>
-            <h1>Dashboard/Profile</h1>
+            <h1>Edit profile</h1>
           </div>
           <div class="empty-div"></div>
           <div class="overview">
-            <span class="overview-text">
-              <h2>User Details</h2>
-              <p>Verify and update your details </p>
-            </span>
-           
             <form class="form-container" id="updateform">
               <div class="form-group-a">
                 <div class="form-group notclickable" >
@@ -98,7 +116,6 @@
                   <label for="Country">Country</label>
                 </div>
               </div>
-
               <div class="form-container-b">
                 <div class="form-group notclickable">
                   <select name="Church" id="Church" disabled>
@@ -143,6 +160,7 @@
                 </div>
                 <button type="submit" id="updateuserbutton" class="updatebutton">Update</button>
               </div>
+
             </form>
           </div>
         </div>

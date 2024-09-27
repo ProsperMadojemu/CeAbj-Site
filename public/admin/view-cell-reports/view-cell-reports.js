@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                     <td>${report.SundayFirstTimers}</td>
                                     <td>${report.CellMeetingAttendance}</td>
                                     <td>${report.CellFirstTimers}</td>
-                                    <td>${report.offering}</td>
+                                    <td>₦${report.offering}</td>
                                     </tr>
                                 </tbody>
                             </table>

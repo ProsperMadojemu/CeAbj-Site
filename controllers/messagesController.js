@@ -1,6 +1,7 @@
 import messagesModel from "../models/messagesModel.js";
 import membershipModel from "../models/membershipModel.js";
 import fs from 'fs'
+import mongoose from "mongoose";
 import Users from "../models/usersModel.js";
 
 const sendMessage = async (req, res) => {
@@ -51,7 +52,8 @@ const sendMessage = async (req, res) => {
                 name: `${user.FirstName} ${user.LastName}`, 
                 Email: user.Email, 
                 phone: user.PhoneNumber, 
-                isRead: false
+                isRead: false,
+                isVisible: true
             })),
             type: type,
             time: time,
@@ -139,4 +141,84 @@ const deleteMessage = async (req, res) => {
     }
 };
 
-export { sendMessage, viewMessage, deleteMessage, sendMembership, viewAll, getFullMessage };
+const userMessage = async (req, res) => {
+    if (!req.session.user || !req.session.user.email) {
+        return res.status(401).json({ error: "User not logged in" });
+    }
+
+    const email = req.session.user.email;
+
+    try {
+        const message = await messagesModel.aggregate([
+            {
+                $match: {
+                    'Recipients.Email': email,
+                    isSent: true
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    Subject: 1,
+                    time: 1,
+                    Content: 1,
+                    Recipients: {
+                        $filter: {
+                            input: '$Recipients',
+                            as: 'recipient',
+                            cond: { $eq: ['$$recipient.Email', email] }
+                        }
+                    }
+                }
+            }
+        ]);
+
+        res.json({ message: message });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+
+
+const fieldUpdate = async(req, res) => {
+    const { id, isVisible, isRead } = req.body;
+    const email = req.session.user.email;
+    const ObjectId = mongoose.Types.ObjectId;
+
+    try {
+        const updatedMessage = await messagesModel.findOneAndUpdate(
+            {
+                _id: new ObjectId(id),    
+                'Recipients.Email': email 
+            },
+            {
+                $set: {
+                    'Recipients.$.isVisible': isVisible,
+                    'Recipients.$.isRead': isRead       
+                }
+            },
+            {
+                new: true
+            }
+        );
+
+        if (!updatedMessage) {
+            return res.status(404).json({ error: 'Message or recipient not found' });
+        }
+
+        console.log('Update successful');
+        return res.status(200).json({
+            message: 'Update successful',
+            updatedMessage: updatedMessage
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'An error occurred while updating the message' });
+    }
+};
+
+
+export { sendMessage, viewMessage, deleteMessage, sendMembership, viewAll, getFullMessage, userMessage, fieldUpdate };

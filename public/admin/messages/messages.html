@@ -1,219 +1,447 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CeAbaranje || Dashboard/EditProfile</title>
-  <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <link rel="stylesheet" href="../defaultdashboard.css" />
-  <link rel="stylesheet" href="/admin/messages/messages.css" />
-  <link rel="stylesheet" href="../../annimations.css" />
-  <link rel="stylesheet" href="../../root.css" />
-</head>
-<body>
-  <main class="sub-body">
-    <main class="dashboard-sub-body">
-      <div class="hidden" id="modal">
-        <form class="container" id="messagesForm">
-          <div class="actions">
-            <p>New Message</p>
-            <button type="button" title="cancel" onclick="closeModal()">
-              <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                fill="#454746">
-                <path
-                  d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
-              </svg>
-            </button>
-          </div>
-          <div class="head">
-            <input type="text" name="Recipients" placeholder="Recipient" oninput="getSuggestions(this.value)" >
-            <ul class="suggestions" style="display: none;">
-              <li>Loading...</li>
-            </ul>
-            <input type="text" name="Subject" placeholder="Subject" onfocus="hideSuggestions()">
-          </div>
-          <div class="toolbar">
-            <div class="btn-toolbar">
-              <button type="button" title="undo" onclick="formatDoc('undo')">
-                <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                  fill="#454746">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CeAbaranje || Dashboard/EditProfile</title>
+    <link
+      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <link rel="stylesheet" href="../defaultdashboard.css" />
+    <link rel="stylesheet" href="/admin/messages/messages.css" />
+    <link rel="stylesheet" href="../../annimations.css" />
+    <link rel="stylesheet" href="../../root.css" />
+  </head>
+  <body>
+    <main class="sub-body">
+      <main class="dashboard-sub-body">
+        <div class="hidden" id="modal">
+          <form class="container" id="messagesForm">
+            <div class="actions">
+              <p>New Message</p>
+              <button type="button" title="cancel" onclick="closeModal()">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="16px"
+                  viewBox="0 -960 960 960"
+                  width="16px"
+                  fill="#454746"
+                >
                   <path
-                    d="M320-200q-17 0-28.5-11.5T280-240q0-17 11.5-28.5T320-280h244q63 0 109.5-40T720-420q0-60-46.5-100T564-560H312l76 76q11 11 11 28t-11 28q-11 11-28 11t-28-11L188-572q-6-6-8.5-13t-2.5-15q0-8 2.5-15t8.5-13l144-144q11-11 28-11t28 11q11 11 11 28t-11 28l-76 76h252q97 0 166.5 63T800-420q0 94-69.5 157T564-200H320Z" />
-                </svg>
-              </button>
-              <button type="button" title="redo" onclick="formatDoc('redo')">
-                <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                  fill="#454746">
-                  <path
-                    d="M648-560H396q-63 0-109.5 40T240-420q0 60 46.5 100T396-280h244q17 0 28.5 11.5T680-240q0 17-11.5 28.5T640-200H396q-97 0-166.5-63T160-420q0-94 69.5-157T396-640h252l-76-76q-11-11-11-28t11-28q11-11 28-11t28 11l144 144q6 6 8.5 13t2.5 15q0 8-2.5 15t-8.5 13L628-428q-11 11-28 11t-28-11q-11-11-11-28t11-28l76-76Z" />
-                </svg>
-              </button>
-              <button type="button" title="bold" onclick="formatDoc('bold')">
-                <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                  fill="#454746">
-                  <path
-                    d="M352-200q-33 0-56.5-23.5T272-280v-400q0-33 23.5-56.5T352-760h141q65 0 120 40t55 111q0 51-23 78.5T602-491q25 11 55.5 41t30.5 90q0 89-65 124.5T501-200H352Zm41-112h104q48 0 58.5-24.5T566-372q0-11-10.5-35.5T494-432H393v120Zm0-228h93q33 0 48-17t15-38q0-24-17-39t-44-15h-95v109Z" />
-                </svg>
-              </button>
-              <button type="button" title="underline" onclick="formatDoc('underline')">
-                <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                  fill="#454746">
-                  <path
-                    d="M240-120q-17 0-28.5-11.5T200-160q0-17 11.5-28.5T240-200h480q17 0 28.5 11.5T760-160q0 17-11.5 28.5T720-120H240Zm240-160q-101 0-157-63t-56-167v-279q0-21 15.5-36t36.5-15q21 0 36 15t15 36v285q0 56 28 91t82 35q54 0 82-35t28-91v-285q0-21 15.5-36t36.5-15q21 0 36 15t15 36v279q0 104-56 167t-157 63Z" />
-                </svg>
-              </button>
-              <button type="button" title="italic" onclick="formatDoc('italic')">
-                <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                  fill="#454746">
-                  <path
-                    d="M250-200q-21 0-35.5-14.5T200-250q0-21 14.5-35.5T250-300h110l120-360H370q-21 0-35.5-14.5T320-710q0-21 14.5-35.5T370-760h300q21 0 35.5 14.5T720-710q0 21-14.5 35.5T670-660h-90L460-300h90q21 0 35.5 14.5T600-250q0 21-14.5 35.5T550-200H250Z" />
-                </svg>
-              </button>
-              <button type="button" title="strikeThrough" onclick="formatDoc('strikeThrough')">
-                <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                  fill="#454746">
-                  <path
-                    d="M486-160q-63 0-116.5-33.5T285-283q-9-16-2.5-33.5T306-343q18-10 37.5-3.5T374-322q18 30 48.5 48t65.5 18q44 0 76.5-27t32.5-69q0-20 14-34t34-14q20 0 34.5 14t14.5 34v12q0 79-62.5 129.5T486-160ZM120-480q-17 0-28.5-11.5T80-520q0-17 11.5-28.5T120-560h720q17 0 28.5 11.5T880-520q0 17-11.5 28.5T840-480H120Zm208-165q-17-10-23-29.5t4-36.5q25-47 72-71t101-24q48 0 90.5 20t71.5 58q11 14 7 32t-19 29q-17 12-36.5 9T562-677q-15-17-35-25t-43-8q-27 0-52 11t-38 34q-10 18-29.5 24t-36.5-4Z" />
-                </svg>
-              </button>
-              <button type="button" title="justifyLeft" onclick="formatDoc('justifyLeft')">
-                <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                  fill="#454746">
-                  <path
-                    d="M160-120q-17 0-28.5-11.5T120-160q0-17 11.5-28.5T160-200h640q17 0 28.5 11.5T840-160q0 17-11.5 28.5T800-120H160Zm0-160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360h400q17 0 28.5 11.5T600-320q0 17-11.5 28.5T560-280H160Zm0-160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520h640q17 0 28.5 11.5T840-480q0 17-11.5 28.5T800-440H160Zm0-160q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680h400q17 0 28.5 11.5T600-640q0 17-11.5 28.5T560-600H160Zm0-160q-17 0-28.5-11.5T120-800q0-17 11.5-28.5T160-840h640q17 0 28.5 11.5T840-800q0 17-11.5 28.5T800-760H160Z" />
-                </svg>
-              </button>
-              <button type="button" title="justifyCenter" onclick="formatDoc('justifyCenter')">
-                <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                  fill="#454746">
-                  <path
-                    d="M160-120q-17 0-28.5-11.5T120-160q0-17 11.5-28.5T160-200h640q17 0 28.5 11.5T840-160q0 17-11.5 28.5T800-120H160Zm160-160q-17 0-28.5-11.5T280-320q0-17 11.5-28.5T320-360h320q17 0 28.5 11.5T680-320q0 17-11.5 28.5T640-280H320ZM160-440q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520h640q17 0 28.5 11.5T840-480q0 17-11.5 28.5T800-440H160Zm160-160q-17 0-28.5-11.5T280-640q0-17 11.5-28.5T320-680h320q17 0 28.5 11.5T680-640q0 17-11.5 28.5T640-600H320ZM160-760q-17 0-28.5-11.5T120-800q0-17 11.5-28.5T160-840h640q17 0 28.5 11.5T840-800q0 17-11.5 28.5T800-760H160Z" />
-                </svg>
-              </button>
-              <button type="button" title="justifyRight" onclick="formatDoc('justifyRight')">
-                <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                  fill="#454746">
-                  <path
-                    d="M160-760q-17 0-28.5-11.5T120-800q0-17 11.5-28.5T160-840h640q17 0 28.5 11.5T840-800q0 17-11.5 28.5T800-760H160Zm240 160q-17 0-28.5-11.5T360-640q0-17 11.5-28.5T400-680h400q17 0 28.5 11.5T840-640q0 17-11.5 28.5T800-600H400ZM160-440q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520h640q17 0 28.5 11.5T840-480q0 17-11.5 28.5T800-440H160Zm240 160q-17 0-28.5-11.5T360-320q0-17 11.5-28.5T400-360h400q17 0 28.5 11.5T840-320q0 17-11.5 28.5T800-280H400ZM160-120q-17 0-28.5-11.5T120-160q0-17 11.5-28.5T160-200h640q17 0 28.5 11.5T840-160q0 17-11.5 28.5T800-120H160Z" />
-                </svg>
-              </button>
-              <button type="button" title="justifyFull" onclick="formatDoc('justifyFull')">
-                <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                  fill="#454746">
-                  <path
-                    d="M160-120q-17 0-28.5-11.5T120-160q0-17 11.5-28.5T160-200h640q17 0 28.5 11.5T840-160q0 17-11.5 28.5T800-120H160Zm0-160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360h640q17 0 28.5 11.5T840-320q0 17-11.5 28.5T800-280H160Zm0-160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520h640q17 0 28.5 11.5T840-480q0 17-11.5 28.5T800-440H160Zm0-160q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680h640q17 0 28.5 11.5T840-640q0 17-11.5 28.5T800-600H160Zm0-160q-17 0-28.5-11.5T120-800q0-17 11.5-28.5T160-840h640q17 0 28.5 11.5T840-800q0 17-11.5 28.5T800-760H160Z" />
+                    d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z"
+                  />
                 </svg>
               </button>
             </div>
-            <div id="content" contenteditable="true" spellcheck="false" onfocus="hideSuggestions()">
+            <div class="head">
+              <input
+                type="text"
+                name="Recipients"
+                placeholder="Recipient"
+                oninput="getSuggestions(this.value)"
+              />
+              <ul class="suggestions" style="display: none">
+                <li>Loading...</li>
+              </ul>
+              <input
+                type="text"
+                name="Subject"
+                placeholder="Subject"
+                onfocus="hideSuggestions()"
+              />
             </div>
-            <div class="hidden" id="upload">
-              <label for="image">
-                <img src="" alt="" id="image-preview">
-              </label>
-              <input type="file" id="Image" hidden />
-              <p id="filename"></p>
-              <button type="button" title="removeImage" id="remove-button">
-                <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                  fill="#454746">
-                  <path
-                    d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div class="foot">
-            <div class="left">
-              <div class="buttons">
-                <button  class="small-scrn-none" title="attach-file" onclick="document.getElementById('Image').click()" type="button">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                    fill="#454746">
+            <div class="toolbar">
+              <div class="btn-toolbar">
+                <button type="button" title="undo" onclick="formatDoc('undo')">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="16px"
+                    viewBox="0 -960 960 960"
+                    width="16px"
+                    fill="#454746"
+                  >
                     <path
-                      d="M720-330q0 104-73 177T470-80q-104 0-177-73t-73-177v-370q0-75 52.5-127.5T400-880q75 0 127.5 52.5T580-700v350q0 46-32 78t-78 32q-46 0-78-32t-32-78v-330q0-17 11.5-28.5T400-720q17 0 28.5 11.5T440-680v330q0 13 8.5 21.5T470-320q13 0 21.5-8.5T500-350v-350q-1-42-29.5-71T400-800q-42 0-71 29t-29 71v370q-1 71 49 120.5T470-160q70 0 119-49.5T640-330v-350q0-17 11.5-28.5T680-720q17 0 28.5 11.5T720-680v350Z" />
+                      d="M320-200q-17 0-28.5-11.5T280-240q0-17 11.5-28.5T320-280h244q63 0 109.5-40T720-420q0-60-46.5-100T564-560H312l76 76q11 11 11 28t-11 28q-11 11-28 11t-28-11L188-572q-6-6-8.5-13t-2.5-15q0-8 2.5-15t8.5-13l144-144q11-11 28-11t28 11q11 11 11 28t-11 28l-76 76h252q97 0 166.5 63T800-420q0 94-69.5 157T564-200H320Z"
+                    />
                   </svg>
                 </button>
-                <button  class="small-scrn-none" type="button" title="insertOrderedList" onclick="formatDoc('insertOrderedList')">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                    fill="#454746">
+                <button type="button" title="redo" onclick="formatDoc('redo')">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="16px"
+                    viewBox="0 -960 960 960"
+                    width="16px"
+                    fill="#454746"
+                  >
                     <path
-                      d="M710-80q-13 0-21.5-8.5T680-110q0-13 8.5-21.5T710-140h70v-30h-30q-13 0-21.5-8.5T720-200q0-13 8.5-21.5T750-230h30v-30h-70q-13 0-21.5-8.5T680-290q0-13 8.5-21.5T710-320h90q17 0 28.5 11.5T840-280v40q0 17-11.5 28.5T800-200q17 0 28.5 11.5T840-160v40q0 17-11.5 28.5T800-80h-90Zm0-280q-13 0-21.5-8.5T680-390v-80q0-17 11.5-28.5T720-510h60v-30h-70q-13 0-21.5-8.5T680-570q0-13 8.5-21.5T710-600h90q17 0 28.5 11.5T840-560v70q0 17-11.5 28.5T800-450h-60v30h70q13 0 21.5 8.5T840-390q0 13-8.5 21.5T810-360H710Zm60-280q-13 0-21.5-8.5T740-670v-150h-30q-13 0-21.5-8.5T680-850q0-13 8.5-21.5T710-880h60q13 0 21.5 8.5T800-850v180q0 13-8.5 21.5T770-640ZM160-200q-17 0-28.5-11.5T120-240q0-17 11.5-28.5T160-280h400q17 0 28.5 11.5T600-240q0 17-11.5 28.5T560-200H160Zm0-240q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520h400q17 0 28.5 11.5T600-480q0 17-11.5 28.5T560-440H160Zm0-240q-17 0-28.5-11.5T120-720q0-17 11.5-28.5T160-760h400q17 0 28.5 11.5T600-720q0 17-11.5 28.5T560-680H160Z" />
+                      d="M648-560H396q-63 0-109.5 40T240-420q0 60 46.5 100T396-280h244q17 0 28.5 11.5T680-240q0 17-11.5 28.5T640-200H396q-97 0-166.5-63T160-420q0-94 69.5-157T396-640h252l-76-76q-11-11-11-28t11-28q11-11 28-11t28 11l144 144q6 6 8.5 13t2.5 15q0 8-2.5 15t-8.5 13L628-428q-11 11-28 11t-28-11q-11-11-11-28t11-28l76-76Z"
+                    />
                   </svg>
                 </button>
-                <button  class="small-scrn-none" type="button" title="insertUnorderedList" onclick="formatDoc('insertUnorderedList')">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                    fill="#454746">
+                <button type="button" title="bold" onclick="formatDoc('bold')">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="16px"
+                    viewBox="0 -960 960 960"
+                    width="16px"
+                    fill="#454746"
+                  >
                     <path
-                      d="M400-200q-17 0-28.5-11.5T360-240q0-17 11.5-28.5T400-280h400q17 0 28.5 11.5T840-240q0 17-11.5 28.5T800-200H400Zm0-240q-17 0-28.5-11.5T360-480q0-17 11.5-28.5T400-520h400q17 0 28.5 11.5T840-480q0 17-11.5 28.5T800-440H400Zm0-240q-17 0-28.5-11.5T360-720q0-17 11.5-28.5T400-760h400q17 0 28.5 11.5T840-720q0 17-11.5 28.5T800-680H400ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm0-240q-33 0-56.5-23.5T120-720q0-33 23.5-56.5T200-800q33 0 56.5 23.5T280-720q0 33-23.5 56.5T200-640Z" />
+                      d="M352-200q-33 0-56.5-23.5T272-280v-400q0-33 23.5-56.5T352-760h141q65 0 120 40t55 111q0 51-23 78.5T602-491q25 11 55.5 41t30.5 90q0 89-65 124.5T501-200H352Zm41-112h104q48 0 58.5-24.5T566-372q0-11-10.5-35.5T494-432H393v120Zm0-228h93q33 0 48-17t15-38q0-24-17-39t-44-15h-95v109Z"
+                    />
                   </svg>
                 </button>
-                <button type="button" title="addLink" onclick="addLink()">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                    fill="#454746">
+                <button
+                  type="button"
+                  title="underline"
+                  onclick="formatDoc('underline')"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="16px"
+                    viewBox="0 -960 960 960"
+                    width="16px"
+                    fill="#454746"
+                  >
                     <path
-                      d="M280-280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h120q17 0 28.5 11.5T440-640q0 17-11.5 28.5T400-600H280q-50 0-85 35t-35 85q0 50 35 85t85 35h120q17 0 28.5 11.5T440-320q0 17-11.5 28.5T400-280H280Zm80-160q-17 0-28.5-11.5T320-480q0-17 11.5-28.5T360-520h240q17 0 28.5 11.5T640-480q0 17-11.5 28.5T600-440H360Zm200 160q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h120q50 0 85-35t35-85q0-50-35-85t-85-35H560q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h120q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H560Z" />
+                      d="M240-120q-17 0-28.5-11.5T200-160q0-17 11.5-28.5T240-200h480q17 0 28.5 11.5T760-160q0 17-11.5 28.5T720-120H240Zm240-160q-101 0-157-63t-56-167v-279q0-21 15.5-36t36.5-15q21 0 36 15t15 36v285q0 56 28 91t82 35q54 0 82-35t28-91v-285q0-21 15.5-36t36.5-15q21 0 36 15t15 36v279q0 104-56 167t-157 63Z"
+                    />
                   </svg>
                 </button>
-                <button  class="small-scrn-none" type="button" title="unlink" onclick="formatDoc('unlink')">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"
-                    fill="#454746">
+                <button
+                  type="button"
+                  title="italic"
+                  onclick="formatDoc('italic')"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="16px"
+                    viewBox="0 -960 960 960"
+                    width="16px"
+                    fill="#454746"
+                  >
                     <path
-                      d="m625-449-71-71h46q17 0 28.5 11.5T640-480q0 10-4 18t-11 13ZM820-84q-11 11-28 11t-28-11L84-764q-11-11-11-28t11-28q11-11 28-11t28 11l680 680q11 11 11 28t-11 28ZM280-280q-83 0-141.5-58.5T80-480q0-69 42-123t108-71l74 74h-24q-50 0-85 35t-35 85q0 50 35 85t85 35h120q17 0 28.5 11.5T440-320q0 17-11.5 28.5T400-280H280Zm80-160q-17 0-28.5-11.5T320-480q0-17 11.5-28.5T360-520h25l79 80H360Zm380 112q-9-14-6.5-30t16.5-25q23-17 36.5-42t13.5-55q0-50-35-85t-85-35H560q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h120q83 0 141.5 58.5T880-480q0 49-22.5 91.5T795-318q-14 9-30 6.5T740-328Z" />
+                      d="M250-200q-21 0-35.5-14.5T200-250q0-21 14.5-35.5T250-300h110l120-360H370q-21 0-35.5-14.5T320-710q0-21 14.5-35.5T370-760h300q21 0 35.5 14.5T720-710q0 21-14.5 35.5T670-660h-90L460-300h90q21 0 35.5 14.5T600-250q0 21-14.5 35.5T550-200H250Z"
+                    />
                   </svg>
                 </button>
-                <button  class="small-scrn-none" type="button" title="show-code" id="show-code" data-active="false">&lt;/&gt;</button>
+                <button
+                  type="button"
+                  title="strikeThrough"
+                  onclick="formatDoc('strikeThrough')"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="16px"
+                    viewBox="0 -960 960 960"
+                    width="16px"
+                    fill="#454746"
+                  >
+                    <path
+                      d="M486-160q-63 0-116.5-33.5T285-283q-9-16-2.5-33.5T306-343q18-10 37.5-3.5T374-322q18 30 48.5 48t65.5 18q44 0 76.5-27t32.5-69q0-20 14-34t34-14q20 0 34.5 14t14.5 34v12q0 79-62.5 129.5T486-160ZM120-480q-17 0-28.5-11.5T80-520q0-17 11.5-28.5T120-560h720q17 0 28.5 11.5T880-520q0 17-11.5 28.5T840-480H120Zm208-165q-17-10-23-29.5t4-36.5q25-47 72-71t101-24q48 0 90.5 20t71.5 58q11 14 7 32t-19 29q-17 12-36.5 9T562-677q-15-17-35-25t-43-8q-27 0-52 11t-38 34q-10 18-29.5 24t-36.5-4Z"
+                    />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  title="justifyLeft"
+                  onclick="formatDoc('justifyLeft')"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="16px"
+                    viewBox="0 -960 960 960"
+                    width="16px"
+                    fill="#454746"
+                  >
+                    <path
+                      d="M160-120q-17 0-28.5-11.5T120-160q0-17 11.5-28.5T160-200h640q17 0 28.5 11.5T840-160q0 17-11.5 28.5T800-120H160Zm0-160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360h400q17 0 28.5 11.5T600-320q0 17-11.5 28.5T560-280H160Zm0-160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520h640q17 0 28.5 11.5T840-480q0 17-11.5 28.5T800-440H160Zm0-160q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680h400q17 0 28.5 11.5T600-640q0 17-11.5 28.5T560-600H160Zm0-160q-17 0-28.5-11.5T120-800q0-17 11.5-28.5T160-840h640q17 0 28.5 11.5T840-800q0 17-11.5 28.5T800-760H160Z"
+                    />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  title="justifyCenter"
+                  onclick="formatDoc('justifyCenter')"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="16px"
+                    viewBox="0 -960 960 960"
+                    width="16px"
+                    fill="#454746"
+                  >
+                    <path
+                      d="M160-120q-17 0-28.5-11.5T120-160q0-17 11.5-28.5T160-200h640q17 0 28.5 11.5T840-160q0 17-11.5 28.5T800-120H160Zm160-160q-17 0-28.5-11.5T280-320q0-17 11.5-28.5T320-360h320q17 0 28.5 11.5T680-320q0 17-11.5 28.5T640-280H320ZM160-440q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520h640q17 0 28.5 11.5T840-480q0 17-11.5 28.5T800-440H160Zm160-160q-17 0-28.5-11.5T280-640q0-17 11.5-28.5T320-680h320q17 0 28.5 11.5T680-640q0 17-11.5 28.5T640-600H320ZM160-760q-17 0-28.5-11.5T120-800q0-17 11.5-28.5T160-840h640q17 0 28.5 11.5T840-800q0 17-11.5 28.5T800-760H160Z"
+                    />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  title="justifyRight"
+                  onclick="formatDoc('justifyRight')"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="16px"
+                    viewBox="0 -960 960 960"
+                    width="16px"
+                    fill="#454746"
+                  >
+                    <path
+                      d="M160-760q-17 0-28.5-11.5T120-800q0-17 11.5-28.5T160-840h640q17 0 28.5 11.5T840-800q0 17-11.5 28.5T800-760H160Zm240 160q-17 0-28.5-11.5T360-640q0-17 11.5-28.5T400-680h400q17 0 28.5 11.5T840-640q0 17-11.5 28.5T800-600H400ZM160-440q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520h640q17 0 28.5 11.5T840-480q0 17-11.5 28.5T800-440H160Zm240 160q-17 0-28.5-11.5T360-320q0-17 11.5-28.5T400-360h400q17 0 28.5 11.5T840-320q0 17-11.5 28.5T800-280H400ZM160-120q-17 0-28.5-11.5T120-160q0-17 11.5-28.5T160-200h640q17 0 28.5 11.5T840-160q0 17-11.5 28.5T800-120H160Z"
+                    />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  title="justifyFull"
+                  onclick="formatDoc('justifyFull')"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="16px"
+                    viewBox="0 -960 960 960"
+                    width="16px"
+                    fill="#454746"
+                  >
+                    <path
+                      d="M160-120q-17 0-28.5-11.5T120-160q0-17 11.5-28.5T160-200h640q17 0 28.5 11.5T840-160q0 17-11.5 28.5T800-120H160Zm0-160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360h640q17 0 28.5 11.5T840-320q0 17-11.5 28.5T800-280H160Zm0-160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520h640q17 0 28.5 11.5T840-480q0 17-11.5 28.5T800-440H160Zm0-160q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680h640q17 0 28.5 11.5T840-640q0 17-11.5 28.5T800-600H160Zm0-160q-17 0-28.5-11.5T120-800q0-17 11.5-28.5T160-840h640q17 0 28.5 11.5T840-800q0 17-11.5 28.5T800-760H160Z"
+                    />
+                  </svg>
+                </button>
               </div>
-              <select  class="small-scrn-none" title="Format" onchange="formatDoc('formatBlock', this.value); this.selectedIndex=0;">
-                <option value="" selected="" hidden="" disabled="">Format</option>
-                <option value="h1">Heading 1</option>
-                <option value="h2">Heading 2</option>
-                <option value="h3">Heading 3</option>
-                <option value="h4">Heading 4</option>
-                <option value="h5">Heading 5</option>
-                <option value="h6">Heading 6</option>
-                <option value="p">Paragraph</option>
-              </select>
-              <select  class="small-scrn-none" title="font Size" onchange="formatDoc('fontSize', this.value); this.selectedIndex=0;">
-                <option value="" selected="" hidden="" disabled="">Font size</option>
-                <option value="1">Extra small</option>
-                <option value="2">Small</option>
-                <option value="3">Regular</option>
-                <option value="4">Medium</option>
-                <option value="5">Large</option>
-                <option value="6">Extra Large</option>
-                <option value="7">Big</option>
-              </select>
-              <div class="color small-scrn-none">
-                <span>Color</span>
-                <input title="text-color" type="color" oninput="formatDoc('foreColor', this.value); ">
-              </div>
-              <div class="color small-scrn-none">
-                <span>Background</span>
-                <input title="Bg Color" type="color" oninput="formatDoc('hiliteColor', this.value); ">
+              <div
+                id="content"
+                contenteditable="true"
+                spellcheck="false"
+                onfocus="hideSuggestions()"
+              ></div>
+              <div class="hidden" id="upload">
+                <label for="image">
+                  <img src="" alt="" id="image-preview" />
+                </label>
+                <input type="file" id="Image" hidden />
+                <p id="filename"></p>
+                <button type="button" title="removeImage" id="remove-button">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="16px"
+                    viewBox="0 -960 960 960"
+                    width="16px"
+                    fill="#454746"
+                  >
+                    <path
+                      d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
-            <div class="right">
-              <button type="submit" id="send-button">Send</button>
-              <button type="button" title="schedule" onclick="toggleScheduler()"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FFFFFF"><path d="M516-510v-174q0-15.3-10.29-25.65Q495.42-720 480.21-720t-25.71 10.35Q444-699.3 444-684v189q0 8 3 14.5t8 11.5l133.85 133.85Q600-324 614.5-324.5 629-325 640-336t11-25.5q0-14.5-11.34-25.75L516-510ZM480-96q-79.38 0-149.19-30T208.5-208.5Q156-261 126-330.96t-30-149.5Q96-560 126-630q30-70 82.5-122t122.46-82q69.96-30 149.5-30t149.55 30.24q70 30.24 121.79 82.08 51.78 51.84 81.99 121.92Q864-559.68 864-480q0 79.38-30 149.19T752-208.5Q700-156 629.87-126T480-96Zm0-384Zm.48 312q129.47 0 220.5-91.5Q792-351 792-480.48q0-129.47-91.02-220.5Q609.95-792 480.48-792 351-792 259.5-700.98 168-609.95 168-480.48 168-351 259.5-259.5T480.48-168Z"/></svg></button>
+            <div class="foot">
+              <div class="left">
+                <div class="buttons">
+                  <button
+                    class="small-scrn-none"
+                    title="attach-file"
+                    onclick="document.getElementById('Image').click()"
+                    type="button"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="16px"
+                      viewBox="0 -960 960 960"
+                      width="16px"
+                      fill="#454746"
+                    >
+                      <path
+                        d="M720-330q0 104-73 177T470-80q-104 0-177-73t-73-177v-370q0-75 52.5-127.5T400-880q75 0 127.5 52.5T580-700v350q0 46-32 78t-78 32q-46 0-78-32t-32-78v-330q0-17 11.5-28.5T400-720q17 0 28.5 11.5T440-680v330q0 13 8.5 21.5T470-320q13 0 21.5-8.5T500-350v-350q-1-42-29.5-71T400-800q-42 0-71 29t-29 71v370q-1 71 49 120.5T470-160q70 0 119-49.5T640-330v-350q0-17 11.5-28.5T680-720q17 0 28.5 11.5T720-680v350Z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    class="small-scrn-none"
+                    type="button"
+                    title="insertOrderedList"
+                    onclick="formatDoc('insertOrderedList')"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="16px"
+                      viewBox="0 -960 960 960"
+                      width="16px"
+                      fill="#454746"
+                    >
+                      <path
+                        d="M710-80q-13 0-21.5-8.5T680-110q0-13 8.5-21.5T710-140h70v-30h-30q-13 0-21.5-8.5T720-200q0-13 8.5-21.5T750-230h30v-30h-70q-13 0-21.5-8.5T680-290q0-13 8.5-21.5T710-320h90q17 0 28.5 11.5T840-280v40q0 17-11.5 28.5T800-200q17 0 28.5 11.5T840-160v40q0 17-11.5 28.5T800-80h-90Zm0-280q-13 0-21.5-8.5T680-390v-80q0-17 11.5-28.5T720-510h60v-30h-70q-13 0-21.5-8.5T680-570q0-13 8.5-21.5T710-600h90q17 0 28.5 11.5T840-560v70q0 17-11.5 28.5T800-450h-60v30h70q13 0 21.5 8.5T840-390q0 13-8.5 21.5T810-360H710Zm60-280q-13 0-21.5-8.5T740-670v-150h-30q-13 0-21.5-8.5T680-850q0-13 8.5-21.5T710-880h60q13 0 21.5 8.5T800-850v180q0 13-8.5 21.5T770-640ZM160-200q-17 0-28.5-11.5T120-240q0-17 11.5-28.5T160-280h400q17 0 28.5 11.5T600-240q0 17-11.5 28.5T560-200H160Zm0-240q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520h400q17 0 28.5 11.5T600-480q0 17-11.5 28.5T560-440H160Zm0-240q-17 0-28.5-11.5T120-720q0-17 11.5-28.5T160-760h400q17 0 28.5 11.5T600-720q0 17-11.5 28.5T560-680H160Z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    class="small-scrn-none"
+                    type="button"
+                    title="insertUnorderedList"
+                    onclick="formatDoc('insertUnorderedList')"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="16px"
+                      viewBox="0 -960 960 960"
+                      width="16px"
+                      fill="#454746"
+                    >
+                      <path
+                        d="M400-200q-17 0-28.5-11.5T360-240q0-17 11.5-28.5T400-280h400q17 0 28.5 11.5T840-240q0 17-11.5 28.5T800-200H400Zm0-240q-17 0-28.5-11.5T360-480q0-17 11.5-28.5T400-520h400q17 0 28.5 11.5T840-480q0 17-11.5 28.5T800-440H400Zm0-240q-17 0-28.5-11.5T360-720q0-17 11.5-28.5T400-760h400q17 0 28.5 11.5T840-720q0 17-11.5 28.5T800-680H400ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm0-240q-33 0-56.5-23.5T120-720q0-33 23.5-56.5T200-800q33 0 56.5 23.5T280-720q0 33-23.5 56.5T200-640Z"
+                      />
+                    </svg>
+                  </button>
+                  <button type="button" title="addLink" onclick="addLink()">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="16px"
+                      viewBox="0 -960 960 960"
+                      width="16px"
+                      fill="#454746"
+                    >
+                      <path
+                        d="M280-280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h120q17 0 28.5 11.5T440-640q0 17-11.5 28.5T400-600H280q-50 0-85 35t-35 85q0 50 35 85t85 35h120q17 0 28.5 11.5T440-320q0 17-11.5 28.5T400-280H280Zm80-160q-17 0-28.5-11.5T320-480q0-17 11.5-28.5T360-520h240q17 0 28.5 11.5T640-480q0 17-11.5 28.5T600-440H360Zm200 160q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h120q50 0 85-35t35-85q0-50-35-85t-85-35H560q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h120q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H560Z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    class="small-scrn-none"
+                    type="button"
+                    title="unlink"
+                    onclick="formatDoc('unlink')"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="16px"
+                      viewBox="0 -960 960 960"
+                      width="16px"
+                      fill="#454746"
+                    >
+                      <path
+                        d="m625-449-71-71h46q17 0 28.5 11.5T640-480q0 10-4 18t-11 13ZM820-84q-11 11-28 11t-28-11L84-764q-11-11-11-28t11-28q11-11 28-11t28 11l680 680q11 11 11 28t-11 28ZM280-280q-83 0-141.5-58.5T80-480q0-69 42-123t108-71l74 74h-24q-50 0-85 35t-35 85q0 50 35 85t85 35h120q17 0 28.5 11.5T440-320q0 17-11.5 28.5T400-280H280Zm80-160q-17 0-28.5-11.5T320-480q0-17 11.5-28.5T360-520h25l79 80H360Zm380 112q-9-14-6.5-30t16.5-25q23-17 36.5-42t13.5-55q0-50-35-85t-85-35H560q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h120q83 0 141.5 58.5T880-480q0 49-22.5 91.5T795-318q-14 9-30 6.5T740-328Z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    class="small-scrn-none"
+                    type="button"
+                    title="show-code"
+                    id="show-code"
+                    data-active="false"
+                  >
+                    &lt;/&gt;
+                  </button>
+                </div>
+                <select
+                  class="small-scrn-none"
+                  title="Format"
+                  onchange="formatDoc('formatBlock', this.value); this.selectedIndex=0;"
+                >
+                  <option value="" selected="" hidden="" disabled="">
+                    Format
+                  </option>
+                  <option value="h1">Heading 1</option>
+                  <option value="h2">Heading 2</option>
+                  <option value="h3">Heading 3</option>
+                  <option value="h4">Heading 4</option>
+                  <option value="h5">Heading 5</option>
+                  <option value="h6">Heading 6</option>
+                  <option value="p">Paragraph</option>
+                </select>
+                <select
+                  class="small-scrn-none"
+                  title="font Size"
+                  onchange="formatDoc('fontSize', this.value); this.selectedIndex=0;"
+                >
+                  <option value="" selected="" hidden="" disabled="">
+                    Font size
+                  </option>
+                  <option value="1">Extra small</option>
+                  <option value="2">Small</option>
+                  <option value="3">Regular</option>
+                  <option value="4">Medium</option>
+                  <option value="5">Large</option>
+                  <option value="6">Extra Large</option>
+                  <option value="7">Big</option>
+                </select>
+                <div class="color small-scrn-none">
+                  <span>Color</span>
+                  <input
+                    title="text-color"
+                    type="color"
+                    oninput="formatDoc('foreColor', this.value); "
+                  />
+                </div>
+                <div class="color small-scrn-none">
+                  <span>Background</span>
+                  <input
+                    title="Bg Color"
+                    type="color"
+                    oninput="formatDoc('hiliteColor', this.value); "
+                  />
+                </div>
+              </div>
+              <div class="right">
+                <button type="submit" id="send-button">Send</button>
+                <button
+                  type="button"
+                  title="schedule"
+                  onclick="toggleScheduler()"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20px"
+                    viewBox="0 -960 960 960"
+                    width="20px"
+                    fill="#FFFFFF"
+                  >
+                    <path
+                      d="M516-510v-174q0-15.3-10.29-25.65Q495.42-720 480.21-720t-25.71 10.35Q444-699.3 444-684v189q0 8 3 14.5t8 11.5l133.85 133.85Q600-324 614.5-324.5 629-325 640-336t11-25.5q0-14.5-11.34-25.75L516-510ZM480-96q-79.38 0-149.19-30T208.5-208.5Q156-261 126-330.96t-30-149.5Q96-560 126-630q30-70 82.5-122t122.46-82q69.96-30 149.5-30t149.55 30.24q70 30.24 121.79 82.08 51.78 51.84 81.99 121.92Q864-559.68 864-480q0 79.38-30 149.19T752-208.5Q700-156 629.87-126T480-96Zm0-384Zm.48 312q129.47 0 220.5-91.5Q792-351 792-480.48q0-129.47-91.02-220.5Q609.95-792 480.48-792 351-792 259.5-700.98 168-609.95 168-480.48 168-351 259.5-259.5T480.48-168Z"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
-        <div class="hidden" role="dialog">
-          <div class="container">
-            <span class="text">Pick date & time</span>
+          </form>
+          <div class="hidden" role="dialog">
+            <div class="container">
+              <span class="text">Pick date & time</span>
               <div class="inputs">
-                <input type="date" title="date" id="date">
-                <input type="time" title="time" id="time">
+                <input type="date" title="date" id="date" />
+                <input type="time" title="time" id="time" />
               </div>
-            <span class="buttons">
-              <button type="button" onclick="toggleScheduler()">Cancel</button>
-              <button type="button" title="scheduleMessage" onclick="toggleScheduler()">Schedule Send</button>
-            </span>
+              <span class="buttons">
+                <button type="button" onclick="toggleScheduler()">
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  title="scheduleMessage"
+                  onclick="toggleScheduler()"
+                >
+                  Schedule Send
+                </button>
+              </span>
+            </div>
           </div>
         </div>
-      </div>
         <nav class="vertical-navbar">
           <div class="vertical-navbar-box">
             <div class="nocssneeded">
@@ -293,193 +521,276 @@
             </div>
           </div>
         </nav>
-      <section class="dashboard-content">
-        <div class="dashboard-content-box">
-          <div class="dashboard-content-title">
-            <button class="drawerIcon" id="DrawerIcon">≡</button>
-            <a href="javascript:history.back()" class="go-back">
-              <i class="fa-duotone fa-solid fa-arrow-left"></i>
-              <!-- <i class="fa-duotone fa-solid fa-house"></i> -->
-              <!-- <p>Home</p>xxxxxx -->
-            </a>
-            <h1>Messages</h1>
-          </div>
-          <div class="empty-div"></div>
-          <div class="grid-messages">
-            <!-- HERE -->
-            <div class="messages">
-              <div class="scroll">
-                <!-- <h3>Messages</h3> -->
-                <div class="inner-body" id="mail-body"></div>
-                <div id="messageBody" class="messageBody" style="display: flex;">
-                  <div class="loader">
-                    getting messages...
+        <section class="dashboard-content">
+          <div class="dashboard-content-box">
+            <div class="dashboard-content-title">
+              <button class="drawerIcon" id="DrawerIcon">≡</button>
+              <a href="javascript:history.back()" class="go-back">
+                <i class="fa-duotone fa-solid fa-arrow-left"></i>
+                <!-- <i class="fa-duotone fa-solid fa-house"></i> -->
+                <!-- <p>Home</p>xxxxxx -->
+              </a>
+              <h1>Messages</h1>
+            </div>
+            <div class="empty-div"></div>
+            <div class="grid-messages">
+              <!-- HERE -->
+              <div class="messages">
+                <div class="scroll">
+                  <!-- <h3>Messages</h3> -->
+                  <div class="inner-body" id="mail-body"></div>
+                  <div
+                    id="messageBody"
+                    class="messageBody"
+                    style="display: flex"
+                  >
+                    <div class="loader">getting messages...</div>
+                    <!-- Populated from js -->
+                    <!-- Sent Page -->
+                    <!-- Feed back view -->
+                    <!-- Membership forms -->
+                    <!-- Inbox Holds all received messages -->
+                    <!-- research on auotocomplete api for sending messages to users -->
+                    <!-- sending announcements only to those who are on the website -->
                   </div>
-                  <!-- Populated from js -->
-                  <!-- Sent Page -->
-                  <!-- Feed back view -->
-                  <!-- Membership forms -->
-                  <!-- Inbox Holds all received messages -->
-                  <!-- research on auotocomplete api for sending messages to users -->
-                  <!-- sending announcements only to those who are on the website -->
                 </div>
               </div>
-            </div>
-            <div class="container" style="display: flex;" id="compose-container">
-              <button type="button" title="compose" onclick="toggleModal()">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M3 17.25V21h3.75L17.81 9.94l -3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-                    fill="none" stroke="#202124" stroke-width="2" />
-                </svg>
-                Compose
-              </button>
-            </div>
-            <div class="right-bar">
-              <button class="nav__btn" title="Inbox" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#454746"><path d="M120-120v-720h720v720H120Zm360-200q38 0 69-22t43-58h168v-360H200v360h168q12 36 43 58t69 22Z"/></svg>
-              </button>
-              <button class="nav__btn" title="Sent-Messages" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#454746"><path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"/></svg>
-              </button>
-              <button class="nav__btn" title="Membership-Forms" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#454746"><path d="M160-360h640v-80H160v80ZM320-80v-200H80v-600h800v600H640v200l-160-80-160 80ZM160-560h640v-240H160v240Zm0 200v-440 440Z"/></svg>
-              </button>
-              <button class="nav__btn" title="Feed-back" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#454746"><path d="M480-360q17 0 28.5-11.5T520-400q0-17-11.5-28.5T480-440q-17 0-28.5 11.5T440-400q0 17 11.5 28.5T480-360Zm-40-160h80v-240h-80v240ZM80-80v-800h800v640H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
-              </button>
-              <button class="nav__btn" title="Scheduled-messages" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#454746"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z"/></svg>
-              </button>
+              <div
+                class="container"
+                style="display: flex"
+                id="compose-container"
+              >
+                <button type="button" title="compose" onclick="toggleModal()">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M3 17.25V21h3.75L17.81 9.94l -3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                      fill="none"
+                      stroke="#202124"
+                      stroke-width="2"
+                    />
+                  </svg>
+                  Compose
+                </button>
+              </div>
+              <div class="right-bar">
+                <button class="nav__btn" title="Inbox" type="button">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#454746"
+                  >
+                    <path
+                      d="M120-120v-720h720v720H120Zm360-200q38 0 69-22t43-58h168v-360H200v360h168q12 36 43 58t69 22Z"
+                    />
+                  </svg>
+                </button>
+                <button class="nav__btn" title="Sent-Messages" type="button">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#454746"
+                  >
+                    <path
+                      d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"
+                    />
+                  </svg>
+                </button>
+                <button class="nav__btn" title="Membership-Forms" type="button">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#454746"
+                  >
+                    <path
+                      d="M160-360h640v-80H160v80ZM320-80v-200H80v-600h800v600H640v200l-160-80-160 80ZM160-560h640v-240H160v240Zm0 200v-440 440Z"
+                    />
+                  </svg>
+                </button>
+                <button class="nav__btn" title="Feed-back" type="button">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#454746"
+                  >
+                    <path
+                      d="M480-360q17 0 28.5-11.5T520-400q0-17-11.5-28.5T480-440q-17 0-28.5 11.5T440-400q0 17 11.5 28.5T480-360Zm-40-160h80v-240h-80v240ZM80-80v-800h800v640H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"
+                    />
+                  </svg>
+                </button>
+                <button
+                  class="nav__btn"
+                  title="Scheduled-messages"
+                  type="button"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#454746"
+                  >
+                    <path
+                      d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
     </main>
-  </main>
-  <script defer src="./messages.js"></script>
-  <script>
-    function hideSuggestions() {
-      const suggestionList = document.querySelector('.suggestions');
-      suggestionList.style.display = 'none'
-    }
-    async function getSuggestions(query) {
-      if (query.length >= 3){
-        const suggestionList = document.querySelector('.suggestions');
-        try {
-          suggestionList.style.display = 'flex'
-          const response = await fetch(`/api/messages/autocomplete?query=${encodeURIComponent(query)}`, {method: 'POST'});
-          if (!response) {
-            throw new Error(`Response status: ${response.status}`);
-            return
-          }
-          const data = await response.json();
-          const dataArr = data.suggestions;
-          suggestionList.innerHTML='';
-          if (dataArr.length === 0) {
-            const noResults = document.createElement('li');
-            noResults.textContent = 'No suggestions available';
-            suggestionList.appendChild(noResults);
-          } else {
-            dataArr.forEach(item => {
-              const name = (item.FirstName || item.LastName) 
-              ? `${item.FirstName || ''} ${item.LastName || ''}`
-              : (typeof item === 'object' ? JSON.stringify(item) : item);
-              const listItem = document.createElement('li');
-              listItem.onclick = () => selectSuggestion(item);
-              // console.log(name);
-              
-              listItem.innerHTML = `
-                <span class="name">${name || ''}</span>
-                <div class="details"><span class="phone">${item.PhoneNumber ? ` ${item.PhoneNumber}` : ''} </span><span class="email">${item.Email ? ` ${item.Email}` : ''} </span></div>
+    <script defer src="./messages.js"></script>
+    <script>
+      function hideSuggestions() {
+        const suggestionList = document.querySelector(".suggestions");
+        suggestionList.style.display = "none";
+      }
+      async function getSuggestions(query) {
+        if (query.length >= 3) {
+          const suggestionList = document.querySelector(".suggestions");
+          try {
+            suggestionList.style.display = "flex";
+            const response = await fetch(
+              `/api/messages/autocomplete?query=${encodeURIComponent(query)}`,
+              { method: "POST" }
+            );
+            if (!response) {
+              throw new Error(`Response status: ${response.status}`);
+              return;
+            }
+            const data = await response.json();
+            const dataArr = data.suggestions;
+            suggestionList.innerHTML = "";
+            if (dataArr.length === 0) {
+              const noResults = document.createElement("li");
+              noResults.textContent = "No suggestions available";
+              suggestionList.appendChild(noResults);
+            } else {
+              dataArr.forEach((item) => {
+                const name =
+                  item.FirstName || item.LastName
+                    ? `${item.FirstName || ""} ${item.LastName || ""}`
+                    : typeof item === "object"
+                    ? JSON.stringify(item)
+                    : item;
+                const listItem = document.createElement("li");
+                listItem.onclick = () => selectSuggestion(item);
+                // console.log(name);
+
+                listItem.innerHTML = `
+                <span class="name">${name || ""}</span>
+                <div class="details"><span class="phone">${
+                  item.PhoneNumber ? ` ${item.PhoneNumber}` : ""
+                } </span><span class="email">${
+                  item.Email ? ` ${item.Email}` : ""
+                } </span></div>
               `;
-              suggestionList.appendChild(listItem);
-            });
+                suggestionList.appendChild(listItem);
+              });
+            }
+          } catch (error) {
+            console.error("Error Fetching Suggestions", error);
           }
-        } catch (error) {
-          console.error('Error Fetching Suggestions', error);
         }
       }
-    }
-    function selectSuggestion(item) {
-      const recipientField = document.querySelector('[name="Recipients"]');
-      const name = (item.FirstName || item.LastName) 
-      ? `${item.FirstName || ''} ${item.LastName || ''}`
-      : (typeof item === 'object' ? JSON.stringify(item) : item);
-      if(!recipientField){
-        return 'cannot find element'
-      }
-      recipientField.value = name
+      function selectSuggestion(item) {
+        const recipientField = document.querySelector('[name="Recipients"]');
+        const name =
+          item.FirstName || item.LastName
+            ? `${item.FirstName || ""} ${item.LastName || ""}`
+            : typeof item === "object"
+            ? JSON.stringify(item)
+            : item;
+        if (!recipientField) {
+          return "cannot find element";
+        }
+        recipientField.value = name;
 
-      hideSuggestions();
-    }
-    function closeModal() {
-      const url = new URL(window.location.href);
-      let hash = url.hash.slice(1);
-      const [mainSection, currentQuery] = hash.split('?');
-      const params = new URLSearchParams(currentQuery);
-      params.delete('send');
-      const newHash = params.toString() ? `${mainSection}?${params.toString()}` : mainSection;
-      window.location.hash = newHash;
-      const modal = document.getElementById("modal");
-      if (modal) {
-        modal.classList.remove('modal');
+        hideSuggestions();
       }
-    }
-    function toggleScheduler() {
-      const dialog = document.querySelector('[role= "dialog"]');
-      if (dialog) {
-        dialog.classList.toggle('calendar-modal')
+      function closeModal() {
+        const url = new URL(window.location.href);
+        let hash = url.hash.slice(1);
+        const [mainSection, currentQuery] = hash.split("?");
+        const params = new URLSearchParams(currentQuery);
+        params.delete("send");
+        const newHash = params.toString()
+          ? `${mainSection}?${params.toString()}`
+          : mainSection;
+        window.location.hash = newHash;
+        const modal = document.getElementById("modal");
+        if (modal) {
+          modal.classList.remove("modal");
+        }
       }
-    }
-    function toggleModal() {
-      const url = new URL(window.location.href);
-      let hash = url.hash.slice(1); // Removes the leading "#"
-      const [mainSection, currentQuery] = hash.split('?');
-      const params = new URLSearchParams(currentQuery);
-      params.set('send', 'true');
-      const newHash = `${mainSection}?${params.toString()}`;
-      window.location.hash = newHash;
-    }
-    function formatDoc(cmd, value = null) {
-      if (value) {
-        document.execCommand(cmd, false, value);
-      } else {
-        document.execCommand(cmd);
+      function toggleScheduler() {
+        const dialog = document.querySelector('[role= "dialog"]');
+        if (dialog) {
+          dialog.classList.toggle("calendar-modal");
+        }
       }
-    }
-    function addLink() {
-      const url = prompt('Insert url');
-      formatDoc('createLink', url);
-    }
-    const content = document.getElementById('content');
-    content.addEventListener('mouseenter', function () {
-      const a = content.querySelectorAll('a');
-      a.forEach(item => {
-        item.addEventListener('mouseenter', function () {
-          content.setAttribute('contenteditable', false);
-          item.target = '_blank';
-        })
-        item.addEventListener('mouseleave', function () {
-          content.setAttribute('contenteditable', true);
-        })
-      })
-    })
-    const showCode = document.getElementById('show-code');
-    let active = false;
-    showCode.addEventListener('click', function () {
-      showCode.dataset.active = !active;
-      active = !active
-      if (active) {
-        content.textContent = content.innerHTML;
-        content.setAttribute('contenteditable', false);
-      } else {
-        content.innerHTML = content.textContent;
-        content.setAttribute('contenteditable', true);
+      function toggleModal() {
+        const url = new URL(window.location.href);
+        let hash = url.hash.slice(1); // Removes the leading "#"
+        const [mainSection, currentQuery] = hash.split("?");
+        const params = new URLSearchParams(currentQuery);
+        params.set("send", "true");
+        const newHash = `${mainSection}?${params.toString()}`;
+        window.location.hash = newHash;
       }
-    });
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-</body>
+      function formatDoc(cmd, value = null) {
+        if (value) {
+          document.execCommand(cmd, false, value);
+        } else {
+          document.execCommand(cmd);
+        }
+      }
+      function addLink() {
+        const url = prompt("Insert url");
+        formatDoc("createLink", url);
+      }
+      const content = document.getElementById("content");
+      content.addEventListener("mouseenter", function () {
+        const a = content.querySelectorAll("a");
+        a.forEach((item) => {
+          item.addEventListener("mouseenter", function () {
+            content.setAttribute("contenteditable", false);
+            item.target = "_blank";
+          });
+          item.addEventListener("mouseleave", function () {
+            content.setAttribute("contenteditable", true);
+          });
+        });
+      });
+      const showCode = document.getElementById("show-code");
+      let active = false;
+      showCode.addEventListener("click", function () {
+        showCode.dataset.active = !active;
+        active = !active;
+        if (active) {
+          content.textContent = content.innerHTML;
+          content.setAttribute("contenteditable", false);
+        } else {
+          content.innerHTML = content.textContent;
+          content.setAttribute("contenteditable", true);
+        }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  </body>
 </html>

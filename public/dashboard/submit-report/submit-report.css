@@ -203,3 +203,9 @@ input[type="number"] {
     cursor: pointer;
     box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
 }
+
+@media (max-width: 768px) {
+    .form-container {
+        padding: 10px 20px 10px 20px;
+    }
+}

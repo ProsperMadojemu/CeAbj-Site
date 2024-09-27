@@ -21,12 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => response.json())  
                 .then(data => {
                     const user = data.users.find(u => u.Email === sessionData.email);
-
-                    if (user.userType === 'admin') {
-                        window.location.href = '/admin/overview'
-                    }
-
-                    else if (user) {
+                    if (user) {
                         const userChurchDetails = data.usersChurch.find(uc => uc.FirstName === user.FirstName && uc.LastName === user.LastName);
                         title = user.Title;
                         name = user.FirstName;
@@ -41,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         email = user.Email;
 
                         const welcomeGreeting = document.querySelector('#usersdetails');
-                        const userTitle = document.querySelector('#usersTitle');
                         const logoutButton = document.getElementById('Logout-Button');
                         welcomeGreeting.innerHTML = `${user.Title} ${user.FirstName} ${user.LastName}`;
                         logoutButton.addEventListener('click', () => {

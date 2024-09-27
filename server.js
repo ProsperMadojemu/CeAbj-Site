@@ -72,6 +72,9 @@ app.get('/dashboard/edit-profile', (req,res)=> {
 app.get('/dashboard/submit-report', (req,res)=> {
     res.sendFile(path.join(__dirname,'public', 'dashboard', 'submit-report', 'submit-report.html'));
 })
+app.get('/dashboard/messages', (req,res)=> {
+    res.sendFile(path.join(__dirname,'public', 'dashboard', 'messages', 'messages.html'));
+})
 app.get('/admin/overview', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin', 'overview', 'overview.html'));
 });

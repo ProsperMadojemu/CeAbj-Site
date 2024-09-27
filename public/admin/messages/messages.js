@@ -291,7 +291,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     async function populateData(data, htmlTemplate) {
         const messages = Array.isArray(data.message) ? data.message : [];
-    
+
+        
         if (messages.length === 0) {
             messageBody.innerHTML = `
             <div>Oops, No Messages have been found, please try again later</div>
@@ -325,7 +326,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         })
     
         deleteButtons.forEach((deleteButton, index) => {
-            deleteButton.addEventListener("click", async () => {
+            deleteButton.addEventListener("click", async (event) => {
+                event.stopPropagation();
                 selectedMessage = messages[index];
                 await deleteMessage(selectedMessage);
             });
@@ -342,14 +344,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         let readCount = recipients.filter(recipient => recipient.isRead).length;
         const info = await data.message;
     
-        // Hide current message list and compose sections
         if (!isFullMessage) {
             messageBody.style.display = 'none';
             composeParent.style.display = 'none';
             isFullMessage = true;
         }
     
-        // Inject the HTML template with message data
         let htmlContent = htmlTemplate
             .replace('{{Subject}}', info.Subject || 'No Subject')
             .replace('{{Recipients}}', info.Recipients || 'Unknown Recipients')
@@ -362,7 +362,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     
         body.innerHTML = htmlContent;
     
-        // Handle the recipients list display
         const recipientsBody = document.querySelector('#recipient-list');
         if (recipientsBody) {
             recipients.forEach(recipient => {
@@ -372,9 +371,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
     
-        // Handle "Show Details" button after injecting HTML
         const recipientDetailsBody = document.querySelector('#recipient-container');
-        const showDetailsBtn = document.querySelector('#show-details'); // Make sure this is after HTML injection
+        const showDetailsBtn = document.querySelector('#show-details');
     
         if (showDetailsBtn && recipientDetailsBody) {
             showDetailsBtn.addEventListener('click', function () {
@@ -488,7 +486,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function closeModal() {
         const url = new URL(window.location.href);
-        let hash = url.hash.slice(1); // Removes the leading "#"
+        let hash = url.hash.slice(1); 
         const [mainSection, currentQuery] = hash.split('?');
         const params = new URLSearchParams(currentQuery);
         params.delete('send');
@@ -496,7 +494,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.hash = newHash;
         const modal = document.getElementById("modal");
         if (modal) {
-          modal.classList.remove('modal'); // Remove the modal class to hide the modal
+          modal.classList.remove('modal');
         }
     }
 

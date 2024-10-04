@@ -1,3 +1,28 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    max-width: 100vw;
+    min-height: 100vh;
+    color: #04125c;
+    line-height: 1.6;
+}
+
 .landing-page-navbar { 
     background-color: transparent;
 }
@@ -17,26 +42,25 @@
     text-transform: capitalize;
     font-size: 1.1em;
     font-weight: 500;
+    animation: fade 100ms ease-in;
     color: red;
 }
 
 
-/* style the body   */
 .header-register {
     min-height: 100vh;
     max-width: 100%;
     display: flex;
     position: relative;
     overflow: hidden;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-image: url(../src/R.jpeg);      
+    background-image: url(../../src/R.jpeg);      
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    padding: 0px 25px;
     z-index: 0; 
-    padding: 30px 0px 0px 0px;
 }
 
 /* using the before psudeo class to blur set image  */
@@ -44,31 +68,17 @@
 .header-register::before{
     content: "";
     position: absolute;
+    display: block;
     width: 100%;
-    top: 0;
-    left: 0;
     height: 100%;
     background: inherit; 
-    filter: blur(8px);
+    filter: blur(2.8px);
     z-index: -1;
 }
-
-.header-register img:first-child {
-    height: 800px;
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;    
-    object-fit: cover;
-    object-position: center;
-    filter: blur(8px);
-}
-
-/* form container styles  */
 
 .header-register h1 {
     color: white;
-    /* font-size: 2rem; */
+    font-size: 2rem;
 }
 
 
@@ -78,15 +88,15 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    justify-content: space-around;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     border: 1px solid rgba(255, 255, 255, 0.047);
     border-radius: 25px;
-    height: max-content;
-    min-width: 900px;
+    flex: 1;
+    max-width: 900px;
     padding: 10px;
     background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.22);
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.5);
     -webkit-backdrop-filter: blur(2.8px);
     backdrop-filter: blur(2.8px);
     /* animation: appear 0.7s linear;
@@ -98,13 +108,15 @@
     flex-direction: column;
     justify-content: center;
     text-align: left;
-    padding: 0px 30px ;
+    flex: 1;
+    padding: 0px 30px 0px 0px;
     width: 50%;
+    text-wrap: nowrap;
     height: max-content;    
 }
 
 .register-container-text h1 {
-    font-size: 2.6em;
+    font-size: 2rem;
     animation: fade 0.5s linear;
     text-shadow: 6px 4px rgba(0, 0, 0, 0.089);
 }
@@ -112,7 +124,7 @@
 .register-container-text p{
     color: #fff;
     animation: fade 0.5s linear;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
 }
 
 
@@ -123,19 +135,22 @@
     align-items: center; 
     justify-content: center;
     animation: fade 0.5s linear;
-    padding: 5px;
-
+    padding: 25px 5px 0px 0px;
+    flex: 1;
 }
 
-/* .registration-forms-container{
-    min-height: 430px;
-} */
+.registration-forms-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 25px;
+}
 
 .registration-form input {
     display: block;
     /* position: relative; */
     min-height: 45px;
-    min-width: 300px;
+    width: 100%;
     outline: none;
     padding: 10px;
     border-radius: 5px;
@@ -155,16 +170,16 @@
     align-items: baseline;
     justify-content: center;
     position: relative;
-    margin: 0px 0px 25px 0px;
+    /* max-width: 300px; */
+    /* margin: 0px 0px 25px 0px; */
     /* padding: 5px; */
 }
 
 .input-groups input {
     background: none;
-    font-family: 'arial' sans-serif;
     color: rgb(255, 255, 255);
     border: 1px solid #fff;
-    transition: border 0.2s ease, background 0.2s ease;
+    transition: 400ms ease;
 }
 
 
@@ -188,11 +203,10 @@ input[type="number"] {
     color: rgb(255, 255, 255); 
     position: absolute;
     font-size: 1.1rem;
-    font-family: 'arial' sans-serif;
-    font-weight: 450;
+    font-weight: 400;
     pointer-events: none;
     letter-spacing: 0rem;
-    transition: .1s linear;
+    transition: 150ms linear;
     border-radius: 5px;
     background: transparent;
 }
@@ -205,7 +219,7 @@ select:not(:placeholder-shown) + label{
     top: -9px;
     left: -4px;
     padding: 0px 5px;
-    font-weight: 500;
+    font-weight: 400;
     height: 20px;
     font-size: 0.8rem;
     color: rgb(255, 255, 255);
@@ -229,6 +243,7 @@ select:not(:placeholder-shown) + label{
     align-items: flex-end;
     gap: 5px;
     padding: 5px;
+    width: 100%;
     text-align: left;
     min-width: 300px;
     color: rgb(209, 209, 209);
@@ -247,15 +262,16 @@ select:not(:placeholder-shown) + label{
 .submitformbutton,
 .gobacktosecondform,
 .gobacktofirstform {
-    width: 65px;
-    height: 25px;
-    padding: 5px;
+    padding: 5px 15px 5px 10px;
     border-radius: 5px;
     border: none;
+    width: min-content;
     background: #316FF6;
     color: rgb(255, 255, 255);
-    transition: 0.5s ease;
+    transition: 150ms ease;
     cursor: pointer;
+    white-space: nowrap;
+    font-size: .875rem;
     box-shadow: 6px 4px 40px rgba(0, 0, 0, 0.582);
 }
 
@@ -264,7 +280,7 @@ select:not(:placeholder-shown) + label{
 .submitformbutton:hover,
 .gobacktosecondform:hover,
 .gobacktofirstform:hover {
-    background-color: #92BDF9;
+    background-color: #316ff69c;
     color: #fff;
 }
 
@@ -274,28 +290,29 @@ select:not(:placeholder-shown) + label{
 
 .registration__form2 {
     display: flex;
-    flex-direction: row;
+    align-items: center;
     justify-content: flex-end;
-    align-items: flex-start;
-    gap: 10px;
+    gap: 5px;
     padding: 5px;
+    width: 100%;
     text-align: left;
     min-width: 300px;
     color: rgb(209, 209, 209);
 }
 
 .visible {
-    display: block;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
     border: 1px solid rgba(255, 255, 255, 0.047);
     border-radius: 25px;
-    min-width: 900px;
+    flex: 1;
+    max-width: 900px;
     padding: 10px;
     background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.22);
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.5);
     -webkit-backdrop-filter: blur(2.8px);
     backdrop-filter: blur(2.8px);
     animation: slideInFromRight 0.2s backwards;
@@ -303,12 +320,11 @@ select:not(:placeholder-shown) + label{
 
 .input-groups select {
     background: none;
-    font-family: 'arial' sans-serif;
     color: rgb(255, 255, 255);
     border: 1px solid #fff;
     display: block;
     min-height: 45px;
-    min-width: 300px;
+    width: 100%;
     outline: none;
     padding: 10px;
     border-radius: 5px;
@@ -340,7 +356,7 @@ select:not(:placeholder-shown) + label{
 
 #zones,
 #churches{
-    width: 300px;
+    /* width: 300px; */
 }
 
 #cell-name-label,
@@ -386,7 +402,6 @@ select:not(:placeholder-shown) + label{
     width: 270px;
     font-size: 1.2rem;
     text-wrap: nowrap;
-    font-family: 'arial';
     animation: 0.5s fade ease-in;
 }
 
@@ -418,11 +433,9 @@ select:not(:placeholder-shown) + label{
     justify-content: center;
     height: 250px;
     width: 450px;
-
     border-radius: 5px;
     box-shadow: 3px 4px 40px hsla(0, 0%, 0%, 0.849);
     color: #fff;
-    font-family: 'arial', sans-serif;
     background: #316FF6;
 }
 

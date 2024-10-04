@@ -84,7 +84,7 @@ const loginUser = async (req, res) => {
                     isAdmin: true,
                     userType: "admin",
                 };
-                return res.json({ redirectUrl: "/admin/" });
+                return res.status(201).json({ message: "Welcome Admin", redirectUrl: "/admin/" });
             } else {
                 return res.status(401).json({ error: "Invalid email or password" });
             }
@@ -110,7 +110,7 @@ const loginUser = async (req, res) => {
                 phone: user.PhoneNumber,
                 userType: user.userType,
             };
-            return res.json({ redirectUrl: "/dashboard/edit-profile" });
+            return res.status(201).json({message: "login successful", redirectUrl: "/dashboard/edit-profile" });
         } else {
             return res.status(401).json({ error: "Invalid password" });
         }

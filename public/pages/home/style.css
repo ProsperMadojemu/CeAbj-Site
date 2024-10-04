@@ -43,18 +43,18 @@ body {
     min-height: 10%;
     padding: 3px;
     background-color: rgba(39, 35, 50, 0);
-    z-index: 1000;
+    z-index: 100;
     transition: background-color 0.5s ease;
-
+    /* box-shadow: 3px 0px 5px 2px rgba(0, 0, 0, 0.5); */
 }
 
 .navbar-bg-change {
     background-color: #04125c;
-    box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.543);
+    box-shadow: 0px 1px 10px 3px rgba(0, 0, 0, 0.2);
 }
 
 #navbar-logo {
-    width: 45px;
+    width: 60%;
     align-items: center;
     display: flex;
 }

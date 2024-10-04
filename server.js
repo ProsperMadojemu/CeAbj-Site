@@ -100,11 +100,8 @@ app.get('/admin/addacell', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin', 'addacell', 'addacell.html'));
 });
 
-// main();
-// Timed Functionx
 scheduleWebMessages();
 weeklyEmails();
-// API ENDPOINTS
 app.use(userRouter);
 app.use(chartRouter);
 app.use(commentsRouter);

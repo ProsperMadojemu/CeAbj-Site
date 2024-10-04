@@ -271,6 +271,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    let toastBox = document.getElementById('toastBox');
+    let toastCount = 0
+    function showToast(status, msg) {
+        toastCount++
+        let toast = document.createElement('div');
+        toast.classList.add('toast');
+        if (toastCount >= 5){
+            toastCount = toastCount - toastCount + 1;
+            toastBox.innerHTML = '';
+        }
+        toast.innerHTML = msg;
+        toastBox.appendChild(toast);
+        setTimeout(()=> {
+            toast.remove();
+        }, 5000)
+    }
     document.getElementById('next_button').addEventListener('click', function () {
         const formchurches = document.getElementById('churches').value;
         const formroles = document.getElementById('roles').value;
@@ -363,6 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('User registered successfully:', result);
                 disablePrompt();
                 showPrompt("Registration Successful");
+
                 setTimeout(() => {
                     window.location.href = '/login';
                 }, 5000); 

@@ -4,18 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Create Account">
-    <link rel="icon" href="../src/favicon.ico">
+    <link rel="icon" href="../../src/favicon.ico">
     <link rel="stylesheet" href="/annimations.css">
-    <link rel="stylesheet" href="/pages/home/style.css">
     <link rel="stylesheet" href="/pages/register/register.css">
     <script src="https://kit.fontawesome.com/ecf5b4f981.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <title>CE ABARANJE || REGISTER</title>
+    <title>CHRIST EMBASSY ABARANJE || REGISTER</title>
 </head>
 <body>
-    <header class="header-register">
-        <img src="/src/R.jpeg" alt="pastorchris.jpeg">
-        <!-- <img src="../src/ABJ LOGO.png" alt="abj" class="logo"> -->
+    <main class="header-register">
         <div class="prompt-parent hidden" id="message-prompt">
             <div class="success-prompt" >
                 <i class="fa-solid fa-spinner-third fa-2xl" id="message-sign"></i>
@@ -30,7 +27,6 @@
             
             <form method="POST" class="registration-form" id="first-initial-form">
                 <div class="registration-forms-container">
-                    <h1>Sign up!</h1>
                     <div class="input-groups">
                         <input type="email" name="mail" placeholder=" " id="mail" inputmode="email" required>
                         <label for="mail">Email</label>
@@ -324,7 +320,6 @@
             
             <form method="POST" class="registration-form" id="second-form">
                 <div class="registration-forms-container" >
-                    <h1>Sign up!</h1>
                     <div class="input-groups">
                         <select name="churches" id="churches" required>
                             <option value="" hidden>Select your church</option>
@@ -523,7 +518,6 @@
             
             <form method="POST" class="registration-form" id="third-form">
                 <div class="registration-forms-container" >
-                    <h1>Sign up!</h1>
                     <div class="input-groups">
                         <input type="password" name="pass" id="pass" placeholder=" " required>
                         <label for="pass">Enter password</label>
@@ -548,14 +542,7 @@
                 </div>
             </form>
         </div>
-    </header>
-
-    <!-- <footer class="landing-page-footer">
-        <div class="landing-page-footer-container">
-            <p>Copyright © 2024 CE Abarnanje Group. All rights reserved.</p>
-        </div>
-    </footer> -->
-
+    </main>
     <script defer src="/pages/register/register.js"></script>
 </body>
 </html>

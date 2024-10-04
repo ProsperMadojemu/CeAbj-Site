@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('/check-session')
     .then(response => response.json())
     .then(user => {
-        if (user.email) {
+        if (user.email && !user.isAdmin) {
             const loginIcon = document.getElementById('loginIcon');
             loginIcon.classList.remove('login_icon');
             loginIcon.classList.add('login_icon-visible');

@@ -1,16 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     const errorMessage = document.getElementById('errormessage');
-    const messageOverlay = document.getElementById('message-prompt');
-    const messageOverlayText = document.getElementById('message-text');
-    const messageOverlaySign = document.getElementById('message-sign');
-
-    function showPrompt(message) {
-        messageOverlay.classList.remove('hidden');
-        messageOverlayText.textContent = message;
-        if (messageOverlay.timeoutId) {
-            clearTimeout(messageOverlay.timeoutId);
-        }
-    }
 
     let data;
     let toastBox = document.getElementById('toastBox');
@@ -22,33 +11,27 @@ document.addEventListener('DOMContentLoaded', () => {
         toastCount++
         let toast = document.createElement('div');
         toast.classList.add('toast');
-        if (toastCount >= 5){
-            toastCount = toastCount - toastCount + 1;
+        if (toastCount >= 3){
+            toastCount = 1;
             toastBox.innerHTML = '';
         }
         if (response.status === 201){
             toast.innerHTML = `${faSuccess} ${data.message}`;
             console.log(toast);
-            
-        } else if(response.status === 400 || response.status === 401 || response.status === 500){
+        } else if(response.status === 400 || response.status === 401 || response.status === 500 || "error" in response){
             toast.classList.add('error');
-            toast.innerHTML = `${faError} ${data.message}`;
-            // toast.innerHTML = faError, data.message;
+            toast.innerHTML = `${faError} ${data.message || response.error}`;
         } else if(response.status === 404){
             toast.classList.add('invalid');
             toast.innerHTML = `${faInvalid} ${data.message}`;
-            // toast.innerHTML = faInvalid, data.message;
+        }  else {
+            toast.classList.add('error');
+            toast.innerHTML = `${faError} ${response.message || "Error, please try again."}`;
         }
         toastBox.appendChild(toast);
         setTimeout(()=> {
             toast.remove();
         }, 5000)
-    }
-
-    function hidePrompt() {
-        messageOverlay.classList.add('hidden');
-        messageOverlaySign.classList.remove('fa-solid', 'fa-xmark', 'fa-2xl');
-        messageOverlaySign.classList.add('fa-spinner-third', 'fa-2xl');
     }
 
     function showError(message) {
@@ -117,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 5000);    
             } catch (error) {
                 console.error('An error occurred:', error);
-                showError(error.message);
+                showToast(error);
             } finally {
                 loginButton.disabled = false;
             }

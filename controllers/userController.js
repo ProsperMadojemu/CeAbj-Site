@@ -58,9 +58,9 @@ const registerUser = async (req, res) => {
 
         await newUser.save();
         await newChurchDetails.save();
-        res.status(201).json({ message: "User registered successfully" });
+        return res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        return es.status(400).json({ error: error.message });
         console.error(error);
     }
 }
@@ -84,7 +84,7 @@ const loginUser = async (req, res) => {
                     isAdmin: true,
                     userType: "admin",
                 };
-                return res.status(201).json({ message: "Welcome Admin", redirectUrl: "/admin/" });
+                return res.status(201).json({ message: "Signed in as Admin", redirectUrl: "/admin/" });
             } else {
                 return res.status(401).json({ error: "Invalid email or password" });
             }
@@ -95,7 +95,6 @@ const loginUser = async (req, res) => {
         });
 
         if (!user) {
-            console.log(`Failed login attempt with email: ${usersinput}`);
             return res.status(404).json({ error: "Information does not match" });
         }
 
@@ -126,7 +125,7 @@ const logoutUser = async (req, res) => {
             // return res.status(500).json({ error: "Could not log out" });
             console.error(err);
         }
-        res.status(200).json({ message: "Logout successful" });
+        return res.status(200).json({ message: "Logout successful" });
     });
 }
 
@@ -159,9 +158,9 @@ const updateUser = async (req, res) => {
             return res.status(404).json({ error: "User church details not found" });
         }
 
-        res.status(200).json({ message: "User updated successfully" });
+        return res.status(200).json({ message: "User updated successfully" });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 }
 
@@ -252,7 +251,7 @@ const searchForUser = async (req,res) => {
         });
     } catch (error) {
         console.error("Error searching data:", error);
-        res.status(500).json({ error: "Error searching data" });
+        return res.status(500).json({ error: "Error searching data" });
     }
 }
 

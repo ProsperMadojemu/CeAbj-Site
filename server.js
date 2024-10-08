@@ -78,7 +78,7 @@ app.get('/dashboard/messages', (req,res)=> {
 app.get('/admin/overview', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin', 'overview', 'overview.html'));
 });
-app.get('/admin/schedule-service', (req, res) => {
+app.get('/admin/live-service', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin', 'schedule-service', 'schedule-service.html'));
 });
 app.get('/admin/messages', (req, res) => {
@@ -99,7 +99,7 @@ app.get('/admin/view-cell-reports', (req, res) => {
 app.get('/admin/addacell', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin', 'addacell', 'addacell.html'));
 });
-
+// like the admin change the way session is checked and verified it should ne done server side like the admin
 scheduleWebMessages();
 weeklyEmails();
 app.use(userRouter);

@@ -118,23 +118,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const messageOverlay = document.getElementById('message-prompt');
-    const messageOverlayText = document.getElementById('message-text');
-
-        function showSuccessPrompt(message) {
-        messageOverlay.classList.remove('hidden');
-        messageOverlayText.textContent = message;
-        if (messageOverlay.timeoutId) {
-            clearTimeout(messageOverlay.timeoutId);
+    let toastBox = document.getElementById('toastBox');
+    let toastCount = 0
+    const faSuccess = `<i class="fa-solid fa-circle-check" style= "color:green"></i>`;
+    const faError = `<i class="fa-solid fa-circle-x" style= "color:red"></i>`;
+    const faInvalid = `<i class="fa-solid fa-circle-exclamation" style= "color:orange"></i>`;
+    async function showToast(response) {
+        let data;
+        toastCount++
+        if (response) {
+            data = await response.json();
         }
-        // messageOverlay.timeoutId = setTimeout(() => {
-        //     hidePrompt();
-        // }, 5000);
+        
+        let toast = document.createElement('div');
+        toast.classList.add('toast');
+        if (toastCount >= 3){
+            toastCount = 1;
+            toastBox.innerHTML = '';
+        }
+        if (response.status === 201 || response.status === 200){
+            toast.innerHTML = `${faSuccess} ${data.message}`;
+            console.log(toast);
+        } else if(response.status === 400 || response.status === 401 || response.status === 500 || "error" in response){
+            toast.classList.add('error');
+            toast.innerHTML = `${faError} ${data.message || response.error}`;
+        } else if(response.status === 404){
+            toast.classList.add('invalid');
+            toast.innerHTML = `${faInvalid} ${data.message}`;
+        }  else {
+            toast.classList.add('error');
+            toast.innerHTML = `${faError} ${response.message || "Error, please try again."}`;
+        }
+        toastBox.appendChild(toast);
+        setTimeout(()=> {
+            toast.remove();
+        }, 5000)
     }
 
-    function hidePrompt() {
-        messageOverlay.classList.add('hidden');
-    }
+
 
     document.getElementById('LeadershipPosition').addEventListener('change', function () {
         handleLeaderSelection(this.value);
@@ -162,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function handleLeadersFetching(LeaderPosition) {  
-        // console.log('pcf data:', pcfLeadersData);
         if (LeaderPosition === 'PCF-leader') {
             document.getElementById('cellname-label').innerHTML = `Name of Pcf`;
 
@@ -249,15 +269,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     select.appendChild(option);
                 });
         
-                // Add event listener to update the PCF name based on selected cell
                 select.addEventListener('change', () => {
                     const selectedCellName = select.value;
                     const selectedCell = data.cells.find(cell => cell.NameOfCell === selectedCellName);
                     
                     if (selectedCell) {
-                        pcfInput.value = selectedCell.NameOfPcf; // Update the PCF name
+                        pcfInput.value = selectedCell.NameOfPcf; 
                     } else {
-                        pcfInput.value = ''; // Clear if no matching cell is found
+                        pcfInput.value = ''; 
                     }
                 });
         
@@ -279,7 +298,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 formJSON[key] = value;
             });
             
-            console.log('JSON data to be sent:', JSON.stringify(formJSON));
             const response = await fetch('/updateuser', {
                 method: 'PUT',
                 headers: {
@@ -292,15 +310,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Failed to update user');
             }
     
-            const result = await response.json();
             if (response.ok) {
-                showSuccessPrompt("Profile Update Successful");
+                // showSuccessPrompt("Profile Update Successful");
+                showToast(response);
                 setTimeout(() => {
                     window.location.reload();
                 }, 5000);
             }
-             else {
-                alert(result.error); // Show error message
+            else {
+                showToast(response);
             }
         } catch (error) {
             alert('An error occurred: ' + error.message);

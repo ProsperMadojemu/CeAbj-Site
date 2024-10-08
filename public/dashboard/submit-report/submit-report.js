@@ -82,39 +82,60 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
 
-    const messageOverlay = document.getElementById('message-prompt');
-    const messageOverlayText = document.getElementById('message-text');
-    const messageOverlaySign = document.getElementById('message-sign');
-
-    function showPrompt(message) {
-        messageOverlay.classList.remove('hidden');
-        messageOverlayText.textContent = message;
-        if (messageOverlay.timeoutId) {
-            clearTimeout(messageOverlay.timeoutId);
+        let toastBox = document.getElementById('toastBox');
+        let toastCount = 0
+        const faSuccess = `<i class="fa-solid fa-circle-check" style= "color:green"></i>`;
+        const faError = `<i class="fa-solid fa-circle-x" style= "color:red"></i>`;
+        const faInvalid = `<i class="fa-solid fa-circle-exclamation" style= "color:orange"></i>`;
+        async function showToast(response) {
+            let data;
+            toastCount++
+            if (response) {
+                data = await response.json();
+            }
+            let toast = document.createElement('div');
+            toast.classList.add('toast');
+            if (toastCount >= 3){
+                toastCount = 1;
+                toastBox.innerHTML = '';
+            }
+            if (response.status === 201 || response.status === 200){
+                toast.innerHTML = `${faSuccess} ${data.message}`;
+                console.log(toast);
+            } else if(response.status === 400 || response.status === 401 || response.status === 500 || "error" in response){
+                toast.classList.add('error');
+                toast.innerHTML = `${faError} ${data.message || response.error}`;
+            } else if(response.status === 404){
+                toast.classList.add('invalid');
+                toast.innerHTML = `${faInvalid} ${data.message}`;
+            }  else {
+                toast.classList.add('error');
+                toast.innerHTML = `${faError} ${response.message || "Error, please try again."}`;
+            }
+            toastBox.appendChild(toast);
+            setTimeout(()=> {
+                toast.remove();
+            }, 5000)
         }
-        // messageOverlay.timeoutId = setTimeout(() => {
-        //     hidePrompt();
-        // }, 5000);
-    }
+    
+        async function toastErr(response) {
+            toastCount++
+            let toast = document.createElement('div');
+            toast.classList.add('toast');
+            if (toastCount >= 3){
+                toastCount = 1;
+                toastBox.innerHTML = '';
+            }
+            toast.classList.add('invalid');
+            toast.innerHTML = `${faInvalid} ${response}`;
+            toastBox.appendChild(toast);
+            setTimeout(()=> {
+                toast.remove();
+            }, 5000)
+        
+        }
 
-    function showErrorPrompt(message) {
-        messageOverlay.classList.remove('hidden');
-        messageOverlaySign.classList.remove('fa-spinner-third', 'fa-2xl');
-        messageOverlaySign.classList.add('fa-solid', 'fa-xmark', 'fa-2xl');
-        messageOverlayText.textContent = message;
-        if (messageOverlay.timeoutId) {
-            clearTimeout(messageOverlay.timeoutId);
-        }   
-        messageOverlay.timeoutId = setTimeout(() => {
-            hidePrompt();
-        }, 3000);
-    }
 
-    function hidePrompt() {
-        messageOverlay.classList.add('hidden');
-        messageOverlaySign.classList.remove('fa-solid', 'fa-xmark', 'fa-2xl');
-        messageOverlaySign.classList.add('fa-spinner-third', 'fa-2xl');
-    }
 
     const reportButton = document.getElementById('submitcellreportbutton');
     reportButton.addEventListener('click', async function (event) {
@@ -129,19 +150,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         const formCellOffering = document.getElementById('offering').value;
         
         if (!formFname || !formLname || !formNameOfCell || !formServiceAttendannce || !formSundayFirstTimers || !formCellMeetingAttendance || !formCellFirstTimers || !formCellOffering) {
-            showErrorPrompt('All Fields Are Required');
+            toastErr('All Fields Are Required');
         } else if (!formFname) {
-            showErrorPrompt('Enter Your First Name');
+            toastErr('Enter Your First Name');
         } else if (!formLname) {
-            showErrorPrompt('Enter Your Last Name');
+            toastErr('Enter Your Last Name');
         } else if (!formNameOfCell) {
-            showErrorPrompt('Enter Name of Your Cell');
+            toastErr('Enter Name of Your Cell');
         } else if (!formCellMeetingAttendance) {
-            showErrorPrompt('Enter Cell Meeting Attendance or Type Nill');
+            toastErr('Enter Cell Meeting Attendance or Type Nill');
         } else if (!formCellFirstTimers) {
-            showErrorPrompt('Enter Cell First Timers or Type Nill');
+            toastErr('Enter Cell First Timers or Type Nill');
         } else if (!formCellOffering) {
-            showErrorPrompt('Enter Cell Offering Amount');
+            toastErr('Enter Cell Offering Amount');
         } else {
             try {
                 const reportForm = document.getElementById('cellReportForm');
@@ -162,12 +183,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     throw new Error(result.error || 'Failed to Submit Report');
                 }
     
-                showPrompt("Report Submission Successful");
+                showToast(response);
                 setTimeout(() => {
                     window.location.reload();
                 }, 5000);
             } catch (error) {
-                showErrorPrompt('An error occurred: ' + error.message);
+                showToast(response);
             }
         }
         

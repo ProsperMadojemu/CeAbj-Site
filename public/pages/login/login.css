@@ -316,7 +316,7 @@ input:not(:placeholder-shown) + label {
 #toastBox {
     position: absolute;
     top: 10px;
-    z-index: 10;
+    z-index: 20;
     right: 10px;
     display: flex;
     align-items: flex-end;
@@ -336,10 +336,14 @@ input:not(:placeholder-shown) + label {
     align-items: center;
     position: relative;
     gap: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: 300ms;
+    animation: to-left 500ms linear;
 }
 
 .toast i {
-    font-size: 35px;
+    font-size: 30px;
 }
 .toast::after {
     content: '';
@@ -355,7 +359,7 @@ input:not(:placeholder-shown) + label {
     background: red;
 }
 .toast.invalid::after{
-    background: red;
+    background: orange;
 }
 @keyframes anim {
     100%{

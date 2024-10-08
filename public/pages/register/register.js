@@ -28,91 +28,56 @@ document.addEventListener('DOMContentLoaded', () => {
         shouldShowPrompt = false;
     }
 
-    const errorMessage = document.getElementById('error-message-first');
-    const secondErrorMessage = document.getElementById('error-message-second');
-    const passwordErrorMessage = document.getElementById('error-message-pass');
-
-    function showError(message) {
-        errorMessage.classList.add('error-message-visible');
-        errorMessage.textContent = message;
-        if (errorMessage.timeoutId) {
-            clearTimeout(errorMessage.timeoutId);
+    const faSuccess = `<i class="fa-solid fa-circle-check" style= "color:green"></i>`;
+    const faError = `<i class="fa-solid fa-circle-x" style= "color:red"></i>`;
+    const faInvalid = `<i class="fa-solid fa-circle-exclamation" style= "color:orange"></i>`;
+    let toastBox = document.getElementById('toastBox');
+    let toastCount = 0
+    let data;
+    async function showToast(response) {
+        toastCount++
+        data = await response.json();
+        console.log(data);
+        let toast = document.createElement('div');
+        toast.classList.add('toast');
+        if (toastCount >= 3){
+            toastCount = 1;
+            toastBox.innerHTML = '';
         }
-        errorMessage.timeoutId = setTimeout(() => {
-            hideError();
-        }, 5000);
-    }
-
-    function showSecondError(message2) {
-        secondErrorMessage.classList.add('error-message-visible');
-        secondErrorMessage.textContent = message2;
-        if (secondErrorMessage.timeoutId) {
-            clearTimeout(secondErrorMessage.timeoutId);
+        if (response.status === 201 || response.status === 200){
+            toast.innerHTML = `${faSuccess} ${data.message}`;
+            console.log(toast);
+        } else if(response.status === 400 || response.status === 401 || response.status === 500 || "error" in response){
+            toast.classList.add('error');
+            toast.innerHTML = `${faError} ${data.message || response.error}`;
+        } else if(response.status === 404){
+            toast.classList.add('invalid');
+            toast.innerHTML = `${faInvalid} ${data.message}`;
+        }  else {
+            toast.classList.add('error');
+            toast.innerHTML = `${faError} ${response.message || "Error, please try again."}`;
         }
-        secondErrorMessage.timeoutId = setTimeout(() => {
-            hideSecondError();
-        }, 5000);
+        toastBox.appendChild(toast);
+        setTimeout(()=> {
+            toast.remove();
+        }, 5000)
     }
 
-    function showPasswordError(message3) {
-        passwordErrorMessage.classList.add('error-message-visible');
-        passwordErrorMessage.textContent = message3;
-        if (passwordErrorMessage.timeoutId) {
-            clearTimeout(passwordErrorMessage.timeoutId);
+    async function toastErr(response) {
+        toastCount++
+        let toast = document.createElement('div');
+        toast.classList.add('toast');
+        if (toastCount >= 3){
+            toastCount = 1;
+            toastBox.innerHTML = '';
         }
-        passwordErrorMessage.timeoutId = setTimeout(() => {
-            hidePasswordError();
-        }, 5000);
-    }
-
-        const messageOverlay = document.getElementById('message-prompt');
-    const messageOverlayText = document.getElementById('message-text');
-    const messageOverlaySign = document.getElementById('message-sign');
-
-    function showPrompt(message) {
-        messageOverlay.classList.remove('hidden');
-        messageOverlayText.textContent = message;
-        if (messageOverlay.timeoutId) {
-            clearTimeout(messageOverlay.timeoutId);
-        }
-        // messageOverlay.timeoutId = setTimeout(() => {
-        //     hidePrompt();
-        // }, 5000);
-    }
-
-    function showErrorPrompt(message) {
-        messageOverlay.classList.remove('hidden');
-        messageOverlaySign.classList.remove('fa-spinner-third', 'fa-2xl');
-        messageOverlaySign.classList.add('fa-solid', 'fa-xmark', 'fa-2xl');
-        messageOverlayText.textContent = message;
-        if (messageOverlay.timeoutId) {
-            clearTimeout(messageOverlay.timeoutId);
-        }   
-        messageOverlay.timeoutId = setTimeout(() => {
-            hidePrompt();
-        }, 3000);
-    }
-
-    function hidePrompt() {
-        messageOverlay.classList.add('hidden');
-        messageOverlaySign.classList.remove('fa-solid', 'fa-xmark', 'fa-2xl');
-        messageOverlaySign.classList.add('fa-spinner-third', 'fa-2xl');
-    }
-
-
-    function hideError() {
-        errorMessage.classList.remove('error-message-visible');
-        errorMessage.textContent = "";
-    }
-
-    function hideSecondError() {
-        secondErrorMessage.classList.remove('error-message-visible');
-        secondErrorMessage.textContent = "";
-    }
-
-    function hidePasswordError() {
-        passwordErrorMessage.classList.remove('error-message-visible');
-        passwordErrorMessage.textContent = "";
+        toast.classList.add('invalid');
+        toast.innerHTML = `${faInvalid} ${response}`;
+        toastBox.appendChild(toast);
+        setTimeout(()=> {
+            toast.remove();
+        }, 5000)
+    
     }
 
     function resetFormFields(...fields) {
@@ -123,13 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function resetErrorMessages() {
-        hideError();
-        hideSecondError();
-        hidePasswordError();
-    }
-
-    document.getElementById('nextform-button').addEventListener('click', function () {
+    document.getElementById('nextform-button').addEventListener('click', function (event) {
         const formemail = document.getElementById('mail').value;
         const formfname = document.getElementById('fname').value;
         const formlname = document.getElementById('lname').value;
@@ -137,17 +96,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const formcountry = document.getElementById('country').value;
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         const allowedDomains = ['gmail.com', 'yahoo.com'];
+        if(formemail && formfname && formlname && formphone && formcountry) {
+            event.preventDefault();
+        }
 
         if (!formemail || !formfname || !formlname || !formphone || !formcountry) {
-            showError("All fields are required");
+            toastErr("All fields are required");
         } else if (!emailPattern.test(formemail)) {
-            showError("Please enter a valid email");
+            toastErr("Please enter a valid email");
         } else {
             const emaildomain = formemail.split('@')[1];
             if (!allowedDomains.includes(emaildomain)) {
-                showError("Please use either @yahoo or @gmail");
+                toastErr("Please use either @yahoo or @gmail");
             } else {
-                hideError();
                 document.getElementById('first-form').classList.add('hidden');
                 document.getElementById('nextform').classList.remove('next-register-hidden');
                 document.getElementById('nextform').classList.add('visible');
@@ -156,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('back_button').addEventListener('click', function () {
-        resetErrorMessages();
         document.getElementById('first-form').classList.remove('hidden');
         document.getElementById('nextform').classList.remove('visible');
         document.getElementById('nextform').classList.add('next-register-hidden');
@@ -183,7 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const cellname = document.querySelector('#cell-group');
 
         if (churches === 'other') {
-            hideSecondError();
             if (cellroles) {
                 resetFormFields(
                     document.getElementById('roles'),
@@ -202,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('others-label').innerHTML = 'Where are you visiting from';
             }
         } else {
-            hideSecondError();
             if (cellroles) {
                 resetFormFields(
                     document.getElementById('roles'),
@@ -245,13 +203,11 @@ document.addEventListener('DOMContentLoaded', () => {
         );
 
         if (other === 'guest') {
-            hideSecondError();
             zoneselector.style.display = 'none';
             churchinput.style.display = 'none';
             departmentselector.style.display = 'none';
             cellname.style.display = 'none';
         } else {
-            hideSecondError();
             zoneselector.style.display = 'block';
             churchinput.style.display = 'block';
             departmentselector.style.display = 'none';
@@ -266,28 +222,12 @@ document.addEventListener('DOMContentLoaded', () => {
         );
 
         if (zones) {
-            hideSecondError();
             churchinput.style.display = 'block';
         }
     }
 
-    let toastBox = document.getElementById('toastBox');
-    let toastCount = 0
-    function showToast(status, msg) {
-        toastCount++
-        let toast = document.createElement('div');
-        toast.classList.add('toast');
-        if (toastCount >= 5){
-            toastCount = toastCount - toastCount + 1;
-            toastBox.innerHTML = '';
-        }
-        toast.innerHTML = msg;
-        toastBox.appendChild(toast);
-        setTimeout(()=> {
-            toast.remove();
-        }, 5000)
-    }
-    document.getElementById('next_button').addEventListener('click', function () {
+    document.getElementById('next_button').addEventListener('click', function (event) {
+        event.preventDefault();
         const formchurches = document.getElementById('churches').value;
         const formroles = document.getElementById('roles').value;
         const formdepartments = document.getElementById('departments').value;
@@ -297,25 +237,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const formothers = document.getElementById('others').value;
 
         if (!formchurches) {
-            showSecondError("Please select your church");
+            toastErr("Please select your church");
         } 
         else if (formchurches === 'other' && !formothers) {
-            showSecondError("Please fill out all fields");
+            toastErr("Please fill out all fields");
         } 
         else if ((formchurches === 'CeAbaranjeGroup' || formchurches === 'CeAtan' || formchurches === 'CeNewigando' || formchurches === 'Cekingeternal' || formchurches === 'CeAbaranje2') && !formroles) {
-            showSecondError("Please fill out all fields");
+            toastErr("Please fill out all fields");
         } 
         else if (formothers === 'from-another-church' && !formzones) {
-            showSecondError("Please select your zone");
+            toastErr("Please select your zone");
         } 
         else if (formzones === 'zonalchurch' && !formchurchname) {
-            showSecondError("Please enter the name of your church");
+            toastErr("Please enter the name of your church");
         } 
         else if (formroles === 'departmental-head' && !formdepartments) {
-            showSecondError("Please enter the name of your department");
+            toastErr("Please enter the name of your department");
         }
         else {
-            hideSecondError();
             document.getElementById('first-form').classList.add('hidden');
             document.getElementById('nextform').classList.add('hidden');
             document.getElementById('passwordform').classList.remove('password-form-hidden');
@@ -323,7 +262,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.getElementById('back2_button').addEventListener('click', function () {
+    document.getElementById('back2_button').addEventListener('click', function (event) {
+        event.preventDefault();
         document.getElementById('first-form').classList.add('hidden');
         document.getElementById('passwordform').classList.add('password-form-hidden');
         document.getElementById('nextform').classList.remove('hidden');
@@ -340,17 +280,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const formconfirmpassword = document.getElementById('pass2').value;
     
         if (!formpassword || !formconfirmpassword) {
-            showPasswordError("Please fill out all password fields");
+            toastErr("Please fill out all password fields");
             console.log("EMPTY INPUTS");
             submitButton.disabled = false;
         } else if (formpassword !== formconfirmpassword) {
-            showPasswordError("Passwords do not match");
+            toastErr("Passwords do not match");
             console.log("not matching INPUTS");
             submitButton.disabled = false; 
         } else {
             try {
-                hidePasswordError();
-    
                 // Getting data from all three forms 
                 const formData1 = new FormData(document.getElementById('first-initial-form'));
                 const formData2 = new FormData(document.getElementById('second-form'));
@@ -375,17 +313,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error('Failed to register user');
                 }
     
-                const result = await response.json();
-                console.log('User registered successfully:', result);
                 disablePrompt();
-                showPrompt("Registration Successful");
-
+                showToast(response);
                 setTimeout(() => {
                     window.location.href = '/login';
                 }, 5000); 
             } catch (error) {
                 console.error(error);
-                showPasswordError('An error occurred');
+                showToast(error);
             } finally {
                 submitButton.disabled = false; 
             }

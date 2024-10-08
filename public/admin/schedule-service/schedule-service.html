@@ -74,10 +74,10 @@
                       <p>Souls Won</p>
                     </li>
                   </a>
-                  <a href="/admin/schedule-service">
+                  <a href="/admin/live-service">
                     <li class="dashboard-items">
                       <i class="fa-regular fa-calendar-days"></i>
-                      <p>Schedule Service</p>
+                      <p>Streaming</p>
                     </li>
                   </a>
                   <a href="/admin/messages">
@@ -111,20 +111,36 @@
             </div>
             <div class="empty-div"></div>
             <div class="overview">
-              <span class="overview-text">
-                <h2>User Details</h2>
-                <p>Verify and update your details</p>
-              </span>
-              <div class="prompt-parent hidden" id="message-prompt">
-                <div class="success-prompt">
-                  <i
-                    class="fa-solid fa-spinner-third fa-2xl"
-                    id="message-sign"
-                  ></i>
-                  <h2 id="message-text"></h2>
-                </div>
-              </div>
               <!-- HERE -->
+              <span class="button-container">
+                <button type="button">+</button>
+              </span>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Date</th>
+                      <th>Limited</th>
+                      <th>Allowed</th>
+                      <th>Status</th>
+                      <th>Views</th>
+                      <!-- <th>Connection</th> Not sure -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>New Stream</td>
+                      <td>Oct 9th, 2024</td>
+                      <td>None</td>
+                      <td>All</td>
+                      <td>scheduled</td>
+                      <td>--</td>
+                      <!-- <td></td> -->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </section>

@@ -37,40 +37,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     //     console.error('Error checking session:', error);
     //     window.location.href = '/login';
     // });
-
-    const messageOverlay = document.getElementById('message-prompt');
-    const messageOverlayText = document.getElementById('message-text');
-    const messageOverlaySign = document.getElementById('message-sign');
-
-    function showPrompt(message) {
-        messageOverlay.classList.remove('hidden');
-        messageOverlayText.textContent = message;
-        if (messageOverlay.timeoutId) {
-            clearTimeout(messageOverlay.timeoutId);
-        }
-        // messageOverlay.timeoutId = setTimeout(() => {
-        //     hidePrompt();
-        // }, 5000);
-    }
-
-    function showErrorPrompt(message) {
-        messageOverlay.classList.remove('hidden');
-        messageOverlaySign.classList.remove('fa-spinner-third', 'fa-2xl');
-        messageOverlaySign.classList.add('fa-solid', 'fa-xmark', 'fa-2xl');
-        messageOverlayText.textContent = message;
-        if (messageOverlay.timeoutId) {
-            clearTimeout(messageOverlay.timeoutId);
-        }   
-        messageOverlay.timeoutId = setTimeout(() => {
-            hidePrompt();
-        }, 3000);
-    }
-
-    function hidePrompt() {
-        messageOverlay.classList.add('hidden');
-        messageOverlaySign.classList.remove('fa-solid', 'fa-xmark', 'fa-2xl');
-        messageOverlaySign.classList.add('fa-spinner-third', 'fa-2xl');
-    }   
     
     document.getElementById('DrawerIcon').addEventListener('click', function() {
         const navbar = document.querySelector('.vertical-navbar');
@@ -87,4 +53,28 @@ document.addEventListener('DOMContentLoaded', async () => {
             navbar.classList.remove('active');
         }
     });
+
+    let rangeValue = 0;
+    const rangeInput = document.getElementById('limit');
+    const rangeValueInput = document.getElementById('range');
+    rangeInput.addEventListener("change", function(){
+        rangeValue = rangeInput.value
+        rangeValueInput.value = rangeValue
+    })
+    rangeValueInput.addEventListener("input", function(){
+        rangeValue = rangeValueInput.value
+        rangeInput.value = rangeValue
+    });
+
+    const showSchedulerBtn = document.getElementById('show_meeting_sch');
+    const schedulerBody = document.querySelector('.meeting-form-container');
+    showSchedulerBtn.addEventListener('click', function() {
+        showSchedulerBtn.classList.toggle('no-action')
+        if (schedulerBody.style.display === "none"){
+            schedulerBody.style.display = "block"
+        } else {
+            schedulerBody.style.display = "none"
+        }
+    })
+
 });

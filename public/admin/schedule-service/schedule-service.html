@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CeAbaranje || Dashboard/EditProfile</title>
     <link rel="icon" href="../src/favicon.ico" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css"/>
+    <!-- <link rel="stylesheet" href="/admin/defaultdashboard.css" /> -->
     <link rel="stylesheet" href="../defaultdashboard.css" />
+    <!-- <link rel="stylesheet" href="/admin/schedule-service/schedule-service.css" /> -->
     <link rel="stylesheet" href="./schedule-service.css" />
     <link rel="stylesheet" href="../../annimations.css" />
     <link rel="stylesheet" href="../../root.css" />
@@ -112,34 +109,176 @@
             <div class="empty-div"></div>
             <div class="overview">
               <!-- HERE -->
-              <span class="button-container">
-                <button type="button">+</button>
-              </span>
-              <div class="table-container">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Date</th>
-                      <th>Limited</th>
-                      <th>Allowed</th>
-                      <th>Status</th>
-                      <th>Views</th>
-                      <!-- <th>Connection</th> Not sure -->
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>New Stream</td>
-                      <td>Oct 9th, 2024</td>
-                      <td>None</td>
-                      <td>All</td>
-                      <td>scheduled</td>
-                      <td>--</td>
-                      <!-- <td></td> -->
-                    </tr>
-                  </tbody>
-                </table>
+              <form action="" class="meeting-form-container" style="display: none;">
+                <div class="form__wrapper" style="display: flex;">
+                  <div class="input-group">
+                    <label for="title">Title</label>
+                    <input
+                      type="text"
+                      required
+                      name="title"
+                      placeholder="Title i.e Sunday Service"
+                    />
+                  </div>
+                  <div class="input-group">
+                    <label for="outline">Service outline</label>
+                    <input
+                      type="text"
+                      name="outline"
+                      required
+                      id="outline"
+                      placeholder="Outline"
+                    />
+                  </div>
+                  <div class="group">
+                    <div class="input-group part">
+                      <label for="">Allowed-participants</label>
+                      <input
+                      required
+                        type="text"
+                        name=""
+                        placeholder="Allowed-participants"
+                      />
+                    </div>
+                    <hr>
+                    <div class="input-group range">
+                      <label for="limit">Limit (optional)</label>
+                      <div class="range-group">
+                        <input type="number" id="range" value="0" title="range"/>
+                        <input
+                          type="range"
+                          name="limit"
+                          id="limit"
+                          title="limit"
+                          min="0"
+                          max="5000"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-group">
+                    <label for="startTime">Starts: Date & Time</label>
+                    <input
+                      required
+                      type="datetime-local"
+                      id="startTime"
+                      name="startTime"
+                      title="start Time"
+                    />
+                  </div>
+                  <div class="input-group">
+                    <label for="EndTime">Ends: Date & Time</label>
+                    <input
+                      type="datetime-local"
+                      required
+                      class="timepicker-ui-input"
+                      id="EndTime"
+                      name="EndTime"
+                      title="End TIme"
+                    />
+                  </div>
+                </div>
+                <div class="button__contianer">
+                  <button type="submit">Schedule</button>
+                </div>
+              </form>
+              <div class="button-container">
+                <button title="Create" type="button" id="show_meeting_sch" class="">
+                  <span>Create</span>
+                  <!-- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFF"><path d="M440-440H240q-17 0-28.5-11.5T200-480q0-17 11.5-28.5T240-520h200v-200q0-17 11.5-28.5T480-760q17 0 28.5 11.5T520-720v200h200q17 0 28.5 11.5T760-480q0 17-11.5 28.5T720-440H520v200q0 17-11.5 28.5T480-200q-17 0-28.5-11.5T440-240v-200Z"/></svg> -->
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+              <div class="row-flex">
+                <div class="table__parent__container">
+                  <p>Live meetings</p>
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Title</th>
+                          <th>Date</th>
+                          <th>Limited</th>
+                          <th>Allowed</th>
+                          <th>Status</th>
+                          <th>Views</th>
+                          <!-- <th>Connection</th> Not sure -->
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="view">New Stream</td>
+  
+                          <td>tue, Oct 8, 2024 5:00 AM</td>
+                          <td>None</td>
+                          <td>All</td>
+                          <td class="">scheduled</td>
+                          <td>--</td>
+                          <!-- <td></td> -->
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="table__parent__container">
+                  <p>Upcoming meetings</p>
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Title</th>
+                          <th>Date</th>
+                          <th>Limited</th>
+                          <th>Allowed</th>
+                          <th>Status</th>
+                          <th>Views</th>
+                          <!-- <th>Connection</th> Not sure -->
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="view">New Stream</td>
+                          <td>tue, Oct 8, 2024 5:00 AM</td>
+                          <td>None</td>
+                          <td>All</td>
+                          <td class="">scheduled</td>
+                          <td>--</td>
+                          <!-- <td></td> -->
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="table__parent__container bottom">
+                <p>Meetings</p>
+                <div class="table-container">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Limited</th>
+                        <th>Allowed</th>
+                        <th>Status</th>
+                        <th>Views</th>
+                        <!-- <th>Connection</th> Not sure -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="view">New Stream</td>
+  
+                        <td>tue, Oct 8, 2024 5:00 AM</td>
+                        <td>None</td>
+                        <td>All</td>
+                        <td class="">scheduled</td>
+                        <td>--</td>
+                        <!-- <td></td> -->
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -147,5 +286,6 @@
       </main>
     </main>
     <script defer src="./schedule-service.js"></script>
+    <!-- <script defer src="/admin/schedule-service/schedule-service.js"></script> -->
   </body>
 </html>

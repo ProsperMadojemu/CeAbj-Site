@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
 :root {
     --primary-color: #2C3E50;     
     --secondary-color: #4A90E2;   
@@ -7,86 +10,352 @@
     --secondary-text-color: #333333; 
     --light-text-color: #5A5A5A;  
     --darker-blue: #04125c; 
+    --default-padding: 0px 10px 0px 40px;
 }
-
-
-.form-container {
-    display: flex;
-    padding: 20px 60px;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: center;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: baseline;
-    justify-content: center;
-    flex: 1;
-    margin: 0px 0px 20px 0px;
-    font-family: 'arial' sans-serif;
-}
-
-.last-group {
-    margin: 0;
-}
-
-.form-group input {
-    display: block;
-    height: 45px;
-    width: 450px;
-    outline: none;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid var(--primary-color);
-    font-size: 1rem;
-    font-weight: 400;
-    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.002);
-    letter-spacing: 0rem;
-    transition: all .3s ease-out;
-}
-
-.form-group input:not(:focus),
-.form-group select:not(:focus) {
-    color: #808080;
-}
-
-.form-group label {
-    font-size: 1.1rem;
-    font-weight: 450;
-    letter-spacing: 0rem;
-}
-
-.form-group input:focus, 
-.form-group select:focus {
-    box-shadow: 1px 1px 20px var(--secondary-color);
-}
-
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none; /* Chrome, Safari, Edge, Opera */
-    margin: 0;
-}
-
-input[type="number"] {
-    appearance: none; 
-}
-
-.form-group select {
-    display: block;
-    height: 45px;
-    width: 450px;
-    outline: none;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid var(--primary-color);
-    font-size: 1rem;
-    font-weight: 400;
-    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.002);
-    letter-spacing: 0rem;
-}
-
 .hidden {
     display: none;
+}
+
+body {
+    overflow: hidden;
+}
+
+.overview {
+    gap: 65px;
+}
+
+@media (width <= 768px) {
+    .empty-div{ 
+        /* height: 10%; */
+    }
+    .overview {
+        justify-content: flex-start;
+        height: 100%;
+    }
+}
+
+.button-container {
+    position: absolute;
+    bottom: 0;
+    right: 15px;
+    padding: 0px 40px 40px 0px;
+}
+.button-container button {
+    padding: 5px 10px;
+    font-size: .875rem;
+    font-size: 650;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: 200ms;
+    border: none;
+    position: relative;
+    background: var(--secondary-color);
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px 3px rgba(0, 0, 0, 0.15);
+    &:hover {
+        justify-content: flex-start;
+        padding: 0px 15px 0px 0px;
+        width: 95px;    
+        border-radius: 15px;
+    }
+    &:active {
+        transform: translateY(2.5px);
+    }
+}
+
+button.no-action {
+    &:hover {
+        justify-content: center !important;
+        padding: 0 !important;
+        width: 50px !important;
+        border-radius: 50% !important;
+    }
+}
+
+.button-container button > span{
+    display: flex;
+    transition: 50ms;
+    visibility: hidden;
+    position: absolute;
+    opacity: 0;
+    right: 50px;
+    color: #fff;
+    font-weight: 550;
+    font-size: .975rem;
+}
+
+.button-container i {
+    font-size: 1.1rem;
+    color: #fff;
+    transition: 200ms;
+}
+
+
+.button-container button.no-action:hover span {
+    right: 50px;
+    visibility: hidden;
+    opacity: 0;
+}
+.button-container button:hover span {
+    left: 10px;
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.button-container button:hover i {
+    transform: rotate(45deg);
+}
+
+.overview {
+    padding: var(--default-padding);
+}
+
+.table__parent__container {
+    /* flex: 1; */
+    width: 48%;    
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.035);
+    background: #fff;
+}
+
+.table-container {
+    /* outline: 1px solid red; */
+    overflow: auto;
+
+}
+
+.table-container table {
+    overflow: hidden;
+    /* background: blue; */
+    table-layout: auto;
+    text-align: left;
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-container table th,
+.table-container table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    text-transform: capitalize;
+    padding: 10px 5px 10px 12px;
+}
+
+.table-container table tr {
+    /* border-bottom: 1px solid #00000013; */
+}
+.table-container table td {
+    border-bottom: 1px solid #00000013;
+}
+
+.table-container table thead{
+    font-size: .875rem;
+    background: #F2F5FC;
+    border-bottom: 1px solid #00000013;
+}
+
+
+td.live{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+td.live::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgb(216, 0, 0);
+}
+
+.table__parent__container p {
+    font-size: .975rem;
+    letter-spacing: normal;
+    padding: 14px 12px;
+    font-weight: bold;
+}
+
+.row-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px
+}
+
+.row-flex .table-container{
+    height: 350px 
+}
+
+.view{
+    transition: 50ms;
+    cursor: pointer;
+    &:hover{
+        text-decoration: underline;
+    }
+}
+
+
+.table__parent__container.bottom {
+    margin: 0px 0px 150px 0px;
+    width: 100%;
+}
+.table__parent__container.bottom > .table-container {
+    min-height: 350px;
+}
+
+.meeting-form-container {
+    position: absolute;
+    background: #fff;
+    padding: 18px 14px 7px 14px;
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    z-index: 20;
+    bottom: 50px;
+    animation: to-bottom 1s ease;
+    overflow: hidden;
+    /* right: 170px; */
+    right: 120px;
+    height: 74%;
+}
+
+.meeting-form-container > .form__wrapper {
+    flex-direction: column;
+    gap: 15px;
+    max-height: 400px;
+    overflow: auto;
+}
+.form__wrapper .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.input-group .range-group {
+    display: flex;
+    /* width: min-content; */
+    gap: 10px;
+}
+
+.input-group label {
+    font-size: .875rem;
+    font-weight: 450;
+}
+
+#limit {
+    padding: 0;
+    cursor: pointer;
+    flex: 2;
+}
+
+#range {
+    flex: 1;
+    max-width:75px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.group {
+    display: flex;
+    width: 100%;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+.group hr {
+    height: 45px;
+
+}
+
+.input-group.part,
+.input-group.range {
+    flex: 1;
+}
+
+.input-group input:valid {
+    border-color: var(--secondary-color);
+}
+
+.input-group input {
+    outline: none;
+    transition: 200ms;
+    border-radius: 8px;
+    border: 1px solid ;
+    font-size: .875rem;
+    padding: 10px 8px;
+}
+
+.button__contianer {
+    padding: 15px 0px 0px 0px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.button__contianer button{
+    padding: 7px 14px;
+    border-radius: 25px;
+    border: none;
+    background: var(--secondary-color);
+    color: #fff;
+    font-size: .875rem;
+    cursor: pointer;
+    font-weight: 545;
+    transition: 50ms ease-in-out;
+    &:hover {
+        background: #4a91e2d8;
+    }
+}
+
+@media (max-width: 768px) {
+    :root{
+        --default-padding: 30px 10px 0px 30px;
+    }
+    .meeting-form-container {
+        right: 120px;
+        bottom: 40px;
+        width: 70%;
+        /* height: 60%; */
+    }
+
+    .meeting-form-container > .form__wrapper {
+        max-height: 380px;
+        padding: 0px 10px 0px 0px;
+    }
+    
+    .group {
+        flex-direction: column;
+    }
+    .group hr {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    
+    .row-flex {
+        flex-direction: column;
+        gap: 60px;
+    }
+    .table__parent__container {
+        /* flex: 1; */
+        width: 100%;    
+    }
+    .meeting-form-container {
+        bottom: 70px;
+        width: 75%;
+        max-height: 450px;
+    }
+    .button-container {
+        bottom: 0;
+        right: 15px;
+        padding: 0px 20px 10px 0px;
+    }
 }

@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Fetch session data
 
 
+    const navbar = document.querySelector('.vertical-navbar');
     document.getElementById('DrawerIcon').addEventListener('click', function() {
-        const navbar = document.querySelector('.vertical-navbar');
         if (!navbar.classList.contains('active')) {
             navbar.classList.add('active');
         }else {
@@ -12,11 +12,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     
     document.getElementById('CloseDrawer').addEventListener('click', function() {
-        const navbar = document.querySelector('.vertical-navbar');
         if (navbar.classList.contains('active')) {
             navbar.classList.remove('active');
         }
     });
+
+    window.addEventListener('resize', ()=> {
+        if (navbar.classList.contains('active')) {
+            navbar.classList.remove('active');
+        }
+    })
 
     const messageOverlay = document.getElementById('message-prompt');
     const messageOverlayText = document.getElementById('message-text');

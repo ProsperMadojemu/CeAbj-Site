@@ -39,21 +39,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Error checking session:', error);
     });
 
-    document.getElementById('DrawerIcon').addEventListener('click', function () {
-        const navbar = document.querySelector('.vertical-navbar');
+    const navbar = document.querySelector('.vertical-navbar');
+    document.getElementById('DrawerIcon').addEventListener('click', function() {
         if (!navbar.classList.contains('active')) {
             navbar.classList.add('active');
-        } else {
+        }else {
             navbar.classList.remove('active');
         }
     });
-
-    document.getElementById('CloseDrawer').addEventListener('click', function () {
-        const navbar = document.querySelector('.vertical-navbar');
+    
+    document.getElementById('CloseDrawer').addEventListener('click', function() {
         if (navbar.classList.contains('active')) {
             navbar.classList.remove('active');
         }
     });
+
+    window.addEventListener('resize', ()=> {
+        if (navbar.classList.contains('active')) {
+            navbar.classList.remove('active');
+        }
+    })
 
 
     function formatDateToDayMonthYear(dateString) {

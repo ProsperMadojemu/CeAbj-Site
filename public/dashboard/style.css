@@ -61,7 +61,16 @@ body .sub-body {
     height: 100%;
     /* background-color: #f9f9f9; */
 }
-
+.vertical-navbar.active::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    left: 260px;
+    width: 100dvw;
+    z-index: -1;
+    background: #00000094;
+    animation: fade 0.5s ease;
+}
 .dashboard-content-title button {
     display: none;        
     width: 40px;

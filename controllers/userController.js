@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs"
 import UsersChurch from "../models/usersChurchModel.js"
 import Users from "../models/usersModel.js"
 import transformFormData from "../utils/formTransformer.js"
-import session from "express-session";
 import Admin from "../models/adminModel.js";
 
 const registerUser = async (req, res) => {
@@ -60,8 +59,7 @@ const registerUser = async (req, res) => {
         await newChurchDetails.save();
         return res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
-        return es.status(400).json({ error: error.message });
-        console.error(error);
+        return res.status(400).json({ error: error.message });
     }
 }
 

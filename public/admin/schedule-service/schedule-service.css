@@ -16,10 +16,6 @@
     display: none;
 }
 
-body {
-    overflow: hidden;
-}
-
 .overview {
     gap: 65px;
 }
@@ -121,8 +117,8 @@ button.no-action {
     /* flex: 1; */
     width: 48%;    
     border-radius: 8px;
-    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.035);
-    background: #fff;
+    box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.039);
+    background: #fdfdfd;
 }
 
 .table-container {
@@ -151,7 +147,10 @@ button.no-action {
 
 .table-container table tr {
     /* border-bottom: 1px solid #00000013; */
+    position: relative;
 }
+
+
 .table-container table td {
     border-bottom: 1px solid #00000013;
 }
@@ -272,12 +271,15 @@ td.live::before {
 
 .group hr {
     height: 45px;
-
 }
 
 .input-group.part,
 .input-group.range {
     flex: 1;
+}
+
+.input-group input.error {
+    border-color: hsl(0, 100%, 48%);
 }
 
 .input-group input:valid {
@@ -314,13 +316,71 @@ td.live::before {
     }
 }
 
+.delete__Button {
+    position: absolute;
+    z-index: 15;
+    left: 0;
+    padding: 0 !important;
+    display: none;
+    transition: 200ms;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+    border-radius: 0px 0px 15px 0px;
+    background: #fff;
+    box-shadow: 2px 2px 5px .1px rgba(0, 0, 0, 0.3);
+}
+
+.delete__Button button {
+    cursor: pointer;
+    border: none;
+    font-size: 1.25rem;
+    background: none;
+    padding: 8px 12px 5px 8px;
+}
+
+.table-container table tr:hover .delete__Button {
+    display: flex;
+}
+
+
+
+tr.skeleton {
+    background: #f0f0f0;
+    height: 307px;
+    width: 100%;
+    position: relative;
+}
+
+td.skeleton {
+    border: none !important;
+}
+
+tr.skeleton::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        #e0e0e0 50%,
+        transparent 70%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1s linear infinite reverse;
+}
+
 @media (max-width: 768px) {
     :root{
         --default-padding: 30px 10px 0px 30px;
     }
     .meeting-form-container {
         right: 120px;
-        bottom: 40px;
+        /* bottom: 40px; */
         width: 70%;
         /* height: 60%; */
     }
@@ -339,7 +399,6 @@ td.live::before {
 }
 
 @media (max-width: 600px) {
-    
     .row-flex {
         flex-direction: column;
         gap: 60px;
@@ -349,13 +408,21 @@ td.live::before {
         width: 100%;    
     }
     .meeting-form-container {
-        bottom: 70px;
+        bottom: 65px;
+        right: 60px;
         width: 75%;
-        max-height: 450px;
+        max-height: 400px;  
     }
     .button-container {
         bottom: 0;
         right: 15px;
         padding: 0px 20px 10px 0px;
     }
+
+    /* WATCH TEMPLATE STYLES */
+    video,
+    .my-video-dimensions {
+        /* height: 250px; */
+    }
 }
+

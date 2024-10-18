@@ -1,121 +1,323 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CeAbaranje || Dashboard/EditProfile</title>
-    <link rel="icon" href="../src/favicon.ico" />
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css"/>
-    <!-- <link rel="stylesheet" href="/admin/defaultdashboard.css" /> -->
-    <link rel="stylesheet" href="../defaultdashboard.css" />
-    <!-- <link rel="stylesheet" href="/admin/schedule-service/schedule-service.css" /> -->
-    <link rel="stylesheet" href="../schedule-service/schedule-service.css" />
-    <link rel="stylesheet" href="../../annimations.css" />
-    <link rel="stylesheet" href="../../root.css" />
-  </head>
-  <body>
-    <main class="sub-body">
-      <main class="dashboard-sub-body">
-        <nav class="vertical-navbar">
-          <div class="vertical-navbar-box">
-            <div class="nocssneeded">
-              <div class="user-details">
-                <i id="CloseDrawer" class="fa-regular fa-xmark closeIcon"></i>
-                <div class="admin-profile-icon">
-                  <span class="greeting-user">
-                    <i class="fa-duotone fa-user fa-2xl"></i>
-                  </span>
-                  <span>
-                    <p class="userGreeting" id="usersdetails">Admin</p>
-                  </span>
-                </div>
-              </div>
-              <hr />
-              <div class="navbar-list-items">
-                <ul class="dashboard-links">
-                  <a href="/admin/overview">
-                    <li class="dashboard-items">
-                      <i class="fa-regular fa-tachograph-digital"></i>
-                      <p>Overview</p>
-                    </li>
-                  </a>
-                  <a href="/admin/view-users">
-                    <li class="dashboard-items">
-                      <i class="fa-regular fa-user-group"></i>
-                      <p>Users</p>
-                    </li>
-                  </a>
-                  <a href="/admin/view-cells-leaders">
-                    <li class="dashboard-items">
-                      <i class="fa-regular fa-users"></i>
-                      <p>Leaders</p>
-                    </li>
-                  </a>
-                  <a href="/admin/addacell">
-                    <li class="dashboard-items">
-                      <i class="fa-regular fa-circle-plus"></i>
-                      <p>New Cell</p>
-                    </li>
-                  </a>
-                  <a href="/admin/view-cell-reports">
-                    <li class="dashboard-items">
-                      <i class="fa-regular fa-chart-bar"></i>
-                      <p>Cell Reports</p>
-                    </li>
-                  </a>
-                  <a href="/admin/souls-won">
-                    <li class="dashboard-items">
-                      <i class="fa-regular fa-trophy"></i>
-                      <p>Souls Won</p>
-                    </li>
-                  </a>
-                  <a href="/admin/live-service">
-                    <li class="dashboard-items">
-                      <i class="fa-regular fa-calendar-days"></i>
-                      <p>Streaming</p>
-                    </li>
-                  </a>
-                  <a href="/admin/messages">
-                    <li class="dashboard-items">
-                      <i class="fa-regular fa-paper-plane-top"></i>
-                      <p>Messages</p>
-                    </li>
-                  </a>
-                </ul>
-              </div>
-            </div>
-            <div class="left-dash-footer">
-              <div class="logout-parent" id="Logout-Button">
-                <div class="logout-button">
-                  <button class="button" id="" type="button">
-                    <i class="fa-solid fa-right-from-bracket fa-lg"></i>Logout
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </nav>
-        <section class="dashboard-content">
-          <div class="dashboard-content-box">
-            <div class="dashboard-content-title">
-              <button class="drawerIcon" id="DrawerIcon">≡</button>
-              <a href="javascript:history.back()" class="go-back">
-                <i class="fa-duotone fa-solid fa-arrow-left"></i>
-              </a>
-              <h1>Schedule</h1>
-            </div>
-            <div class="empty-div"></div>
-            <div class="overview">
-              <!-- HERE -->
-               <h1>Afresh</h1>
-            </div>
-          </div>
-        </section>
-      </main>
-    </main>
-    <script defer src="../schedule-service/schedule-service.js"></script>
-    <!-- <script defer src="/admin/schedule-service/schedule-service.js"></script> -->
-  </body>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>CeAbaranje || Dashboard/EditProfile</title>
+	<link rel="icon" href="../src/favicon.ico" />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap"
+		rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+	<link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css" />
+	<link rel="stylesheet" href="/admin/defaultdashboard.css" />
+	<link rel="stylesheet" href="/admin/templates/watch.css" />
+	<link rel="stylesheet" href="../defaultdashboard.css" />
+	<link rel="stylesheet" href="./watch.css" />
+	<link rel="stylesheet" href="../../annimations.css" />
+	<script src="https://vjs.zencdn.net/7.11.4/video.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+	<style>
+
+	</style>
+</head>
+
+<body>
+	<main class="sub-body">
+		<main class="dashboard-sub-body">
+			<nav class="vertical-navbar">
+				<div class="vertical-navbar-box">
+				  <div class="nocssneeded">
+					<div class="user-details">
+					  <i id="CloseDrawer" class="fa-regular fa-xmark closeIcon"></i>
+					  <div class="admin-profile-icon">
+						<span class="greeting-user">
+						  <i class="fa-duotone fa-user fa-2xl"></i>
+						</span>
+						<span>
+						  <p class="userGreeting" id="usersdetails">Admin</p>
+						</span>
+					  </div>
+					</div>
+					<hr />
+					<div class="navbar-list-items">
+					  <ul class="dashboard-links">
+						<a href="/admin/overview">
+						  <li class="dashboard-items">
+							<i class="fa-regular fa-tachograph-digital"></i>
+							<p>Overview</p>
+						  </li>
+						</a>
+						<a href="/admin/view-users">
+						  <li class="dashboard-items">
+							<i class="fa-regular fa-user-group"></i>
+							<p>Users</p>
+						  </li>
+						</a>
+						<a href="/admin/view-cells-leaders">
+						  <li class="dashboard-items">
+							<i class="fa-regular fa-users"></i>
+							<p>Leaders</p>
+						  </li>
+						</a>
+						<a href="/admin/addacell">
+						  <li class="dashboard-items">
+							<i class="fa-regular fa-circle-plus"></i>
+							<p>New Cell</p>
+						  </li>
+						</a>
+						<a href="/admin/view-cell-reports">
+						  <li class="dashboard-items">
+							<i class="fa-regular fa-chart-bar"></i>
+							<p>Cell Reports</p>
+						  </li>
+						</a>
+						<a href="/admin/souls-won">
+						  <li class="dashboard-items">
+							<i class="fa-regular fa-trophy"></i>
+							<p>Souls Won</p>
+						  </li>
+						</a>
+						  <li class="dashboard-items">
+							<i class="fa-regular fa-calendar-days"></i>
+							<p>Streaming</p>
+						  </li>
+						</a>
+						<a href="/admin/messages">
+						  <li class="dashboard-items">
+							<i class="fa-regular fa-paper-plane-top"></i>
+							<p>Messages</p>
+						  </li>
+						</a>
+					  </ul>
+					</div>
+				  </div>
+				  <div class="left-dash-footer">
+					<div class="logout-parent" id="Logout-Button">
+					  <div class="logout-button">
+						<button class="button" id="" type="button">
+						  <i class="fa-solid fa-right-from-bracket fa-lg"></i>Logout
+						</button>
+					  </div>
+					</div>
+				  </div>
+				</div>
+			</nav>
+			<section class="dashboard-content">
+				<div class="dashboard-content-box">
+					<div class="dashboard-content-title">
+						<button type="button" class="drawerIcon" id="DrawerIcon">≡</button>
+						<a type="button" class="status-changer">Go Live</a>
+					</div>
+					<div class="empty-div"></div>
+					<div class="overview">
+						<div class="left__container">
+							<div class="watch-container">
+								<video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640"
+									height="360" data-setup="{}">
+									<source src="http://localhost:5050/hls/temp.m3u8" type="application/x-mpegURL" />
+								</video>
+								<div class="details">
+									<div class="details__wrappers">
+										Title
+										<p class="title">Website build</p>
+									</div>
+									<div class="details__wrappers">
+										outline
+										<p class="outline">we are still in development</p>
+									</div>
+									<div class="details__wrappers">
+										Duration
+										<p class="duration">10:00:00</p>
+									</div>
+									<div class="details__wrappers">
+										Views
+										<p class="views">5k</p>
+									</div>
+								</div>
+							</div>
+							<div class="tabs-container">
+								<div class="tabs">
+									<a title="Viewers" href="#Viewers">
+										<span>
+											<i class="fa-regular fa-eye"></i>
+											<span class="text">Viewers</span>
+										</span>
+									</a>
+									<a title="Comments" href="#Comments">
+										<span>
+											<i class="fa-regular fa-comment"></i>
+											<span class="text">Comments</span>
+										</span>
+									</a>
+									<a title="Analytics" href="#Analytics">
+										<span>
+											<i class="fa-regular fa-chart-mixed"></i>
+											<span class="text">Metrics</span>
+										</span>
+									</a>
+									<a title="Streammatrics" href="#Streammatrics">
+										<span>
+											<i class="fa-regular fa-chart-network"></i>
+											<span class="text">Stream health</span>
+										</span>
+									</a>
+								</div>
+								<div class="content__wrapper">
+									<div class="content __view" id="Viewers">
+										<div class="content__views__left">
+											<div class="viewer first">Name <span class="viewers_duration_count">Duration</span></div>
+											<ul class="viewers-list">
+												<li class="viewer">Doctor John Richardson <span class="viewers_duration_count">-02:34:20</span></li>
+												<li class="viewer">Doctor John Richardson <span class="viewers_duration_count">-02:34:20</span></li>
+												<li class="viewer">Doctor John Richardson <span class="viewers_duration_count">-02:34:20</span></li>
+												<li class="viewer">Doctor John Richardson <span class="viewers_duration_count">-02:34:20</span></li>
+												<li class="viewer">Doctor John Richardson <span class="viewers_duration_count">-02:34:20</span></li>
+											</ul>
+										</div>
+										<!-- <hr> -->
+										<div class="content__views__right">
+											<div class="viewers-details">
+												<span class="viewers">
+													<h6>Views</h6>
+													<span id="liveviews">--</span>
+												</span>
+												<span class="viewers">
+													<h6>Concurrent viewers</h6>
+													<span id="conViews">--</span>
+												</span>
+												<span class="viewers">
+													<h6>Peak views</h6>
+													<span id="peakviews">--</span>
+												</span>
+											</div>
+											<div class="chart">
+												<canvas id="viewsChart"></canvas>
+											</div>
+										</div>
+									</div>
+									<div class="content __comments" id="Comments">
+										<ul class="comments-list">
+											<li class="comments__list">
+												<div class="comment-name-time">
+													<span class="comment name">John Richardson</span>
+													<span class="comment time">12:09 am</span>
+												</div>
+												<span class="comment">
+													Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis tenetur quas vitae quos illo? Nihil quas, provident illo, cumque voluptate odit dignissimos illum ex, sit eius ratione ipsam praesentium reprehenderit.
+												</span>
+											</li>
+											<li class="comments__list">
+												<div class="comment-name-time">
+													<span class="comment name">John Richardson</span>
+													<span class="comment time">12:09 am</span>
+												</div>
+												<span class="comment">
+													Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis tenetur quas vitae quos illo? Nihil quas, provident illo, cumque voluptate odit dignissimos illum ex, sit eius ratione ipsam praesentium reprehenderit.
+												</span>
+											</li>
+											<li class="comments__list">
+												<div class="comment-name-time">
+													<span class="comment name">John Richardson</span>
+													<span class="comment time">12:09 am</span>
+												</div>
+												<span class="comment">
+													Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis tenetur quas vitae quos illo? Nihil quas, provident illo, cumque voluptate odit dignissimos illum ex, sit eius ratione ipsam praesentium reprehenderit.
+												</span>
+											</li>
+											<li class="comments__list">
+												<div class="comment-name-time">
+													<span class="comment name">John Richardson</span>
+													<span class="comment time">12:09 am</span>
+												</div>
+												<span class="comment">
+													Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis tenetur quas vitae quos illo? Nihil quas, provident illo, cumque voluptate odit dignissimos illum ex, sit eius ratione ipsam praesentium reprehenderit.
+												</span>
+											</li>
+										</ul>
+										<form action="">
+											<textarea placeholder="Message"></textarea>
+											<button type="submit" title="send"><i class="fa-regular fa-paper-plane-top"></i></button>
+										</form>
+									</div>
+									<div class="content __metrics" id="Analytics">
+										<div class="viewers-details -metrics">
+											<span class="viewers">
+												<h6>Peak Views</h6>
+												12
+											</span>
+											<span class="viewers">
+												<h6>Comments</h6>
+												12
+											</span>
+											<span class="viewers">
+												<h6>Likes</h6>
+												16
+											</span>
+										</div>
+										<canvas id="metricsChart"></canvas>
+									</div>
+									<div class="content __health" id="Streammatrics">
+										<div class="health">
+											<h4>Status:</h4>
+											<span class="data_info">No data</span>
+										</div>
+										<canvas id="healthChart"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="right__container">
+							<div class="tabs">
+								<a href="#views">comments</a>
+								<a href="#comments">Viewers</a>
+							</div>	
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+	</main>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const tabs = document.querySelectorAll('.tabs a');
+			const contents = document.querySelectorAll('.content__wrapper .content');
+			function hideAllContents() {
+				contents.forEach(content => {
+					content.style.display = 'none';
+				});
+				tabs.forEach(tab => {
+					tab.classList.remove('active');
+				});
+			}
+			function showContent(tab) {
+				const href = tab.getAttribute('href');
+				const targetContent = document.querySelector(href);
+
+				if (targetContent) {
+					targetContent.style.display = 'flex';
+					tab.classList.add('active');
+				}
+			}
+
+			tabs.forEach(tab => {
+				tab.addEventListener('click', function (event) {
+					event.preventDefault();
+					hideAllContents();
+					showContent(this);
+				});
+			});
+
+			hideAllContents();
+			showContent(tabs[0]);
+		});
+	</script>
+
+	<!-- <script src="./watch.js"></script> -->
+	<script defer src="/admin/templates/watch.js"></script>
+</body>
+
 </html>

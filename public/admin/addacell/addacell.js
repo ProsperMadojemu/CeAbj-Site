@@ -38,8 +38,8 @@ document.addEventListener('DOMContentLoaded', async() => {
         window.location.href = '/login';
     });
 
+    const navbar = document.querySelector('.vertical-navbar');
     document.getElementById('DrawerIcon').addEventListener('click', function() {
-        const navbar = document.querySelector('.vertical-navbar');
         if (!navbar.classList.contains('active')) {
             navbar.classList.add('active');
         }else {
@@ -48,11 +48,16 @@ document.addEventListener('DOMContentLoaded', async() => {
     });
     
     document.getElementById('CloseDrawer').addEventListener('click', function() {
-        const navbar = document.querySelector('.vertical-navbar');
         if (navbar.classList.contains('active')) {
             navbar.classList.remove('active');
         }
     });
+
+    window.addEventListener('resize', ()=> {
+        if (navbar.classList.contains('active')) {
+            navbar.classList.remove('active');
+        }
+    })
 
     document.getElementById('CellType').addEventListener('change', function() {
         handleSelection(this.value);

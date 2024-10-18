@@ -65,8 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error checking session:', error);
     });
     
+    const navbar = document.querySelector('.vertical-navbar');
     document.getElementById('DrawerIcon').addEventListener('click', function() {
-        const navbar = document.querySelector('.vertical-navbar');
         if (!navbar.classList.contains('active')) {
             navbar.classList.add('active');
         }else {
@@ -75,11 +75,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     document.getElementById('CloseDrawer').addEventListener('click', function() {
-        const navbar = document.querySelector('.vertical-navbar');
         if (navbar.classList.contains('active')) {
             navbar.classList.remove('active');
         }
     });
+
+    window.addEventListener('resize', ()=> {
+        if (navbar.classList.contains('active')) {
+            navbar.classList.remove('active');
+        }
+    })
     
     function handleDetailsShown() {
         document.getElementById('Title').value = title;
@@ -138,7 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (response.status === 201 || response.status === 200){
             toast.innerHTML = `${faSuccess} ${data.message}`;
-            console.log(toast);
         } else if(response.status === 400 || response.status === 401 || response.status === 500 || "error" in response){
             toast.classList.add('error');
             toast.innerHTML = `${faError} ${data.message || response.error}`;

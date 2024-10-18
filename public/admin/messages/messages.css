@@ -451,7 +451,7 @@ button[title='compose']:hover {
 .modal,
 .calendar-modal {
     position: absolute;
-    z-index: 20;
+    z-index: 30;
     top: 0;
     left: 0;
     /* transform: translate(-50%); */

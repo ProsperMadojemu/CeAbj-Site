@@ -119,8 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    
-    setInterval(fetchComments, 1000);
 
     function postComment(comment) {
         fetch('http://localhost:5000/comments', {
@@ -165,4 +163,27 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch(error => {
         console.error('Error checking session:', error);
     });
+
+    const ws = new WebSocket('ws://localhost:5000');
+
+    ws.onopen = () => {
+        console.log('connected to server');
+        
+        ws.send(JSON.stringify('hello server'))
+    }
+
+    ws.onmessage= (message) => {
+        const data = message.data;
+        console.log(message);
+        
+        try {
+            console.log(data);
+            
+        } catch (error) {
+             
+        }
+    }
+    ws.onclose = () => {
+        console.log('Disconnected from WebSocket server');
+    };
 });

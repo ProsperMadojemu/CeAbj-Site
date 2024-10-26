@@ -87,6 +87,21 @@ const updateStatus = async (req, res) => {
     }
 }
 
-
+const updateMetting = async (req,res) => {
+    const id = req.params.id;
+    const {fields} = req.body
+    try {
+        const meeting = await meetingModel.findById(id);
+        if (!meeting){
+            return res.status(404).json({ success: false, message: "Meeting not found" });
+        }
+        await meetingModel.findByIdAndUpdate(id, 
+            { $set: fields },
+            { new: true }
+        )
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
 
 export {createMeeting, viewMeetings, deleteMeeting, viewOneMeeting, allowMeetingAccess, updateStatus};

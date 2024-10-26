@@ -208,10 +208,6 @@ video {
   gap: 40px;
   flex: 1;
 }
-
-.content__views__right {
-}
-
 .viewers-details {
   display: flex;
   flex: 1;
@@ -255,6 +251,7 @@ video {
   border-bottom: 1px solid rgba(128, 128, 128, 0.4);
 }
 
+.viewers-list .viewer-offline,
 .viewers-list .viewer {
   display: flex;
   align-items: center;
@@ -264,12 +261,53 @@ video {
   font-size: 0.875rem;
 }
 
+.viewer-offline {
+  color: gray;
+  order: 2;
+}
+
+.status,
 .viewers_duration_count {
   display: flex;
   justify-content: first baseline;
   flex: 1;
+  align-items: center;
   max-width: 80px;
+  position: relative;
 }
+
+.viewers_duration_count {
+  order: 2;
+}
+
+
+.status.online::before {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: green;
+  right: 20px;
+}
+
+
+.status.offline::before {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: gray;
+  right: 20px;
+}
+
+.viewers_name {
+  display: flex;
+  justify-content: first baseline;
+  flex: 1;
+}
+
 
 .content.__comments {
   flex-direction: column;
@@ -362,7 +400,10 @@ button > i {
 .comment.time {
   font-size: 0.785rem;
 }
-
+.comment.__content {
+  flex: 1;
+  width: 100%;
+}
 .content.__metrics {
   flex-direction: column;
 }

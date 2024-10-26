@@ -118,16 +118,16 @@
 							<div class="watch-container">
 								<video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640"
 									height="360" data-setup="{}">
-									<source src="http://localhost:5050/hls/temp.m3u8" type="application/x-mpegURL" />
+									<source src="http://localhost:5050/hls/.m3u8" type="application/x-mpegURL" />
 								</video>
 								<div class="details">
 									<div class="details__wrappers">
 										Title
-										<p class="title">Website build</p>
+										<p class="title"></p>
 									</div>
 									<div class="details__wrappers">
 										outline
-										<p class="outline">we are still in development</p>
+										<p class="outline"></p>
 									</div>
 									<div class="details__wrappers">
 										Duration
@@ -169,13 +169,13 @@
 								<div class="content__wrapper">
 									<div class="content __view" id="Viewers">
 										<div class="content__views__left">
-											<div class="viewer first">Name <span class="viewers_duration_count">Duration</span></div>
+											<div class="viewer first"> <span class="viewers_name">Name</span> <span class="viewers_duration_count">Duration</span><span class="status">Status</span></div>
 											<ul class="viewers-list">
-												<li class="viewer">Doctor John Richardson <span class="viewers_duration_count">-02:34:20</span></li>
-												<li class="viewer">Doctor John Richardson <span class="viewers_duration_count">-02:34:20</span></li>
-												<li class="viewer">Doctor John Richardson <span class="viewers_duration_count">-02:34:20</span></li>
-												<li class="viewer">Doctor John Richardson <span class="viewers_duration_count">-02:34:20</span></li>
-												<li class="viewer">Doctor John Richardson <span class="viewers_duration_count">-02:34:20</span></li>
+												<!-- <li class="viewer offline"> <span class="viewers_name">Doctor John Richardson se</span> <span class="viewers_duration_count">-02:34:20</span> <span class="status offline">Online</span></li>
+												<li class="viewer"> <span class="viewers_name">Doctor John Richardson</span> <span class="viewers_duration_count">-02:34:20</span> <span class="status offline">Online</span></li>
+												<li class="viewer"> <span class="viewers_name">Doctor John Richardson</span> <span class="viewers_duration_count">-02:34:20</span> <span class="status offline">Online</span></li>
+												<li class="viewer"> <span class="viewers_name">Doctor John Richardson</span> <span class="viewers_duration_count">-02:34:20</span> <span class="status offline">Online</span></li>
+												<li class="viewer"> <span class="viewers_name">Doctor John Richardson</span> <span class="viewers_duration_count">-02:34:20</span> <span class="status offline">Online</span></li> -->
 											</ul>
 										</div>
 										<!-- <hr> -->
@@ -186,12 +186,12 @@
 													<span id="liveviews">--</span>
 												</span>
 												<span class="viewers">
-													<h6>Concurrent viewers</h6>
-													<span id="conViews">--</span>
-												</span>
-												<span class="viewers">
 													<h6>Peak views</h6>
 													<span id="peakviews">--</span>
+												</span>
+												<span class="viewers">
+													<h6>Average view duration</h6>
+													<span id="avgViews">--</span>
 												</span>
 											</div>
 											<div class="chart">
@@ -200,13 +200,13 @@
 										</div>
 									</div>
 									<div class="content __comments" id="Comments">
-										<ul class="comments-list">
+										<ul class="comments-list" id="commentsBody">
 											<li class="comments__list">
 												<div class="comment-name-time">
-													<span class="comment name">John Richardson</span>
-													<span class="comment time">12:09 am</span>
+													<span class="comment name" id="comment_name">John Richardson</span>
+													<span class="comment time" id="comment_time">12:09 am</span>
 												</div>
-												<span class="comment">
+												<span class="comment" id="comment_content">
 													Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis tenetur quas vitae quos illo? Nihil quas, provident illo, cumque voluptate odit dignissimos illum ex, sit eius ratione ipsam praesentium reprehenderit.
 												</span>
 											</li>
@@ -230,17 +230,16 @@
 											</li>
 											<li class="comments__list">
 												<div class="comment-name-time">
-													<span class="comment name">John Richardson</span>
-													<span class="comment time">12:09 am</span>
+													<span class="comment name"></span>
+													<span class="comment time"></span>
 												</div>
 												<span class="comment">
-													Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis tenetur quas vitae quos illo? Nihil quas, provident illo, cumque voluptate odit dignissimos illum ex, sit eius ratione ipsam praesentium reprehenderit.
 												</span>
 											</li>
 										</ul>
 										<form action="">
-											<textarea placeholder="Message"></textarea>
-											<button type="submit" title="send"><i class="fa-regular fa-paper-plane-top"></i></button>
+											<textarea placeholder="Message" id="comment_text"></textarea>
+											<button type="submit" title="send" id="comment_send"><i class="fa-regular fa-paper-plane-top"></i></button>
 										</form>
 									</div>
 									<div class="content __metrics" id="Analytics">

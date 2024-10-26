@@ -25,7 +25,14 @@ window.addEventListener("resize", () => {
     }
 });
 
-
+let isLive = false;
+let isFinished = false;
+let data;
+let meetingId;
+let startTime = 0;
+let elapsedTime = 0;
+let intervalId = null;
+const ws = new WebSocket('ws://localhost:5000');
 const hash = window.location.hash;
 const queryString = hash.split("?")[1];
 const meetingButton = document.querySelector('.status-changer')
@@ -34,18 +41,17 @@ const outline = document.querySelector('.outline');
 const duration = document.querySelector('.duration');
 const views = document.querySelector('.views');
 const viewsCount = document.querySelector('#liveviews');
-const concViews = document.querySelector('#conViews');
+const avgViews = document.querySelector('#avgViews');
 const peakViewsCount = document.querySelector('#peakviews');
-let meetingId;
+const participantTable = document.querySelector('.viewers-list')
+const commentSendButton = document.querySelector('#comment_send')
+const commentsBody = document.querySelector('#commentsBody');
 if (queryString) {
     const urlParams = new URLSearchParams(queryString);
     meetingId = urlParams.get("id");
 }
 
-const ws = new WebSocket('ws://localhost:5000');
-let isLive = false;
-let isFinished = false;
-let data;
+
 
 (async () => {
     try {
@@ -59,15 +65,17 @@ let data;
         }
         data = await response.json();
         const meeting = data.meeting;
-        
+        title.innerHTML = meeting.title
+        outline.innerHTML = meeting.outline
+
         if (meeting.status.trim() === 'live') {
             isLive = true;
         }
         if (meeting.status === 'finished') {
-            isFinished = true; 
+            isFinished = true;
         }
         populateData(meeting);
-    } catch (error) { 
+    } catch (error) {
         console.error(error);
     }
 })();
@@ -75,7 +83,7 @@ let data;
 function closeSocket() {
     if (ws.readyState === WebSocket.OPEN) {
         console.log('Closing WebSocket connection...');
-        ws.close(); 
+        ws.close();
     } else {
         console.log('WebSocket is already closed');
     }
@@ -85,18 +93,85 @@ ws.onopen = () => {
     console.log('Connected to the WebSocket server');
 };
 
+let concurrentViewers = []
+
 ws.onmessage = (message) => {
     const socketData = JSON.parse(message.data);
+    const currentTime = new Date().toLocaleTimeString();
     if (socketData.type === 'update') {
-        console.log(message, socketData.type);
+        // console.log(message, socketData.type);
         views.innerHTML = `${socketData.participants || '--'}`;
         viewsCount.innerHTML = `${socketData.participants || '--'}`;
-        // concViews.innerHTML = `${socketData.names.length || '--'}`;
-        peakViewsCount.innerHTML = `${socketData.names.length || '--'}`;
+        avgViews.innerHTML = `${socketData.averageViewDuration || '--'}`;
+        peakViewsCount.innerHTML = `${socketData.peakParticipants || '--'}`;
+        concurrentViewers.push({ views: socketData.peakParticipants, timestamp: currentTime });
+        console.log(socketData.names);
+        populateTable(socketData.names)
+        updateViews(socketData);
+    }
+    if (socketData.type === 'new-comment') {
+        const { comment } = socketData
+        console.log(comment);
+        populateComments(comment);
+    }
+    if (socketData.type === 'stat-update') {
+        const { stats } = socketData
+        console.log("stats:",stats);
     }
 };
 
+function formatTime(seconds) {
+    const totalSeconds = Math.round(seconds);
+    const hrs = Math.floor(totalSeconds / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+
+    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+function populateComments(data) {
+    commentsBody.innerHTML = ''
+    data.forEach(user => {
+        const li = document.createElement('li');
+        li.classList.add("comments__list");
+        li.innerHTML = `
+            <div class="comment-name-time">
+                <span class="comment name">${user.name}</span>
+                <span class="comment time">${user.time}</span>
+            </div>
+            <span class="comment __content">${user.content}</span>
+        `
+        commentsBody.appendChild(li);
+    });
+}
+
+function populateTable(data) {
+    participantTable.innerHTML = ''
+    data.forEach(user => {
+        let durationCount = user.duration;
+        const li = document.createElement('li');
+        li.classList.add(`viewer${user.isOnline ? '' : '-offline'}`);
+        const span = document.createElement('span');
+        span.classList.add('viewers_duration_count')
+        span.textContent = formatTime(durationCount)
+        if (user.isOnline) {
+            const intervalId = setInterval(() => {
+                durationCount += 1;
+                span.textContent = formatTime(durationCount)
+            }, 1000);
+        }
+        li.innerHTML = `
+            <span class="viewers_name">${user.email === 'admin@ceabaranje.com' ? 'Admin' : user.name}</span> 
+            <span class="status ${user.isOnline ? 'online' : 'offline'}">${user.isOnline ? 'Online' : 'Offline'}</span>
+        `
+        li.appendChild(span);
+        participantTable.appendChild(li);
+    });
+}
+
+
 ws.onclose = () => {
+    ws.send(JSON.stringify({ type: 'disconnect', duration }));
     console.log('Disconnected from WebSocket server');
 };
 
@@ -107,10 +182,10 @@ function populateData(meeting) {
     if (!isLive && !isFinished) {
         console.log('condition met: Scheduled');
         closeSocket();
-        if (meetingButton.classList.contains('live') ) {
+        if (meetingButton.classList.contains('live')) {
             meetingButton.classList.remove('live');
         }
-        if (meetingButton.classList.contains('finished') ) {
+        if (meetingButton.classList.contains('finished')) {
             meetingButton.classList.remove('finished');
         }
     }
@@ -122,6 +197,31 @@ function populateData(meeting) {
         }
     }
 }
+
+function getTimeFormat(date) {
+    const hour = date.getHours();
+    const minutes = date.getMinutes();
+    return `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`
+}
+
+commentSendButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    const commentText = document.querySelector('#comment_text').value;
+    const date = new Date();
+    try {
+        if (ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({
+                type: 'comment',
+                name: 'Admin',
+                content: commentText,
+                time: getTimeFormat(date)
+            }))
+        }
+        document.querySelector('#comment_text').value = '';
+    } catch (err) {
+        console.log(err);
+    }
+});
 
 meetingButton.addEventListener('click', async () => {
     if (!isLive && !isFinished) {
@@ -144,7 +244,7 @@ async function updateStatus(status) {
         const response = await fetch(`/api/meeting/status/${meetingId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({status: status})
+            body: JSON.stringify({ status: status })
         });
         if (!response.ok) {
             throw new Error("Failed to find meeting.");
@@ -155,7 +255,7 @@ async function updateStatus(status) {
             meetingButton.innerHTML = `${newData.message === 'scheduled' ? 'Go Live' : newData.message}`
             meetingButton.classList.add(`${newData.message}`);
         }
-        
+
     } catch (error) {
         console.log(error);
     }
@@ -211,10 +311,6 @@ const healthChart = new Chart(ctx, {
 
 // views chart
 const vtx = document.getElementById("viewsChart").getContext("2d");
-let concurrentViews = 0;
-let peakViews = 0;
-let totalViews = 0;
-
 const MAX_POINTS = 20;
 
 const viewsChart = new Chart(vtx, {
@@ -224,23 +320,30 @@ const viewsChart = new Chart(vtx, {
         datasets: [
             {
                 label: "Concurrent Views",
-                data: [], // Real-time updates for concurrent views
+                data: [0],
                 borderColor: "blue",
-                fill: false,
+                borderWidth: 2,
+                fill: true,
+                backgroundColor: "rgba(0, 0, 255, 0.2)",
                 pointRadius: 0,
             },
             {
                 label: "Peak Views",
-                data: [], // Peak view updates
+                data: [0],
                 borderColor: "red",
-                fill: false,
+                borderWidth: 2,
+                fill: true,
+                backgroundColor: "rgba(255, 0, 0, 0.2)",
                 pointRadius: 0,
             },
             {
-                label: "Total Views",
-                data: [], // Total view count over time
+                label: "Views",
+                data: [0],
+                padding: '10',
                 borderColor: "green",
-                fill: false,
+                borderWidth: 2,
+                fill: true,
+                backgroundColor: "rgba(0, 255, 0, 0.2)",
                 pointRadius: 0,
             },
         ],
@@ -257,47 +360,80 @@ const viewsChart = new Chart(vtx, {
                     maxRotation: 0,
                     minRotation: 0,
                 },
+                grid: {
+                    display: false, // Hide vertical grid lines
+                },
             },
             y: {
                 title: {
                     display: true,
                     text: "Views",
                 },
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 2, // Steps of 2: 0, 2, 4, 6, etc.
+                    callback: function (value) {
+                        return value; // Display the tick value as is
+                    }
+                },
+                suggestedMax: 12, // Initial max value
+                grid: {
+                    drawOnChartArea: true, // Hide vertical lines
+                },
             },
         },
-        animation: {
-            duration: 0,
-        },
-    },
+        plugins: {
+            // Custom plugin to dynamically adjust the y-axis max value based on data
+            afterDatasetUpdate: function (chart) {
+                const dataset0Max = Math.max(...chart.data.datasets[0].data);
+                const dataset1Max = Math.max(...chart.data.datasets[1].data);
+                const dataset2Max = Math.max(...chart.data.datasets[2].data);
+
+                // Get the maximum value from all datasets
+                const maxViews = Math.max(dataset0Max, dataset1Max, dataset2Max);
+
+                // Adjust the y-axis max to the next multiple of 4
+                const dynamicMax = Math.ceil(maxViews / 4) * 4 + 4;
+
+                // Set the new max dynamically
+                chart.options.scales.y.suggestedMax = dynamicMax;
+                chart.update(); // Force the chart to re-render with new max
+            }
+        }
+    }
 });
-function updateViews() {
+
+
+function updateViews(socketData) {
     const currentTime = new Date().toLocaleTimeString(); // Use current time for x-axis labels
 
-    // Simulate new concurrent viewers (you'd replace this with real-time data)
-    concurrentViews = Math.floor(Math.random() * 100);
-    totalViews += concurrentViews > 0 ? 1 : 0; // Increment total views if any viewers present
-
-    // Check for peak views
-    if (concurrentViews > peakViews) {
-        peakViews = concurrentViews;
-    }
-
     if (viewsChart.data.labels.length >= MAX_POINTS) {
-        // Remove oldest data to keep chart clean
         viewsChart.data.labels.shift();
         viewsChart.data.datasets[0].data.shift();
         viewsChart.data.datasets[1].data.shift();
         viewsChart.data.datasets[2].data.shift();
     }
-
     // Update chart data
     viewsChart.data.labels.push(currentTime);
-    viewsChart.data.datasets[0].data.push(concurrentViews); // Concurrent Views
-    viewsChart.data.datasets[1].data.push(peakViews); // Peak Views
-    viewsChart.data.datasets[2].data.push(totalViews); // Total Views
+    viewsChart.data.datasets[0].data.push(); // Concurrent Views
+    viewsChart.data.datasets[1].data.push(socketData.peakParticipants); // Peak Views
+    viewsChart.data.datasets[2].data.push(socketData.participants); // Total Views
     viewsChart.update();
 }
 
+function concurrentChart() {
+    let arrLength = concurrentViewers.length - 1
+
+    if (concurrentViewers.length > 0) {
+        viewsChart.data.labels.push(concurrentViewers[arrLength].timestamp);
+        viewsChart.data.datasets[0].data.push(concurrentViewers[arrLength].views);
+        viewsChart.update();
+    }
+}
+
+setInterval(() => {
+    concurrentChart();
+}, 60000);
 //metrics chart
 const mtx = document.getElementById("metricsChart").getContext("2d");
 const metricsChart = new Chart(mtx, {

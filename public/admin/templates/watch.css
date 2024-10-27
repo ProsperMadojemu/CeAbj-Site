@@ -80,11 +80,10 @@
   background-color: #2c3e5096;
 }
 
-.my-video-dimensions,
-video {
-  width: 100%;
-  max-width: 350px;
-  height: 250px;
+.watch__container {
+  flex: 1;
+  height: 300px;
+  max-width: 320px;
 }
 
 .left__container {
@@ -414,7 +413,21 @@ button > i {
 
 .content.__health {
   flex-direction: column;
+  gap: 10px !important;
 }
+
+.content.content.__health .stat span{
+  font-size: .975rem;
+}
+.content.content.__health .stat {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0px 0px 0px 25px;
+  font-size: 0.975rem;
+}
+
+
 
 .content.__health .data_info {
   font-size: 0.875rem;

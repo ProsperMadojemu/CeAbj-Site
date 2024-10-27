@@ -46,12 +46,33 @@ const peakViewsCount = document.querySelector('#peakviews');
 const participantTable = document.querySelector('.viewers-list')
 const commentSendButton = document.querySelector('#comment_send')
 const commentsBody = document.querySelector('#commentsBody');
+const statusBody = document.querySelector('.data_info');
+const resolutionBody = document.querySelector('.resolution');
+const fpsBody =  document.querySelector('.Fps');
+const codecBody =  document.querySelector('.Codec');
+const incomingDataBody =  document.querySelector('.Incoming-data');
+const outgoingDataBody =  document.querySelector('.Outgoing-data');
+const audioCodecBody = document.querySelector('.audiocodec');
+const sampleRateBody = document.querySelector('.sample-rate');
+const peakViews2 = document.querySelector('.peak_views2');
+const commentsLength = document.querySelector('.commentslength');
+const audioChannelsBody = document.querySelector('.channels')
 if (queryString) {
     const urlParams = new URLSearchParams(queryString);
     meetingId = urlParams.get("id");
 }
 
-
+function bytesToKbps(bytes, timeInSeconds) {
+    if (timeInSeconds <= 0) {
+      throw new Error("Time must be greater than zero.");
+    }
+  
+    const bits = bytes * 8; 
+    const kilobits = bits / 1000; // Convert bits to kilobits
+    const kbps = kilobits / timeInSeconds; // Calculate kbps
+  
+    return Math.round(kbps);
+}
 
 (async () => {
     try {
@@ -94,6 +115,10 @@ ws.onopen = () => {
 };
 
 let concurrentViewers = []
+let users;
+let comments;
+let avgViewDur= 0;
+let viewCount = 0;
 
 ws.onmessage = (message) => {
     const socketData = JSON.parse(message.data);
@@ -103,20 +128,53 @@ ws.onmessage = (message) => {
         views.innerHTML = `${socketData.participants || '--'}`;
         viewsCount.innerHTML = `${socketData.participants || '--'}`;
         avgViews.innerHTML = `${socketData.averageViewDuration || '--'}`;
+        peakViews2.innerHTML= `${socketData.peakParticipants}`
         peakViewsCount.innerHTML = `${socketData.peakParticipants || '--'}`;
         concurrentViewers.push({ views: socketData.peakParticipants, timestamp: currentTime });
-        console.log(socketData.names);
         populateTable(socketData.names)
+        console.log();
+        users = socketData.names;
+        avgViewDur = socketData.averageViewDuration
+        viewCount = socketData.peakParticipants
         updateViews(socketData);
     }
     if (socketData.type === 'new-comment') {
         const { comment } = socketData
+        comments = socketData.comment;
+        commentsLength.innerHTML = `${comment.length}`
         console.log(comment);
         populateComments(comment);
     }
     if (socketData.type === 'stat-update') {
         const { stats } = socketData
-        console.log("stats:",stats);
+        const video = stats.rtmp.server[0].application[0].live[0].stream[0].meta[0].video[0];
+        const audio = stats.rtmp.server[0].application[0].live[0].stream[0].meta[0].audio[0];
+        const bytes_in = stats.rtmp.bytes_in[0];
+        const bytes_out = stats.rtmp.bytes_out[0];
+        const streamStatus = stats.rtmp.server[0].application[0].live[0].nclients[0];
+        const time = stats.rtmp.uptime[0];
+        const kbps_in = bytesToKbps(bytes_in, time);
+        
+        const streamInfo = {
+          videoCodec: video.codec[0],
+          resolution: `${video.width[0]}x${video.height[0]}`,
+          frameRate: video.frame_rate[0],
+          audioCodec: audio.codec[0],
+          sampleRate: audio.sample_rate[0],
+          channels: audio.channels[0],
+        //   status: data.rtmp.server[0].application[0].live[0].stream[0].publishing ? 'Active' : 'Inactive'
+        };
+        // console.log('bytes_in:',bytes_in, "bytes_out:", bytes_out, "streamStatus:",streamStatus, "time",time);
+        updateHealth(streamInfo, kbps_in);
+        codecBody.innerHTML = `${streamInfo.videoCodec}`
+        resolutionBody.innerHTML = `${streamInfo.resolution}`
+        statusBody.innerHTML = `${streamStatus > 0 ? "Connected to stream" : "No data is being received"}`
+        incomingDataBody.innerHTML = `${kbps_in} kbps`
+        audioCodecBody.innerHTML= `${streamInfo.audioCodec}`
+        sampleRateBody.innerHTML= `${streamInfo.sampleRate/1000}khz`
+        audioChannelsBody.innerHTML= `${streamInfo.channels}`
+        // outgoingDataBody.innerHTML = `${stats}`
+        fpsBody.innerHTML = `${streamInfo.frameRate}`
     }
 };
 
@@ -145,6 +203,8 @@ function populateComments(data) {
     });
 }
 
+
+
 function populateTable(data) {
     participantTable.innerHTML = ''
     data.forEach(user => {
@@ -168,7 +228,6 @@ function populateTable(data) {
         participantTable.appendChild(li);
     });
 }
-
 
 ws.onclose = () => {
     ws.send(JSON.stringify({ type: 'disconnect', duration }));
@@ -195,6 +254,28 @@ function populateData(meeting) {
         if (!meetingButton.classList.contains('finished')) {
             meetingButton.classList.add('finished');
         }
+    }
+}
+
+async function handleMeetingEnd(){
+    try {
+        const response = await fetch(`/api/meeting/update/${meetingId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                fields: {
+                    comment: comments,
+                    views: viewCount,
+                    viewers: users,
+                    averageViewDuration: avgViewDur
+                }
+            })
+        });
+        if (!response.ok) {
+            throw new Error("Failed to update meeting.");
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -226,12 +307,13 @@ commentSendButton.addEventListener('click', (e) => {
 meetingButton.addEventListener('click', async () => {
     if (!isLive && !isFinished) {
         console.log('meeting is not live');
-        updateStatus('live');
+        updateStatus('live');    
         location.reload();
     }
     if (isLive && !isFinished) {
         console.log('meeting is live');
         updateStatus('finished');
+        handleMeetingEnd();
         meetingButton.classList.remove('live');
     }
     if (!isLive && isFinished) {
@@ -272,22 +354,16 @@ const healthChart = new Chart(ctx, {
         datasets: [
             {
                 label: "Bitrate (kbps)",
-                data: [], // y-axis values for bitrate
+                data: [0], 
                 borderColor: "blue",
                 fill: false,
             },
             {
                 label: "Key Frames (fps)",
-                data: [], // y-axis values for key frames
+                data: [0],
                 borderColor: "green",
                 fill: false,
-            },
-            {
-                label: "Peak Viewers",
-                data: [], // y-axis values for peak viewers
-                borderColor: "red",
-                fill: false,
-            },
+            }
         ],
     },
     options: {
@@ -295,8 +371,7 @@ const healthChart = new Chart(ctx, {
         scales: {
             x: {
                 title: {
-                    display: true,
-                    text: "Time (s)",
+                    display: false,
                 },
             },
             y: {
@@ -415,10 +490,24 @@ function updateViews(socketData) {
     }
     // Update chart data
     viewsChart.data.labels.push(currentTime);
-    viewsChart.data.datasets[0].data.push(); // Concurrent Views
     viewsChart.data.datasets[1].data.push(socketData.peakParticipants); // Peak Views
     viewsChart.data.datasets[2].data.push(socketData.participants); // Total Views
     viewsChart.update();
+}
+
+function updateHealth(streamInfo, kbps_in) {
+    const currentTime = new Date().toLocaleTimeString(); // Use current time for x-axis labels
+
+    if (healthChart.data.labels.length >= MAX_POINTS) {
+        healthChart.data.labels.shift();
+        healthChart.data.datasets[0].data.shift();
+        healthChart.data.datasets[1].data.shift();
+    }
+    // Update chart data
+    healthChart.data.labels.push(currentTime);
+    healthChart.data.datasets[0].data.push(kbps_in); // Peak Views
+    healthChart.data.datasets[1].data.push(streamInfo.frameRate); // Total Views
+    healthChart.update();
 }
 
 function concurrentChart() {

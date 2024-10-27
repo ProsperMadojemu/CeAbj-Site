@@ -116,10 +116,12 @@
 					<div class="overview">
 						<div class="left__container">
 							<div class="watch-container">
-								<video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640"
-									height="360" data-setup="{}">
-									<source src="http://localhost:5050/hls/.m3u8" type="application/x-mpegURL" />
-								</video>
+								<div class="watch__container">
+									<video id="my-video" class="video-js vjs-default-skin" controls preload="auto"
+										data-setup='{"fluid": true}'>
+										<source src="http://localhost:5050/hls/.m3u8" type="application/x-mpegURL" />
+									</video>
+								</div>
 								<div class="details">
 									<div class="details__wrappers">
 										Title
@@ -171,11 +173,7 @@
 										<div class="content__views__left">
 											<div class="viewer first"> <span class="viewers_name">Name</span> <span class="viewers_duration_count">Duration</span><span class="status">Status</span></div>
 											<ul class="viewers-list">
-												<!-- <li class="viewer offline"> <span class="viewers_name">Doctor John Richardson se</span> <span class="viewers_duration_count">-02:34:20</span> <span class="status offline">Online</span></li>
-												<li class="viewer"> <span class="viewers_name">Doctor John Richardson</span> <span class="viewers_duration_count">-02:34:20</span> <span class="status offline">Online</span></li>
-												<li class="viewer"> <span class="viewers_name">Doctor John Richardson</span> <span class="viewers_duration_count">-02:34:20</span> <span class="status offline">Online</span></li>
-												<li class="viewer"> <span class="viewers_name">Doctor John Richardson</span> <span class="viewers_duration_count">-02:34:20</span> <span class="status offline">Online</span></li>
-												<li class="viewer"> <span class="viewers_name">Doctor John Richardson</span> <span class="viewers_duration_count">-02:34:20</span> <span class="status offline">Online</span></li> -->
+												<!-- POPULATED FROM JS -->
 											</ul>
 										</div>
 										<!-- <hr> -->
@@ -201,41 +199,7 @@
 									</div>
 									<div class="content __comments" id="Comments">
 										<ul class="comments-list" id="commentsBody">
-											<li class="comments__list">
-												<div class="comment-name-time">
-													<span class="comment name" id="comment_name">John Richardson</span>
-													<span class="comment time" id="comment_time">12:09 am</span>
-												</div>
-												<span class="comment" id="comment_content">
-													Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis tenetur quas vitae quos illo? Nihil quas, provident illo, cumque voluptate odit dignissimos illum ex, sit eius ratione ipsam praesentium reprehenderit.
-												</span>
-											</li>
-											<li class="comments__list">
-												<div class="comment-name-time">
-													<span class="comment name">John Richardson</span>
-													<span class="comment time">12:09 am</span>
-												</div>
-												<span class="comment">
-													Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis tenetur quas vitae quos illo? Nihil quas, provident illo, cumque voluptate odit dignissimos illum ex, sit eius ratione ipsam praesentium reprehenderit.
-												</span>
-											</li>
-											<li class="comments__list">
-												<div class="comment-name-time">
-													<span class="comment name">John Richardson</span>
-													<span class="comment time">12:09 am</span>
-												</div>
-												<span class="comment">
-													Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis tenetur quas vitae quos illo? Nihil quas, provident illo, cumque voluptate odit dignissimos illum ex, sit eius ratione ipsam praesentium reprehenderit.
-												</span>
-											</li>
-											<li class="comments__list">
-												<div class="comment-name-time">
-													<span class="comment name"></span>
-													<span class="comment time"></span>
-												</div>
-												<span class="comment">
-												</span>
-											</li>
+											<!-- POPULATED FROM JS -->
 										</ul>
 										<form action="">
 											<textarea placeholder="Message" id="comment_text"></textarea>
@@ -246,15 +210,15 @@
 										<div class="viewers-details -metrics">
 											<span class="viewers">
 												<h6>Peak Views</h6>
-												12
+												<span class="peak_views2">--</span>
 											</span>
 											<span class="viewers">
 												<h6>Comments</h6>
-												12
+												<span class="commentslength">--</span>
 											</span>
 											<span class="viewers">
 												<h6>Likes</h6>
-												16
+												<span class="likes">--</span>
 											</span>
 										</div>
 										<canvas id="metricsChart"></canvas>
@@ -262,7 +226,45 @@
 									<div class="content __health" id="Streammatrics">
 										<div class="health">
 											<h4>Status:</h4>
-											<span class="data_info">No data</span>
+											<div class="data_info">No data is being recieved</div>
+										</div>
+										<div class="video">
+											Video Data: 
+											<div class="stat __resolution">
+												<h5>Resolution:</h5>
+												<span class="resolution">No data</span>
+											</div>
+											<div class="stat __Fps">
+												<h5>Fps:</h5>
+												<span class="Fps">No data</span>
+											</div>
+											<div class="stat __Codec">
+												<h5>Codec:</h5>
+												<span class="Codec">No data</span>
+											</div>
+											<div class="stat __Incoming-data">
+												<h5>Incoming (Bitrate):</h5>
+												<span class="Incoming-data">No data</span>
+											</div>
+											<div class="stat __Outgoing-data">
+												<h5>Outgoing (Bitrate):</h5>
+												<span class="Outgoing-data">No data</span>
+											</div>
+										</div>
+										<div class="audio">
+											Audio Data:
+											<div class="stat __sample-rate">
+												<h5>Sample Rate: </h5>
+												<span class="sample-rate"></span>
+											</div>
+											<div class="stat __audioCodec">
+												<h5>Codec:</h5>
+												<span class="audiocodec"></span>
+											</div>
+											<div class="stat __channels">
+												<h5>Channel: </h5>
+												<span class="channels"></span>
+											</div>
 										</div>
 										<canvas id="healthChart"></canvas>
 									</div>

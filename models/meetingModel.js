@@ -7,7 +7,7 @@ const streamSchema = new mongoose.Schema({
     allowedParticipants: {type: String, default: 'All', required: true},
     views: {type: Number, required: false},
     status: { type: String, enum: ['scheduled', 'live', 'finished'], default: 'scheduled' },
-    viewers: {type: mongoose.Schema.Types.ObjectId, ref: 'users'},
+    viewers: {type: Array, required: false},
     likes: {type: Number, required: false},
     comments: {type: Array, required: false},
     startDate: {type: Date, required: true},
@@ -15,7 +15,6 @@ const streamSchema = new mongoose.Schema({
 });
 
 // if current number plus the number saved in a variable is less than the one in the db add and post+-
-
 const meetingModel = new mongoose.model("meetings", streamSchema);
 
 export default meetingModel;

@@ -104,4 +104,4 @@ const updateMetting = async (req,res) => {
     }
 }
 
-export {createMeeting, viewMeetings, deleteMeeting, viewOneMeeting, allowMeetingAccess, updateStatus};
+export {createMeeting, viewMeetings, deleteMeeting, viewOneMeeting, allowMeetingAccess, updateStatus, updateMetting};

@@ -162,9 +162,6 @@ body .sub-body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
-    /* justify-content: center;
-    align-self: center; */
     position: relative;
     z-index: 1;
 }
@@ -175,7 +172,6 @@ body .sub-body {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    /* height: 150px; */
     flex: 1;
 }
 
@@ -204,6 +200,7 @@ body .sub-body {
 
 .admin-profile-icon .userGreeting { /* welcome greeting */
     text-wrap: nowrap;
+    white-space: nowrap;
     text-transform: capitalize;
     font-size: 1.4rem;
     letter-spacing: .0001px;
@@ -229,6 +226,8 @@ hr {
     height: 50px;
     border-radius: 50%;
 }
+
+
 
 .edit-profile {  /* button not in use for this page */
     position: relative;
@@ -259,10 +258,12 @@ hr {
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
+    overflow-x: auto;
     font-size: 1.15rem;
     color: var(--primary-text-color);
     text-shadow: 2px 1px 5px rgba(0, 0, 0, 0.089);
     padding: 0px 10px;
+    direction: rtl;
 }
 
 .dashboard-links { /* ul tag holding all the list items (.navbar-list-items) */
@@ -277,6 +278,7 @@ hr {
     width: 100%;
     display: flex;
     text-align: left;
+    flex-direction: row-reverse;
     justify-content: space-between;
     align-items: center;
     border-radius: 8px;
@@ -378,15 +380,6 @@ hr {
     background: var(--primary-color);
     color: #f9f9f99f;
     box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.219);
-    & {
-        @media (width<=985px) {
-            padding: 10px 20px;
-        }
-
-        @media (width<=785px) {
-            padding: 10px 10px;
-        }
-    }
 }
 
 
@@ -597,7 +590,7 @@ hr {
 
 @media (width<= 985px) {
     .overview-text {
-        margin-left: 20px;
+        margin-left: 0px;
     }
 }
 
@@ -609,5 +602,26 @@ hr {
         justify-content: center;
         height: 100%;
     }
+    .nocssneeded > .user-details { /* holds all the content in the first half of the vertical navbar */
+        flex:0;
+    }
+    .nocssneeded {
+        justify-content: space-evenly;
+    }
+    .greeting-user i {
+        font-size: 26px;
+    }
+    .greeting-user {
+        width: 45px !important;
+        height: 45px !important;
+    }
+    .navbar-list-items {
+        min-height: 100px;
+    }
+
+    .dashboard-content-title{
+        padding: 10px 0px;
+    }
 }
+
 

@@ -66,11 +66,9 @@ function bytesToKbps(bytes, timeInSeconds) {
     if (timeInSeconds <= 0) {
       throw new Error("Time must be greater than zero.");
     }
-  
     const bits = bytes * 8; 
-    const kilobits = bits / 1000; // Convert bits to kilobits
-    const kbps = kilobits / timeInSeconds; // Calculate kbps
-  
+    const kilobits = bits / 1000; 
+    const kbps = kilobits / timeInSeconds;
     return Math.round(kbps);
 }
 

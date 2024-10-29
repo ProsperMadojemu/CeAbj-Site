@@ -152,6 +152,10 @@ const searchAndUpdateLeaderById = async (req, res) => {
     }
 }
 
+const leadersApi = async (req,res) => {
+    
+}
+
 const searchForLeader = async (req, res) => {
     try {
         const searchTerm = req.query.q || "";

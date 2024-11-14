@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                         if (user) {
                             const userChurchDetails = data.usersChurch.find(uc => uc.FirstName === user.FirstName && uc.LastName === user.LastName);
-                            
                             name = user.FirstName;
                             lname = user.LastName;
                             phone = user.PhoneNumber;
@@ -175,7 +174,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const formJSON = Object.fromEntries(formData.entries());
     
                 console.log('JSON data to be sent:', JSON.stringify(formJSON));
-                const response = await fetch('/submitcellreport', {
+                const response = await fetch('/api/reports/submit', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

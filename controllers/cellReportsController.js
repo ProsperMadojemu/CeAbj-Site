@@ -48,133 +48,112 @@ const submitReport = async (req,res) => {
     }
 }
 
-const searchReports = async (req, res) => {
+const listReports = async (req, res) => {
     try {
-        const pcfLeader = req.params.id;
-        const findPcfLeader = await newCell.findById(pcfLeader);
-        const currentDate = new Date();
-        const tomorrowDate = new Date(currentDate);
-        tomorrowDate.setDate(currentDate.getDate() + 1);
-        const yesterdayDate = new Date(currentDate);
-        yesterdayDate.setDate(currentDate.getDate() - 1);
-        // console.log('today:', tomorrowDate);
+        const page = Math.max(1, parseInt(req.query.page) || 1); 
+        const limit = parseInt(req.query.limit) === 0 ? 0 : parseInt(req.query.limit) || 10;
+        const search = req.query.search || "";
+        const sort = req.query.sort || "";
+        const pcfFilter = req.query.pcf || "All";
+        const statusFilter = req.query.status || "All";
+        const dateFilter = req.query.date || "all";
 
-        if (!findPcfLeader) {
-            return res.status(404).json({ error: "Leader not found" });
-        }
+        const pcfs = await newCell.distinct("NameOfPcf");
 
-        const pcfName = findPcfLeader.NameOfPcf;
-        const cellReports = await usersCellReport.find(
-            {
-                SubmissionDate: {
-                    $gte: yesterdayDate,
-                    $lt: tomorrowDate,
-                },
-                NameOfPcf: pcfName,
-            },
-            {
-                FirstName: 1,
-                LastName: 1,
-                CellName: 1,
-                ServiceAttendance: 1,
-                SundayFirstTimers: 1,
-                CellMeetingAttendance: 1,
-                CellFirstTimers: 1,
-                PhoneNumber: 1,
-                offering: 1,
-                NameOfPcf: 1,
-                SubmissionDate: 1,
-                _id: 1,
-            }
-        );
+        const [sortField, sortOrder] = sort.split(",");
+        const sortBy = { [sortField || "createdAt"]: sortOrder === "desc" ? -1 : 1 }; 
 
-        // console.log(cellReports);
-
-        const leadersUnderPcf = await newCell.find(
-            { NameOfPcf: pcfName },
-            {
-                NameOfCell: 1,
-                NameOfLeader: 1,
-                PhoneNumber: 1,
-                _id: 0,
-            }
-        );
-
-        if (!cellReports) {
-            return res.status(404).json({ error: "Report not found" });
-        }
-
-        res.json({ cellReports, leadersUnderPcf });
-    } catch (error) {
-        res.status(500).json({ error: "Error fetching data" });
-        console.error("Error fetching data", error);
-    }
-}
-
-const searchReports2 = async (req,res) => {
-    try {
-        const searchTerm = req.query.q || "";
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const dateRange = req.query.dateRange || ""; // e.g., 'lastSunday', 'pastMonth'
-
-        // Construct regular expression for case-insensitive search
-        const regex = new RegExp(searchTerm, "i");
-
-        // Construct search criteria
+        const regex = new RegExp(search, "i");
         const searchCriteria = {
-            $or: [
-                { FirstName: regex },
-                { LastName: regex },
-                { CellName: regex },
-                { PhoneNumber: regex },
-                { ServiceAttendance: regex },
-                { SundayFirstTimers: regex },
-                { CellMeetingAttendance: regex },
-                { NameOfPcf: regex },
-                { CellFirstTimers: regex },
-                { offering: regex },
-            ],
-            ...(dateRange && { SubmissionDate: getDateRange(dateRange) }), // Filter by date range if provided
+            ...(search && {
+                $or: [
+                    { FirstName: regex },
+                    { LastName: regex },
+                    { CellName: regex },
+                    { NameOfPcf: regex },
+                    { ServiceAttendance: regex },
+                    { SundayFirstTimers: regex },
+                    { CellMeetingAttendance: regex },
+                    { CellFirstTimers: regex },
+                    { PhoneNumber: regex },
+                ],
+            }),
+            ...(pcfFilter !== "All" && { NameOfPcf: pcfFilter }),
+            ...(statusFilter !== "All" && { status: statusFilter })
         };
 
-        // Fetch reports from the database with pagination
-        const cellReports = await usersCellReport
-            .find(searchCriteria, {
-                FirstName: 1,
-                LastName: 1,
-                CellName: 1,
-                ServiceAttendance: 1,
-                SundayFirstTimers: 1,
-                CellMeetingAttendance: 1,
-                CellFirstTimers: 1,
-                PhoneNumber: 1,
-                offering: 1,
-                NameOfPcf: 1,
-                SubmissionDate: 1,
-                _id: 1,
-            })
-            .sort({ SubmissionDate: -1 }) // Sort by most recent date
+        // Define date ranges for date filters
+        const today = new Date();
+        let startDate;
+        let endDate = new Date();
+
+        switch (dateFilter) {
+            case "presentDay":
+                const yesterday = new Date(today);
+                yesterday.setDate(today.getDate() - 1);
+                startDate = new Date(yesterday.setHours(0, 0, 0, 0)); 
+            break;
+            case "presentWeek":
+                startDate = new Date(today.setDate(today.getDate() - today.getDay()));
+                startDate.setHours(0, 0, 0, 0);
+            break;
+            case "lastWeek":
+                const lastSunday = new Date(today.setDate(today.getDate() - today.getDay() - 7));
+                lastSunday.setHours(0, 0, 0, 0);
+                startDate = lastSunday;
+                endDate = new Date(lastSunday.getTime() + 6 * 24 * 60 * 60 * 1000);
+                endDate.setHours(23, 59, 59, 999);
+            break;
+            case "lastMonth":
+                startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+                endDate = new Date(today.getFullYear(), today.getMonth(), 0, 23, 59, 59, 999);
+            break;
+        }
+
+        if (startDate) {
+            searchCriteria.SubmissionDate = { $gte: startDate, $lte: endDate };
+            // console.log('met',startDate, endDate);
+        }
+
+        const reports = await usersCellReport.find(searchCriteria)
+            .sort(sortBy)
             .skip((page - 1) * limit)
             .limit(limit);
 
-        // Count total matching documents for pagination
-        const totalReports = await usersCellReport.countDocuments(searchCriteria);
+        const totalDocuments = await usersCellReport.countDocuments();
+        const total = await usersCellReport.countDocuments(searchCriteria);
 
-        // Calculate total pages
-        const totalPages = Math.ceil(totalReports / limit);
-
-        // Respond with JSON data
-        res.json({
-            cellReports,
-            totalReports,
-            currentPage: page,
-            totalPages,
+        res.status(200).json({
+            error: false,
+            total,
+            page,
+            limit,
+            totalDocuments,
+            reports,
+            pcfs,
+            totalPages: Math.ceil(total / limit),
         });
+    } catch (err) {
+        console.error("Error fetching user data:", err);
+        res.status(500).json({ error: true, message: "Internal Server Error" });
+    }
+};
+
+const updateStatus = async (req, res) => {
+    const id = req.params.id;
+    const {status} = req.body;
+    try {
+        const cellReport = await usersCellReport.findById(id);
+        
+        if (!cellReport) {
+            return res.status(404).json({ success: false, message: "Report not found" });
+        } 
+        await usersCellReport.findByIdAndUpdate(id, { status: status });
+        res.status(201).json({ success: true, message: 'Status changed' });
     } catch (error) {
-        console.error("Error searching data:", error);
-        res.status(500).json({ error: "Error searching data" });
+        res.status(400).json({ error: error.message });
     }
 }
 
-export { submitReport, searchReports, searchReports2 };
+
+export { submitReport, listReports, updateStatus };

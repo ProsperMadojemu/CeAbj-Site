@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose";    
 
 const cellReportSchema = new mongoose.Schema({
     FirstName: String,
@@ -11,6 +11,8 @@ const cellReportSchema = new mongoose.Schema({
     CellFirstTimers: String,
     PhoneNumber: String,
     offering: String,
+    status: { type: String, enum: ['Pending', 'Denied', 'Approved'], default: 'Pending' },
+    isApproved: {type: Boolean, default: false, required: false},
     SubmissionDate: {
         type: Date,
         default: Date.now,

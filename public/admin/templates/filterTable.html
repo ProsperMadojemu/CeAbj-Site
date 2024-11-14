@@ -1,0 +1,133 @@
+<div class="functions-container">
+    <div class="filters-function">
+        <div class="filter-button">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#454746"><path d="M200-520q-33 0-56.5-23.5T120-600v-160q0-33 23.5-56.5T200-840h160q33 0 56.5 23.5T440-760v160q0 33-23.5 56.5T360-520H200Zm0 400q-33 0-56.5-23.5T120-200v-160q0-33 23.5-56.5T200-440h160q33 0 56.5 23.5T440-360v160q0 33-23.5 56.5T360-120H200Zm400-400q-33 0-56.5-23.5T520-600v-160q0-33 23.5-56.5T600-840h160q33 0 56.5 23.5T840-760v160q0 33-23.5 56.5T760-520H600Zm0 400q-33 0-56.5-23.5T520-200v-160q0-33 23.5-56.5T600-440h160q33 0 56.5 23.5T840-360v160q0 33-23.5 56.5T760-120H600ZM200-600h160v-160H200v160Zm400 0h160v-160H600v160Zm0 400h160v-160H600v160Zm-400 0h160v-160H200v160Zm400-400Zm0 240Zm-240 0Zm0-240Z"/></svg>
+            <span>Options</span>
+        </div>
+        <div class="options_container" style="display: none;" id="optionsBody">
+        <div class="top">
+          <button type="button" id="clearFiltersBtn">
+            <span>Clear</span>
+            <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="24px" fill="#454746"><path d="m592-481-57-57 143-182H353l-80-80h487q25 0 36 22t-4 42L592-481Zm-32 194v87q0 17-11.5 28.5T520-160h-80q-17 0-28.5-11.5T400-200v-247L84-763q-11-11-11-27.5T84-819q12-12 28.5-12t28.5 12l679 679q12 12 11.5 28T819-84q-12 11-28 11.5T763-84L560-287Zm-25-251Z"/></svg>
+          </button>
+        </div>
+        <div class="filter-box">
+          <span class="filter-title">Filter:</span>
+          <div class="filters" id="filters-check">
+            <div class="filter-group">
+              <label for="check1">PCF</label>
+              <input type="checkbox"  class="Leaders"  value="PCF-leader">
+            </div>
+            <div class="filter-group">
+              <label for="check1">Senior cell</label>
+              <input type="checkbox"  class="Leaders" value="Senior-Cell-leader">
+            </div>
+            <div class="filter-group">
+              <label for="check1">Cell</label>
+              <input type="checkbox"  class="Leaders" value="Cell-leader">
+            </div>
+            <div class="filter-group">
+              <label for="check1">Departmental...</label>
+              <input type="checkbox"  class="Leaders" value="Departmental-Head">
+            </div>
+            <div class="filter-group">
+              <label for="check1">Haven-Governor</label>
+              <input type="checkbox"  class="Leaders" value="Haven-Governor">
+            </div>
+            <div class="filter-group">
+              <label for="check1">Minister in...</label>
+              <input type="checkbox"  class="Leaders" value="Minister-in-training">
+            </div>
+            <div class="filter-group">
+              <label for="check1">Members</label>
+              <input type="checkbox"  class="Leaders" value="Member">
+            </div>
+            <div class="filter-group">
+              <label for="check1">Media</label>
+              <input type="checkbox"  class="Departments" value="TECHNICAL">
+            </div>
+            <div class="filter-group">
+              <label for="check1">Choir</label>
+              <input type="checkbox"  class="Departments" value="CHOIR">
+            </div>
+            <div class="filter-group">
+              <label for="check1">First-Ti..</label>
+              <input type="checkbox"  class="Departments" value="FIRST-TIMERS-MINISTRY">
+            </div>
+            <div class="filter-group">
+              <label for="check1">Security</label>
+              <input type="checkbox"  class="Departments" value="SECURITY">
+            </div>
+            <div class="filter-group">
+              <label for="check1">Usher</label>
+              <input type="checkbox"  class="Departments" value="USHER">
+            </div>
+          </div>
+        </div>
+        <div class="sortbox">
+          <span class="filter-title">Sort By:</span>
+          <div class="filter-group sort">
+            <select name="sortOptions" title="sortOptions" id="sortOptions">
+              <option value="">Sort</option>
+              <option value="registrationDate,asc">Date Added (Ascending)</option>
+              <option value="registrationDate,desc">Date Added (Descending)</option>
+              <option value="FirstName,asc">Name (Ascending)</option>
+              <option value="FirstName,desc">Name (Descending)</option>
+              <option value="Church,asc">Church (Ascending)</option>
+              <option value="Church,desc">Church (Descending)</option>
+              <option value="Department,asc">Department (Ascending)</option>
+              <option value="Department,desc">Department (Descending)</option>
+              <option value="Country,asc">Country (Ascending)</option>
+              <option value="Country,desc">Country (Descending)</option>
+          </select>
+          
+            <button title="re-arrange" type="button" id="sortBtn">
+              <svg class="sortVg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#454746"><path d="M360-440q-17 0-28.5-11.5T320-480v-247l-75 75q-11 11-27.5 11T189-652q-12-12-12-28.5t12-28.5l143-143q6-6 13-8.5t15-2.5q8 0 15 2.5t13 8.5l144 144q12 12 11.5 28T531-652q-12 11-28 11.5T475-652l-75-75v247q0 17-11.5 28.5T360-440ZM600-97q-8 0-15-2.5t-13-8.5L428-252q-12-12-11.5-28t12.5-28q12-11 28-11.5t28 11.5l75 75v-247q0-17 11.5-28.5T600-520q17 0 28.5 11.5T640-480v247l75-75q11-11 27.5-11t28.5 11q12 12 12 28.5T771-251L628-108q-6 6-13 8.5T600-97Z"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="download-box">
+          <span class="entries">Showing - entries</span>
+          <button type="button" id="clickmetodownload">Download</button>
+        </div>
+    </div>
+    </div>
+    <div class="search-box">
+      <div class="search-parent">
+        <div class="search_input-container"><input type="text" name="" id="searchInput" placeholder="search..."></div>
+        <div class="search-icon"><i id="searchButton" class="fa fa-search"></i></div>
+      </div>
+    </div>
+</div>
+<div class="table__">
+    <div class="table-container">
+      <table class="users-table" id="usersTableData">
+            <thead>
+                <tr>
+                    <th>SN</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Church</th>
+                    <th>Leaders Position</th>
+                    <th>Cell</th>
+                    <th>Department</th>
+                    <th>Date Registered</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{tbody}}
+            </tbody>
+      </table>
+    </div>
+    <div class="loader" style="display: flex;">Loading</div>
+    <div class="table-foot">
+      <span id="pageInfo">Page - of -</span>
+      <div id="paginationControls" class="pagination">
+        <button title="Prev" id="prevPage"  type="button" disabled>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#454746"><path d="m432-480 156 156q11 11 11 28t-11 28q-11 11-28 11t-28-11L348-452q-6-6-8.5-13t-2.5-15q0-8 2.5-15t8.5-13l184-184q11-11 28-11t28 11q11 11 11 28t-11 28L432-480Z"/></svg>
+        </button>
+        <button title="Next" id="nextPage" type="button" ><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#454746"><path d="M504-480 348-636q-11-11-11-28t11-28q11-11 28-11t28 11l184 184q6 6 8.5 13t2.5 15q0 8-2.5 15t-8.5 13L404-268q-11 11-28 11t-28-11q-11-11-11-28t11-28l156-156Z"/></svg></button>
+      </div> 
+    </div>
+</div>

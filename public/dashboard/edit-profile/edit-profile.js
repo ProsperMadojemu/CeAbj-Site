@@ -101,7 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <option value="Senior-Cell-leader">Senior Cell Leader</option>
             <option value="Cell-leader">Cell Leader</ option>
             <option value="Departmental-Head">Departmental Head</option>
-            <option value="Haven-Govenor">Haven Governor</option>
+            <option value="Minister-in-training">Minister in training</option>
+            <option value="Haven-Governor">Haven Governor</option>
             <option value="Member">Member</option>
         `;
         document.querySelector('#zone option[value="zoneoption"]').textContent = zone;
@@ -110,7 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <option value="TECHNICAL">TECHNICAL</option>
             <option value="CHOIR">CHOIR</option>
             <option value="USHER">USHER</option>
-            <option value="FIRST TIMERS MIN">FIRST TIMERS MIN</option>
+            <option value="SECURITY">SECURITY</option>
+            <option value="FIRST-TIMERS-MINISTRY">FIRST TIMERS MIN</option>
         `;
 
     }

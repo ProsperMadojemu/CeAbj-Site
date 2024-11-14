@@ -1,224 +1,248 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    let registrationDt = ''; // Date string from the server
-    // Fetch session data
     fetch('/check-session')
-    .then(response => response.json())
-    .then(sessionData => {
-        if (sessionData.email && sessionData.isAdmin) {
-            // Fetch admin data from getalldata route
-            fetch('/getalldata')
-                .then(response => response.json())
-                .then(data => {
-                    // Check if the logged-in user is an admin
-                    const admin = data.admin.find(a => a.email === sessionData.email);
-                    if (!admin) {
+        .then(response => response.json())
+        .then(sessionData => {
+            if (sessionData.email && sessionData.isAdmin) {
+                // Fetch admin data from getalldata route
+                fetch('/getalldata')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Check if the logged-in user is an admin
+                        const admin = data.admin.find(a => a.email === sessionData.email);
+                        if (!admin) {
+                            window.location.href = '/404';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
                         window.location.href = '/404';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                    window.location.href = '/404';
-                });
-        } else {
+                    });
+            } else {
+                window.location.href = '/login';
+            }
+            const logoutButton = document.getElementById('Logout-Button');
+            logoutButton.addEventListener('click', () => {
+                fetch('/logout', { method: 'POST' })
+                    .then(() => {
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.error('Error during logout:', error);
+                    });
+            });
+        })
+        .catch(error => {
+            console.error('Error checking session:', error);
             window.location.href = '/login';
-        }
-
-        const logoutButton = document.getElementById('Logout-Button');
-        logoutButton.addEventListener('click', () => {
-            fetch('/logout', { method: 'POST' })
-                .then(() => {
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.error('Error during logout:', error);
-                });
         });
-    })
-    .catch(error => {
-        console.error('Error checking session:', error);
-        window.location.href = '/login';
-    });
 
     const tableBody = document.querySelector('#usersTableData tbody');
-    showSkeletonRows(tableBody);
+    const loaderBody = document.querySelector('.loader');
+    const searchBtn = document.getElementById('searchButton');
+    const searchBody = document.querySelector('.search-parent');
+    const departmentCheckBoxes = document.querySelectorAll('.Departments');
+    const navbar = document.querySelector('.vertical-navbar');
+    const optionsBody = document.querySelector('#optionsBody');
+    const filterButton = document.querySelector('.filter-button');
+    const leadersCheckBoxes = document.querySelectorAll('.Leaders');
+    const limit = 10;
+    let isLoading = true;
+    let page = 1;
+    let searchQuery = "";
+    let sort;
+    let leadershipPositionFilter = [];
+    let departmentFilter = [];
+    let currentPagee = 1
+    function loader() {
+        if (isLoading) {
+            loaderBody.style.display = "flex"
+        } else {
+            loaderBody.style.display = "none"
+        }
+    }
+
+    searchBtn.addEventListener('click', () => {
+        if (!searchBody.classList.contains('active')) {
+            searchBody.classList.add('active');
+        }
+    });
 
 
-    function showSkeletonRows(tableBody) {
-        for (let i = 0; i < 4; i++) {
-            const row = document.createElement('tr');
-            row.classList.add('skeleton');
-            for (let j = 0; j < 3; j++) {
-                const cell = document.createElement('td')
-                cell.colSpan = 8;
-                row.appendChild(cell);
+    async function fetchUsers() {
+        try {
+            const url = `/api/users/search?page=${page}&limit=${limit}&search=${encodeURIComponent(searchQuery)}&sort=${sort}&leadershipPosition=${leadershipPositionFilter}&department=${departmentFilter}`;
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.error) {
+                console.error("Error fetching user data:", data.message);
+                return;
             }
+            if (response.ok) {
+                isLoading = false
+                loader();
+            }
+            currentPagee = data.page
+            renderUserTable(data.users);
+            updatePagination(data.page, data.totalPages);
+            document.querySelector('.entries').innerHTML =
+                `Showing ${data.users.length} entries of ${data.totalDocuments}`
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
+
+    function renderUserTable(users) {
+        tableBody.innerHTML = "";
+        let count = (currentPagee - 1) * limit + 1;
+        if (users.length <= 0) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td colspan= "8" style= "border: none;">No result found</td>
+            `;
             tableBody.appendChild(row);
         }
-    };
-
-    function hideSkeletonRows(tableBody) {
-        const skeleton = tableBody.querySelectorAll('.skeleton')
-        skeleton.forEach(row => row.remove());
-    }
-
-    // Function to format a date in the format YY/MM/DD
-    function formatDateToYYMMDD(dateString) {
-        if (!dateString || dateString === 'Nill') {
-            return 'N/A'; // Return 'N/A' if the date is invalid or not available
-        }
-        const date = new Date(dateString); // Parse the date string to a Date object
-        const year = date.getFullYear().toString(); // Get the last two digits of the year
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Add 1 to month (0-based index) and pad with zero
-        const day = String(date.getDate()).padStart(2, '0'); // Pad day with zero
-
-        return `${year}/${month}/${day}`; // Return formatted date
-    }
-
-    let currentPage = 1;
-    const limit = 10; // Number of results per page
-
-    async function fetchSearchResults(page = 1) {
-        const searchTerm = document.getElementById('searchInput').value.trim();
-
-        try {
-            // Construct the URL with searchTerm if present
-            const url = searchTerm
-                ? `/search?q=${encodeURIComponent(searchTerm)}&page=${page}&limit=${limit}`
-                : `/search?page=${page}&limit=${limit}`;
-
-            const response = await fetch(url);
-            const searchResults = await response.json();
-            hideSkeletonRows(tableBody);
-            displayUsers(searchResults.users);
-            updatePaginationControls(searchResults.currentPage, searchResults.totalPages);
-
-        } catch (error) {
-            console.error('Error during search:', error);
-        }
-    }
-
-    function displayUsers(users) {
-        const tableBody = document.querySelector('#usersTableData tbody');
-        tableBody.innerHTML = ''; // Clear previous data
-
-        if (users.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="8">No users found.</td></tr>';
-            return;
-        }
-
-        let count = (currentPage - 1) * limit + 1; // Adjust count based on the current page
-
         users.forEach(user => {
-            // Handle the case where user._doc is present
-            const userData = user._doc || user;
-
-            const row = document.createElement('tr');
-            const registrationDate = userData.registrationDate ? formatDateToYYMMDD(userData.registrationDate) : 'N/A';
-
+            const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${count++}</td>
-                <td>${userData.FirstName || 'N/A'} ${userData.LastName || 'N/A'}</td>
-                <td>${userData.PhoneNumber || 'N/A'}</td>
-                <td>${userData.Church || 'N/A'}</td>
-                <td>${userData.LeadershipPosition || 'N/A'}</td>
-                <td>${user.NameOfCell || 'N/A'}</td>
-                <td>${user.Department || 'N/A'}</td>
-                <td>${registrationDate}</td>
+                <td>${user._doc.FirstName} ${user._doc.LastName || "N/A"}</td>
+                <td>${user._doc.Email || "N/A"}</td>
+                <td>${user._doc.PhoneNumber || "N/A"}</td>
+                <td>${user._doc.Church || "N/A"}</td>
+                <td>${user._doc.LeadershipPosition || "N/A"}</td>
+                <td>${user.NameOfCell}</td>
+                <td>${user.Department}</td>
+                <td>${new Date(user._doc.registrationDate).toLocaleDateString()}</td>
             `;
             tableBody.appendChild(row);
         });
     }
 
-
-    function updatePaginationControls(currentPage, totalPages) {
+    function updatePagination(currentPage, totalPages) {
         document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
-        document.getElementById('prevPage').disabled = currentPage === 1;
-        document.getElementById('nextPage').disabled = currentPage === totalPages;
+        document.getElementById("prevPage").disabled = currentPage <= 1;
+        document.getElementById("nextPage").disabled = currentPage >= totalPages;
     }
-    // document.addEventListener('keydown')
 
-    document.getElementById('searchButton').addEventListener('click', () => {
-        currentPage = 1;
-        fetchSearchResults(currentPage);
+    function updateFilters() {
+        page = 1;
+        loader();
+        fetchUsers();
+    }
+    leadersCheckBoxes.forEach(boxes => {
+        boxes.addEventListener("change", (e) => {
+            if (e.target.checked) {
+                leadershipPositionFilter.push(e.target.value);
+            } else {
+                leadershipPositionFilter = leadershipPositionFilter.filter(item => item !== e.target.value);
+            }
+            updateFilters();
+        });
+    });
+    departmentCheckBoxes.forEach(boxes => {
+        boxes.addEventListener("change", (e) => {
+            if (e.target.checked) {
+                departmentFilter.push(e.target.value);
+            } else {
+                departmentFilter = departmentFilter.filter(item => item !== e.target.value);
+            }
+            updateFilters();
+        });
+    });
+    let debounceTimer;
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+        // if (e.target.value.length >= 3) {
+        //     searchQuery = e.target.value;
+        //     page = 1;
+        //     fetchUsers();
+        // }
+        // if (e.target.value.length < 1) {
+        //     page = 1;
+        //     fetchUsers();
+        // }
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            searchQuery = e.target.value;
+            page = 1;
+            fetchUsers();
+        }, 300);
     });
 
-    document.getElementById('searchInput').addEventListener('input', (e) => { //changed to input
-        // Perform your action here
-        setTimeout(() => {
-            currentPage = 1;
-            fetchSearchResults(currentPage);
-        }, 100);
+    document.getElementById('clearFiltersBtn').addEventListener("click", (e) => {
+        const checkBoxes = document.querySelectorAll('input[type="checkbox"]');
+        checkBoxes.forEach((box) => {
+            box.checked = false;
+        });
+        departmentFilter = []
+        leadershipPositionFilter = []
+        updateFilters();
+    })
+    document.getElementById("sortOptions").addEventListener("change", (e) => {
+        const sortValue = e.target.value;
+        sort = sortValue
+        page = 1;
+        fetchUsers();
     });
-
-    // create a refresh animation
-
-
-    document.getElementById('prevPage').addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
-            fetchSearchResults(currentPage);
+    document.getElementById("prevPage").addEventListener("click", () => {
+        if (page > 1) {
+            page--;
+            fetchUsers();
         }
     });
-
-    document.getElementById('nextPage').addEventListener('click', () => {
-        currentPage++;
-        fetchSearchResults(currentPage);
+    document.getElementById("nextPage").addEventListener("click", () => {
+        page++;
+        fetchUsers();
     });
-
-    // Fetch initial data
-    fetchSearchResults(currentPage);
-
-    const messageOverlay = document.getElementById('message-prompt');
-    const messageOverlayText = document.getElementById('message-text');
-    const messageOverlaySign = document.getElementById('message-sign');
-
-    function showPrompt(message) {
-        messageOverlay.classList.remove('hidden');
-        messageOverlayText.textContent = message;
-        if (messageOverlay.timeoutId) {
-            clearTimeout(messageOverlay.timeoutId);
+    filterButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (optionsBody.style.display === 'none' || optionsBody.style.display === '') {
+            optionsBody.style.display = 'flex';
+        } else {
+            optionsBody.style.display = 'none';
         }
-        // messageOverlay.timeoutId = setTimeout(() => {
-        //     hidePrompt();
-        // }, 5000);
-    }
+    });
+    const downloadButton = document.getElementById("clickmetodownload");
+    downloadButton.addEventListener("click", async function () {
+        const originalLimit = limit;
+        const originalPage = page;
 
-    function showErrorPrompt(message) {
-        messageOverlay.classList.remove('hidden');
-        messageOverlaySign.classList.remove('fa-spinner-third', 'fa-2xl');
-        messageOverlaySign.classList.add('fa-solid', 'fa-xmark', 'fa-2xl');
-        messageOverlayText.textContent = message;
-        if (messageOverlay.timeoutId) {
-            clearTimeout(messageOverlay.timeoutId);
+        limit = 0;
+        page = 1;
+        await fetchReports();
+
+        const table2excel = new Table2Excel();
+        table2excel.export(document.querySelectorAll("#usersTableData"));
+
+        limit = originalLimit;
+        page = originalPage;
+
+        fetchReports();
+    });
+    document.addEventListener('click', (e) => {
+        if (!optionsBody.contains(e.target) && e.target !== filterButton) {
+            optionsBody.style.display = 'none';
         }
-        messageOverlay.timeoutId = setTimeout(() => {
-            hidePrompt();
-        }, 3000);
-    }
-
-    function hidePrompt() {
-        messageOverlay.classList.add('hidden');
-        messageOverlaySign.classList.remove('fa-solid', 'fa-xmark', 'fa-2xl');
-        messageOverlaySign.classList.add('fa-spinner-third', 'fa-2xl');
-    }
-
-
-    const navbar = document.querySelector('.vertical-navbar');
-    document.getElementById('DrawerIcon').addEventListener('click', function() {
+    });
+    document.addEventListener('click', (e) => {
+        if (!searchBody.contains(e.target) && e.target !== searchBtn) {
+            searchBody.classList.remove('active');
+        }
+    });
+    fetchUsers();
+    document.getElementById('DrawerIcon').addEventListener('click', function () {
         if (!navbar.classList.contains('active')) {
             navbar.classList.add('active');
-        }else {
+        } else {
             navbar.classList.remove('active');
         }
     });
-    
-    document.getElementById('CloseDrawer').addEventListener('click', function() {
+    document.getElementById('CloseDrawer').addEventListener('click', function () {
         if (navbar.classList.contains('active')) {
             navbar.classList.remove('active');
         }
     });
-
-    window.addEventListener('resize', ()=> {
+    window.addEventListener('resize', () => {
         if (navbar.classList.contains('active')) {
             navbar.classList.remove('active');
         }

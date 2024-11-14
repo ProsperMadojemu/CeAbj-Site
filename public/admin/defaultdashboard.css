@@ -105,9 +105,10 @@ body .sub-body {
 .nocssneeded {
     flex: 1;
     display: flex;
-    padding: 0px 0px 7% 0px ;
+    padding: 0px 0px 15% 0px;
     flex-direction: column;
-    justify-content: center;
+    overflow: hidden;
+    justify-content: space-evenly;
 }
 
 
@@ -172,7 +173,8 @@ body .sub-body {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    flex: 1;
+    padding: 3rem 0rem 1rem;
+    /* flex: 1; */
 }
 
 .user-details > .admin-profile-icon { /* Holds only the profile icon and welcome greeting */
@@ -183,7 +185,6 @@ body .sub-body {
     flex-wrap: wrap;
     padding: 0px 5px 0px 10px;
     text-align: center;
-    font-family: system-ui;
 }
 
 .title-users-name {
@@ -264,6 +265,17 @@ hr {
     text-shadow: 2px 1px 5px rgba(0, 0, 0, 0.089);
     padding: 0px 10px;
     direction: rtl;
+}
+
+.navbar-list-items::-webkit-scrollbar {
+    display: none;
+}
+
+.left-dash-footer {
+    position: fixed;
+    bottom: 0;
+    background: #f9f9f9;
+    width: 250px;
 }
 
 .dashboard-links { /* ul tag holding all the list items (.navbar-list-items) */
@@ -379,7 +391,7 @@ hr {
     width: 100%;
     background: var(--primary-color);
     color: #f9f9f99f;
-    box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.219);
+    /* box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.2); */
 }
 
 
@@ -474,7 +486,6 @@ hr {
     box-shadow: 3px 4px 40px hsla(0, 0%, 0%, 0.849);
     pointer-events: none;
     color: #fff;
-    font-family: 'arial', sans-serif;
     background: var(--secondary-color);
 }
 
@@ -496,7 +507,7 @@ hr {
     justify-content: center;
     top: 50%;
     bottom: 50%;    
-    z-index: 20;
+    z-index: 25;
     padding: 10px 20px;
     transform: translate(0%, -50%) ;
     background: #3d3d3da1;
@@ -506,26 +517,24 @@ hr {
 
 .Update-Popup {
     height: 500px;
-    flex-basis: 750px;
+    flex-basis: 600px;
     overflow: hidden;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     flex-direction: column;
     justify-content: center;
     border-radius: 5px;
     position: relative;
     box-shadow: 3px 4px 5px 3px hsla(0, 0%, 0%, 0.2);
-    color: #000000;
-    font-family: 'arial', sans-serif;
+    color: #141414;
     background: #fff;
-    padding: 20px 30px 0px 30px;
+    /* padding: 20px 30px 0px 30px; */
 }
 
 .Update-Popup-text-container {
     display: flex;
-    height: 15%;
     width: 100%;
-    padding: 0 30px;
+    padding: 8px 17px 12px 30px;
     justify-content: space-between;
     align-items: center;
     font-size: 1.3rem;
@@ -535,7 +544,7 @@ hr {
 #toastBox {
     position: absolute;
     top: 10px;
-    z-index: 20;
+    z-index: 30;
     right: 20px;
     display: flex;
     align-items: flex-end;
@@ -600,7 +609,6 @@ hr {
     }
     .overview {
         justify-content: center;
-        height: 100%;
     }
     .nocssneeded > .user-details { /* holds all the content in the first half of the vertical navbar */
         flex:0;

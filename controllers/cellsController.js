@@ -146,68 +146,86 @@ const searchAndUpdateLeaderById = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        res.status(200).json({ message: "User updated successfully" });
+        res.status(200).json({ message: `User updated successfully` });
     } catch (error) {
         res.status(500).json({ error: "Error fetching data" });
     }
 }
 
 const leadersApi = async (req,res) => {
-    
-}
-
-const searchForLeader = async (req, res) => {
     try {
-        const searchTerm = req.query.q || "";
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
+        const page = parseInt(req.query.page) || 1; 
+        const limit = parseInt(req.query.limit) === 0 ? 0 : parseInt(req.query.limit) || 10;
+        const search = req.query.search || "";
+        let sort = req.query.sort || "";
+        let leadershipPositionFilter = req.query.leadersPosition || "All";
+        let cellFilter = req.query.cell || "All";
+        const pcfs = await newCell.distinct("NameOfPcf");
 
-        const regex = new RegExp(searchTerm, "i");
+        // console.log("req body:", req);
+        // console.log("Page:", page);
+        // console.log("Limit:", limit);
+        // console.log("Search Query:", search);
+        // console.log("Sort By:", sort);
+        // console.log("Leadership Position Filter:", leadershipPositionFilter);
+        // console.log("Cell Filter:", cellFilter);
 
-        const searchCriteria = searchTerm
-            ? {
+        const sortParams = sort.split(",");
+        let sortBy = {};
+        sortBy[sortParams[0]] = sortParams[1] === "desc" ? -1 : 1; // Default to ascending
+
+        const regex = new RegExp(search, "i");
+        const searchCriteria = {
+            ...(search && {
                 $or: [
                     { NameOfLeader: regex },
-                    { PhoneNumber: regex },
-                    { LeaderPosition: regex },
                     { CellType: regex },
-                    { NameOfCell: regex },
                     { NameOfPcf: regex },
                     { NameOfSeniorCell: regex },
+                    { NameOfCell: regex },
+                    { LeaderPosition: regex },
+                    { PhoneNumber: regex },
                 ],
+            }),
+            ...(leadershipPositionFilter !== "All" && { CellType: leadershipPositionFilter }),
+            ...(cellFilter !== "All" && { NameOfPcf: cellFilter }),
+        };
+
+        const leadersPipeline = await newCell.aggregate(  [
+            {
+              $group: {
+                _id: '$CellType',
+                count: { $sum: 1 }
+              }
+            },
+            {
+                $sort: {count: -1}
             }
-            : {};
+        ],)
+        const leaders = await newCell.find(searchCriteria)
+        .sort(sortBy)
+        .skip((page - 1) * limit)
+        .limit(limit);
 
-        // Fetch leaders from the database with pagination
-        const cellsAndLeaders = await newCell
-            .find(searchCriteria, {
-                NameOfLeader: 1,
-                PhoneNumber: 1,
-                LeaderPosition: 1,
-                CellType: 1,
-                NameOfCell: 1,
-                NameOfPcf: 1,
-                NameOfSeniorCell: 1,
-                _id: 1,
-            })
-            .skip((page - 1) * limit)
-            .limit(limit);
+        const totalDocuments = await newCell.countDocuments();
+        const total = await newCell.countDocuments(searchCriteria);
 
-        // Count total matching documents for pagination
-        const totalUsers = await newCell.countDocuments(searchCriteria);
-
-        res.json({
-            cells: cellsAndLeaders,
-            totalUsers,
-            currentPage: page,
-            totalPages: Math.ceil(totalUsers / limit), // Calculate total pages
+        res.status(200).json({
+            error: false,
+            total,
+            page,
+            limit,
+            totalDocuments,
+            leadersPipeline,
+            leaders,
+            pcfs,
+            totalPages: Math.ceil(total / limit),
         });
-    } catch (error) {
-        console.error("Error searching data:", error);
-        res.status(500).json({ error: "Error searching data" });
+    } catch (err) {
+        console.error("Error fetching user data:", err);
+        res.status(500).json({ error: true, message: "Internal Server Error" });
     }
 }
-
 const deleteCell = async (req, res) => {
     try {
         const leaderId = req.params.id;
@@ -225,4 +243,13 @@ const deleteCell = async (req, res) => {
     }
 }
 
-export { submitCell, getAllLeadersData, getPcfLeaders, getSeniorLeaders, getCellLeaders, searchAndUpdateLeaderById, searchForLeader, deleteCell };
+export {
+  submitCell,
+  getAllLeadersData,
+  getPcfLeaders,
+  getSeniorLeaders,
+  getCellLeaders,
+  searchAndUpdateLeaderById,
+  deleteCell,
+  leadersApi,
+};

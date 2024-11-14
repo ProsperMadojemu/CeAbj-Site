@@ -253,4 +253,89 @@ const searchForUser = async (req,res) => {
     }
 }
 
-export {registerUser, loginUser, updateUser, getalldata, logoutUser, searchForUser};
+const usersApi = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1; 
+        const limit = parseInt(req.query.limit) === 0 ? 0 : parseInt(req.query.limit) || 10;
+        const search = req.query.search || "";
+        let sort = req.query.sort || "";
+        let leadershipPositionFilter = req.query.leadershipPosition || "All";
+        let departmentFilter = req.query.department || "All";
+        const leadershipPositions = await Users.distinct("LeadershipPosition");
+        const departments = await Users.distinct("Department");
+        
+
+        // console.log("req body:", req);
+        // console.log("Page:", page);
+        // console.log("Limit:", limit);
+        // console.log("Search Query:", search);
+        // console.log("Sort By:", sort);
+        // console.log("Leadership Position Filter:", leadershipPositionFilter);
+        // console.log("Department Filter:", departmentFilter);
+
+        const sortParams = sort.split(",");
+        let sortBy = {};
+        sortBy[sortParams[0]] = sortParams[1] === "desc" ? -1 : 1; // Default to ascending
+
+        const regex = new RegExp(search, "i");
+        const searchCriteria = {
+            ...(search && {
+                $or: [
+                    { FirstName: regex },
+                    { LastName: regex },
+                    { Email: regex },
+                    { Church: regex },
+                    { NameOfCell: regex },
+                    { PhoneNumber: regex },
+                    { LeadershipPosition: regex },
+                    { Department: regex },
+                ],
+            }),
+            ...(leadershipPositionFilter !== "All" && { LeadershipPosition: leadershipPositionFilter }),
+            ...(departmentFilter !== "All" && { Department: departmentFilter }),
+        };
+
+        const users = await Users.find(searchCriteria)
+        .sort(sortBy)
+        .skip((page - 1) * limit)
+        .limit(limit);
+
+        const totalDocuments = await Users.countDocuments();
+        const total = await Users.countDocuments(searchCriteria);
+
+        const usersChurchData = await UsersChurch.find(
+            {},
+            {
+                Email: 1,
+                NameOfCell: 1,
+                Department: 1,
+            }
+        );
+        const usersChurchMap = new Map(usersChurchData.map((uc) => [uc.Email, uc]));
+        const mergedUsers = users.map((user) => {
+            const userChurchInfo = usersChurchMap.get(user.Email) || {};
+            return {
+                ...user,
+                NameOfCell: userChurchInfo.NameOfCell || "N/A",
+                Department: userChurchInfo.Department || "N/A",
+            };
+        });
+        
+        res.status(200).json({
+            error: false,
+            total,
+            page,
+            limit,
+            totalDocuments,
+            users: mergedUsers,
+            leadershipPositions,
+            departments,
+            totalPages: Math.ceil(total / limit),
+        });
+    } catch (err) {
+        console.error("Error fetching user data:", err);
+        res.status(500).json({ error: true, message: "Internal Server Error" });
+    }
+};
+
+export {registerUser, loginUser, updateUser, getalldata, logoutUser, searchForUser, usersApi};

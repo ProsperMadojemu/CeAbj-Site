@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Fetch admin data from getalldata route
             // console.log(sessionData.isAdmin);
             
-            fetch('/getalldata')
+            fetch('/api/user/getalldata')
             .then(response => response.json())
             .then(data => {
                 // Check if the logged-in user is an admin
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const logoutButton = document.getElementById('Logout-Button');
         logoutButton.addEventListener('click', () => {
-            fetch('/logout', { method: 'POST' })
+            fetch('/api/user/logout', { method: 'POST' })
                 .then(() => {
                     window.location.reload();
                 })

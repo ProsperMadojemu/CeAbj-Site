@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     .then((sessionData) => {
         if (sessionData.email && sessionData.isAdmin) {
             // Fetch admin data from getalldata route
-            fetch("/getalldata")
+            fetch("/api/user/getalldata")
                 .then((response) => response.json())
                 .then((data) => {
                     // Check if the logged-in user is an admin
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const logoutButton = document.getElementById("Logout-Button");
         logoutButton.addEventListener("click", () => {
-            fetch("/logout", { method: "POST" })
+            fetch("/api/user/logout", { method: "POST" })
                 .then(() => {
                     window.location.reload();
                 })
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const optionsBody = document.querySelector('#optionsBody');
     const filterButton = document.querySelector('.filter-button');
     const leadersCheckBoxes = document.querySelectorAll('.Leaders');
-    const limit = 10;
+    let limit = 10;
     let isLoading = true;
     let isRendered = false;
     let page = 1;
@@ -447,7 +447,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     
         limit = 0;
         page = 1;
-        await fetchReports();
+        await fetchLeaders();
     
         const table2excel = new Table2Excel();
         table2excel.export(document.querySelectorAll("#usersTableData"));
@@ -455,7 +455,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         limit = originalLimit;
         page = originalPage;
     
-        fetchReports();
+        fetchLeaders();
     });
 
     const navbar = document.querySelector('.vertical-navbar');

@@ -1,15 +1,14 @@
 import express from "express"
-import { loginUser,registerUser,updateUser,getalldata,logoutUser, searchForUser, usersApi} from "../controllers/userController.js"
+import { loginUser,registerUser,updateUser,getalldata,logoutUser, usersApi} from "../controllers/userController.js"
 
 const userRouter = express.Router();
 
-userRouter.post("/login", loginUser);
-userRouter.post("/register", registerUser);
-userRouter.put("/updateuser", updateUser);
-userRouter.get("/getalldata", getalldata);
-userRouter.get("/search", searchForUser);
+userRouter.post("/api/user/login", loginUser);
+userRouter.post("/api/user/register", registerUser);
+userRouter.put("/api/user/update", updateUser);
+userRouter.get("/api/user/getalldata", getalldata);
 userRouter.get("/api/users/search", usersApi);
-userRouter.post("/logout", logoutUser);
+userRouter.post("/api/user/logout", logoutUser);
 
 
 export default userRouter;

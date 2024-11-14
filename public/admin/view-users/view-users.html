@@ -257,14 +257,5 @@
     </main>
     <script defer src="./view-users.js"></script>
     <script src="../../script/table2excel.js"></script>
-    <script>
-      document
-        .getElementById("clickmetodownload")
-        .addEventListener("click", function () {
-          var table2excel = new Table2Excel();
-          table2excel.export(document.querySelectorAll("#usersTableData"));
-        });
-
-    </script>
   </body>
 </html>

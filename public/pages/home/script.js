@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loginIcon.classList.remove('login_icon');
             loginIcon.classList.add('login_icon-visible');
             logoutButton.addEventListener('click', () => {
-                fetch('/logout', { method: 'POST' })
+                fetch('/api/user/logout', { method: 'POST' })
                 .then(() => {
                     window.location.reload();
                 });

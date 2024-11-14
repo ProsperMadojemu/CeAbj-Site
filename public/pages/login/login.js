@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     userspassword: formpass
                 };
     
-                const response = await fetch('/login', {
+                const response = await fetch('/api/user/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

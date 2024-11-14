@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 welcomeGreeting.innerHTML = `Hi, ${user.firstName} ${user.lastName}`;
                 logoutButton.addEventListener('click', () => {
-                    fetch('/logout', { method: 'POST' })
+                    fetch('/api/user/logout', { method: 'POST' })
                         .then(() => {
                             window.location.reload();
                         });

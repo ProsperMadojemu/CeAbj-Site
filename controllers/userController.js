@@ -178,81 +178,6 @@ const getalldata = async (req, res) => {
     }
 }
 
-const searchForUser = async (req,res) => {
-    try {
-        const searchTerm = req.query.q || "";
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-
-        const regex = new RegExp(searchTerm, "i");
-
-        const searchCriteria = searchTerm
-            ? {
-                $or: [
-                    { FirstName: regex },
-                    { LastName: regex },
-                    { Email: regex },
-                    { Church: regex },
-                    { NameOfCell: regex },
-                    { PhoneNumber: regex },
-                    { LeadershipPosition: regex },
-                    { Department: regex },
-                ],
-            }
-            : {};
-
-        // Fetch users from the database with pagination
-        const users = await Users.find(searchCriteria, {
-            _id: 0,
-            Email: 1,
-            FirstName: 1,
-            LastName: 1,
-            PhoneNumber: 1,
-            Church: 1,
-            LeadershipPosition: 1,
-            Department: 1,
-            registrationDate: 1,
-        })
-            .skip((page - 1) * limit)
-            .limit(limit);
-
-        // Count total matching documents for pagination
-        const totalUsers = await Users.countDocuments(searchCriteria);
-
-        // Fetch usersChurch data and create a map
-        const usersChurchData = await UsersChurch.find(
-            {},
-            {
-                Email: 1,
-                NameOfCell: 1,
-                Department: 1,
-            }
-        );
-
-        const usersChurchMap = new Map(usersChurchData.map((uc) => [uc.Email, uc]));
-
-        // Merge users with usersChurch data
-        const mergedUsers = users.map((user) => {
-            const userChurchInfo = usersChurchMap.get(user.Email) || {};
-            return {
-                ...user,
-                NameOfCell: userChurchInfo.NameOfCell || "N/A",
-                Department: userChurchInfo.Department || "N/A",
-            };
-        });
-        // console.log('Merged Users:', mergedUsers);
-        res.json({
-            users: mergedUsers,
-            totalUsers,
-            currentPage: page,
-            totalPages: Math.ceil(totalUsers / limit), // Calculate total pages
-        });
-    } catch (error) {
-        console.error("Error searching data:", error);
-        return res.status(500).json({ error: "Error searching data" });
-    }
-}
-
 const usersApi = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1; 
@@ -338,4 +263,4 @@ const usersApi = async (req, res) => {
     }
 };
 
-export {registerUser, loginUser, updateUser, getalldata, logoutUser, searchForUser, usersApi};
+export {registerUser, loginUser, updateUser, getalldata, logoutUser, usersApi};

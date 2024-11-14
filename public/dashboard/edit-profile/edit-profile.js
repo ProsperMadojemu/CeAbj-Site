@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(sessionData => {
         if (sessionData.email) {
             // Fetch user data from getalldata route
-            fetch('/getalldata')
+            fetch('/api/user/getalldata')
                 .then(response => response.json())  
                 .then(data => {
                     const user = data.users.find(u => u.Email === sessionData.email);
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const logoutButton = document.getElementById('Logout-Button');
                         welcomeGreeting.innerHTML = `${user.Title} ${user.FirstName} ${user.LastName}`;
                         logoutButton.addEventListener('click', () => {
-                            fetch('/logout', { method: 'POST' })
+                            fetch('/api/user/logout', { method: 'POST' })
                                 .then(() => {
                                     window.location.reload();
                                 })
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 formJSON[key] = value;
             });
             
-            const response = await fetch('/updateuser', {
+            const response = await fetch('/api/user/update', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

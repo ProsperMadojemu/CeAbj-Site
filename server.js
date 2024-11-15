@@ -23,6 +23,7 @@ import {
 import setupWebSocket from "./controllers/webSockController.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 const app = express();
 dbConnection();
 
@@ -63,6 +64,17 @@ app.get("/check-session", (req, res) => {
 });
 
 const server = http.createServer(app);
+// WebSocketServer.on('connection', (socket) => {
+//     console.log('New client connected to second WebSocket server');
+    
+//     socket.on('message', (message) => {
+//         console.log('Received message on second WebSocket server:', message);
+//     });
+
+//     socket.on('close', () => {
+//         console.log('Client disconnected from second WebSocket server');
+//     });
+// });
 setupWebSocket(server);
 
 const PORT = process.env.PORT;

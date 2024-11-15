@@ -226,15 +226,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     let debounceTimer;
     document.getElementById("searchInput").addEventListener("input", (e) => {
-        // if (e.target.value.length >= 3) {
-        //     searchQuery = e.target.value;
-        //     page = 1;
-        //     fetchReports();
-        // }
-        // if (e.target.value.length < 1) {
-        //     page = 1;
-        //     fetchReports();
-        // }
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
             searchQuery = e.target.value;
@@ -292,18 +283,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateFilters();
         });
     });
-    
-    // dateCheckBoxes.forEach(boxes => {
-    //     boxes.addEventListener("change", (e) => {
-    //         if (e.target.checked) {
-    //             dateFilter.push(e.target.value);
-    //         } else {
-    //             dateFilter = dateFilter.filter(item => item !== e.target.value);
-    //         }
-    //         updateFilters();
-    //     });
-    // });
-    
+
     document.getElementById("sortOptions").addEventListener("change", (e) => {
         const sortValue = e.target.value;
         sort = sortValue
@@ -379,173 +359,41 @@ document.addEventListener('DOMContentLoaded', async () => {
             navbar.classList.remove('active');
         }
     })
-        
-    // const cancelPopup = document.getElementById('cancel-popup');
-    // cancelPopup.addEventListener('click', function() {
-    //     closePopup();
-    // })
+    let toastBox = document.getElementById('toastBox');
+    let toastCount = 0
+    const faSuccess = `<i class="fa-solid fa-bell" style= "color:blue"></i>`;
+    const faError = `<i class="fa-solid fa-circle-x" style= "color:red"></i>`;
+    const faInvalid = `<i class="fa-solid fa-circle-exclamation" style= "color:orange"></i>`;
+    async function showToast(response) {
+        toastCount++
+        let toast = document.createElement('div');
+        toast.classList.add('toast');
+        if (toastCount >= 3){
+            toastCount = 1;
+            toastBox.innerHTML = '';
+        }
+        toast.innerHTML = `${faSuccess} ${response}`;
+        toastBox.appendChild(toast);
+        setTimeout(()=> {
+            toast.remove();
+        }, 5000)
+    }
+    const ws = new WebSocket('ws://localhost:5000');
+    ws.onopen = () => {
+        console.log('connected to socket');
+    }
 
-    // function closePopup() {
-    //     const reportPopup = document.querySelector('.reports-parent');
-    //     reportPopup.classList.add('hidden');
-    // }
+    ws.onmessage = (message) => {
+        const socketData = JSON.parse(message.data);
+        if (socketData.type === 'report-in') {
+            console.log(socketData.content);
+            showToast(socketData.content);
+            
+        }
+    }
 
-    // function displayPcfLeaders(leaders, reports) {
-    //     let count = 1;
-    //     tableBody.innerHTML = '';
-    //     const pcfLeaders = leaders.filter(leader => leader.CellType === 'PCF');
-    //     console.log(pcfLeaders);
+    ws.onclose = () => {
+        console.log('Disconnected from webSocket server');
+    }
 
-    //     if (pcfLeaders.length === 0) {
-    //         tableBody.innerHTML = `<tr><td colspan= "3">No PCF Leader found<td/><tr/>`;
-    //         return;
-    //     }
-
-    //     pcfLeaders.forEach(pcfLeader => {
-    //         const leadersRow = document.createElement('tr');
-
-    //         leadersRow.innerHTML = `
-    //         <td>${count++}</td>
-    //         <td>${pcfLeader.NameOfLeader}</td>
-    //         <td>${pcfLeader.NameOfPcf}</td>
-    //         <td>
-    //             <div class= "report-button">
-    //                 <button id = "view-report-on-table">View Report</button>
-    //             </div>
-    //         </td>
-    //         `;
-    //         tableBody.appendChild(leadersRow)
-    //     })
-    //     displayLeadersReport(leaders);
-    // }
-    
-    // function displayLeadersReport(leaders) {
-    //     const viewReportButton = document.querySelectorAll('.report-button');
-    //     viewReportButton.forEach((button, index) => {
-    //         const leadersCellName = leaders[index];
-    //         button.addEventListener('click', async () => {
-    //             const reportPopup = document.querySelector('.reports-parent');
-    //             reportPopup.classList.toggle('hidden');
-    //             try {
-    //                 if (!leadersCellName) {
-    //                     throw new Error("No user data available for update.");
-    //                 }
-    //                 await getLeadersReport(leadersCellName._id);
-    //                 reportTableHeader.innerHTML= `${leadersCellName.NameOfPcf}`
-    //             } catch (error) {
-    //                 console.error('Error updating leader:', error);
-    //             }
-    //             // document.body.removeChild(loader);
-    //             console.log('click', leadersCellName , index);
-    //         });
-    //     });
-    // }
-
-    // async function getLeadersReport(leadersCellName) {
-    //     console.log(leadersCellName);
-    //     try {
-    //         const response = await fetch(`/cellReportSearch/${leadersCellName}`);
-    //         const data = await response.json()
-    //         displayReports(data);
-    //         hideReportSkeletonRows(reportTable);
-    //     } catch (error) {
-    //         console.error('Error fetching leader report:', error);
-    //     }
-    // }
-
-    // function displayReports(data) {
-    //     let count = 1;
-    //     let leadersData = data.leadersUnderPcf;
-    //     let cellReportsData = data.cellReports;
-    //     let combinedCellName = [];
-      
-    //     combinedCellName = leadersData.filter(leader => {
-    //       return cellReportsData.some(cellReport => {
-    //         return cellReport.CellName === leader.NameOfCell || cellReport.PhoneNumber === leader.PhoneNumber;
-    //       });
-    //     }).map(leader => {
-    //       const matchingReport = cellReportsData.find(cellReport => {
-    //         return cellReport.CellName === leader.NameOfCell || cellReport.PhoneNumber === leader.PhoneNumber;
-    //       });
-    //       if (matchingReport) {
-    //         return { ...leader, ...matchingReport };
-    //       }
-    //       return leader;
-    //     });
-      
-    //     const currentDateRange = getDateRange('lastSunday');
-    //     const startDate = currentDateRange.$gte;
-    //     const endDate = currentDateRange.$lt;
-      
-    //     const reportTable = document.querySelector('#reports-table tbody');
-    //     reportTable.innerHTML = ''
-    //     combinedCellName.forEach(report => {
-    //         const reportRow = document.createElement('tr');
-    //         const reportDetails = document.createElement('tr');
-    //         let status = 'Not Submitted';
-    //         if (report.SubmissionDate) {
-    //           const submissionDate = new Date(report.SubmissionDate);
-    //           if (submissionDate >= startDate && submissionDate < endDate) {
-    //             status = 'Submitted';
-    //           }
-    //         }
-          
-    //         reportRow.innerHTML = `
-    //           <td title= "view Reports">${count++}</td>
-    //           <td title= "view Reports">${report.NameOfLeader}</td>
-    //           <td title= "view Reports">${report.NameOfCell}</td>
-    //           <td title= "view Reports" class="statusColumn">${status} <i class="fa-solid fa-caret-down" id="arrow-down"></i></td>
-    //         `;
-    //         reportDetails.classList.add('hidden');          
-    //         reportRow.addEventListener('click', () => {
-    //             reportDetails.classList.toggle('hidden');
-    //         });
-
-    //         if (status === 'Not Submitted') {
-    //             reportDetails.innerHTML = ` <tr class="report-table-subtable-row hidden">
-    //                 <td colspan="4">
-    //                     Report Has Not Been Submitted
-    //                 </td>
-    //             </tr> `
-    //         }
-
-    //         reportDetails.innerHTML = `
-    //             <tr class="report-table-subtable-row hidden">
-    //                 <td colspan="4">
-    //                     <div class="report-table-subtable-wrapper">
-    //                         <table class="report-table-subtable">
-    //                             <thead>
-    //                                 <tr class="grid-layout">
-    //                                 <th>Name:</th>
-    //                                 <th>Cell:</th>
-    //                                 <th>PhoneNumber:</th>
-    //                                 <th>Service Attendance:</th>
-    //                                 <th>Sunday First Timers:</th>
-    //                                 <th>Cell Meeting Attendance:</th>
-    //                                 <th>Cell First Timers:</th>
-    //                                 <th>offering: </th>
-    //                                 </tr>
-    //                             </thead>
-    //                             <tbody>
-    //                                 <tr class="grid-layout" >
-    //                                 <td>${report.NameOfLeader}</td>
-    //                                 <td>${report.NameOfCell}</td>
-    //                                 <td>${report.PhoneNumber}</td>
-    //                                 <td>${report.ServiceAttendance}</td>
-    //                                 <td>${report.SundayFirstTimers}</td>
-    //                                 <td>${report.CellMeetingAttendance}</td>
-    //                                 <td>${report.CellFirstTimers}</td>
-    //                                 <td>₦${report.offering}</td>
-    //                                 </tr>
-    //                             </tbody>
-    //                         </table>
-    //                     </div>
-    //                 </td>
-    //             </tr>
-    //         `;
-
-    //         reportTable.appendChild(reportRow);
-    //         reportTable.appendChild(reportDetails);
-    //     });
-    // }
 });

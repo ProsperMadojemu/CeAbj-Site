@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    let title = '';
     let name = '';
     let lname = '';
     let phone = '';
@@ -11,135 +12,141 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Fetch session data
     fetch('/check-session')
-        .then(response => response.json())
-        .then(sessionData => {
-            if (sessionData.email) {
-                // Fetch user data from getalldata route
-                fetch('/api/user/getalldata')
-                    .then(response => response.json())
-                    .then(data => {
-                        const user = data.users.find(u => u.Email === sessionData.email);
+    .then(response => response.json())
+    .then(sessionData => {
+        if (sessionData.email) {
+            // Fetch user data from getalldata route
+            fetch('/api/user/getalldata')
+                .then(response => response.json())
+                .then(data => {
+                    const user = data.users.find(u => u.Email === sessionData.email);
 
-                        if (user) {
-                            const userChurchDetails = data.usersChurch.find(uc => uc.FirstName === user.FirstName && uc.LastName === user.LastName);
-                            name = user.FirstName;
-                            lname = user.LastName;
-                            phone = user.PhoneNumber;
-                            country = user.Country;
-                            church = user.Church;
-                            cellname = userChurchDetails.NameOfCell || 'Nill';
-                            department = userChurchDetails.Department || 'Nill';
-                            position = userChurchDetails.Position || 'Nill';
-                            email = user.Email;
+                    if (user) {
+                        const userChurchDetails = data.usersChurch.find(uc => uc.FirstName === user.FirstName && uc.LastName === user.LastName);
+                        name = user.FirstName;
+                        lname = user.LastName;
+                        phone = user.PhoneNumber;
+                        country = user.Country;
+                        church = user.Church;
+                        cellname = userChurchDetails.NameOfCell || 'Nill';
+                        department = userChurchDetails.Department || 'Nill';
+                        position = userChurchDetails.Position || 'Nill';
+                        email = user.Email;
 
-                            document.getElementById('FirstName').value = `${user.FirstName}`;
-                            document.getElementById('LastName').value = `${user.LastName}`;
-                            document.getElementById('CellName').value = `${cellname}`;
-                            document.getElementById('NameOfPcf').value = `${userChurchDetails.NameOfPcf}`;
-                            const welcomeGreeting = document.querySelector('#usersdetails');
-                            const logoutButton = document.getElementById('Logout-Button');
-                            welcomeGreeting.innerHTML = `${user.Title} ${user.FirstName} ${user.LastName}`;
-                            logoutButton.addEventListener('click', () => {
-                                fetch('/api/user/logout', { method: 'POST' })
-                                    .then(() => {
-                                        window.location.reload();
-                                    })
-                                    .catch(error => {
-                                        console.error('Error during logout:', error);
-                                    });
-                            });
+                        document.getElementById('FirstName').value = `${user.FirstName}`;
+                        document.getElementById('LastName').value = `${user.LastName}`;
+                        document.getElementById('CellName').value = `${cellname}`;
+                        document.getElementById('NameOfPcf').value = `${userChurchDetails.NameOfPcf}`;
+                        const welcomeGreeting = document.querySelector('#usersdetails');
+                        const logoutButton = document.getElementById('Logout-Button');
+                        welcomeGreeting.innerHTML = `${user.Title} ${user.FirstName} ${user.LastName}`;
+                        logoutButton.addEventListener('click', () => {
+                            fetch('/api/user/logout', { method: 'POST' })
+                                .then(() => {
+                                    window.location.reload();
+                                })
+                                .catch(error => {
+                                    console.error('Error during logout:', error);
+                                });
+                        });
 
-                            // handleDetailsShown();
-                        } else {
-                            window.location.href = '/login';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching user data:', error);
-                    });
-            } else {
-                window.location.href = '/login';
-            }
-        })
-        .catch(error => {
-            console.error('Error checking session:', error);
-        });
-
-        const navbar = document.querySelector('.vertical-navbar');
-        document.getElementById('DrawerIcon').addEventListener('click', function() {
-            if (!navbar.classList.contains('active')) {
-                navbar.classList.add('active');
-            }else {
-                navbar.classList.remove('active');
-            }
-        });
-        
-        document.getElementById('CloseDrawer').addEventListener('click', function() {
-            if (navbar.classList.contains('active')) {
-                navbar.classList.remove('active');
-            }
-        });
-    
-        window.addEventListener('resize', ()=> {
-            if (navbar.classList.contains('active')) {
-                navbar.classList.remove('active');
-            }
-        })
-
-        let toastBox = document.getElementById('toastBox');
-        let toastCount = 0
-        const faSuccess = `<i class="fa-solid fa-circle-check" style= "color:green"></i>`;
-        const faError = `<i class="fa-solid fa-circle-x" style= "color:red"></i>`;
-        const faInvalid = `<i class="fa-solid fa-circle-exclamation" style= "color:orange"></i>`;
-        async function showToast(response) {
-            let data;
-            toastCount++
-            if (response) {
-                data = await response.json();
-            }
-            let toast = document.createElement('div');
-            toast.classList.add('toast');
-            if (toastCount >= 3){
-                toastCount = 1;
-                toastBox.innerHTML = '';
-            }
-            if (response.status === 201 || response.status === 200){
-                toast.innerHTML = `${faSuccess} ${data.message}`;
-                console.log(toast);
-            } else if(response.status === 400 || response.status === 401 || response.status === 500 || "error" in response){
-                toast.classList.add('error');
-                toast.innerHTML = `${faError} ${data.message || response.error}`;
-            } else if(response.status === 404){
-                toast.classList.add('invalid');
-                toast.innerHTML = `${faInvalid} ${data.message}`;
-            }  else {
-                toast.classList.add('error');
-                toast.innerHTML = `${faError} ${response.message || "Error, please try again."}`;
-            }
-            toastBox.appendChild(toast);
-            setTimeout(()=> {
-                toast.remove();
-            }, 5000)
+                        // handleDetailsShown();
+                    } else {
+                        window.location.href = '/login';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                });
+        } else {
+            window.location.href = '/login';
         }
-    
-        async function toastErr(response) {
-            toastCount++
-            let toast = document.createElement('div');
-            toast.classList.add('toast');
-            if (toastCount >= 3){
-                toastCount = 1;
-                toastBox.innerHTML = '';
-            }
+    })
+    .catch(error => {
+        console.error('Error checking session:', error);
+    });
+
+    const navbar = document.querySelector('.vertical-navbar');
+    document.getElementById('DrawerIcon').addEventListener('click', function () {
+        if (!navbar.classList.contains('active')) {
+            navbar.classList.add('active');
+        } else {
+            navbar.classList.remove('active');
+        }
+    });
+
+    document.getElementById('CloseDrawer').addEventListener('click', function () {
+        if (navbar.classList.contains('active')) {
+            navbar.classList.remove('active');
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        if (navbar.classList.contains('active')) {
+            navbar.classList.remove('active');
+        }
+    })
+
+    const ws = new WebSocket('ws://localhost:5000');
+    let toastBox = document.getElementById('toastBox');
+    let toastCount = 0
+    const faSuccess = `<i class="fa-solid fa-circle-check" style= "color:green"></i>`;
+    const faError = `<i class="fa-solid fa-circle-x" style= "color:red"></i>`;
+    const faInvalid = `<i class="fa-solid fa-circle-exclamation" style= "color:orange"></i>`;
+    async function showToast(response) {
+        let data;
+        toastCount++
+        if (response) {
+            data = await response.json();
+        }
+        let toast = document.createElement('div');
+        toast.classList.add('toast');
+        if (toastCount >= 3) {
+            toastCount = 1;
+            toastBox.innerHTML = '';
+        }
+        if (response.status === 201 || response.status === 200) {
+            toast.innerHTML = `${faSuccess} ${data.message}`;
+            console.log(toast);
+        } else if (response.status === 400 || response.status === 401 || response.status === 500 || "error" in response) {
+            toast.classList.add('error');
+            toast.innerHTML = `${faError} ${data.message || response.error}`;
+        } else if (response.status === 404) {
             toast.classList.add('invalid');
-            toast.innerHTML = `${faInvalid} ${response}`;
-            toastBox.appendChild(toast);
-            setTimeout(()=> {
-                toast.remove();
-            }, 5000)
-        
+            toast.innerHTML = `${faInvalid} ${data.message}`;
+        } else {
+            toast.classList.add('error');
+            toast.innerHTML = `${faError} ${response.message || "Error, please try again."}`;
         }
+        toastBox.appendChild(toast);
+        setTimeout(() => {
+            toast.remove();
+        }, 5000)
+    }
 
+    async function toastErr(response) {
+        toastCount++
+        let toast = document.createElement('div');
+        toast.classList.add('toast');
+        if (toastCount >= 3) {
+            toastCount = 1;
+            toastBox.innerHTML = '';
+        }
+        toast.classList.add('invalid');
+        toast.innerHTML = `${faInvalid} ${response}`;
+        toastBox.appendChild(toast);
+        setTimeout(() => {
+            toast.remove();
+        }, 5000)
 
+    }
+    ws.onopen = () => {
+        console.log('connected to socket');
+    }
+
+    ws.onclose = () => {
+        console.log('Disconnected from webSocket server');
+    }
 
     const reportButton = document.getElementById('submitcellreportbutton');
     reportButton.addEventListener('click', async function (event) {
@@ -152,7 +159,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const formCellMeetingAttendance = document.getElementById('CellMeetingAttendance').value;
         const formCellFirstTimers = document.getElementById('CellFirstTimers').value;
         const formCellOffering = document.getElementById('offering').value;
-        
+
         if (!formFname || !formLname || !formNameOfCell || !formServiceAttendannce || !formSundayFirstTimers || !formCellMeetingAttendance || !formCellFirstTimers || !formCellOffering) {
             toastErr('All Fields Are Required');
         } else if (!formFname) {
@@ -172,8 +179,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const reportForm = document.getElementById('cellReportForm');
                 const formData = new FormData(reportForm);
                 const formJSON = Object.fromEntries(formData.entries());
-    
-                console.log('JSON data to be sent:', JSON.stringify(formJSON));
+
                 const response = await fetch('/api/reports/submit', {
                     method: 'POST',
                     headers: {
@@ -181,12 +187,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                     },
                     body: JSON.stringify(formJSON)
                 });
-    
+
                 if (!response.ok) {
                     const result = await response.json();
                     throw new Error(result.error || 'Failed to Submit Report');
                 }
-    
+                if (ws.readyState === WebSocket.OPEN) {
+                    try {
+                        console.log('condition met');
+                        ws.send(JSON.stringify({
+                            type: 'report-in',
+                            content: `New report received from ${name} ${lname}. Refresh to see the details.`
+                        }));
+                    } catch (error) {
+                        console.error("WebSocket send failed:", error);
+                    }
+                }
                 showToast(response);
                 setTimeout(() => {
                     window.location.reload();
@@ -195,7 +211,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 showToast(response);
             }
         }
-        
+
     })
 
 });

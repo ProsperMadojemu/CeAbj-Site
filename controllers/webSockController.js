@@ -127,7 +127,7 @@ const setupWebSocket = (server) =>{
             const fullName = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
             const joinTime = Date.now();
-            console.log(`WebSocket connected for ${userEmail}.`);
+            // console.log(`WebSocket connected for ${userEmail}.`);
 
             // verifies if new user's email is already attached
             const isUserConnected = connectedClients.some(
@@ -140,16 +140,16 @@ const setupWebSocket = (server) =>{
             if (!isUserConnected) {
                 // if false, push real-time data to the connectedClients array
                 connectedClients.push({ ws, email: userEmail, joinTime, duration});
-                console.log(`User ${userEmail} added to connected clients.`);
+                // console.log(`User ${userEmail} added to connected clients.`);
                 // checks if user's email is not already in the participant data object array
-                console.log(connectedClients.length);
+                // console.log(connectedClients.length);
             } 
             if (!participantData.users.some((user) => user.email === userEmail)) {
                 // adds the user that isn't present
                 participantData.users.push({ email: userEmail, name: fullName, duration: duration, isOnline: true});
-                console.log(`User ${fullName} (email: ${userEmail}) added to participant list.`);
+                // console.log(`User ${fullName} (email: ${userEmail}) added to participant list.`);
             }else {
-                console.log('condition met');
+                // console.log('condition met');
                 duration = isUserConnected.duration
                 const existingUser = participantData.users.find((user) => user.email === userEmail);
                 if (existingUser) {
@@ -168,7 +168,7 @@ const setupWebSocket = (server) =>{
             updateAdminWithParticipantInfo();
             updateComments();
             startFetching();
-            console.log('Realtime length:', connectedClients.length, participantData);
+            // console.log('Realtime length:', connectedClients.length, participantData);
 
             ws.send(JSON.stringify({ type: "resume-timer", duration }));
 
@@ -177,7 +177,7 @@ const setupWebSocket = (server) =>{
                     const data = JSON.parse(message);
                     if (data.type === 'comment') {
                         participantData.comments.push({name: data.name, content: data.content, time: data.time});
-                        console.log(participantData.comments);
+                        // console.log(participantData.comments);
                         updateComments();
                     }
                 } catch (error) {
@@ -195,7 +195,7 @@ const setupWebSocket = (server) =>{
                     const viewDuration = (leaveTime - client.joinTime) / 1000;
                     client.duration += viewDuration
                     viewersDuration += viewDuration; 
-                    console.log(`User ${userEmail} stayed for ${viewDuration} seconds.`);
+                    // console.log(`User ${userEmail} stayed for ${viewDuration} seconds.`);
                 }
                 const userIndex = participantData.users.findIndex(user => user.email === userEmail);
                 if (userIndex !== -1) {
@@ -206,8 +206,8 @@ const setupWebSocket = (server) =>{
                 connectedClients = connectedClients.filter((client) => client.ws !== ws);
                 // Update the admin with participant info in real-time
                 throttledUpdateAdminWithParticipantInfo();
-                console.log(`User ${userEmail} removed from connected clients. Connected clients: ${connectedClients.length}`);
-                console.log(participantData);
+                // console.log(`User ${userEmail} removed from connected clients. Connected clients: ${connectedClients.length}`);
+                // cons0.ole.log(participantData);
                 stopFetching = true;
             });
         } catch (error) {

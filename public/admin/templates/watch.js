@@ -122,7 +122,6 @@ ws.onmessage = (message) => {
     const socketData = JSON.parse(message.data);
     const currentTime = new Date().toLocaleTimeString();
     if (socketData.type === 'update') {
-        // console.log(message, socketData.type);
         views.innerHTML = `${socketData.participants || '--'}`;
         viewsCount.innerHTML = `${socketData.participants || '--'}`;
         avgViews.innerHTML = `${socketData.averageViewDuration || '--'}`;

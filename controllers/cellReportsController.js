@@ -42,7 +42,7 @@ const submitReport = async (req,res) => {
 
         const newCellReport = new usersCellReport(reportField);
         await newCellReport.save();
-        res.status(201).json({ message: "Report submitted successfully" });
+        res.status(201).json({ message: "Report submitted successfully"});
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

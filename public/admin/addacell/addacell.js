@@ -134,7 +134,6 @@ document.addEventListener('DOMContentLoaded', async() => {
         setTimeout(()=> {
             toast.remove();
         }, 5000)
-    
     }
 
 

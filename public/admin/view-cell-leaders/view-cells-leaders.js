@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let page = 1;
     let searchQuery = "";
     let sort;
-    let leadershipPositionFilter = [];
+    let DesignationFilter = [];
     let cellsFilter = [];
     let currentPagee = 1
     function loader (){
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function fetchLeaders() {
         try {
-            const url = `/api/leaders/search?page=${page}&limit=${limit}&search=${encodeURIComponent(searchQuery)}&sort=${sort}&leadersPosition=${leadershipPositionFilter}&cell=${cellsFilter}`;
+            const url = `/api/leaders/search?page=${page}&limit=${limit}&search=${encodeURIComponent(searchQuery)}&sort=${sort}&Designation=${DesignationFilter}&cell=${cellsFilter}`;
             const response = await fetch(url);
             const data = await response.json();
             
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <td>${count++}</td>
                 <td>${leader.NameOfLeader}</td>
                 <td>${leader.PhoneNumber || "N/A"}</td>
-                <td>${leader.LeaderPosition || "--"}</td>
+                <td>${leader.Designation || "--"}</td>
                 <td>${leader.NameOfPcf || "--"}</td>
                 <td>${leader.NameOfSeniorCell || "--"}</td>
                 <td>${leader.NameOfCell || "--"}</td>
@@ -176,9 +176,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     leadersCheckBoxes.forEach(boxes => {
         boxes.addEventListener("change", (e) => {
             if (e.target.checked) {
-                leadershipPositionFilter.push(e.target.value);
+                DesignationFilter.push(e.target.value);
             } else {
-                leadershipPositionFilter = leadershipPositionFilter.filter(item => item !== e.target.value);
+                DesignationFilter = DesignationFilter.filter(item => item !== e.target.value);
             }
             updateFilters();
         });
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             box.checked = false;
         });
         departmentFilter = []
-        leadershipPositionFilter=[]
+        DesignationFilter=[]
         updateFilters();
     })
     document.getElementById("sortOptions").addEventListener("change", (e) => {
@@ -369,8 +369,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     async function handleLeadersUpdates(userData) {
         document.getElementById("NameOfLeader").value = userData.NameOfLeader;
         document.getElementById("PhoneNumber").value = userData.PhoneNumber;
-        document.getElementById("LeaderPosition").innerHTML = `
-            <option value="${userData.LeaderPosition}" hidden>${userData.LeaderPosition}</option>
+        document.getElementById("Designation").innerHTML = `
+            <option value="${userData.Designation}" hidden>${userData.Designation}</option>
             <option value="CO-ORDINATOR">CO-ORDINATOR</option>
             <option value="PCF">PCF LEADER</option>
             <option value="SENIOR-CELL">SENIOR-CELL LEADER</option>

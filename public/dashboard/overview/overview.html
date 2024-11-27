@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CeAbaranje || Dashboard/SubmitReport</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="/dashboard/overview/overview.css" />
+    <link rel="stylesheet" href="./overview.css" />
+    <link rel="stylesheet" href="/annimations.css" />
+    <link
+      rel="stylesheet"
+      href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css"
+    />
+  </head>
+  <body>
+    <div id="toastBox"></div>
+    <main class="sub-body">
+      <main class="dashboard-sub-body">
+        <nav class="vertical-navbar">
+          <div class="vertical-navbar-box">
+            <div class="nocssneeded">
+              <div class="user-details">
+                <i id="CloseDrawer" class="fa-regular fa-xmark closeIcon"></i>
+                <div class="admin-profile-icon">
+                  <span class="greeting-user">
+                    <i class="fa-solid fa-user fa-xl"></i>
+                  </span>
+                  <span>
+                    <!-- <p id="usersTitle"></p> -->
+                    <p class="userGreeting" id="usersdetails"></p>
+                  </span>
+                </div>
+              </div>
+              <hr />
+              <div class="navbar-list-items">
+                <ul class="dashboard-links">
+                  <a href="/dashboard/edit-profile">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-user-pen"></i>
+                      <p>Edit profile</p>
+                    </li>
+                  </a>
+                  <a href="/dashboard/overview">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-diagram-lean-canvas"></i>
+                      <p>Overview</p>
+                    </li>
+                  </a>
+                  <a href="/dashboard/submit-report">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-pen-to-square"></i>
+                      <p>Submit report</p>
+                    </li>
+                  </a>
+                  <a href="/dashboard/messages">
+                    <li class="dashboard-items">
+                      <i class="fa-regular fa-paper-plane-top"></i>
+                      <p>Messages</p>
+                    </li>
+                  </a>
+                </ul>
+              </div>
+            </div>
+            <div class="left-dash-footer">
+              <div class="logout-parent" id="Logout-Button">
+                <div class="logout-button">
+                  <button class="button" id="" type="button">
+                    <i class="fa-solid fa-right-from-bracket fa-lg"></i>Logout
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <section class="dashboard-content">
+          <div class="dashboard-content-box">
+            <div class="dashboard-content-title">
+              <button class="drawerIcon" id="DrawerIcon">≡</button>
+              <a href="javascript:history.back()" class="go-back">
+                <i class="fa-solid fa-arrow-left"></i>
+              </a>
+              <h1>Overview</h1>
+            </div>
+            <div class="empty-div"></div>
+            <div class="overview">
+              <div class="verification-box">
+                <i class="fa-solid fa-circle-xmark"></i>
+                <p>User is not verified. Kindly Contact admin for verification</p>
+              </div>
+              <div class="welcoming-container">
+                <div class="left">
+                  <span class="name user-name">
+                    <!-- Populated from JS -->
+                  </span>
+                  <span class="role user-designation"><!-- Populated from JS --></span>
+                </div>
+                <div class="right users-verification">
+                  --
+                </div>
+              </div>
+              <div class="stat-wrapper">
+                <div class="stat-container">
+                  <span class="title"
+                    >Number Of Leaders in <span class="user-designation_cell lower-case">--</span></span
+                  >
+                  <span class="leaders user-leader-count">--</span>
+                </div>
+                <div class="stat-container">
+                  <span class="title">Number Of Members in cell</span>
+                  <span class="leaders Members-count">--</span>
+                </div>
+                <div class="stat-container">
+                  <span class="title">Average Service Attendance</span>
+                  <span class="leaders user-attendance-count">--</span>
+                </div>
+              </div>
+              <div class="middle-wrapper">
+                <div class="watch-stats">
+                  <div class="meeting-details">Meeting Details</div>
+                  <div class="row">
+                    <span class="watch-stat-title">Attended</span>
+                    <span class="stat service-attendance-count">--</span>
+                  </div>
+                  <div class="row">
+                    <span class="watch-stat-title">Duration</span>
+                    <span class="stat average-service-duration">00:00</span>
+                  </div>
+                  <div class="time-span"><sub>(last 28 days)</sub></div>
+                </div>
+                <div class="messages-wrapper">
+                  <div class="messages-title">Recent Messages</div>
+                  <!-- Poplated from js -->
+                </div>
+              </div>
+              
+              <div class="tables-wrapper">
+                <caption>
+                  Reports Under
+                  <span>Pcf</span>
+                </caption>
+                <table class="reports-table">
+                  <thead>
+                    <tr>
+                      <th>SN</th>
+                      <th>Name</th>
+                      <th>Cell</th>
+                      <th>Service Attendance</th>
+                      <th>Cell Attendance</th>
+                      <th>Cell First Timers</th>
+                      <th>Sunday First Timers</th>
+                      <th>Offering</th>
+                      <th>Status</th>
+                      <th>Date Submitted</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- POPULATED FROM JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </main>
+    <script defer src="/dashboard/overview/overview.js"></script>
+  </body>
+</html>

@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    Email: String,
-    Title: String,
-    FirstName: String,
-    LastName: String,
-    PhoneNumber: String,
-    Country: String,
-    LeadershipPosition: String,
-    Church: String,
-    Password: String,
+    Email: {type: String, required: true},
+    Title: {type: String, required: true},
+    FirstName: {type: String, required: true},
+    LastName: {type: String, required: true},
+    PhoneNumber: {type: String, required: true},
+    Country: {type: String, required: true},
+    Designation: {type: String, required: false},
+    Church: {type: String, required: true},
+    Password: {type: String, required: true},
     registrationDate: {
         type: Date,
         default: Date.now,
@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "Default",
     },
+    isVerified: { type: Boolean, default: false }
 });
 
 const Users = mongoose.model("users", userSchema);

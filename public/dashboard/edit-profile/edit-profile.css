@@ -247,17 +247,11 @@ input[type="number"] {
     .form-container {
         gap: 10px;
     }
-    .empty-div{ 
+    /* .empty-div{ 
         height: 10%;
-    }
+    } */
 
     .form-container {
         padding: 10px 20px 10px 20px;
-    }
-}
-
-@media (width < 565px) {
-    .empty-div{ 
-        height: 40%;
     }
 }

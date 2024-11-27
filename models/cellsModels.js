@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const newCellSchema = new mongoose.Schema({
     NameOfLeader: String,
     PhoneNumber: String,
-    LeaderPosition: String,
+    Designation: String,
     CellType: String,
     NameOfPcf: String,
     NameOfSeniorCell: String,

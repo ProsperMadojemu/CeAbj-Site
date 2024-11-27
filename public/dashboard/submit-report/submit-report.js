@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         church = user.Church;
                         cellname = userChurchDetails.NameOfCell || 'Nill';
                         department = userChurchDetails.Department || 'Nill';
-                        position = userChurchDetails.Position || 'Nill';
+                        position = userChurchDetails.D || 'Nill';
                         email = user.Email;
 
                         document.getElementById('FirstName').value = `${user.FirstName}`;
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     })
 
-    const ws = new WebSocket('ws://localhost:5000');
+    const ws = new WebSocket('ws://localhost:8080');
     let toastBox = document.getElementById('toastBox');
     let toastCount = 0
     const faSuccess = `<i class="fa-solid fa-circle-check" style= "color:green"></i>`;
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         console.log('condition met');
                         ws.send(JSON.stringify({
                             type: 'report-in',
-                            content: `New report received from ${name} ${lname}. Refresh to see the details.`
+                            content: `New report received from ${name} ${lname}. Refresh to view.`
                         }));
                     } catch (error) {
                         console.error("WebSocket send failed:", error);

@@ -3,6 +3,7 @@ import UsersChurch from "../models/usersChurchModel.js"
 import Users from "../models/usersModel.js"
 import transformFormData from "../utils/formTransformer.js"
 import Admin from "../models/adminModel.js";
+import newCell from "../models/cellsModels.js";
 
 const registerUser = async (req, res) => {
     try {
@@ -34,7 +35,7 @@ const registerUser = async (req, res) => {
             PhoneNumber: transformedData.PhoneNumber,
             Country: transformedData.Country,
             Church: transformedData.Church,
-            LeadershipPosition: transformedData.LeadershipPosition,
+            Designation: transformedData.Designation,
             Password: transformedData.Password,
             registrationDate: transformedData.registrationDate,
             userType: transformedData.userType,
@@ -45,7 +46,7 @@ const registerUser = async (req, res) => {
             FirstName: transformedData.FirstName,
             LastName: transformedData.LastName,
             Church: transformedData.Church,
-            LeadershipPosition: transformedData.LeadershipPosition,
+            Designation: transformedData.Designation,
             NameOfCell: transformedData.NameOfCell,
             NameOfPcf: transformedData.NameOfPcf,
             Department: transformedData.Department,
@@ -135,27 +136,36 @@ const updateUser = async (req, res) => {
 
         const email = req.session.user.email; //last email shoudl be spelt {email} not {Email}
         const updateFields = req.body;
-
-        const updatedUser = await Users.findOneAndUpdate(
-            { Email: email },
-            { $set: updateFields },
-            { new: true }
-        );
-
-        if (!updatedUser) {
+        const user = await Users.findOne({Email: email})
+        const churchDetails = await UsersChurch.findOne({Email: email})
+        const {PhoneNumber} = user
+        const cell = await newCell.findOne({PhoneNumber: PhoneNumber})
+        let isVerified = false;
+        if (cell) {
+            isVerified = true
+        }
+        if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
-
-        const userChurchDetails = await UsersChurch.findOneAndUpdate(
-            { Email: email },
-            { $set: updateFields },
-            { new: true }
-        );
-
-        if (!userChurchDetails) {
+        if (!churchDetails) {
             return res.status(404).json({ error: "User church details not found" });
         }
 
+            await Users.findOneAndUpdate(
+                { Email: email },
+                {
+                    $set: {
+                        ...updateFields,
+                        isVerified: isVerified
+                    } 
+                },
+                { new: true }
+            );
+        await UsersChurch.findOneAndUpdate(
+            { Email: email },
+            { $set: updateFields },
+            { new: true }
+        );
         return res.status(200).json({ message: "User updated successfully" });
     } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -184,9 +194,9 @@ const usersApi = async (req, res) => {
         const limit = parseInt(req.query.limit) === 0 ? 0 : parseInt(req.query.limit) || 10;
         const search = req.query.search || "";
         let sort = req.query.sort || "";
-        let leadershipPositionFilter = req.query.leadershipPosition || "All";
+        let DesignationFilter = req.query.Designation || "All";
         let departmentFilter = req.query.department || "All";
-        const leadershipPositions = await Users.distinct("LeadershipPosition");
+        const Designations = await Users.distinct("Designation");
         const departments = await Users.distinct("Department");
         
 
@@ -195,7 +205,7 @@ const usersApi = async (req, res) => {
         // console.log("Limit:", limit);
         // console.log("Search Query:", search);
         // console.log("Sort By:", sort);
-        // console.log("Leadership Position Filter:", leadershipPositionFilter);
+        // console.log("Designation Filter:", DesignationFilter);
         // console.log("Department Filter:", departmentFilter);
 
         const sortParams = sort.split(",");
@@ -212,11 +222,11 @@ const usersApi = async (req, res) => {
                     { Church: regex },
                     { NameOfCell: regex },
                     { PhoneNumber: regex },
-                    { LeadershipPosition: regex },
+                    { Designation: regex },
                     { Department: regex },
                 ],
             }),
-            ...(leadershipPositionFilter !== "All" && { LeadershipPosition: leadershipPositionFilter }),
+            ...(DesignationFilter !== "All" && { Designation: DesignationFilter }),
             ...(departmentFilter !== "All" && { Department: departmentFilter }),
         };
 
@@ -253,7 +263,7 @@ const usersApi = async (req, res) => {
             limit,
             totalDocuments,
             users: mergedUsers,
-            leadershipPositions,
+            Designations,
             departments,
             totalPages: Math.ceil(total / limit),
         });

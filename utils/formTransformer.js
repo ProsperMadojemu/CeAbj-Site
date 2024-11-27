@@ -11,7 +11,7 @@ const fieldMapping = {
     zones: "Zone",
     departments: "Department",
     cellName: "NameOfCell",
-    Position: "LeadershipPosition",
+    Position: "Designation",
 };
 
 function transformFormData(formData) {

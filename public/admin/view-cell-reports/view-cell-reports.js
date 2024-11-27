@@ -361,9 +361,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     })
     let toastBox = document.getElementById('toastBox');
     let toastCount = 0
-    const faSuccess = `<i class="fa-solid fa-bell" style= "color:blue"></i>`;
-    const faError = `<i class="fa-solid fa-circle-x" style= "color:red"></i>`;
-    const faInvalid = `<i class="fa-solid fa-circle-exclamation" style= "color:orange"></i>`;
+    const faSuccess = `<i class="fa-solid fa-bell wobble-hor-top" style= "color:blue"></i>`;
     async function showToast(response) {
         toastCount++
         let toast = document.createElement('div');
@@ -378,17 +376,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             toast.remove();
         }, 5000)
     }
-    const ws = new WebSocket('ws://localhost:5000');
+    const ws = new WebSocket('ws://localhost:8080');
     ws.onopen = () => {
         console.log('connected to socket');
     }
 
-    ws.onmessage = (message) => {
-        const socketData = JSON.parse(message.data);
-        if (socketData.type === 'report-in') {
-            console.log(socketData.content);
-            showToast(socketData.content);
-            
+    ws.onmessage = (event) => {
+        const socketData = JSON.parse(event.data);
+        const {message} = socketData
+        if (message.type === 'report-in') {
+            showToast(message.content);
         }
     }
 

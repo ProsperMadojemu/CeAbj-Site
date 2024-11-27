@@ -129,7 +129,6 @@ ws.onmessage = (message) => {
         peakViewsCount.innerHTML = `${socketData.peakParticipants || '--'}`;
         concurrentViewers.push({ views: socketData.peakParticipants, timestamp: currentTime });
         populateTable(socketData.names)
-        console.log();
         users = socketData.names;
         avgViewDur = socketData.averageViewDuration
         viewCount = socketData.peakParticipants
@@ -139,7 +138,7 @@ ws.onmessage = (message) => {
         const { comment } = socketData
         comments = socketData.comment;
         commentsLength.innerHTML = `${comment.length}`
-        console.log(comment);
+        // console.log(comment);
         populateComments(comment);
     }
     if (socketData.type === 'stat-update') {
@@ -212,7 +211,7 @@ function populateTable(data) {
         span.classList.add('viewers_duration_count')
         span.textContent = formatTime(durationCount)
         if (user.isOnline) {
-            const intervalId = setInterval(() => {
+            intervalId = setInterval(() => {
                 durationCount += 1;
                 span.textContent = formatTime(durationCount)
             }, 1000);
@@ -311,6 +310,7 @@ meetingButton.addEventListener('click', async () => {
         console.log('meeting is live');
         updateStatus('finished');
         handleMeetingEnd();
+        clearInterval(intervalId);
         meetingButton.classList.remove('live');
     }
     if (!isLive && isFinished) {

@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             leadersRow.innerHTML = `
                 <td>${count++}. ${leader.NameOfLeader}</td>
                 <td>${leader.NameOfCell}</td>
-                <td>${leader.LeaderPosition} Leader</td>
+                <td>${leader.Designation} Leader</td>
                 <td>${date}</td>
             `
             leadersTable.appendChild(leadersRow);

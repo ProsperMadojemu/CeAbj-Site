@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         zone = userChurchDetails.Zone;
                         cellname = userChurchDetails.NameOfCell || 'Nill';
                         department = userChurchDetails.Department || 'Nill';
-                        position = userChurchDetails.LeadershipPosition || 'Nill';
+                        position = userChurchDetails.Designation || 'Nill';
                         email = user.Email;
 
                         const welcomeGreeting = document.querySelector('#usersdetails');
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('Email').value = email;
         document.getElementById('Country').value = country;
         document.querySelector('#Church option[value="churchoption"]').textContent = church;
-        document.getElementById('LeadershipPosition').innerHTML = `                    
+        document.getElementById('Designation').innerHTML = `                    
             <option value="${position}" hidden>${position}</option>
             <option value="" hidden>Choose an option</option>
             <option value="PCF-leader">PCF Leader</option>
@@ -163,22 +163,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    document.getElementById('LeadershipPosition').addEventListener('change', function () {
+    document.getElementById('Designation').addEventListener('change', function () {
         handleLeaderSelection(this.value);
         handleLeadersFetching(this.value);
     });
 
-    function handleLeaderSelection(LeadershipPosition) {
+    function handleLeaderSelection(Designation) {
         const cellGroup = document.querySelector('#cellnamegroup'); 
 
-        if (LeadershipPosition === 'Member') {
+        if (Designation === 'Member') {
             cellGroup.style.display = 'block';
             document.getElementById('NameOfCell').innerHTML = `                    
             <option value="" hidden>Choose an option</option>
             <option value="Not In A Cell">No</option>
             <option value="">Yes</option>`;
             document.getElementById('cellname-label').innerHTML = `Are you in a cell`;
-        } else if ( LeadershipPosition === 'PCF-leader' || LeadershipPosition === 'Senior-Cell-leader' || LeadershipPosition === 'Cell-leader') {
+        } else if ( Designation === 'PCF-leader' || Designation === 'Senior-Cell-leader' || Designation === 'Cell-leader') {
             cellGroup.style.display = 'block';
             document.getElementById('NameOfCell').innerHTML = ``;
             document.getElementById('cellname-label').innerHTML = ` `;
@@ -188,8 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function handleLeadersFetching(LeaderPosition) {  
-        if (LeaderPosition === 'PCF-leader') {
+
+    
+    async function handleLeadersFetching(Designation) {  
+        if (Designation === 'PCF-leader') {
             document.getElementById('cellname-label').innerHTML = `Name of Pcf`;
 
             try {
@@ -224,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         } 
-        else if ( LeaderPosition === 'Senior-Cell-leader') { 
+        else if ( Designation === 'Senior-Cell-leader') { 
             document.getElementById('cellname-label').innerHTML = `Name of Senior Cell`;
 
             try {
@@ -256,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
-        } else if (LeaderPosition === 'Cell-leader') {
+        } else if (Designation === 'Cell-leader') {
             document.getElementById('cellname-label').innerHTML = `Name of Cell`;
             try {
                 const response = await fetch('/cell-leaders');

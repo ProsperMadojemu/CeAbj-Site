@@ -30,6 +30,9 @@ pageRouter.get("/dashboard/submit-report", (req, res) => {
 pageRouter.get("/dashboard/messages", (req, res) => {
     res.sendFile(path.join(publicPath, "dashboard", "messages", "messages.html"));
 });
+pageRouter.get("/dashboard/overview", (req, res) => {
+    res.sendFile(path.join(publicPath, "dashboard", "overview", "overview.html"));
+});
 pageRouter.get("/admin/overview", (req, res) => {
     res.sendFile(path.join(publicPath, "admin", "overview", "overview.html"));
 });

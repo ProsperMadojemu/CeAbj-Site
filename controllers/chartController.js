@@ -7,13 +7,13 @@ const chartItemsData = async (req, res) => {
         const numberOfUsers = await Users.countDocuments();
         const numberOfLeaders = await newCell.countDocuments();
         const numberOfPcfLeaders = await newCell.countDocuments({
-            LeaderPosition: "PCF",
+            Designation: "PCF",
         });
         const numberOfSeniorLeaders = await newCell.countDocuments({
-            LeaderPosition: "SENIOR-CELL",
+            Designation: "SENIOR-CELL",
         });
         const numberOfCellLeaders = await newCell.countDocuments({
-            LeaderPosition: "CELL",
+            Designation: "CELL",
         });
         const cellReportData = await usersCellReport.aggregate([
             {

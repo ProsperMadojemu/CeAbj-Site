@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', async() => {
     document.getElementById('submitnewcellbutton').addEventListener('click', async function(event) {
         event.preventDefault();
         const formLeadersName = document.getElementById('NameOfLeader').value;
-        const formLeadersPosition = document.getElementById('LeaderPosition').value;
+        const formLeadersPosition = document.getElementById('Designation').value;
         const formCellType = document.getElementById('CellType');
         if (!formLeadersName || !formLeadersPosition || !formCellType) {
             toastErr('Please fill out all necessary fields')

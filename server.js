@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import path from "path";
 import cors from "cors";
 import dbConnection from "./dbConnection.js";
+import WebSocket, { WebSocketServer } from 'ws';
 import userRouter from "./routes/usersRoute.js";
 import chartRouter from "./routes/chartRoute.js";
 import commentsRouter from "./routes/commentsRoute.js";
@@ -63,18 +64,28 @@ app.get("/check-session", (req, res) => {
     }
 });
 
+const ws = new WebSocketServer({port: 8080})
 const server = http.createServer(app);
-// WebSocketServer.on('connection', (socket) => {
-//     console.log('New client connected to second WebSocket server');
+ws.on('connection', (socket) => {
+    console.log('New client connected to second WebSocket server');
     
-//     socket.on('message', (message) => {
-//         console.log('Received message on second WebSocket server:', message);
-//     });
+    socket.on('message', (event) => {
+        const message = JSON.parse(event);
+        ws.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(
+                    JSON.stringify({
+                        message
+                    })
+                );
+            }
+        });
+    });
 
-//     socket.on('close', () => {
-//         console.log('Client disconnected from second WebSocket server');
-//     });
-// });
+    socket.on('close', () => {
+        console.log('Client disconnected from second WebSocket server');
+    });
+});
 setupWebSocket(server);
 
 const PORT = process.env.PORT;

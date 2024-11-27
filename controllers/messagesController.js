@@ -23,7 +23,7 @@ const sendMessage = async (req, res) => {
             isSent = false;
         }
         for (let recipient of Recipients) {
-            const group = await Users.find({ LeadershipPosition: recipient });
+            const group = await Users.find({ Designation: recipient });
             if (group.length > 0) {
                 allRecipients = allRecipients.concat(group);
             } else {

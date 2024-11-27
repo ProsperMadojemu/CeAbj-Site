@@ -5,7 +5,7 @@ const submitCell = async (req, res) => {
         const {
             NameOfLeader,
             PhoneNumber,
-            LeaderPosition,
+            Designation,
             CellType,
             NameOfPcf,
             NameOfSeniorCell,
@@ -16,7 +16,7 @@ const submitCell = async (req, res) => {
         const newCellsField = {
             NameOfLeader,
             PhoneNumber,
-            LeaderPosition,
+            Designation,
             CellType,
             NameOfPcf,
             NameOfSeniorCell,
@@ -158,7 +158,7 @@ const leadersApi = async (req,res) => {
         const limit = parseInt(req.query.limit) === 0 ? 0 : parseInt(req.query.limit) || 10;
         const search = req.query.search || "";
         let sort = req.query.sort || "";
-        let leadershipPositionFilter = req.query.leadersPosition || "All";
+        let DesignationFilter = req.query.Designation || "All";
         let cellFilter = req.query.cell || "All";
         const pcfs = await newCell.distinct("NameOfPcf");
 
@@ -167,7 +167,7 @@ const leadersApi = async (req,res) => {
         // console.log("Limit:", limit);
         // console.log("Search Query:", search);
         // console.log("Sort By:", sort);
-        // console.log("Leadership Position Filter:", leadershipPositionFilter);
+        // console.log("Designation Filter:", DesignationFilter);
         // console.log("Cell Filter:", cellFilter);
 
         const sortParams = sort.split(",");
@@ -183,11 +183,11 @@ const leadersApi = async (req,res) => {
                     { NameOfPcf: regex },
                     { NameOfSeniorCell: regex },
                     { NameOfCell: regex },
-                    { LeaderPosition: regex },
+                    { Designation: regex },
                     { PhoneNumber: regex },
                 ],
             }),
-            ...(leadershipPositionFilter !== "All" && { CellType: leadershipPositionFilter }),
+            ...(DesignationFilter !== "All" && { CellType: DesignationFilter }),
             ...(cellFilter !== "All" && { NameOfPcf: cellFilter }),
         };
 

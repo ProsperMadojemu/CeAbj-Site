@@ -6,7 +6,7 @@ const userChurchSchema = new mongoose.Schema({
     LastName: String,
     Church: String,
     NameOfPcf: String,
-    LeadershipPosition: String,
+    Designation: String,
     NameOfCell: String,
     Department: String,
     Zone: String,

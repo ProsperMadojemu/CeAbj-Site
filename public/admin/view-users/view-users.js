@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let page = 1;
     let searchQuery = "";
     let sort;
-    let leadershipPositionFilter = [];
+    let DesignationFilter = [];
     let departmentFilter = [];
     let currentPagee = 1
     function loader() {
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function fetchUsers() {
         try {
-            const url = `/api/users/search?page=${page}&limit=${limit}&search=${encodeURIComponent(searchQuery)}&sort=${sort}&leadershipPosition=${leadershipPositionFilter}&department=${departmentFilter}`;
+            const url = `/api/users/search?page=${page}&limit=${limit}&search=${encodeURIComponent(searchQuery)}&sort=${sort}&Designation=${DesignationFilter}&department=${departmentFilter}`;
             const response = await fetch(url);
             const data = await response.json();
 
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <td>${user._doc.Email || "N/A"}</td>
                 <td>${user._doc.PhoneNumber || "N/A"}</td>
                 <td>${user._doc.Church || "N/A"}</td>
-                <td>${user._doc.LeadershipPosition || "N/A"}</td>
+                <td>${user._doc.Designation || "N/A"}</td>
                 <td>${user.NameOfCell}</td>
                 <td>${user.Department}</td>
                 <td>${new Date(user._doc.registrationDate).toLocaleDateString()}</td>
@@ -133,9 +133,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     leadersCheckBoxes.forEach(boxes => {
         boxes.addEventListener("change", (e) => {
             if (e.target.checked) {
-                leadershipPositionFilter.push(e.target.value);
+                DesignationFilter.push(e.target.value);
             } else {
-                leadershipPositionFilter = leadershipPositionFilter.filter(item => item !== e.target.value);
+                DesignationFilter = DesignationFilter.filter(item => item !== e.target.value);
             }
             updateFilters();
         });
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             box.checked = false;
         });
         departmentFilter = []
-        leadershipPositionFilter = []
+        DesignationFilter = []
         updateFilters();
     })
     document.getElementById("sortOptions").addEventListener("change", (e) => {

@@ -61,7 +61,7 @@ const deleteMeeting = async (req,res) => {
 
 function allowMeetingAccess (id) {
     const user = UsersChurch.findById(id);
-    const position = user.LeadershipPostion;
+    const position = user.Designation;
     const meeting = meetingModel.find({ status: "live" });
     const allowed = meeting.allowedParticipants;
 

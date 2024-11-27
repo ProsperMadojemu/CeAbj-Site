@@ -487,7 +487,14 @@ button:disabled {
 #deny-button {
     color: red;
 }
-
+.toast {
+    white-space: wrap;
+    font-size: .875rem;
+}
+.wobble-hor-top {
+	-webkit-animation: wobble-hor-top 0.8s both infinite;
+    animation: wobble-hor-top 0.8s both  infinite;
+}
 @media (width <= 768px) {
     .empty-div {
         height: 12%;

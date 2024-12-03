@@ -1,51 +1,86 @@
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('/check-session')
-    .then(response => response.json())
-    .then(sessionData => {
-        if (sessionData.email && !sessionData.isAdmin) {
-            const welcomeGreeting = document.querySelector('.userGreeting');
+    const initializeUserSession = async () => {
+        try {
+            const localUserSession = localStorage.getItem('userSession');
+    
+            if (localUserSession) {
+                const userSession = JSON.parse(localUserSession);
+                if (userSession.email) {
+                    updateUI(userSession);
+                    return;
+                }
+            }
+    
+            const response = await fetch('/check-session', { credentials: 'include' });
+            if (!response.ok) {
+                throw new Error('Session check failed');
+            }
+    
+            const sessionData = await response.json();
+            if (sessionData.email) {
+                localStorage.setItem('userSession', JSON.stringify(sessionData));
+                updateUI(sessionData);
+            } else {
+                throw new Error('Session invalid');
+            }
+        } catch (error) {
+            console.error('Failed to fetch or validate session:', error);
+            localStorage.removeItem('userSession');
+        }
+    };
+    
+    const updateUI = (user) => {
+        const { firstName, lastName, isAdmin } = user;
+        const userGreeting = document.querySelector('.userGreeting');
+        const loginButton = document.getElementById('Login-Button');
+        const userIcon = document.getElementById('loginIcon');
+    
+        if (!isAdmin) {
+            userGreeting.textContent = `Hi, ${firstName} ${lastName}`;
+            loginButton.classList.add('hidden-class');
+            userIcon.classList.replace('login_icon', 'login_icon-visible');
+            const userDropMenu = document.getElementById('user-dropdown');
             const cancelDropdown = document.getElementById('cancel-click');
-            const userIcon = document.querySelector('#loginIcon');
-            const userDropMenu = document.querySelector('#user-dropdown');
-        
-            userIcon.addEventListener('click', function(event) {
-                event.stopPropagation(); // Prevent the click event from bubbling up to the document
-                console.log('click seen');
-                userDropMenu.classList.remove('login-content-before-click');
-                userDropMenu.classList.add('login-content-after-click');
+            loginIcon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleDropdown(userDropMenu, 'show');
             });
-            
-            document.addEventListener('click', function(event) {
-                if (!userDropMenu.contains(event.target) && !userIcon.contains(event.target)) {
-                    userDropMenu.classList.remove('login-content-after-click');
-                    userDropMenu.classList.add('login-content-before-click');
+        
+            document.addEventListener('click', (e) => {
+                if (!userDropMenu.contains(e.target) && !loginIcon.contains(e.target)) {
+                    toggleDropdown(userDropMenu, 'hide');
                 }
             });
-            
-            cancelDropdown.addEventListener('click',function() {
-                userDropMenu.classList.remove('login-content-after-click');
-                userDropMenu.classList.add('login-content-before-click');
-            })
-            // Optionally add a logout button
-            welcomeGreeting.innerHTML = `Hi, ${sessionData.firstName} ${sessionData.lastName}`;
-            const logoutButton = document.getElementById('Logout-Button');
-            const loginIcon = document.getElementById('loginIcon');
-            loginButton.classList.remove('btn-71');
-            loginButton.classList.add('hidden-class');
-            loginIcon.classList.remove('login_icon');
-            loginIcon.classList.add('login_icon-visible');
-            logoutButton.addEventListener('click', () => {
-                fetch('/api/user/logout', { method: 'POST' })
-                .then(() => {
-                    window.location.reload();
-                });
-            });
+            const toggleDropdown = (menu, action) => {
+                if (menu) {
+                    menu.classList.toggle('login-content-before-click', action === 'hide');
+                    menu.classList.toggle('login-content-after-click', action === 'show');
+                } else {
+                    console.warn('Menu element not found');
+                }
+            };
+            cancelDropdown.addEventListener('click', () => toggleDropdown(userDropMenu, 'hide'));
         }
-    });
+        const logoutUser = async () => {
+            try {
+                await fetch('/api/user/logout', { method: 'POST', credentials: 'include' });
+                localStorage.removeItem('userSession');
+                window.location.reload();
+            } catch (error) {
+                console.error('Logout failed:', error);
+            }
+        };
+        document.getElementById('Logout-Button').addEventListener('click', logoutUser)
+    };
     
+
+    initializeUserSession();
+
+    
+
     const navbar = document.querySelector('.landing-page-navbar');
     const loginButton = document.querySelector('.btn-71');
-    const loggedInButton = document.querySelector('.login_icon')
+    const loggedInButton = document.querySelector('#loginIcon')
 
     window.addEventListener('scroll', () => {
         if (window.scrollY > 10) {
@@ -59,44 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const text1 = document.getElementById('text1');
-    const text2 = document.getElementById('text2');
-    const subTitle = document.querySelector('.landing-page-main-sub-title');
-    
-    const typeText = (textElement, duration) => {
-        subTitle.style.width = '0';
-        textElement.style.display = 'inline';
-        subTitle.style.animation = `typing ${duration}s steps(${textElement.textContent.length}), cursor .4s step-end infinite alternate`;
-    };
-
-    const deleteText = (duration) => {
-        subTitle.style.animation = `deleting ${duration}s steps(${subTitle.textContent.length})`;
-    };
-
-    let isText1Visible = true;
-
-    const loopAnimation = () => {
-        if (isText1Visible) {
-            deleteText(2);
-            setTimeout(() => {
-                text1.style.display = 'none';
-                typeText(text2, 2);
-                isText1Visible = false;
-                setTimeout(loopAnimation, 2000);
-            }, 2000);
-        } else {
-            deleteText(2);
-            setTimeout(() => {
-                text2.style.display = 'none';
-                typeText(text1, 2);
-                isText1Visible = true;
-                setTimeout(loopAnimation, 2000);
-            }, 2000);
-        }
-    };
-
-    setTimeout(loopAnimation, 8000);
-
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -108,143 +105,108 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const imageBlocks = document.querySelectorAll('.image-block');
     let currentIndex = 0; // To keep track of the current image block index
-    
-    // Add click event listeners to image blocks
+
     imageBlocks.forEach(imageBlock => {
         imageBlock.addEventListener('click', expandImage);
     });
-    
+
     function expandImage(event) {
         imageBlocks.forEach(block => block.classList.remove('expanded', 'no-hover'));
-    
+
         if (event) {
             event.currentTarget.classList.add('expanded', 'no-hover');
         } else {
             imageBlocks[currentIndex].classList.add('expanded', 'no-hover');
         }
     }
-    
+
     function cycleImages() {
         expandImage();
-        currentIndex = (currentIndex + 1) % imageBlocks.length; 
+        currentIndex = (currentIndex + 1) % imageBlocks.length;
     }
-    
+
     setInterval(cycleImages, 5000);
-    
-    
 
-    const carousel = document.querySelector('.promo-carousel');
-    const firstImg = carousel.querySelectorAll('img')[0];
-    const arrowIcons = document.querySelectorAll('.promo-container i');
-    const promoSlider = document.querySelector('.landing-page-promo-slider');
+    const carouselRow = document.querySelector('.slides-row');
+    const carouselSlides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    const nextBtn = document.querySelector('.next');
+    const prevBtn = document.querySelector('.prev');
 
-    let isDragStart = false, isDragging = false, prevPageX, prevScrollLeft, positionDiff;
-    const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
+    let index = 0;
 
-    const showHideIcons = () => {
-        arrowIcons[0].style.display = carousel.scrollLeft === 0 ? 'none' : 'block';
-        arrowIcons[1].style.display = carousel.scrollLeft === scrollWidth ? 'none' : 'block';
-    };
+    function updateCarousel() {
+        carouselRow.style.transform = 'translateX(' + (-index * 100) + '%)';
+        updateDots();
+    }
 
-    const setBackground = (imageSrc) => {
-        promoSlider.style.backgroundImage = `url(${imageSrc})`;
-    };
-
-    const moveToNextImage = () => {
-        const firstImgWidth = firstImg.clientWidth + 14;
-        if (carousel.scrollLeft >= scrollWidth) {
-            carousel.scrollLeft = 0;
-        } else {
-            carousel.scrollLeft += firstImgWidth;
-        }
-        const currentImg = carousel.querySelectorAll('img')[Math.round(carousel.scrollLeft / firstImgWidth)];
-        setBackground(currentImg.src);
-        showHideIcons();
-    };
-
-    arrowIcons.forEach(icon => {
-        icon.addEventListener('click', () => {
-            const firstImgWidth = firstImg.clientWidth + 14;
-            carousel.scrollLeft += icon.id === 'left-icon' ? -firstImgWidth : firstImgWidth;
-            const currentImg = carousel.querySelectorAll('img')[Math.round(carousel.scrollLeft / firstImgWidth)];
-            setBackground(currentImg.src);
-            setTimeout(showHideIcons, 60);
+    function updateDots() {
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
         });
+    }
+
+    nextBtn.addEventListener('click', () => {
+        index = (index + 1) % carouselSlides.length; // Loop back to the first slide
+        updateCarousel();
     });
 
-    const autoSlide = () => {
-        moveToNextImage();
-    };
-
-    const dragStart = (e) => {
-        isDragStart = true;
-        prevPageX = e.pageX || e.touches[0].pageX;
-        prevScrollLeft = carousel.scrollLeft;
-    };
-
-    const dragging = (e) => {
-        if (!isDragStart) return;
-        e.preventDefault();
-        isDragging = true;
-        carousel.classList.add('dragging');
-        positionDiff = (e.pageX || e.touches[0].pageX) - prevPageX;
-        carousel.scrollLeft = prevScrollLeft - positionDiff;
-        showHideIcons();
-    };
-
-    const dragStop = () => {
-        isDragStart = false;
-        carousel.classList.remove('dragging');
-        if (!isDragging) return;
-        isDragging = false;
-        const currentImg = carousel.querySelectorAll('img')[Math.round(carousel.scrollLeft / (firstImg.clientWidth + 14))];
-        setBackground(currentImg.src);
-    };
-
-    const centerAndUpdateBackground = (targetImg) => {
-        const carouselRect = carousel.getBoundingClientRect();
-        const imgRect = targetImg.getBoundingClientRect();
-        const offset = imgRect.left - carouselRect.left - (carouselRect.width / 2) + (imgRect.width / 2);
-        carousel.scrollLeft += offset;
-        showHideIcons();
-        setBackground(targetImg.src);
-    };
-
-    carousel.addEventListener('mousedown', dragStart);
-    carousel.addEventListener('touchstart', dragStart);
-    carousel.addEventListener('mousemove', dragging);
-    carousel.addEventListener('touchmove', dragging);
-    carousel.addEventListener('mouseup', dragStop);
-    carousel.addEventListener('mouseleave', dragStop);
-    carousel.addEventListener('touchend', dragStop);
-
-    showHideIcons();
-
-    carousel.querySelectorAll('img').forEach(img => {
-        img.addEventListener('click', () => {
-            centerAndUpdateBackground(img);
-        });
+    prevBtn.addEventListener('click', () => {
+        index = (index - 1 + carouselSlides.length) % carouselSlides.length; // Loop back to the last slide
+        updateCarousel();
     });
 
-    setBackground(firstImg.src);
-
-    const autoMoveCarousel = () => {
-        moveToNextImage();
-    };
-
-    const autoSlideInterval = setInterval(autoMoveCarousel, 10000);
-
-    arrowIcons.forEach(icon => {
-        icon.addEventListener('mouseover', function () {
-            this.style.animationDuration = '5s';
-        });
-
-        icon.addEventListener('mouseout', function () {
-            this.style.animationDuration = '';
-        });
-    });
+    // Optional: Auto slide functionality
+    setInterval(() => {
+        index = (index + 1) % carouselSlides.length;
+        updateCarousel();
+    }, 5000); // Change slide every 5 seconds
 
     document.getElementById('Login-Button').addEventListener('click', function () {
         window.location.href = '/login';
     });
 });
+
+const fadeSlides = document.querySelectorAll('.fade-slide');
+const fadeIndicators = document.querySelectorAll('.fade-indicator');
+const fadePauseButton = document.getElementById('fade-pause');
+let fadeCurrentIndex = 0;
+let fadeInterval;
+
+function showFadeSlide(index) {
+    fadeSlides.forEach((slide, i) => {
+        slide.classList.remove('active', 'pull-left', 'pull-top');
+        fadeIndicators[i].classList.remove('active');
+        if (i === index) {
+            slide.classList.add('active');
+            const randomEffect = Math.random() > 0.5 ? 'pull-left' : 'pull-top';
+            slide.classList.add(randomEffect);
+            fadeIndicators[i].classList.add('active');
+        }
+    });
+}
+
+function nextFadeSlide() {
+    fadeCurrentIndex = (fadeCurrentIndex + 1) % fadeSlides.length;
+    showFadeSlide(fadeCurrentIndex);
+}
+
+function startFadeSlideshow() {
+    fadeInterval = setInterval(nextFadeSlide, 10000); // 7 seconds
+}
+
+function pauseFadeSlideshow() {
+    clearInterval(fadeInterval);
+}
+
+fadePauseButton.addEventListener('click', pauseFadeSlideshow);
+
+fadeIndicators.forEach((indicator, i) => {
+    indicator.addEventListener('click', () => {
+        fadeCurrentIndex = i;
+        showFadeSlide(fadeCurrentIndex);
+    });
+});
+
+// Start the slideshow
+startFadeSlideshow();

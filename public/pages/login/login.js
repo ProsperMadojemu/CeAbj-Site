@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
     
                 data = await response.json();
+                localStorage.setItem('userSession', JSON.stringify(data.user));
                 showToast(response);
                 setTimeout(async() => {
                     window.location.href = data.redirectUrl;

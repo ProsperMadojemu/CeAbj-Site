@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ce Abaranje - Piloted by grace. Discover our mission and join us in worship.">
-    <link rel="icon" href="/src/favicon.ico">
-    <link rel="stylesheet" href="/pages/home/style.css">
-    <link rel="stylesheet" href="/annimations.css">
-    <link rel="stylesheet" href="/root.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Ce Abaranje - Piloted by grace. Discover our mission and join us in worship." />
+    <link rel="icon" href="/src/favicon.ico" />
+    <link rel="stylesheet" href="/pages/home/style.css" />
+    <link rel="stylesheet" href="/annimations.css" />
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css" />
+    <link rel="stylesheet" href="/root.css" />
     <script src="https://kit.fontawesome.com/ecf5b4f981.js" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <title>CeAbaranje</title>
 </head>
-<body id="home-page">
 
+<body id="home-page">
     <header class="landing-page-header">
         <video autoplay muted loop id="landing-page-main-bgvideo">
-            <source src="src/Home-Video.mp4" type="video/mp4">
+            <source src="src/Home-Video.mp4" type="video/mp4" />
             Your browser does not support HTML5 video.
         </video>
 
         <nav class="landing-page-navbar" aria-label="Main Navigation">
             <div class="navbar-box">
                 <div class="navbar-logo-title">
-                    <a href="#home-page" target="_self"><img src="src/logo.webp" alt="Ce Abaranje Logo" title="Ce Abaranje" id="navbar-logo"></a>
+                    <a href="#home-page" target="_self"><img src="src/logo.png" alt="Ce Abaranje Logo"
+                            title="Ce Abaranje" id="navbar-logo" /></a>
                 </div>
                 <ul class="navbar-list">
                     <li><a href="/" target="_self">Home</a></li>
@@ -36,7 +38,6 @@
                         <i class="fa-solid fa-user fa-xl"></i>
                     </div>
                     <div class="login-content-before-click" id="user-dropdown">
-                        
                         <span class="user-greeting">
                             <span class="cancel-container">
                                 <i class="fa-solid fa-x fa-sm" id="cancel-click"></i>
@@ -51,19 +52,29 @@
                         <div>
                             <div class="login-links">
                                 <span class="first-a-child">
-                                    <a href="/dashboard/edit-profile"><p>DashBoard</p><i class="fa-duotone fa-chart-tree-map fa-lg"></i></a>
+                                    <a href="/dashboard/edit-profile">
+                                        <p>DashBoard</p>
+                                        <i class="fa-duotone fa-chart-tree-map fa-lg"></i>
+                                    </a>
                                 </span>
                                 <span class="second-child">
                                     <i class="fa-duotone fa-file-chart-column fa-lg"></i>
-                                    <a href="/dashboard/submit-report"><p>Submit Report</p></a>
+                                    <a href="/dashboard/submit-report">
+                                        <p>Submit Report</p>
+                                    </a>
                                 </span>
                                 <span class="button-child">
-                                    <button class="btn-72" id="Logout-Button" title="LogOut"><p>Log Out</p><i class="fa-duotone fa-right-from-bracket fa-lg"></i></button>
+                                    <button type="button" class="btn-72" id="Logout-Button" title="LogOut">
+                                        <p>Log Out</p>
+                                        <i class="fa-duotone fa-right-from-bracket fa-lg"></i>
+                                    </button>
                                 </span>
                             </div>
                         </div>
                     </div>
-                    <button class="btn-71" id="Login-Button" title="signin/Signup"><p>Sign In</p></button>
+                    <button class="btn-71" id="Login-Button" title="signin/Signup">
+                        <p>Sign In</p>
+                    </button>
                 </div>
             </div>
         </nav>
@@ -72,37 +83,132 @@
             <div class="landing-page-main-container">
                 <div class="landing-page-Title-box">
                     <div class="landing-page-main-title">
-                        <h2>CE ABARANJE GROUP</h2>
+                        <h2>CHRIST EMBASSY</h2>
+                        <h2>ABARANJE GROUP</h2>
                         <span class="landing-page-main-sub-title">
                             <p id="text1">Piloted by grace</p>
-                            <p id="text2" style="display: none;">It has Happend !!!</p>
+                            <!-- <p id="text2" style="display: none;">It has Happend !!!</p> -->
                         </span>
                     </div>
                 </div>
             </div>
         </main>
-        
     </header>
 
     <main class="landing-page-sub-main">
         <div class="landing-page-sub-main-container">
-
-            <section class="landing-page-promo-slider">
-                <!-- <img src="src/year-of-redemption.jpg" alt="Year of Redemption" draggable="false">
-                        <img src="src/rhapsody_is_now_in_8123_desktop_1802 x 512.jpg" alt="Healing Streams" draggable="false">
-                        <img src="src/year-of-redemption.jpg" alt="Month of Prayer June" draggable="false">
-                        <img src="src/rhapsody_is_now_in_8123_desktop_1802 x 512.jpg" alt="Year of Redemption" draggable="false">
-                        <img src="src/year-of-redemption.jpg" alt="Promo 5" draggable="false"> -->
-                <div class="promo-container">
-                    <i class="fa-solid fa-angle-left" id="left-icon" aria-label="Previous"></i>
-                    <div class="promo-carousel">
-                        <img src="src/year-of-redemption.jpg" alt="Year of Redemption" draggable="false" loading="lazy">
-                        <img src="src/rhapsody_is_now_in_8123_desktop_1802 x 512.jpg" alt="Healing Streams" draggable="false" loading="lazy">
-                        <img src="src/year-of-redemption.jpg" alt="Month of Prayer June" draggable="false" loading="lazy">
-                        <img src="src/rhapsody_is_now_in_8123_desktop_1802 x 512.jpg" alt="Year of Redemption" draggable="false" loading="lazy">
-                        <img src="src/year-of-redemption.jpg" alt="Promo 5" draggable="false" loading="lazy">
+            <section class="hero-section-1">
+                <div class="dup-txt">
+                    <span class="dup__txt">Piloted By Grace</span>
+                    <span class="dup__txt">Piloted By Grace</span>
+                    <span class="dup__txt">Piloted By Grace</span>
+                    <span class="dup__txt">Piloted By Grace</span>
+                    <span class="dup__txt">Piloted By Grace</span>
+                    <span class="dup__txt">Piloted By Grace</span>
+                </div>
+                <div class="right-txt">
+                    <p>
+                        Being highly favoured means everything you do prospers. Even when
+                        others fail or make losses, you excel, because you’re sponsored by
+                        the Spirit; he orders your steps. Even if you were surrounded by
+                        critics and detractors, it’ll make no difference because you’re
+                        God’s man or woman,<strong> piloted by grace</strong>.
+                    </p>
+                    <a href="https://christembassy.org/rhapsody-of-realities-friday-26th-4/?utm_source=chatgpt.com"
+                        rel="noopener" target="_blank" title="read more" class="sub-text">~Rhapsody of realities, Friday
+                        ,February 26th, 2021</a>
+                </div>
+                <div class="circle"></div>
+                <!-- <img src="/src/IMG.JPG" alt="image--1"> -->
+            </section>
+            <section class="slideshow-section">
+                <div class="fade-slideshow">
+                    <div class="fade-slides">
+                        <div class="fade-slide active">
+                            <div class="fade-text">
+                                <div class="text-group">
+                                    <span class="first-slide-text">CHRIST</span>
+                                    <span class="first-slide-text">EMBASSY</span>
+                                    <span class="first-slide-text">ABARANJE GROUP</span>
+                                    <span class="first-slide-text">PILOTED BY GRACE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fade-slide">
+                            <div class="fade-text">
+                                <div class="text-group">
+                                    <span class="slide-text">Experience Gods love in a special way.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fade-slide">
+                            <div class="fade-text">
+                                <div class="text-group">
+                                    <span class="slide-text">Being glorious without any spot or wrinkle, holy without blemish.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fade-slide">
+                            <div class="fade-text">
+                                <div class="text-group">
+                                    <span class="slide-text">A Faith filled church.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fade-slide">
+                            <div class="fade-text">
+                                <div class="text-group">
+                                    <span class="slide-text">Singing for joy to our Lord, the Rock of our Salvation.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="fade-slide">
+                            <div class="fade-text">
+                                <div class="text-group">
+                                    <span class="slide-text">Celebrating </span>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="fade-slide">
+                            <div class="fade-text">
+                                <div class="text-group">
+                                    <span class="slide-text">Raising soldiers for Christ.</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <i class="fa-solid fa-angle-right" id="right-icon" aria-label="Next"></i>
+                    <div class="fade-indicators">
+                        <span class="fade-indicator active"></span>
+                        <span class="fade-indicator"></span>
+                        <span class="fade-indicator"></span>
+                        <span class="fade-indicator"></span>
+                        <!-- <span class="fade-indicator"></span> -->
+                        <span class="fade-indicator"></span>
+                        <span class="fade-indicator"></span>
+                        <!-- Add indicators corresponding to slides -->
+                    </div>
+                        <button id="fade-pause">Pause</button>
+                    </div>
+                </div>
+            </section>
+            <section class="landing-page-promo-slider">
+                <div class="container">
+                    <span class="prev">&#10094;</span>
+                    <span class="next">&#10095;</span>
+                    <div class="slides-row">
+                        <div class="slide promo-img-1 promo-img"></div>
+                        <div class="slide promo-img-2 promo-img"></div>
+                        <div class="slide promo-img-3 promo-img"></div>
+                        <div class="slide promo-img-4 promo-img"></div>
+                        <div class="slide promo-img-5 promo-img"></div>
+                    </div>
+                    <div class="dots">
+                        <div class="dot active"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
                 </div>
             </section>
 
@@ -111,12 +217,18 @@
                     <span class="about-section__text">
                         <h2><strong>PILOTED BY GRACE</strong></h2>
                         <p>
-                            Believers’ LoveWorld Incorporated, (a.k.a Christ Embassy) is a global ministry with a vision of taking God’s divine presence to the nations of the world and to demonstrate the character of the Holy Spirit. This is achieved through every available means, as the Ministry is driven by a passion to see men and women all over the world, come to the knowledge of the divine life made available in Christ Jesus.
+                            Believers’ LoveWorld Incorporated, (a.k.a Christ Embassy) is a
+                            global ministry with a vision of taking God’s divine presence to
+                            the nations of the world and to demonstrate the character of the
+                            Holy Spirit. This is achieved through every available means, as
+                            the Ministry is driven by a passion to see men and women all
+                            over the world, come to the knowledge of the divine life made
+                            available in Christ Jesus.
                         </p>
                     </span>
                     <div class="image-accordion">
                         <div class="image-block expanded">
-                            <img src="src/IMG.JPG" alt="Description of image 1" loading="lazy">
+                            <img src="src/IMG.JPG" alt="Description of image 1" loading="lazy" />
                             <div class="details">
                                 <div class="details__info">
                                     <span class="details__info__title">Title 1</span>
@@ -124,9 +236,9 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="image-block">
-                            <img src="src/DSC_0042.JPG" alt="Description of image 2" loading="lazy">
+                            <img src="src/DSC_0042.JPG" alt="Description of image 2" loading="lazy" />
                             <div class="details">
                                 <div class="details__info">
                                     <span class="details__info__title">Title 2</span>
@@ -134,9 +246,9 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="image-block">
-                            <img src="src/DSC_0045.JPG" alt="Description of image 3" loading="lazy">
+                            <img src="src/DSC_0045.JPG" alt="Description of image 3" loading="lazy" />
                             <div class="details">
                                 <div class="details__info">
                                     <span class="details__info__title">Title 3</span>
@@ -144,9 +256,9 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="image-block">
-                            <img src="src/DSC_0069.JPG" alt="Description of image 4" loading="lazy">
+                            <img src="src/DSC_0069.JPG" alt="Description of image 4" loading="lazy" />
                             <div class="details">
                                 <div class="details__info">
                                     <span class="details__info__title">Title 4</span>
@@ -154,9 +266,9 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="image-block">
-                            <img src="src/DSC_0074.JPG" alt="Description of image 5" loading="lazy">
+                            <img src="src/DSC_0074.JPG" alt="Description of image 5" loading="lazy" />
                             <div class="details">
                                 <div class="details__info">
                                     <span class="details__info__title">Title 5</span>
@@ -169,7 +281,7 @@
             </section>
         </div>
     </main>
-    
+
     <footer class="landing-page-footer">
         <div class="landing-page-footer-container">
             <p>Copyright © 2024 CE Abarnanje Group. All rights reserved.</p>
@@ -179,4 +291,5 @@
     <script defer src="/pages/home/script.js"></script>
     <script src="https://apis.google.com/js/api.js"></script>
 </body>
+
 </html>

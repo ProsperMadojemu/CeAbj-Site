@@ -999,7 +999,7 @@ span.prev {
 
 .fade-text {
     position: absolute;
-    top: 50%;
+    top: 70%;
     left: 50%;
     transform: translateX(-50%);
     padding: var(--primary-padding);

@@ -108,7 +108,8 @@ const loginUser = async (req, res) => {
                 phone: user.PhoneNumber,
                 userType: user.userType,
             };
-            return res.status(201).json({message: "login successful", redirectUrl: "/dashboard/edit-profile" });
+            const userDetails = { ...req.session.user };
+            return res.status(201).json({message: "login successful", redirectUrl: "/dashboard/edit-profile", user: userDetails });
         } else {
             return res.status(401).json({ error: "Invalid password" });
         }

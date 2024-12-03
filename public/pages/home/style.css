@@ -999,14 +999,15 @@ span.prev {
 
 .fade-text {
     position: absolute;
-    top: 70%;
+    top: 30%;
     left: 50%;
     transform: translateX(-50%);
     padding: var(--primary-padding);
     align-self: center;
     font-family: "Lexend", sans-serif;
     color: white;
-    font-size: 2.4rem;
+    width: 100%;
+    font-size: 2.2rem;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     opacity: 0;
     animation: textFadeInOut 10s linear forwards infinite 2.8s;
@@ -1026,7 +1027,7 @@ span.prev {
     font-weight: 600;
     text-align: center;
     line-height: 1.05;
-    max-width: 600px;
+    max-width: 100%;
 }
 
 

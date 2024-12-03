@@ -892,13 +892,13 @@ span.prev {
 }
 
 .fade-slide:nth-child(2) {
-    background-image: url(/src/slide-2.jpg);
+    background-image: url(/src/slide-2.JPG);
 }
 .fade-slide:nth-child(3) {
     background-image: url(/src/slide-3.jpg);
 }
 .fade-slide:nth-child(4) {
-    background-image: url(/src/slide-4.jpg);
+    background-image: url(/src/slide-4.JPG);
 }
 .fade-slide:nth-child(5) {
     background-image: url(/src/slide-5.jpg);
@@ -999,7 +999,7 @@ span.prev {
 
 .fade-text {
     position: absolute;
-    top: 30%;
+    top: 45%;
     left: 50%;
     transform: translateX(-50%);
     padding: var(--primary-padding);

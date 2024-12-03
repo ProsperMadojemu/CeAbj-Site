@@ -171,35 +171,6 @@ body {
     animation: jump 0.5s ease-in-out;
 }
 
-/* .underline {
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    height: 2px;
-    width: 100%;
-    background: #ffcc00;
-    transform: scaleX(0);
-}
-
-.navbar-list li:hover .underline {
-    transform: scaleX(1);
-} */
-
-/* .login-icon {
-    color: #ffffff;
-    border: 3px solid #ffffff;
-    padding: 6px;
-    border-radius: 50%;
-}
-
-.login-icon:hover {
-    color: #ffcc00;
-    border-color: #ffcc00;
-    cursor: pointer;
-} */
-
-
-
 .landing-page-main {
     display: flex;
     flex-direction: column;
@@ -223,7 +194,7 @@ body {
 .landing-page-main-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     width: 100%;
     padding: var(--primary-padding);
@@ -234,10 +205,10 @@ body {
     display: flex;
     flex-direction: column;
     color: #ffffff;
-    font-size: 1.5rem;
-    align-items: center;
-    text-align: center;
-    font-family: 'Lato', serif;
+    font-size: 2rem;
+    align-items: flex-start;
+    text-align: left;
+    font-family: 'Lexend', serif;
 }
 
 .landing-page-main-sub-title {
@@ -267,6 +238,7 @@ body {
 
 .landing-page-main-title h2 {
     line-height: 1.15;
+    letter-spacing: .675px;
 }
 
 .landing-page-main-title h2:nth-child(1) {
@@ -287,7 +259,7 @@ body {
 }
 
 .landing-page-sub-main {
-    display: fle;
+    display: flex;
     flex-direction: column;
     padding: 60px 0px 0px 0px;
     width: 100%;
@@ -819,7 +791,7 @@ span.prev {
 
 .dup-txt span {
     text-align: center;
-    font-size: 1.7rem;
+    font-size: 2rem;
     letter-spacing: 2px;
     text-transform: uppercase;
     font-family: 'Roboto', sans-serif;
@@ -873,8 +845,8 @@ span.prev {
 
 .right-txt p {
     max-width: 680px;
-    font-size: 1rem;
-    text-align: center;
+    font-size: 1.20rem;
+    text-align: left;
 }
 
 .right-txt .sub-text {
@@ -1142,7 +1114,7 @@ span.prev {
 
     .landing-page-main-title {
         text-align: left;
-        font-size: 2.2rem;
+        font-size: 2.6rem;
         align-items: flex-start;
     }
 
@@ -1221,4 +1193,18 @@ span.prev {
         }
     }
 
+}
+
+@media (max-width: 600px) {
+    :root{
+        --primary-padding: 0px 15px;
+    }
+    
+    .navbar-box {
+        padding: 40px 25px;
+    }
+    .landing-page-main-sub-title {
+        width: 75%;
+    }
+    
 }

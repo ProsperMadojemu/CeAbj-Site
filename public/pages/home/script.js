@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+
     const initializeUserSession = async () => {
         try {
             const localUserSession = localStorage.getItem('userSession');
-    
+
             if (localUserSession) {
                 const userSession = JSON.parse(localUserSession);
                 if (userSession.email) {
@@ -10,12 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
             }
-    
+
             const response = await fetch('/check-session', { credentials: 'include' });
             if (!response.ok) {
                 throw new Error('Session check failed');
             }
-    
+
             const sessionData = await response.json();
             if (sessionData.email) {
                 localStorage.setItem('userSession', JSON.stringify(sessionData));
@@ -28,13 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('userSession');
         }
     };
-    
+
     const updateUI = (user) => {
         const { firstName, lastName, isAdmin } = user;
         const userGreeting = document.querySelector('.userGreeting');
         const loginButton = document.getElementById('Login-Button');
         const userIcon = document.getElementById('loginIcon');
-    
+
         if (!isAdmin) {
             userGreeting.textContent = `Hi, ${firstName} ${lastName}`;
             loginButton.classList.add('hidden-class');
@@ -45,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.stopPropagation();
                 toggleDropdown(userDropMenu, 'show');
             });
-        
+
             document.addEventListener('click', (e) => {
                 if (!userDropMenu.contains(e.target) && !loginIcon.contains(e.target)) {
                     toggleDropdown(userDropMenu, 'hide');
@@ -72,11 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         document.getElementById('Logout-Button').addEventListener('click', logoutUser)
     };
-    
+
 
     initializeUserSession();
 
-    
+
 
     const navbar = document.querySelector('.landing-page-navbar');
     const loginButton = document.querySelector('.btn-71');
@@ -165,48 +167,106 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('Login-Button').addEventListener('click', function () {
         window.location.href = '/login';
     });
-});
 
-const fadeSlides = document.querySelectorAll('.fade-slide');
-const fadeIndicators = document.querySelectorAll('.fade-indicator');
-const fadePauseButton = document.getElementById('fade-pause');
-let fadeCurrentIndex = 0;
-let fadeInterval;
+    const fadeSlides = document.querySelectorAll('.fade-slide');
+    const fadeIndicators = document.querySelectorAll('.fade-indicator');
+    const fadePauseButton = document.getElementById('fade-pause');
+    let fadeCurrentIndex = 0;
+    let fadeInterval;
 
-function showFadeSlide(index) {
-    fadeSlides.forEach((slide, i) => {
-        slide.classList.remove('active', 'pull-left', 'pull-top');
-        fadeIndicators[i].classList.remove('active');
-        if (i === index) {
-            slide.classList.add('active');
-            const randomEffect = Math.random() > 0.5 ? 'pull-left' : 'pull-top';
-            slide.classList.add(randomEffect);
-            fadeIndicators[i].classList.add('active');
-        }
-    });
-}
+    function showFadeSlide(index) {
+        fadeSlides.forEach((slide, i) => {
+            slide.classList.remove('active', 'pull-left', 'pull-top');
+            fadeIndicators[i].classList.remove('active');
+            if (i === index) {
+                slide.classList.add('active');
+                const randomEffect = Math.random() > 0.5 ? 'pull-left' : 'pull-top';
+                slide.classList.add(randomEffect);
+                fadeIndicators[i].classList.add('active');
+            }
+        });
+    }
 
-function nextFadeSlide() {
-    fadeCurrentIndex = (fadeCurrentIndex + 1) % fadeSlides.length;
-    showFadeSlide(fadeCurrentIndex);
-}
-
-function startFadeSlideshow() {
-    fadeInterval = setInterval(nextFadeSlide, 10000); // 7 seconds
-}
-
-function pauseFadeSlideshow() {
-    clearInterval(fadeInterval);
-}
-
-fadePauseButton.addEventListener('click', pauseFadeSlideshow);
-
-fadeIndicators.forEach((indicator, i) => {
-    indicator.addEventListener('click', () => {
-        fadeCurrentIndex = i;
+    function nextFadeSlide() {
+        fadeCurrentIndex = (fadeCurrentIndex + 1) % fadeSlides.length;
         showFadeSlide(fadeCurrentIndex);
-    });
-});
+    }
 
-// Start the slideshow
-startFadeSlideshow();
+    function startFadeSlideshow() {
+        fadeInterval = setInterval(nextFadeSlide, 10000); // 7 seconds
+    }
+
+    function pauseFadeSlideshow() {
+        clearInterval(fadeInterval);
+    }
+
+    fadePauseButton.addEventListener('click', pauseFadeSlideshow);
+
+    fadeIndicators.forEach((indicator, i) => {
+        indicator.addEventListener('click', () => {
+            fadeCurrentIndex = i;
+            showFadeSlide(fadeCurrentIndex);
+        });
+    });
+
+    // Start the slideshow
+    startFadeSlideshow();
+    const video = document.getElementById('scroll-video');
+    const videoContainer = document.getElementById('video-container');
+
+    video.addEventListener('loadedmetadata', () => {
+        video.playbackRate = 0.5;
+    });
+    
+    if (video && videoContainer) {
+        gsap.registerPlugin(ScrollTrigger);
+
+        video.addEventListener('loadedmetadata', () => {
+            ScrollTrigger.create({
+                trigger: videoContainer,
+                start: "top top", 
+                end: "bottom top",
+                onEnter: () => {
+                    video.play();
+                },
+                onLeave: () => {
+                    video.pause();
+                },
+                onEnterBack: () => {
+                    video.play(); 
+                },
+                onLeaveBack: () => {
+                    video.pause(); 
+                },
+            });
+        });
+    } else {
+        console.error("Element(s) not found: #scroll-video or #video-container");
+    }
+    
+
+    // if (video && videoContainer) {
+    //     gsap.registerPlugin(ScrollTrigger);
+
+    //     video.addEventListener('loadedmetadata', () => {
+    //         const videoDuration = video.duration;
+
+    //         ScrollTrigger.create({
+    //             trigger: videoContainer,
+    //             start: "top top", 
+    //             end: "bottom top",
+    //             scrub: true,
+    //             onUpdate: (self) => {
+    //                 const playback = self.progress * videoDuration;
+    //                 requestAnimationFrame(() => {
+    //                     video.currentTime = playback;
+    //                 });
+    //             },
+    //         });
+    //     });
+    // } else {
+    //     console.error("Element(s) not found: #scroll-video or #video-container");
+    // }
+
+    
+});

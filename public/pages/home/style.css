@@ -402,6 +402,8 @@ body::before {
     justify-content: flex-end;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
+    text-align: left;
     padding: 10px;
     background: rgba(0, 0, 0, 0.5);
     color: #ffffff;
@@ -414,8 +416,6 @@ body::before {
 .details .details__info {
     transition: 800ms ease;
     white-space: nowrap;
-    writing-mode: vertical-lr;
-    transform: rotate(180deg);
     font-weight: var(--regular);
     font-size: 2.1rem;
 }
@@ -430,7 +430,6 @@ body::before {
 }
 
 .image-block.expanded .details .details__info {
-    writing-mode: horizontal-tb;
     transform: rotate(0deg);
 }
 
@@ -1286,7 +1285,7 @@ span.prev {
     height: 100%;
     align-items: center;
     justify-content: center;
-    padding: 5px 12px 5px 8px;
+    padding: 8px 12px 8px 8px;
     border-radius: 8px;
     border: 2px solid #92BDF9;
     background: none;
@@ -1659,6 +1658,16 @@ span.prev {
         max-height: 400px;
         height: auto;
         flex: 1;
+    }
+    
+    .details .details__info {
+        writing-mode: vertical-lr;
+        transform: rotate(180deg);
+        font-size: 2.1rem;
+    }
+
+    .image-block.expanded .details .details__info {
+        writing-mode: horizontal-tb;
     }
 
 }

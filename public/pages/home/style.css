@@ -2,7 +2,7 @@
 
 :root {
     --primary-padding: 0px 30px;
-    --margin-bottom: 0px 0px 60px 0px;
+    --margin-bottom: 0px 0px 35px 0px;
     --thin: 100;
     --extra-light: 200;
     --light: 300;
@@ -194,6 +194,117 @@ body::before {
 
 .btn-71:hover {
     animation: jump 0.5s ease-in-out;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    text-align: right;
+}
+
+/* Drawer Navigation */
+.drawer {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #3a3a3a;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    transition: left 0.3s ease-in-out;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.drawer.open {
+    left: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    margin: 1rem;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 1rem;
+}
+
+.nav-links li {
+    margin: 1rem 0 0 0;
+    text-align: left;
+}
+
+.nav-links li:nth-child(1){
+    margin: 0;
+}
+
+.top-container {
+    text-align: left;
+    padding: 0 1rem 0 1rem;
+    font-size: 1.1rem;
+    font-weight: var(--semi-bold);
+    color: #fff;
+}
+
+.drawer hr {
+    opacity: .2;
+    margin: 1rem 0;
+}
+
+.drawer-links a:hover {
+    text-decoration: underline;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #ffcc00;
+}
+
+.profile-wrapper {
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+    gap: 12px;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.profile-wrapper i {
+    font-size:  2.5rem;
+}
+
+.links {
+    list-style: none;
+}
+
+.links a {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+}
+
+
+.links li {
+    font-weight: var(--regular);
+    margin: 1rem 0;
 }
 
 .landing-page-main {
@@ -417,7 +528,9 @@ body::before {
     transition: 800ms ease;
     white-space: nowrap;
     font-weight: var(--regular);
-    font-size: 2.1rem;
+    font-weight: var(--bold);
+    letter-spacing: 1.4px;
+    font-size: 1.8rem;
 }
 
 .image-block.expanded {
@@ -472,7 +585,7 @@ body::before {
 }
 
 .login-container {
-    display: flex;
+    display: none;
     justify-content: space-between;
 }
 
@@ -811,12 +924,14 @@ span.prev {
 .dup-txt {
     display: flex;
     flex-direction: column;
+    gap: 6px;
 }
 
 .dup-txt span {
     text-align: center;
     font-size: 2rem;
     letter-spacing: 2px;
+    /* line-height: 1.2; */
     text-transform: uppercase;
     font-weight: var(--extra-bold);
     transition: all 200ms;
@@ -1245,7 +1360,7 @@ span.prev {
 
 .live-services-wrapper .left__ .title__ {
     list-style: 1.1;
-    font-weight: var(--semi-bold);
+    font-weight: var(--bold);
     font-size: 1.8rem;
 }
 
@@ -1324,7 +1439,7 @@ span.prev {
     display: grid;
     /* grid-template-columns: repeat(4, 1fr); */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 12px;
+    gap: 24px 12px;
     padding: 5px 0px 60px 0px;
 
 }
@@ -1397,6 +1512,7 @@ span.prev {
     }
 
     :root {
+        --margin-bottom: 0px 0px 85px 0px;
         --primary-padding: 0px 45px;
     }
 
@@ -1449,7 +1565,15 @@ span.prev {
     .navbar-list {
         display: flex;
     }
-
+    .login-container {
+        display: flex;
+    }
+    .menu-btn{
+        display: none;
+    }
+    .drawer{
+        display: none;
+    }
     .landing-page-main-container {
         align-items: flex-start;
     }
@@ -1472,7 +1596,7 @@ span.prev {
 
     .hero-section-1 {
         flex-direction: row;
-        gap: 15%;
+        gap: 18%;
     }
 
     .dup-txt {
@@ -1481,6 +1605,7 @@ span.prev {
 
     .right-txt {
         gap: 1rem;
+        line-height: 1.6;
         margin-bottom: 45px;
     }
 
@@ -1659,11 +1784,11 @@ span.prev {
         height: auto;
         flex: 1;
     }
-    
+
     .details .details__info {
         writing-mode: vertical-lr;
         transform: rotate(180deg);
-        font-size: 2.1rem;
+        /* font-size: 1rem; */
     }
 
     .image-block.expanded .details .details__info {

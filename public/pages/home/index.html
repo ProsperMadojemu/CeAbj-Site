@@ -26,7 +26,7 @@
             <div class="navbar-box">
                 <div class="navbar-logo-title">
                     <a href="#home-page" target="_self"><img src="src/logo.png" alt="Ce Abaranje Logo"
-                            title="Ce Abaranje" id="navbar-logo" /></a>
+                    title="Ce Abaranje" id="navbar-logo" /></a>
                 </div>
                 <ul class="navbar-list">
                     <li><a href="/" target="_self">Home</a></li>
@@ -34,6 +34,9 @@
                     <li><a href="/worship">Worship With Us</a></li>
                     <li><a href="/about">About</a></li>
                 </ul>
+                <button title="open-drawer" type="button" class="menu-btn" id="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <div class="login-container" id="login">
                     <div class="login_icon" id="loginIcon">
                         <i class="fa-solid fa-user fa-xl"></i>
@@ -79,7 +82,42 @@
                 </div>
             </div>
         </nav>
-
+        <nav class="drawer" id="drawer">
+            <button type="button" title="close-drawer" class="close-btn" id="close-btn">
+              <i class="fas fa-times"></i>
+            </button>
+            <div class="top-container" id="drawerBox">
+                <!-- <a href="/login" class="drawer-links">SignIn</a> /
+                <a href="/register" class="drawer-links">Signup</a>      -->
+                <div class="profile-wrapper">
+                    <i class="fa-duotone fa-circle-user"></i>
+                    <span id="userId">Brother Sam Mcaulley</span>
+                </div>
+                <hr>
+                <ul class="links">
+                    <li>
+                        <a href="/dashboard/edit-profile">
+                            <i class="fa-duotone fa-chart-tree-map fa-lg"></i>
+                            <p>DashBoard</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/submit-report">
+                            <i class="fa-duotone fa-file-chart-column fa-lg"></i>
+                            <p>Submit Report</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+            <ul class="nav-links">
+              <li><a href="#home">Home</a></li>
+              <li><a href="#watch">Watch</a></li>
+              <li><a href="#worship">Worship With Us</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
         <main class="landing-page-main">
             <div class="landing-page-main-container">
                 <div class="landing-page-Title-box">
@@ -119,7 +157,7 @@
                         rel="noopener" target="_blank" title="read more" class="sub-text">~Rhapsody of realities, Friday
                         ,February 26th, 2021</a>
                 </div>
-                <div class="circle"></div>
+                <!-- <div class="circle"></div> -->
                 <!-- <img src="/src/IMG.JPG" alt="image--1"> -->
             </section>
             <section class="slideshow-section">

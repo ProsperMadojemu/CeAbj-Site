@@ -32,15 +32,37 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const updateUI = (user) => {
-        const { firstName, lastName, isAdmin } = user;
+        const { title, firstName, lastName, isAdmin } = user;
         const userGreeting = document.querySelector('.userGreeting');
         const loginButton = document.getElementById('Login-Button');
         const userIcon = document.getElementById('loginIcon');
-
+        const drawerBox = document.getElementById("drawerBox")
         if (!isAdmin) {
-            userGreeting.textContent = `Hi, ${firstName} ${lastName}`;
+            userGreeting.textContent = `${title} ${firstName} ${lastName}`;
             loginButton.classList.add('hidden-class');
             userIcon.classList.replace('login_icon', 'login_icon-visible');
+            drawerBox.innerHTML = "";
+            drawerBox.innerHTML = `
+                <div class="profile-wrapper">
+                    <i class="fa-duotone fa-circle-user"></i>
+                    <span id="userId">${title} ${firstName} ${lastName}</span>
+                </div>
+                <hr>
+                <ul class="links">
+                    <li>
+                        <a href="/dashboard/edit-profile">
+                            <i class="fa-duotone fa-chart-tree-map fa-lg"></i>
+                            <p>DashBoard</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/submit-report">
+                            <i class="fa-duotone fa-file-chart-column fa-lg"></i>
+                            <p>Submit Report</p>
+                        </a>
+                    </li>
+                </ul>
+            `;
             const userDropMenu = document.getElementById('user-dropdown');
             const cancelDropdown = document.getElementById('cancel-click');
             loginIcon.addEventListener('click', (e) => {
@@ -211,49 +233,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Start the slideshow
     startFadeSlideshow();
-    const video = document.getElementById('scroll-video');
-    const videoContainer = document.getElementById('video-container');
-
-    video.addEventListener('loadedmetadata', () => {
-        video.playbackRate = 0.5;
-    });
-    
-    if (video && videoContainer) {
-        gsap.registerPlugin(ScrollTrigger);
-
-        video.addEventListener('loadedmetadata', () => {
-            ScrollTrigger.create({
-                trigger: videoContainer,
-                start: "top top", 
-                end: "bottom top",
-                onEnter: () => {
-                    video.play();
-                },
-                onLeave: () => {
-                    video.pause();
-                },
-                onEnterBack: () => {
-                    video.play(); 
-                },
-                onLeaveBack: () => {
-                    video.pause(); 
-                },
-            });
-        });
-    } else {
-        console.error("Element(s) not found: #scroll-video or #video-container");
-    }
     // DOM Elements
     const menuBtn = document.getElementById("menu-btn");
     const closeBtn = document.getElementById("close-btn");
     const drawer = document.getElementById("drawer");
 
     menuBtn.addEventListener("click", () => {
-    drawer.classList.add("open");
+        drawer.classList.add("open");
     });
 
     closeBtn.addEventListener("click", () => {
-    drawer.classList.remove("open");
+        drawer.classList.remove("open");
     });
 
 
@@ -280,5 +270,5 @@ document.addEventListener('DOMContentLoaded', () => {
     //     console.error("Element(s) not found: #scroll-video or #video-container");
     // }
 
-    
+
 });

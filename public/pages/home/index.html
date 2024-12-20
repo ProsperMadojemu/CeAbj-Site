@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Ce Abaranje - Piloted by grace. Discover our mission and join us in worship." />
+    <meta name="description" content="Christ Embassy Abaranje Group - Piloted by grace." />
     <link rel="icon" href="/src/favicon.ico" />
     <link rel="stylesheet" href="/pages/home/style.css" />
     <link rel="stylesheet" href="/annimations.css" />
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css" />
     <link rel="stylesheet" href="/root.css" />
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script src="https://kit.fontawesome.com/ecf5b4f981.js" crossorigin="anonymous"></script>
-    <title>CeAbaranje</title>
+    <title>Christ Embassy Abaranje - Piloted by Grace</title>
 </head>
 
 <body id="home-page">
@@ -26,7 +26,7 @@
             <div class="navbar-box">
                 <div class="navbar-logo-title">
                     <a href="#home-page" target="_self"><img src="src/logo.png" alt="Ce Abaranje Logo"
-                    title="Ce Abaranje" id="navbar-logo" /></a>
+                            title="Ce Abaranje" id="navbar-logo" /></a>
                 </div>
                 <ul class="navbar-list">
                     <li><a href="/" target="_self">Home</a></li>
@@ -84,39 +84,22 @@
         </nav>
         <nav class="drawer" id="drawer">
             <button type="button" title="close-drawer" class="close-btn" id="close-btn">
-              <i class="fas fa-times"></i>
+                <i class="fas fa-times"></i>
             </button>
             <div class="top-container" id="drawerBox">
-                <!-- <a href="/login" class="drawer-links">SignIn</a> /
-                <a href="/register" class="drawer-links">Signup</a>      -->
-                <div class="profile-wrapper">
-                    <i class="fa-duotone fa-circle-user"></i>
-                    <span id="userId">Brother Sam Mcaulley</span>
-                </div>
-                <hr>
-                <ul class="links">
-                    <li>
-                        <a href="/dashboard/edit-profile">
-                            <i class="fa-duotone fa-chart-tree-map fa-lg"></i>
-                            <p>DashBoard</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/dashboard/submit-report">
-                            <i class="fa-duotone fa-file-chart-column fa-lg"></i>
-                            <p>Submit Report</p>
-                        </a>
-                    </li>
-                </ul>
+                <a href="/login" class="drawer-links">SignIn</a> /
+                <a href="/register" class="drawer-links">Signup</a>
+                <hr />
             </div>
-            <hr>
             <ul class="nav-links">
-              <li><a href="#home">Home</a></li>
-              <li><a href="#watch">Watch</a></li>
-              <li><a href="#worship">Worship With Us</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#watch">Watch</a></li>
+                <li><a href="#worship">Worship With Us</a></li>
+                <li><a href="#about">About</a></li>
             </ul>
+            <button type="button" id="drawerLogout" class="drawer-logout">
+                <i class="fa-duotone fa-person-to-door"></i>Logout
+            </button>
         </nav>
         <main class="landing-page-main">
             <div class="landing-page-main-container">
@@ -229,279 +212,270 @@
                     </div>
                     <button id="fade-pause">Pause</button>
                 </div>
+            </section>
+            <section class="departments-section">
+                <div class="departments-wrapper">
+                    <span class="departments-text">A PLACE TO SERVE AS SOLDIERS OF CHRIST</span>
+                    <div class="image-accordion">
+                        <div class="image-block expanded">
+                            <img src="src/IMG.JPG" alt="Description of image 1" loading="lazy" />
+                            <div class="details">
+                                <div class="details__info">
+                                    <span class="details__info__title">Choir</span>
+                                    <span class="details__info__desc">Department</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image-block">
+                            <img src="src/DSC_0042.JPG" alt="Description of image 2" loading="lazy" />
+                            <div class="details">
+                                <div class="details__info">
+                                    <span class="details__info__title">Media</span>
+                                    <span class="details__info__desc">Department</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="image-block">
+                            <img src="src/DSC_0045.JPG" alt="Description of image 3" loading="lazy" />
+                            <div class="details">
+                                <div class="details__info">
+                                    <span class="details__info__title">Ushering</span>
+                                    <span class="details__info__desc">Department</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="image-block">
+                            <img src="src/DSC_0069.JPG" alt="Description of image 4" loading="lazy" />
+                            <div class="details">
+                                <div class="details__info">
+                                    <span class="details__info__title">First Timers Ministry</span>
+                                    <span class="details__info__desc"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="image-block">
+                            <img src="src/DSC_0074.JPG" alt="Description of image 5" loading="lazy" />
+                            <div class="details">
+                                <div class="details__info">
+                                    <span class="details__info__title">Security</span>
+                                    <span class="details__info__desc">Department</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="section">
+                <h2>WE GIVE YOUR LIFE A MEANING</h2>
+                <p>
+                    Experience a transformation beyond words as you worship with us—be
+                    empowered, uplifted, and guided by the Spirit of the Word.
+                </p>
+                <div class="map-point point-1"></div>
+                <div class="map-point point-2"></div>
+                <div class="map-point point-3"></div>
+                <div class="map-point point-4"></div>
+                <div class="buttons">
+                    <a href="#">Find a Church</a>
+                    <a href="#live-service">Join Us Online</a>
+                </div>
+                <!-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/1024px-World_map_-_low_resolution.svg.png" alt="World Map" class="world-map"> -->
+            </div>
+            <section class="live-services" id="live-service">
+                <div class="live-services-wrapper">
+                    <div class="right__">
+                        <img src="/src/play.png" alt="play" class="play__button" />
+                        <img src="/src/DSC_0045.jpg" alt="image_screen" class="live__image" />
+                    </div>
+                    <div class="left__">
+                        <span class="title__"> Join Us Live </span>
+                        <span class="desc__">
+                            <p>Join us every sunday and wednesday for our live services,</p>
+                            <p>or join us at market street, Abaranje road, Lagos.</p>
+                            <p>
+                                Wednesdays: 6:00 pm - 6: 30pm <small> (UTC + 1:00),</small>
+                            </p>
+                            <p>
+                                Sundays: 8:30 am - 10:00 pm, 10:00 am - 11:30 am<small>
+                                    (UTC + 1:00).</small>
+                            </p>
+                        </span>
+                        <div class="buttons__">
+                            <button type="button">
+                                Watch <i class="fa-regular fa-circle-play"></i>
+                            </button>
+                            <button type="button">
+                                Youtube <i class="fa-brands fa-youtube"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="social-media-section">
+                <h2>Connect With Us</h2>
+                <div class="social-icons">
+                    <a href="https://kingschat.online" target="_blank" rel="noopener noreferrer" class="social-icon kingschat" aria-label="KingsChat">
+                        <img src="/src/kclogo.webp" alt="KingsChat">
+                    </a>
+                    <a href="https://instagram.com/your-page" target="_blank" rel="noopener noreferrer" class="social-icon instagram" aria-label="Instagram">
+                        <img src="/src/instgramIcon.webp" alt="Instagram">
+                    </a>
+                    <a href="https://youtube.com/your-channel" target="_blank" rel="noopener noreferrer" class="social-icon youtube" aria-label="YouTube">
+                        <img src="/src/youtubeIcon.png" alt="YouTube">
+                    </a>
+                </div>
+            </section>
+            <section class="Digital-resources">
+                <h2>Digital<br />Resources</h2>
+                <div class="card-container">
+                    <div class="card">
+                        <div class="card-inner" style="--clr: #f9f9f9">
+                            <div class="box">
+                                <div class="imgBox"> 
+                                    <!-- <img src="/src/large-scrn.webp" alt="PCDL" /> -->
+                                    <img src="/src/pcdl-potr.webp" alt="PCDL" />
+                                    <!-- <img src="/src/dark-scrn.webp" alt="PCDL" /> -->
+                                </div>
+                                <div class="icon">
+                                    <a href="https://pcdl.co/welcome" rel="noopener noreferrer" target="_blank" class="iconBox">
+                                        <span class="material-symbols-outlined">
+                                            arrow_outward
+                                        </span></a>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="content">
+                            <h3>Pastor Chris Digital Library</h3>
+                            <p>
+                                Discover tailored teachings and resources to guide your spiritual journey.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-inner" style="--clr: #f9f9f9">
+                            <div class="box">
+                                <div class="imgBox">
+                                    <img src="/src/row_desktop.webp"
+                                        alt="Rhapsody" />
+                                    <!-- <img src="/src/rowd.webp"
+                                        alt="Rhapsody" /> -->
+                                </div>
+                                <div class="icon">
+                                    <a href="https://read.rhapsodyofrealities.org/" rel="noopener noreferrer" target="_blank" class="iconBox">
+                                        <span class="material-symbols-outlined">
+                                            arrow_outward
+                                        </span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <h3>Rhapsody of Realities </h3>
+                            <p>
+                                Daily devotionals to inspire, teach, and uplift your faith.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-inner" style="--clr: #f9f9f9">
+                            <div class="box">
+                                <div class="imgBox">
+                                    <img src="/src/kingschat.png"
+                                        alt="KingsChat App" />
+                                </div>
+                                <div class="icon">
+                                    <a href="https://www.kingsch.at/h/" rel="noopener noreferrer" target="_blank" class="iconBox">
+                                        <span class="material-symbols-outlined">
+                                            arrow_outward
+                                        </span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <h3>KingsChat App</h3>
+                            <p>
+                                Connect with a global community of believers and share your journey.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- <section class="landing-page-promo-slider">
+            </section> -->
+            <section class="ministry-section">
+                <div class="container">
+                    <span class="prev">&#10094;</span>
+                    <span class="next">&#10095;</span>
+                    <div class="slides-row">
+                        <div class="slide promo-img-1 promo-img"></div>
+                        <div class="slide promo-img-2 promo-img"></div>
+                        <div class="slide promo-img-3 promo-img"></div>
+                        <div class="slide promo-img-4 promo-img"></div>
+                        <div class="slide promo-img-5 promo-img"></div>
+                    </div>
+                    <div class="dots">
+                        <div class="dot active"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+
+            </section>
+            <section class="last-section">
+                <div class="last-section-wrapper">
+                    <img src="/src/pastorChris.jpg" alt="about" />
+                    <div class="mission-text">
+                        <p>
+                            LoveWorld Incorporated (a.k.a. Christ Embassy) is a global
+                            ministry dedicated to spreading God's divine presence and
+                            exemplifying the character of the Holy Spirit to nations
+                            worldwide. As a ministry, we are on a mission to raise
+                            generations of men and women who will come into their
+                            inheritance and fulfill God’s purpose for their lives. Through
+                            the teaching and demonstration of the Word of God, we give lives
+                            meaning and build a happier world filled with love. Being in
+                            Christ Embassy is more than being in a church—it’s embracing a
+                            Vision.
+                        </p>
+
+                        <p>
+                            Our President, Rev. Dr. Chris Oyakhilome DSc. DD, has, through
+                            an anointed ministry spanning over 30 years, helped millions
+                            experience victorious and purposeful lives in God’s Word. He is
+                            the author of the best-seller Rhapsody of Realities, the number
+                            one daily devotional around the world.
+                        </p>
+
+                        <p>
+                            The world-renowned Healing School is part of our ministry, where
+                            the healing works of Jesus Christ are manifested today. Many
+                            have received their healing and miracles through the operation
+                            of the gifts of the Spirit at the Healing School.
+                        </p>
+
+                        <p>
+                            It is an honor and privilege for us to share this glorious
+                            message with you. In Christ Embassy, we teach the infallible
+                            Word of God and guide men and women to fulfill their divine
+                            purpose in Christ. Together, we are fulfilling God’s vision to
+                            take His divine presence to the nations and demonstrate His love
+                            to all.
+                        </p>
+                    </div>
+                </div>
+            </section>
         </div>
-        </section>
-        <section class="live-service">
-            <div class="live-service-wrapper">
-
-            </div>
-        </section>
-        <section class="departments-section">
-            <div class="departments-wrapper">
-                <span class="departments-text">A PLACE TO SERVE AS SOLDIERS OF CHRIST</span>
-                <div class="image-accordion">
-                    <div class="image-block expanded">
-                        <img src="src/IMG.JPG" alt="Description of image 1" loading="lazy" />
-                        <div class="details">
-                            <div class="details__info">
-                                <span class="details__info__title">Choir</span>
-                                <span class="details__info__desc">Department</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="image-block">
-                        <img src="src/DSC_0042.JPG" alt="Description of image 2" loading="lazy" />
-                        <div class="details">
-                            <div class="details__info">
-                                <span class="details__info__title">Media</span>
-                                <span class="details__info__desc">Department</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="image-block">
-                        <img src="src/DSC_0045.JPG" alt="Description of image 3" loading="lazy" />
-                        <div class="details">
-                            <div class="details__info">
-                                <span class="details__info__title">Ushering</span>
-                                <span class="details__info__desc">Department</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="image-block">
-                        <img src="src/DSC_0069.JPG" alt="Description of image 4" loading="lazy" />
-                        <div class="details">
-                            <div class="details__info">
-                                <span class="details__info__title">First Timers Ministry</span>
-                                <span class="details__info__desc"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="image-block">
-                        <img src="src/DSC_0074.JPG" alt="Description of image 5" loading="lazy" />
-                        <div class="details">
-                            <div class="details__info">
-                                <span class="details__info__title">Security</span>
-                                <span class="details__info__desc">Department</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="reach-section" id="video-container">
-            <div class="reach-section-wrapper">
-                <video muted loop preload="metadata" class="world-map" id="scroll-video">
-                    <source src="src/world-2.mp4" type="video/mp4" />
-                    Your browser does not support HTML5 video.
-                </video>
-                <h2 class="reach-section-text">
-                    We Give Your Life A Meaning
-                </h2>
-            </div>
-        </section>
-        <section class="live-services">
-            <div class="live-services-wrapper">
-                <div class="right__">
-                    <img src="/src/play.png" alt="play" class="play__button">
-                    <img src="/src/DSC_0045.jpg" alt="image_screen" class="live__image">
-                </div>
-                <div class="left__">
-                    <span class="title__">
-                        Join Us Live
-                    </span>
-                    <span class="desc__">
-                        <p>Join us every sunday and wednesday for our live services,</p>
-                        <p>or join us at market street, Abaranje road, Lagos.</p>
-                        <p>Wednesdays: 6:00 pm - 6: 30pm <small> (UTC + 1:00),</small></p>
-                        <p>Sundays: 8:30 am - 10:00 pm, 10:00 am - 11:30 am<small> (UTC + 1:00).</small></p>
-                    </span>
-                    <div class="buttons__">
-                        <button type="button">Watch <i class="fa-regular fa-circle-play"></i></button>
-                        <button type="button">Youtube <i class="fa-brands fa-youtube"></i></button>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-        <section class="landing-page-promo-slider">
-            <div class="container">
-                <span class="prev">&#10094;</span>
-                <span class="next">&#10095;</span>
-                <div class="slides-row">
-                    <div class="slide promo-img-1 promo-img"></div>
-                    <div class="slide promo-img-2 promo-img"></div>
-                    <div class="slide promo-img-3 promo-img"></div>
-                    <div class="slide promo-img-4 promo-img"></div>
-                    <div class="slide promo-img-5 promo-img"></div>
-                </div>
-                <div class="dots">
-                    <div class="dot active"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
-            </div>
-        </section>
-        <section class="ministry-section">
-            <div class="ministry-section-container">
-                <div class="articles-box">
-                    <div class="box__image">
-                        <img src="\src\rhapsody_is_now_in_8123_desktop_1802 x 512.jpg" alt="article">
-                    </div>
-                    <div class="box__text">
-                        <p>
-                            Rhapsody of Realities is no ordinary book: It’s a classic love-note from God to you, with
-                            the message of life! Oftentimes, referred to as the “Messenger Angel,” the devotional is a
-                            life guide designed to enhance your spiritual growth and development by bringing you a fresh
-                            perspective from God’s Word every day. With features like the day’s topic, a theme
-                            scripture, the day’s message, the daily confession and the Bible reading plan segment, it
-                            brings the richness of God’s Word into the lives of millions on a daily basis. </p>
-                    </div>
-                    <div class="box__button"><button class="button_" type="button">Learn more &raquo;</button></div>
-                </div>
-                <div class="articles-box">
-                    <div class="box__image">
-                        <img src="/src/cofi.png" alt="artcile">
-                    </div>
-                    <div class="box__text">
-                        <p>
-                            The Chris Oyakhilome Foundation International (COFI) is a faith-based non-governmental,
-                            non-political organization under the direction of its visionary and legendary founder, the
-                            Man of God, Pastor Chris Oyakhilome. Through the promotion and sponsorship of charitable
-                            initiatives, COFI was established to help individuals, communities and nations lead
-                            purposeful and productive lives in the service of the Lord.
-                        </p>
-                    </div>
-                    <div class="box__button"><button class="button_" type="button">Learn more &raquo;</button></div>
-                </div>
-                <div class="articles-box">
-                    <div class="box__image">
-                        <img src="/src/healing-school.jpeg" alt="artcile">
-                    </div>
-                    <div class="box__text">
-                        <p>The Healing School is a healing ministry of Rev Chris Oyakhilome (D.Sc,. D:D.), which takes
-                            divine healing to the nations.
-                            Each year, the Healing School hosts Healing Sessions in Johannesburg, South Africa and
-                            Toronto, Canada, where thousands receive their healing and miracles in an atmosphere of
-                            faith and the manifest presence of the Holy Spirit.
-                            Visiting ministers from around the world also come to the Healing School through the special
-                            Ministers’ Visitation Program, which affords them the opportunity to witness the miraculous
-                            works of the Spirit in our day.
-                        </p>
-                    </div>
-                    <div class="box__button"><button class="button_" type="button">Learn more &raquo;</button></div>
-                </div>
-                <div class="articles-box">
-                    <div class="box__image">
-                        <img src="/src/prayathon.webp" alt="artcile">
-                    </div>
-                    <div class="box__text">
-                        <p>The Pastor Chris Live Pray-A-Thon is a nonstop, global prayer marathon led by the Man of God,
-                            Pastor Chris, and members of the Pastor Chris Live prayer network. Now in its third
-                            consecutive year, Christians from around the world have led an unbroken chain of prayer, in
-                            15 minute segments, every day since January 2020</p>
-                    </div>
-                    <div class="box__button"><button class="button_" type="button">Learn more &raquo;</button></div>
-                </div>
-                <div class="articles-box">
-                    <div class="box__image">
-                        <img src="/src/uneding.jpg" alt="artcile">
-                    </div>
-                    <div class="box__text">
-                        <p>
-                            The Pastor Chris Live Unending Praise, is a year long, round-the-clock chain of unending
-                            praise and worship to the Lord, with Spirit filled songs from Loveworld. The maiden edition
-                            held in the month of June 2022, and was a most uplifting program, which set the stage for
-                            this next phase, which began March 27, 2023 and will run till March 27, 2024, glory to God!
-                            Join the praise, which runs in blocks of 30min every single hour of every day for the whole
-                            year.
-                        </p>
-                    </div>
-                    <div class="box__button"><button class="button_" type="button">Learn more &raquo;</button></div>
-                </div>
-                <div class="articles-box">
-                    <div class="box__image">
-                        <img src="/src/1693334152.png" alt="artcile">
-                    </div>
-                    <div class="box__text">
-                        <p>
-                            Through an anointed ministry spanning over 30 years, Pastor, Teacher, Healing Minister,
-                            Television Host, and Best Selling Author, Chris Oyakhilome Ph.D has helped millions
-                            experience a victorious and purposeful life in God's Word. The Pastor Chris Digital Library
-                            is a mobile platform that let’s users access hundreds of audio and video messages by Pastor
-                            Chris, spanning various life issues, such as Healing and Health, Faith, Christian Living,
-                            Fellowship with the Holy Spirit, Prayer, Prosperity and Finance, from anywhere at anytime.
-                        </p>
-                    </div>
-                    <div class="box__button"><button class="button_" type="button">Learn more &raquo;</button></div>
-                </div>
-                <div class="articles-box">
-                    <div class="box__image">
-                        <img src="/src/LWEX.jpg" alt="artcile">
-                    </div>
-                    <div class="box__text">
-                        <p>It’s another time of preparation for the soon coming of the Lord. Get wisdom, knowledge, and
-                            understanding of the times we are in, as you Join ministers from around the world every
-                            Saturday and Sunday for Loveworld Extra at 12:00 Noon GMT +1.</p>
-                    </div>
-                    <div class="box__button"><button class="button_" type="button">Learn more &raquo;</button></div>
-                </div>
-                <div class="articles-box">
-                    <div class="box__image">
-                        <img src="/src/new-Innercity.png" alt="artcile">
-                    </div>
-                    <div class="box__text">
-                        <p>
-                            The InnerCity Mission is a faith-based, Child-Centered, Non-Governmental Organization in
-                            consultative status with the United Nations Economic and Social Council. Believing in the
-                            future of indigent children and taking action to reach and meet their needs, is the CORE of
-                            our work.</p>
-                    </div>
-                    <div class="box__button"><button class="button_" type="button">Learn more &raquo;</button></div>
-                </div>
-            </div>
-        </section>
-        <section class="last-section">
-            <div class="last-section-wrapper">
-                <img src="/src/pastorChris.jpg" alt="about">
-                <div class="mission-text">
-                    <p>LoveWorld Incorporated (a.k.a. Christ Embassy) is a global ministry dedicated to spreading God's
-                        divine presence and exemplifying the character of the Holy Spirit to nations worldwide. As a
-                        ministry, we are on a mission to raise generations of men and women who will come into their
-                        inheritance and fulfill God’s purpose for their lives. Through the teaching and demonstration of
-                        the
-                        Word of God, we give lives meaning and build a happier world filled with love. Being in Christ
-                        Embassy is more than being in a church—it’s embracing a Vision.</p>
-
-                    <p>Our President, Rev. Dr. Chris Oyakhilome DSc. DD, has, through an anointed ministry spanning over
-                        30
-                        years, helped millions experience victorious and purposeful lives in God’s Word. He is the
-                        author of
-                        the best-seller Rhapsody of Realities, the number one daily devotional around the world.</p>
-
-                    <p>The world-renowned Healing School is part of our ministry, where the healing works of Jesus
-                        Christ
-                        are manifested today. Many have received their healing and miracles through the operation of the
-                        gifts of the Spirit at the Healing School.</p>
-
-                    <p>It is an honor and privilege for us to share this glorious message with you. In Christ Embassy,
-                        we
-                        teach the infallible Word of God and guide men and women to fulfill their divine purpose in
-                        Christ.
-                        Together, we are fulfilling God’s vision to take His divine presence to the nations and
-                        demonstrate
-                        His love to all.</p>
-                </div>
-            </div>
-        </section>
     </main>
     <footer class="landing-page-footer">
         <div class="landing-page-footer-container">
+            <div class="footer-links-grid">
+                
+            </div>
             <p>Copyright © 2024 CE Abarnanje Group. All rights reserved.</p>
         </div>
     </footer>

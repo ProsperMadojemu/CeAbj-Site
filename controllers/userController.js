@@ -101,6 +101,7 @@ const loginUser = async (req, res) => {
         if (isPasswordValid) {
             req.session.user = {
                 id: user._id,
+                title: user.Title,
                 firstName: user.FirstName,
                 lastName: user.LastName,
                 isAdmin: false,
@@ -120,13 +121,18 @@ const loginUser = async (req, res) => {
 }
 
 const logoutUser = async (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            // return res.status(500).json({ error: "Could not log out" });
-            console.error(err);
-        }
-        return res.status(200).json({ message: "Logout successful" });
-    });
+    try {
+        req.session.destroy((err) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ error: "Could not log out" });
+            }
+            return res.status(200).json({ message: "Logout successful" });
+        });
+    } catch (err) {
+        console.error(error);
+        return res.status(500).json({ error: "Could not log out" });
+    }
 }
 
 const updateUser = async (req, res) => {

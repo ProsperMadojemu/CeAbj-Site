@@ -1868,17 +1868,40 @@ section.Digital-resources {
 
 .last-section-wrapper {
     width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    overflow: hidden;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
     padding: var(--primary-padding);
+    p {
+        text-align: left;
+        z-index: 1;
+        position: relative;
+        color: #fff;
+    }
+
+}
+
+.first-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, auto));
+    gap: 30px;
+    p {
+        align-self: self-end;
+        padding: 0 20px 0 0;
+    }
+}
+
+.last-section-img {
+    width: 250px;
+    height: 250px;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .last-section img {
     width: 100%;
-    border-radius: 12px;
+    object-fit: cover;
+    /* border-radius: 12px; */
 }
 
 .last-section .img {
@@ -1897,8 +1920,7 @@ section.Digital-resources {
     display: flex;
     gap: 8px;
     flex-direction: column;
-    color: #fff;
-    ;
+    color: #fff;;
 }
 
 
@@ -2092,11 +2114,10 @@ section.Digital-resources {
         line-height: 1;
     }
 
-    .last-section-wrapper {
+    /* .last-section-wrapper {
         gap: 85px;
-        /* align-items: center; */
         justify-content: flex-start;
-    }
+    } */
 
     .last-section img {
         max-width: 325px;

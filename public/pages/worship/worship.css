@@ -641,7 +641,7 @@ body::before {
     margin: 15vh 0px 35px 0px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, auto));
-    gap: 20px;
+    gap: 45px;
     padding: var(--primary-padding);
     .form-wrapper {
         h3 {
@@ -662,6 +662,7 @@ body::before {
                 padding: 15px 8px;
                 border-radius: 15px;
                 border: 1px solid #92BDF9;
+                outline: none;
                 max-width: 450px;
             }
             label {
@@ -676,6 +677,28 @@ body::before {
                 resize: none;
                 max-width: 450px;
                 min-height: 120px;
+                outline: none;
+            }
+            input:focus,
+            textarea:focus {
+                border: 1px solid #316FF6;
+            }
+        }
+        .form-button {
+            margin-top: 1rem;
+            button{
+                padding: 12px 35px;
+                border-radius: 999px;
+                border: none;
+                background: #316FF6;
+                color: #fff;
+                font-size: .875rem;
+                font-weight: var(--medium);
+                cursor: pointer;
+                transition: 200ms;
+            }
+            button:hover {
+                background: #92BDF9;
             }
         }
     }

@@ -123,7 +123,7 @@ body::before {
 }
 
 #navbar-logo {
-    width: 60px;
+    width: 55px;
 }
 
 .navbar-logo-title {
@@ -339,7 +339,12 @@ body::before {
     cursor: pointer;
 }
 
-
+.divider {
+    position: relative;
+    width: 100%;
+    height: 150px; 
+    overflow: hidden;
+  }
 
 .drawer-logout i {
     margin-right: 8px;
@@ -675,13 +680,6 @@ body::before {
 .landing-page-navbar {
     animation: fade 1s linear
 }
-
-/* .landing-page-promo-slider {
-    animation: fade 5s linear;
-    animation-timeline: view();
-    animation-range: entry 0 cover 40%;
-
-} */
 
 .hidden-class {
     display: none;
@@ -1936,7 +1934,7 @@ section.Digital-resources {
     }
 
     #navbar-logo {
-        width: 70px;
+        width: 65px;
     }
 
     .right-txt p {
@@ -1972,9 +1970,9 @@ section.Digital-resources {
         left: 0;
         width: 100%;
         height: 100%;
+        z-index: 0;
         background: url(/src/layered-waves.svg);
         background-position: center;
-        z-index: 0;
         background-size: cover;
         background-repeat: no-repeat;
     }

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Christ Embassy Abaranje | Worship with us</title>
+    <link rel="icon" href="../../src/favicon.ico" />
+    <link rel="stylesheet" href="/pages/worship/worship.css" />
+    <link rel="stylesheet" href="../../annimations.css" />
+    <link rel="stylesheet" href="../../root.css" />
+    <script src="https://kit.fontawesome.com/ecf5b4f981.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css" />
+    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="landing-page-navbar" aria-label="Main Navigation">
+        <div class="navbar-box">
+            <div class="navbar-logo-title">
+                <a href="#home-page" target="_self"><img src="src/logo.png" alt="Ce Abaranje Logo" title="Ce Abaranje"
+                        id="navbar-logo" /></a>
+            </div>
+            <ul class="navbar-list">
+                <li><a href="/" target="_self">Home</a></li>
+                <li><a href="/watch">Watch</a></li>
+                <li><a href="/worship">Worship With Us</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+            <button title="open-drawer" type="button" class="menu-btn" id="menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="login-container" id="login">
+                <div class="login_icon" id="loginIcon">
+                    <i class="fa-solid fa-user fa-xl"></i>
+                </div>
+                <div class="login-content-before-click" id="user-dropdown">
+                    <span class="user-greeting">
+                        <span class="cancel-container">
+                            <i class="fa-solid fa-x fa-sm" id="cancel-click"></i>
+                        </span>
+                        <div class="greeting-contents">
+                            <span class="greeting-user">
+                                <i class="fa-duotone fa-user fa-xl"></i>
+                            </span>
+                            <h1 class="userGreeting"></h1>
+                        </div>
+                    </span>
+                    <div>
+                        <div class="login-links">
+                            <span class="first-a-child">
+                                <a href="/dashboard/edit-profile">
+                                    <p>DashBoard</p>
+                                    <i class="fa-duotone fa-chart-tree-map fa-lg"></i>
+                                </a>
+                            </span>
+                            <span class="second-child">
+                                <i class="fa-duotone fa-file-chart-column fa-lg"></i>
+                                <a href="/dashboard/submit-report">
+                                    <p>Submit Report</p>
+                                </a>
+                            </span>
+                            <span class="button-child">
+                                <button type="button" class="btn-72" id="Logout-Button" title="LogOut">
+                                    <p>Log Out</p>
+                                    <i class="fa-duotone fa-right-from-bracket fa-lg"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-71" id="Login-Button" title="signin/Signup">
+                    <p>Sign In</p>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <nav class="drawer" id="drawer">
+        <button type="button" title="close-drawer" class="close-btn" id="close-btn">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="top-container" id="drawerBox">
+            <a href="/login" class="drawer-links">SignIn</a> /
+            <a href="/register" class="drawer-links">Signup</a>
+            <hr />
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#watch">Watch</a></li>
+            <li><a href="#worship">Worship With Us</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+        <button type="button" id="drawerLogout" class="drawer-logout">
+            <i class="fa-duotone fa-person-to-door"></i>Logout
+        </button>
+    </nav>
+    <header class="divider">
+        <div class="divider-container">
+            <img src="/src/img-curve-3.svg" alt="imgsvg">
+            <p>Worship With Us</p>
+        </div>
+    </header>
+    <main class="main-body">
+        <div class="form-wrapper">
+            <h3>Worship With Us</h3>
+            <form class="form-container">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" required />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required />
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required />
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" placeholder="Enter your address" required />
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" placeholder="Enter your city" required />
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" id="state" name="state" placeholder="Enter your state" required />
+                </div>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <input type="text" id="country" name="country" placeholder="Enter your country" required />
+                </div>
+                <div class="form-group">
+                    <label for="message">Message (optional)</label>
+                    <textarea id="message" name="message" placeholder="Enter your message"></textarea>
+                </div>
+            </form>  
+        </div>
+        <div class="map-container">
+            <iframe title="map-location" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.939403845556!2d3.2375089741151952!3d6.529337823097285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b853a5f71eabd%3A0xb8ed7abeb2ce931a!2sChrist%20Embassy%20Abaranje%201!5e0!3m2!1sen!2sng!4v1735848282661!5m2!1sen!2sng" width="100%" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </main>
+    <footer class="landing-page-footer">
+        <div class="landing-page-footer-container">
+            <div class="ft-grd-1">
+                <p>Navigation</p>
+                <a href="/">home</a>
+                <a href="/watch">watch</a>
+                <a href="/worship">worship</a>
+                <a href="/foundation-school">Foundation School</a>
+                <a href="/about">about</a>
+            </div>
+            <div class="ft-grd-2">
+                <p>Quick Links</p>
+                <a target="_blank" rel="noopener noreferrer" href="https://read.rhapsodyofrealities.org/">Today`s
+                    Rhapsody</a>
+                <a target="_blank" rel="noopener noreferrer"
+                    href="https://loveworldmusic.org/loveworld-worship-lyrics/">LoveWorld Singers</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://pcdl.co/">Pcdl</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://ceflix.org/">Ceflix</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://www.pastorchrislive.org/v2/">Prayathon</a>
+                <a target="_blank" rel="noopener noreferrer" href="http://unendingpraise.pastorchrislive.org/">Unending
+                    Praise</a>
+            </div>
+            <div class="ft-grd-3">
+                <p>Follow Us</p>
+                <div class="ft-socials">
+                    <span class="insta-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="">
+                            <path
+                                d="M9.5 1.70703C10.7741 1.70703 11.6029 1.71322 11.9863 1.72559C12.3822 1.72559 12.8337 1.73796 13.3408 1.7627C13.8851 1.78743 14.3984 1.87402 14.8809 2.02246C15.3757 2.15853 15.8148 2.41829 16.1982 2.80176C16.5817 3.18522 16.8415 3.62435 16.9775 4.11914C17.126 4.60156 17.2126 5.11491 17.2373 5.65918C17.262 6.16634 17.2744 6.61784 17.2744 7.01367C17.2868 7.39714 17.293 8.22591 17.293 9.5C17.293 10.7741 17.2868 11.609 17.2744 12.0049C17.2744 12.3883 17.262 12.8337 17.2373 13.3408C17.2126 13.8851 17.126 14.4046 16.9775 14.8994C16.8415 15.3818 16.5817 15.8148 16.1982 16.1982C15.8148 16.5817 15.3757 16.8477 14.8809 16.9961C14.3984 17.1322 13.8851 17.2126 13.3408 17.2373C12.8337 17.262 12.3822 17.2806 11.9863 17.293C11.6029 17.293 10.7741 17.293 9.5 17.293C8.22591 17.293 7.39095 17.293 6.99512 17.293C6.61165 17.2806 6.16634 17.262 5.65918 17.2373C5.11491 17.2126 4.59538 17.1322 4.10059 16.9961C3.61816 16.8477 3.18522 16.5817 2.80176 16.1982C2.41829 15.8148 2.15234 15.3818 2.00391 14.8994C1.86784 14.4046 1.78743 13.8851 1.7627 13.3408C1.73796 12.8337 1.7194 12.3883 1.70703 12.0049C1.70703 11.609 1.70703 10.7741 1.70703 9.5C1.70703 8.22591 1.70703 7.39714 1.70703 7.01367C1.7194 6.61784 1.73796 6.16634 1.7627 5.65918C1.78743 5.11491 1.86784 4.60156 2.00391 4.11914C2.15234 3.62435 2.41829 3.18522 2.80176 2.80176C3.18522 2.41829 3.61816 2.15853 4.10059 2.02246C4.59538 1.87402 5.11491 1.78743 5.65918 1.7627C6.16634 1.73796 6.61165 1.72559 6.99512 1.72559C7.39095 1.71322 8.22591 1.70703 9.5 1.70703ZM9.5 0C8.21354 0 7.36621 0.0061849 6.95801 0.0185547C6.5498 0.0185547 6.09212 0.0309245 5.58496 0.0556641C4.80566 0.0927734 4.08203 0.222656 3.41406 0.445312C2.74609 0.667969 2.13997 1.05143 1.5957 1.5957C1.05143 2.13997 0.667969 2.74609 0.445312 3.41406C0.222656 4.08203 0.0927734 4.80566 0.0556641 5.58496C0.0309245 6.09212 0.0123698 6.5498 0 6.95801C0 7.36621 0 8.21354 0 9.5C0 10.7865 0 11.6338 0 12.042C0.0123698 12.4502 0.0309245 12.9079 0.0556641 13.415C0.0927734 14.1943 0.222656 14.918 0.445312 15.5859C0.667969 16.2539 1.05143 16.86 1.5957 17.4043C2.13997 17.9486 2.74609 18.332 3.41406 18.5547C4.08203 18.7773 4.80566 18.9072 5.58496 18.9443C6.09212 18.9691 6.5498 18.9814 6.95801 18.9814C7.36621 18.9938 8.21354 19 9.5 19C10.7865 19 11.6338 18.9938 12.042 18.9814C12.4502 18.9814 12.9079 18.9691 13.415 18.9443C14.1943 18.9072 14.918 18.7773 15.5859 18.5547C16.2539 18.332 16.86 17.9486 17.4043 17.4043C17.9486 16.86 18.332 16.2539 18.5547 15.5859C18.7773 14.918 18.9072 14.1943 18.9443 13.415C18.9691 12.9079 18.9814 12.4502 18.9814 12.042C18.9938 11.6338 19 10.7865 19 9.5C19 8.21354 18.9938 7.36621 18.9814 6.95801C18.9814 6.5498 18.9691 6.09212 18.9443 5.58496C18.9072 4.80566 18.7773 4.08203 18.5547 3.41406C18.332 2.74609 17.9486 2.13997 17.4043 1.5957C16.86 1.05143 16.2539 0.667969 15.5859 0.445312C14.918 0.222656 14.1943 0.0927734 13.415 0.0556641C12.9079 0.0309245 12.4502 0.0185547 12.042 0.0185547C11.6338 0.0061849 10.7865 0 9.5 0ZM9.5 4.62012C8.83203 4.62012 8.20117 4.75 7.60742 5.00977C7.01367 5.25716 6.49414 5.60352 6.04883 6.04883C5.60352 6.49414 5.25098 7.01367 4.99121 7.60742C4.74382 8.20117 4.62012 8.83203 4.62012 9.5C4.62012 10.168 4.74382 10.7988 4.99121 11.3926C5.25098 11.9863 5.60352 12.5059 6.04883 12.9512C6.49414 13.3965 7.01367 13.749 7.60742 14.0088C8.20117 14.2562 8.83203 14.3799 9.5 14.3799C10.168 14.3799 10.7988 14.2562 11.3926 14.0088C11.9863 13.749 12.5059 13.3965 12.9512 12.9512C13.3965 12.5059 13.7428 11.9863 13.9902 11.3926C14.25 10.7988 14.3799 10.168 14.3799 9.5C14.3799 8.83203 14.25 8.20117 13.9902 7.60742C13.7428 7.01367 13.3965 6.49414 12.9512 6.04883C12.5059 5.60352 11.9863 5.25716 11.3926 5.00977C10.7988 4.75 10.168 4.62012 9.5 4.62012ZM9.5 12.6729C8.62175 12.6729 7.87337 12.3636 7.25488 11.7451C6.63639 11.1266 6.32715 10.3783 6.32715 9.5C6.32715 8.62175 6.63639 7.87337 7.25488 7.25488C7.87337 6.63639 8.62175 6.32715 9.5 6.32715C10.3783 6.32715 11.1266 6.63639 11.7451 7.25488C12.3636 7.87337 12.6729 8.62175 12.6729 9.5C12.6729 10.3783 12.3636 11.1266 11.7451 11.7451C11.1266 12.3636 10.3783 12.6729 9.5 12.6729ZM15.7158 4.43457C15.7158 4.74382 15.6045 5.00977 15.3818 5.23242C15.1592 5.45508 14.887 5.56641 14.5654 5.56641C14.2562 5.56641 13.9902 5.45508 13.7676 5.23242C13.5449 5.00977 13.4336 4.74382 13.4336 4.43457C13.4336 4.11296 13.5449 3.84082 13.7676 3.61816C13.9902 3.39551 14.2562 3.28418 14.5654 3.28418C14.887 3.28418 15.1592 3.39551 15.3818 3.61816C15.6045 3.84082 15.7158 4.11296 15.7158 4.43457Z">
+                            </path>
+                        </svg>
+                    </span>
+                    <span class="yt-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="">
+                            <path
+                                d="M18.8145 5.56557C18.8145 5.56557 18.7588 5.31607 18.6475 4.81708C18.5361 4.31809 18.3382 3.92146 18.0537 3.62718C17.695 3.23055 17.3301 3.00025 16.959 2.93627C16.6003 2.85951 16.3281 2.80833 16.1426 2.78274C15.487 2.73156 14.7695 2.69318 13.9902 2.66759C13.2109 2.642 12.4873 2.62281 11.8193 2.61001C11.1637 2.59722 10.6133 2.59082 10.168 2.59082C9.72266 2.59082 9.5 2.59082 9.5 2.59082C9.5 2.59082 9.27734 2.59082 8.83203 2.59082C8.38672 2.59082 7.83008 2.59722 7.16211 2.61001C6.50651 2.62281 5.78906 2.642 5.00977 2.66759C4.23047 2.69318 3.51302 2.73156 2.85742 2.78274C2.67188 2.80833 2.39355 2.85951 2.02246 2.93627C1.66374 3.00025 1.30501 3.23055 0.946289 3.62718C0.661784 3.92146 0.463867 4.31809 0.352539 4.81708C0.241211 5.31607 0.185547 5.56557 0.185547 5.56557C0.185547 5.56557 0.154622 5.89823 0.0927734 6.56355C0.0309245 7.22887 0 7.95816 0 8.75143V10.2484C0 11.0417 0.0309245 11.771 0.0927734 12.4363C0.154622 13.0888 0.185547 13.4151 0.185547 13.4151C0.185547 13.4151 0.241211 13.671 0.352539 14.1827C0.463867 14.6817 0.661784 15.0784 0.946289 15.3726C1.30501 15.7693 1.68848 15.9996 2.09668 16.0636C2.51725 16.1275 2.83268 16.1787 3.04297 16.2171C3.42643 16.2555 3.97689 16.2875 4.69434 16.313C5.41178 16.3386 6.12305 16.3578 6.82812 16.3706C7.54557 16.3834 8.17025 16.3962 8.70215 16.409C9.23405 16.409 9.5 16.409 9.5 16.409C9.5 16.409 9.72266 16.409 10.168 16.409C10.6133 16.409 11.1637 16.4026 11.8193 16.3898C12.4873 16.377 13.2109 16.3578 13.9902 16.3322C14.7695 16.2939 15.487 16.2491 16.1426 16.1979C16.3281 16.1851 16.6003 16.1467 16.959 16.0827C17.3301 16.006 17.695 15.7693 18.0537 15.3726C18.3382 15.0784 18.5361 14.6817 18.6475 14.1827C18.7588 13.671 18.8145 13.4151 18.8145 13.4151C18.8145 13.4151 18.8454 13.0888 18.9072 12.4363C18.9691 11.771 19 11.0417 19 10.2484V8.75143C19 7.95816 18.9691 7.22887 18.9072 6.56355C18.8454 5.89823 18.8145 5.56557 18.8145 5.56557ZM7.5332 12.0524V6.52516L12.6729 9.2888L7.5332 12.0524Z">
+                            </path>
+                        </svg>
+                    </span>
+                    <span class="kc-icon">
+                        <img src="/src/kclogo.svg" alt="logo">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="ft-copyright">
+            <p>CE Abaranje Group ©. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://vjs.zencdn.net/7.11.4/video.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script defer src="/pages/worship/worship.js"></script>
+</body>
+</html>

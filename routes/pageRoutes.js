@@ -15,6 +15,9 @@ pageRouter.get("/", (req, res) => {
 pageRouter.get("/watch", (req, res) => {
     res.sendFile(path.join(publicPath, "pages", "watch", "watch.html"));
 });
+pageRouter.get("/worship", (req, res) => {
+    res.sendFile(path.join(publicPath, "pages", "worship", "worship.html"));
+});
 pageRouter.get("/login", (req, res) => {
     res.sendFile(path.join(publicPath, "pages", "login", "login.html"));
 });
